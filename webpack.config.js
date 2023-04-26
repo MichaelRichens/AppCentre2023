@@ -7,7 +7,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 function loadEnvVariables() {
   const env = dotenv.config().parsed;
   const envFile = `.env.${process.env.NODE_ENV}`;
-  const envLocal = dotenv.parse(fs.readFileSync('.env.local'));
+  const envLocalPath = path.resolve(__dirname, '.env.local');
+  const envLocalExists = fs.existsSync(envLocalPath);
 
   if (fs.existsSync(envFile)) {
     const envConfig = dotenv.parse(fs.readFileSync(envFile));
@@ -16,12 +17,16 @@ function loadEnvVariables() {
     }
   }
 
-  for (const key in envLocal) {
-    env[key] = envLocal[key];
+  if (envLocalExists) {
+    const envLocal = dotenv.parse(fs.readFileSync(envLocalPath));
+    for (const key in envLocal) {
+      env[key] = envLocal[key];
+    }
   }
 
   return env;
 }
+
 
 
 module.exports = {
