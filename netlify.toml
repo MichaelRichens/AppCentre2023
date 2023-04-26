@@ -3,3 +3,5 @@
   publish = "out_publish"
   functions = "out_functions"
 
+[[plugins]]
+package = "@netlify/plugin-nextjs"
