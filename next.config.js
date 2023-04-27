@@ -1,6 +1,29 @@
-const isProd = process.env.NODE_ENV === 'production'
-
 module.exports = {
-  // Use the `NEXT_PUBLIC_SITE_URL` environment variable as the asset prefix for production builds
-  assetPrefix: isProd ? process.env.NEXT_NETLIFY_SUBDOMAIN_URL : '',
+  env: {
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    NEXT_NETLIFY_SUBDOMAIN_URL: process.env.NEXT_NETLIFY_SUBDOMAIN_URL,
+    DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || 'http://localhost:3000',
+  },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+        ],
+      },
+    ]
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        destination: '/:path*',
+        permanent: false,
+      },
+    ]
+  },
 }

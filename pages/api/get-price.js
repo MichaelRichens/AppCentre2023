@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   const referer = req.headers.referer
   const allowedReferers = [
     process.env.NEXT_PUBLIC_SITE_URL,
-    process.env.NEXT_NETLIFY_SUBDOMAIN_URL,
+    process.env.DEPLOY_PRIME_URL,
   ]
   if (!referer || !allowedReferers.some((ref) => referer.startsWith(ref))) {
     return res.status(403).json({
