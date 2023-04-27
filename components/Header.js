@@ -1,23 +1,16 @@
 import React from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import NavLink from './NavLink'
 
 const Header = () => {
-  const router = useRouter()
-
-  const isActive = (href) => router.pathname === href
-
   return (
     <header>
       <nav>
         <ul>
-          <li>{isActive('/') ? 'Home' : <Link href='/'>Home</Link>}</li>
           <li>
-            {isActive('/about-us') ? (
-              'About Us'
-            ) : (
-              <Link href='/about-us'>About Us</Link>
-            )}
+            <NavLink href='/'>Home</NavLink>
+          </li>
+          <li>
+            <NavLink href='/about-us'>About Us</NavLink>
           </li>
         </ul>
       </nav>
