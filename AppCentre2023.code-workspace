@@ -1,10 +1,17 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"cSpell.words": ["nextjs"]
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "cSpell.words": ["nextjs"],
+    "editor.formatOnSave": true,
+    "prettier.proseWrap": "always",
+    "prettier.semi": false,
+    "prettier.configPath": "./package.json",
+    "prettier.bracketSpacing": true,
+    "prettier.bracketSameLine": true,
+    "prettier.singleAttributePerLine": false
+  }
 }
