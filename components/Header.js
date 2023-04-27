@@ -11,17 +11,13 @@ const Header = () => {
     <header>
       <nav>
         <ul>
+          <li>{isActive('/') ? 'Home' : <Link href='/'>Home</Link>}</li>
           <li>
-            <Link href='/' className={isActive('/') ? 'active-link' : ''}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link
-              href='/about-us'
-              className={isActive('/about-us') ? 'active-link' : ''}>
-              About Us
-            </Link>
+            {isActive('/about-us') ? (
+              'About Us'
+            ) : (
+              <Link href='/about-us'>About Us</Link>
+            )}
           </li>
         </ul>
       </nav>
