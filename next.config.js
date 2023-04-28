@@ -5,4 +5,26 @@ module.exports = {
     DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || 'http://localhost:3000',
   },
   assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+        ],
+      },
+    ]
+  },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        destination: '/:path*',
+        permanent: false,
+      },
+    ]
+  },
 }
