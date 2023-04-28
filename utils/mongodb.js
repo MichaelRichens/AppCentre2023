@@ -10,13 +10,12 @@ const options = {
   useNewUrlParser: true,
 }
 
-let cachedClient = null
+let client
 
 export async function connectToDatabase() {
-  if (cachedClient) {
-    return { client: cachedClient }
+  if (!client || !client.isConnected()) {
+    client = await MongoClient.connect(uri, options)
   }
-  const client = await MongoClient.connect(uri, options)
-  cachedClient = client
-  return { client }
+
+  return client
 }

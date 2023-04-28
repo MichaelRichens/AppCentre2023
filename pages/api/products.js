@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const { product_family } = req.query
 
   try {
-    const { client } = await connectToDatabase()
+    const client = await connectToDatabase()
     const db = client.db('appcentre')
     const productsCollection = db.collection('products')
 
