@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 const ProductsList = ({ productFamily }) => {
   const [products, setProducts] = useState([])
+  const [error, setError] = useState(false)
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -10,14 +11,25 @@ const ProductsList = ({ productFamily }) => {
           `/api/products?product_family=${productFamily}`
         )
         const data = await response.json()
-        setProducts(data)
+
+        if (Array.isArray(data)) {
+          setProducts(data)
+        } else {
+          setError(true)
+          console.error('Unexpected data format:', data)
+        }
       } catch (error) {
+        setError(true)
         console.error('Failed to fetch products:', error)
       }
     }
 
     fetchProducts()
   }, [productFamily])
+
+  if (error) {
+    return <p>Error fetching products. Please try again later.</p>
+  }
 
   return (
     <ul>
