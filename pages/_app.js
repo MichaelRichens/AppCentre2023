@@ -1,9 +1,15 @@
-import React from "react"
+import React from 'react'
 
-import "../styles/global.css"
+import { ProductsProvider } from '../components/contexts/ProductsContext'
+
+import '../styles/global.css'
 
 function App({ Component, pageProps }) {
-	return <Component {...pageProps} />
+  return (
+    <ProductsProvider>
+      <Component {...pageProps} />
+    </ProductsProvider>
+  )
 }
 
 export default App

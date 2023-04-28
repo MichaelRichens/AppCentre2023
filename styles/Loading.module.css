@@ -1,0 +1,30 @@
+.loading-container {
+  display: inline-block;
+  font-style: italic;
+  margin-left: 2em;
+}
+
+.loading::before {
+  display: inline-block;
+  font-size: 1em;
+  animation: loadingDots 2s steps(4, end) infinite;
+  content: '';
+}
+
+@keyframes loadingDots {
+  0% {
+    content: 'Loading';
+  }
+  25% {
+    content: 'Loading.';
+  }
+  50% {
+    content: 'Loading..';
+  }
+  75% {
+    content: 'Loading...';
+  }
+  100% {
+    content: 'Loading....';
+  }
+}

@@ -1,37 +1,12 @@
-import { useState, useEffect } from 'react'
+import useProducts from './hooks/useProducts'
+import Loading from './Loading'
 
 const ProductsList = ({ productFamily }) => {
-  const [products, setProducts] = useState([])
-  const [error, setError] = useState(false)
+  const products = useProducts(productFamily)
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const url = productFamily
-          ? `/api/products?product_family=${productFamily}`
-          : '/api/products'
-        const response = await fetch(url)
-        const data = await response.json()
-
-        if (Array.isArray(data)) {
-          setProducts(data)
-        } else {
-          setError(true)
-          console.error('Unexpected data format:', data)
-        }
-      } catch (error) {
-        setError(true)
-        console.error('Failed to fetch products:', error)
-      }
-    }
-
-    fetchProducts()
-  }, [productFamily])
-
-  if (error) {
-    return <p>Error fetching products. Please try again later.</p>
+  if (!products.length) {
+    return <Loading />
   }
-
   return (
     <ul>
       {products.map((product) => (
