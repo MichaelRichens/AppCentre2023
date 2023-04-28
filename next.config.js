@@ -1,7 +1,13 @@
 module.exports = {
   env: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-    NEXT_NETLIFY_SUBDOMAIN_URL: process.env.NEXT_NETLIFY_SUBDOMAIN_URL,
+    NEXT_PUBLIC_SITE_URL:
+      process.env.NEXT_PUBLIC_SITE_URL ||
+      process.env.DEPLOY_PRIME_URL ||
+      'http://localhost:3000',
+    NEXT_NETLIFY_SUBDOMAIN_URL:
+      process.env.NEXT_NETLIFY_SUBDOMAIN_URL ||
+      process.env.DEPLOY_PRIME_URL ||
+      'http://localhost:3000',
     DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || 'http://localhost:3000',
   },
   assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
@@ -15,15 +21,6 @@ module.exports = {
             value: 'public, max-age=0, must-revalidate',
           },
         ],
-      },
-    ]
-  },
-  async redirects() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/:path*',
-        permanent: false,
       },
     ]
   },
