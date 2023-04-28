@@ -10,7 +10,7 @@ module.exports = {
       'http://localhost:3000',
     DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || 'http://localhost:3000',
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/_next' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/.next' : '',
   async headers() {
     return [
       {
