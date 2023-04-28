@@ -25,7 +25,7 @@ export const fetchPrice = async (
     const data = await response.json()
     return { gbp: data.price, hash: data.hash }
   } catch (error) {
-    console.error('Error fetching price:', error)
+    console.error('Error fetching price:', error.message)
     return null
   }
 }
