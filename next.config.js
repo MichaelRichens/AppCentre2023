@@ -13,7 +13,7 @@ module.exports = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
+            value: 'public, max-age=604800, must-revalidate',
           },
         ],
       },
