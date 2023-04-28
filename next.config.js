@@ -5,7 +5,6 @@ module.exports = {
       process.env.DEPLOY_PRIME_URL || process.env.DEVELOPMENT_URL,
     NEXT_PUBLIC_DEPLOY_URL:
       process.env.DEPLOY_URL || process.env.DEVELOPMENT_URL,
-    MONGODB_URI: process.env.MONGODB_URI,
   },
   async headers() {
     return [
