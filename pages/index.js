@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Page from '../components/Page'
+import ProductsList from '../components/ProductsList'
 import { fetchPrice } from '../utils/prices'
 
 const Home = () => {
@@ -29,6 +30,10 @@ const Home = () => {
           Price: {price.gbp} GBP, Hash: {price.hash}
         </p>
       )}
+      <div>
+        <h2>Product Family: Example Family</h2>
+        <ProductsList productFamily='CONNECT' />
+      </div>
     </Page>
   )
 }
