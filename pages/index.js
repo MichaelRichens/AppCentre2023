@@ -29,9 +29,6 @@ const Home = () => {
           Price: {price.gbp} GBP, Hash: {price.hash}
         </p>
       )}
-      <p>{process.env.NEXT_PUBLIC_SITE_URL}</p>
-      <p>{process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL}</p>
-      <p>{process.env.NEXT_PUBLIC_DEPLOY_URL}</p>
     </Page>
   )
 }

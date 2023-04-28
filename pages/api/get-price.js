@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
   // Check the referer header to make sure it matches the local domain
-  // This is not real check - the referer header can be spoofed easily, and is just intended as a speed bump against random bots
+  // This is not a real security check - the referer header can be spoofed easily, so this is just intended as a speed bump against random bots
   const referer = req.headers.referer
   const allowedReferers = [
     process.env.NEXT_PUBLIC_SITE_URL,
