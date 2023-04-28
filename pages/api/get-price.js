@@ -1,7 +1,6 @@
 export default async function handler(req, res) {
   // Check the referer header to make sure it matches the local domain
   // This is not real check - the referer header can be spoofed easily, and is just intended as a speed bump against random bots
-
   const referer = req.headers.referer
   const allowedReferers = [
     process.env.NEXT_PUBLIC_SITE_URL,
@@ -9,7 +8,11 @@ export default async function handler(req, res) {
   ]
   if (!referer || !allowedReferers.some((ref) => referer.startsWith(ref))) {
     return res.status(403).json({
-      message: 'Access denied',
+      message:
+        'Access denied 1: ' +
+        process.env.NEXT_PUBLIC_SITE_URL +
+        ' 2: ' +
+        process.env.DEPLOY_PRIME_URL,
     })
   }
 
