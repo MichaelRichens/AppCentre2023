@@ -5,17 +5,24 @@
 import { MongoClient } from 'mongodb'
 
 const uri = process.env.MONGODB_URI
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-}
 
-let client
+let cachedDb
 
-export async function connectToDatabase() {
-  if (!client || !client.isConnected()) {
-    client = await MongoClient.connect(uri, options)
+async function connectToDatabase() {
+  if (cachedDb) {
+    return cachedDb
   }
 
-  return client
+  try {
+    const client = await MongoClient.connect(uri)
+    const db = client.connect()
+    cachedDb = db
+
+    return cachedDb
+  } catch (error) {
+    console.error('Error acquiring database connection:', error)
+    throw error
+  }
 }
+
+export { connectToDatabase }

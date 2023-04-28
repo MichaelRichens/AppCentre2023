@@ -32,7 +32,7 @@ const Home = () => {
       )}
       <div>
         <h2>Product Family: Example Family</h2>
-        <ProductsList productFamily='CONNECT' />
+        <ProductsList />
       </div>
     </Page>
   )

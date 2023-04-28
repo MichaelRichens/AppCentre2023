@@ -5,10 +5,11 @@ export default async function handler(req, res) {
 
   try {
     const client = await connectToDatabase()
-    const db = client.db('appcentre')
+    const db = client.db(process.env.DB_NAME)
     const productsCollection = db.collection('products')
 
-    const products = await productsCollection.find({ product_family }).toArray()
+    const query = product_family ? { product_family } : {}
+    const products = await productsCollection.find(query).toArray()
 
     res.status(200).json(products)
   } catch (error) {

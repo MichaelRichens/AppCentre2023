@@ -7,9 +7,10 @@ const ProductsList = ({ productFamily }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          `/api/products?product_family=${productFamily}`
-        )
+        const url = productFamily
+          ? `/api/products?product_family=${productFamily}`
+          : '/api/products'
+        const response = await fetch(url)
         const data = await response.json()
 
         if (Array.isArray(data)) {
