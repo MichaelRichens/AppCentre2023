@@ -2,14 +2,13 @@ import useProducts from './hooks/useProducts'
 import Loading from './Loading'
 
 const ProductsList = () => {
-  const products = useProducts()
-
-  if (!products.length) {
+  const productsData = useProducts()
+  if (!productsData || !productsData.all || !productsData.all.length) {
     return <Loading />
   }
   return (
     <ul>
-      {products.map((product) => (
+      {productsData.all.map((product) => (
         <li key={product.sku}>
           <ul>
             <li>Product Family: {product.product_family}</li>
