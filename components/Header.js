@@ -13,6 +13,11 @@ const Header = () => {
             <NavLink href='/about-us'>About Us</NavLink>
           </li>
         </ul>
+        <ul>
+          <li>
+            <NavLink href='/kerio-connect'>Kerio Connect</NavLink>
+          </li>
+        </ul>
       </nav>
     </header>
   )
