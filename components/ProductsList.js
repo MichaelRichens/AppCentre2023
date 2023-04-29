@@ -11,12 +11,14 @@ const ProductsList = () => {
     <ul>
       {products.map((product) => (
         <li key={product.sku}>
-          <div>Product Family: {product.product_family}</div>
-          <div>SKU: {product.sku}</div>
-          <div>Units From: {product.units_from}</div>
-          <div>Units To: {product.units_to}</div>
-          <div>Years: {product.years}</div>
-          <div>Price: {product.price}</div>
+          <ul>
+            <li>Product Family: {product.product_family}</li>
+            <li>SKU: {product.sku}</li>
+            <li>Units From: {product.units_from}</li>
+            <li>Units To: {product.units_to}</li>
+            <li>Years: {product.years}</li>
+            <li>Price: {product.price}</li>
+          </ul>
         </li>
       ))}
     </ul>
