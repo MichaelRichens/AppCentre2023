@@ -12,14 +12,11 @@ const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([])
 
   /**
-   * Fetches products from the API based on the productFamily parameter.
-   * If productFamily is not provided, it fetches all products.
-   * @param {string} [productFamily] - The product family to filter products by.
+   * Fetches all products from the API.
    * @returns {Promise<Array>} The fetched products array.
    */
-  const fetchProducts = async (productFamily) => {
-    const queryParam = productFamily ? `?product_family=${productFamily}` : ''
-    const response = await fetch(`/api/products${queryParam}`)
+  const fetchProducts = async () => {
+    const response = await fetch(`/api/products`)
     const data = await response.json()
     return data
   }

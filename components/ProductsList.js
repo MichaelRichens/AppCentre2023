@@ -1,8 +1,8 @@
 import useProducts from './hooks/useProducts'
 import Loading from './Loading'
 
-const ProductsList = ({ productFamily }) => {
-  const products = useProducts(productFamily)
+const ProductsList = () => {
+  const products = useProducts()
 
   if (!products.length) {
     return <Loading />

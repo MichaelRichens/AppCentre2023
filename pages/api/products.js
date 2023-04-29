@@ -1,15 +1,17 @@
 import { connectToDatabase } from '../../utils/mongodb'
 
+/**
+ * API route handler for fetching all products.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
 export default async function handler(req, res) {
-  const { product_family } = req.query
-
   try {
     const client = await connectToDatabase()
     const db = client.db(process.env.DB_NAME)
     const productsCollection = db.collection('products')
 
-    const query = product_family ? { product_family } : {}
-    const products = await productsCollection.find(query).toArray()
+    const products = await productsCollection.find({}).toArray()
 
     res.status(200).json(products)
   } catch (error) {
