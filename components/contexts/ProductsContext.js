@@ -37,13 +37,15 @@ const ProductsProvider = ({ children }) => {
       return a.units_from - b.units_from
     })
 
-    const processedProducts = { all: sortedProducts }
+    const processedProducts = {
+      all: sortedProducts.map((product) => ({ ...product })),
+    }
     sortedProducts.forEach((product) => {
       const productFamily = product.product_family
       if (!processedProducts[productFamily]) {
         processedProducts[productFamily] = []
       }
-      processedProducts[productFamily].push(product)
+      processedProducts[productFamily].push({ ...product })
     })
 
     return processedProducts
