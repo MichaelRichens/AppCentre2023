@@ -1,8 +1,18 @@
-const fetchProducts = async () => {
-  const apiUrl = process.env.NEXT_PUBLIC_DEPLOY_URL
-  const response = await fetch(`${apiUrl}/api/products`)
-  const data = await response.json()
-  return data
+async function fetchProducts() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
+    )
+    if (!res.ok) {
+      console.error(`Error fetching products: ${res.status} ${res.statusText}`)
+      return []
+    }
+    const data = await res.json()
+    return data
+  } catch (error) {
+    console.error('Error fetching products:', error)
+    return []
+  }
 }
 
 /**
