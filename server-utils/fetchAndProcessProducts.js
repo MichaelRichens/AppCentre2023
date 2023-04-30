@@ -1,18 +1,18 @@
 import { connectToDatabase } from './mongodb'
 
-async function fetchProducts() {
+async function fetchProducts(productFamily) {
   try {
     const client = await connectToDatabase()
     const db = client.db(process.env.DB_NAME)
     const productsCollection = db.collection('products')
 
-    const products = await productsCollection.find({}).toArray()
+    const query = productFamily ? { product_family: productFamily } : {}
+    const products = await productsCollection.find(query).toArray()
 
     // Convert _id to string
     const productsWithIdAsString = products.map((product) => {
       return { ...product, _id: product._id.toString() }
     })
-
     return productsWithIdAsString
   } catch (error) {
     console.error('Error fetching products:', error)
@@ -21,11 +21,11 @@ async function fetchProducts() {
 }
 
 /**
- * Processes the products array and returns an object with arrays of products grouped and sorted by product_family.
+ * Processes a products array for use.  Currently sorts only it.
  * @param {Array} products - The array of products to process.
  * @returns {Object} The processed products object.
  */
-const processData = (products) => {
+const processProducts = (products) => {
   const sortedProducts = products.sort((a, b) => {
     if (a.product_family !== b.product_family) {
       return a.product_family.localeCompare(b.product_family)
@@ -36,23 +36,12 @@ const processData = (products) => {
     return a.units_from - b.units_from
   })
 
-  const processedProducts = {
-    all: sortedProducts.map((product) => ({ ...product })),
-  }
-  sortedProducts.forEach((product) => {
-    const productFamily = product.product_family
-    if (!processedProducts[productFamily]) {
-      processedProducts[productFamily] = []
-    }
-    processedProducts[productFamily].push({ ...product })
-  })
-
-  return processedProducts
+  return sortedProducts
 }
 
 const fetchAndProcessProducts = async () => {
   const products = await fetchProducts()
-  return processData(products)
+  return processProducts(products)
 }
 
 export default fetchAndProcessProducts

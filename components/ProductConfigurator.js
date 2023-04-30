@@ -8,17 +8,11 @@ import React from 'react'
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.productName - The name of the product to be configured.
  * @param {string} props.productFamily - The identifier for the product family.
- * @param {string} props.processedProducts - Products data from the database - pricing, skus etc.
+ * @param {string} props.products - Products data from the database - pricing, skus etc.
  * @returns {JSX.Element} The rendered component.
  */
 
-const ProductConfigurator = ({
-  productName,
-  productFamily,
-  processedProducts,
-}) => {
-  const products = processedProducts[productFamily]
-
+const ProductConfigurator = ({ productName, productFamily, products }) => {
   return <section>{JSON.stringify(products)}</section>
 }
 
