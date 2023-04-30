@@ -23,7 +23,7 @@ async function fetchProducts(productFamily) {
 /**
  * Processes all the skus for a gfi product for use by the rest of the application
  * @param {Array} products - The array of product skus to process.
- * @returns {Object} The processed products object.
+ * @returns {Object} The processed products object, which has the individual product skus sorted into a useful order, and boundary data needed for the product configurator.
  */
 const processProducts = (products) => {
   const sortedProducts = products.sort((a, b) => {
@@ -41,12 +41,20 @@ const processProducts = (products) => {
   if (productData.products.length === 0) {
     productData.minUsers = 0
     productData.maxUsers = 0
+    productData.minYears = 0
+    productData.maxYears = 0
   } else {
     const minUsersFrom = Math.min(
       ...productData.products.map((product) => product.users_from)
     )
     const maxUsersTo = Math.max(
       ...productData.products.map((product) => product.users_to)
+    )
+    const minYears = Math.min(
+      ...productData.products.map((product) => product.years)
+    )
+    const maxYears = Math.max(
+      ...productData.products.map((product) => product.years)
     )
 
     productData.minUsers =
@@ -57,6 +65,8 @@ const processProducts = (products) => {
       maxUsersTo >= 1
         ? maxUsersTo
         : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_USERS, 10)
+    productData.minYears = minYears
+    productData.maxYears = maxYears
   }
 
   return productData
