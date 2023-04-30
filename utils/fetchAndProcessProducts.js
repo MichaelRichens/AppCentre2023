@@ -11,7 +11,9 @@ async function fetchProducts() {
     const data = await res.json()
     return data
   } catch (error) {
-    throw new Error('Failed to fetch products api.')
+    throw new Error(
+      `Failed to fetch products api: ${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
+    )
   }
 }
 
