@@ -1,7 +1,7 @@
 async function fetchProducts() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
+      `${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/productsz`
     )
     if (!res.ok) {
       console.error(`Error fetching products: ${res.status} ${res.statusText}`)
@@ -10,8 +10,7 @@ async function fetchProducts() {
     const data = await res.json()
     return data
   } catch (error) {
-    console.error('Error fetching products:', error)
-    throw new Error(`Failed to fetch products. apiUrl: ${apiUrl}`)
+    throw new Error('Failed to fetch products.')
   }
 }
 
