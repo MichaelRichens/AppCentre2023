@@ -9,7 +9,7 @@ export async function getStaticProps() {
 
   return {
     props: processedProducts,
-    revalidate: 60 * 60 * 24, // 24 hours
+    revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS, // 24 hours
   }
 }
 
