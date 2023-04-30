@@ -1,7 +1,5 @@
 import React from 'react'
 
-import Loading from './Loading'
-
 /**
  * ProductConfigurator is a component that allows users to configure a their subscription
  * It generates a subscription for the software product with the passed productFamily
