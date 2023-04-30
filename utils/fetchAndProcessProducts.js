@@ -1,7 +1,8 @@
 async function fetchProducts() {
-  apiUrl = `/api/products`
   try {
-    const res = await fetch(apiUrl)
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
+    )
     if (!res.ok) {
       console.error(`Error fetching products: ${res.status} ${res.statusText}`)
       return []
