@@ -5,23 +5,24 @@ import ProductPage from '../components/ProductPage'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
-  const matchingProducts = await fetchAndProcessProducts(
+  const productData = await fetchAndProcessProducts(
     process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT
   )
 
   return {
-    props: { products: matchingProducts },
+    props: { productData },
     revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
   }
 }
 
-const Connect = (products) => {
+const Connect = (props) => {
+  const { productData } = props
   return (
     <ProductPage
       productName='Kerio Connect'
       productIntro={<p>Kerio Connect is etc.</p>}
       productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT}
-      products={products}></ProductPage>
+      productData={productData}></ProductPage>
   )
 }
 
