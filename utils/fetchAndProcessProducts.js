@@ -1,19 +1,22 @@
+import { connectToDatabase } from './mongodb'
+
 async function fetchProducts() {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
-    )
-    if (!res.ok) {
-      throw new error(
-        `Error fetching products: ${res.status} ${res.statusText} ${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
-      )
-    }
-    const data = await res.json()
-    return data
+    const client = await connectToDatabase()
+    const db = client.db(process.env.DB_NAME)
+    const productsCollection = db.collection('products')
+
+    const products = await productsCollection.find({}).toArray()
+
+    // Convert _id to string
+    const productsWithIdAsString = products.map((product) => {
+      return { ...product, _id: product._id.toString() }
+    })
+
+    return productsWithIdAsString
   } catch (error) {
-    throw new Error(
-      `Failed to fetch products api: ${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
-    )
+    console.error('Error fetching products:', error)
+    throw new Error('Failed to fetch products from database')
   }
 }
 
