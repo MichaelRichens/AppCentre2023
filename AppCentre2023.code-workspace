@@ -5,7 +5,7 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["nextjs", "Referers"],
+    "cSpell.words": ["nextjs", "Referers", "skus"],
     "editor.formatOnSave": true,
     "prettier.proseWrap": "always",
     "prettier.semi": false,

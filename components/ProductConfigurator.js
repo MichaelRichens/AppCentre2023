@@ -1,6 +1,5 @@
 import React from 'react'
 
-import useProducts from './hooks/useProducts'
 import Loading from './Loading'
 
 /**
@@ -11,18 +10,18 @@ import Loading from './Loading'
  * @param {Object} props - The properties passed to the component.
  * @param {string} props.productName - The name of the product to be configured.
  * @param {string} props.productFamily - The identifier for the product family.
+ * @param {string} props.processedProducts - Products data from the database - pricing, skus etc.
  * @returns {JSX.Element} The rendered component.
  */
 
-const ProductConfigurator = ({ productName, productFamily }) => {
-  const productsData = useProducts()
+const ProductConfigurator = ({
+  productName,
+  productFamily,
+  processedProducts,
+}) => {
+  const products = processedProducts[productFamily]
 
-  if (!productsData || !productsData[productFamily]) {
-    return <Loading />
-  }
-  const products = productsData[productFamily]
-
-  return <section>{/* ... component JSX ... */}</section>
+  return <section>{JSON.stringify(products)}</section>
 }
 
 export default ProductConfigurator
