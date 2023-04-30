@@ -2,7 +2,7 @@ import React from 'react'
 
 import ProductPage from '../components/ProductPage'
 
-import fetchAndProcessProducts from '../utils/fetchAndProcessProducts'
+import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
   const processedProducts = await fetchAndProcessProducts()
