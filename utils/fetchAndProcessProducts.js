@@ -1,6 +1,8 @@
 async function fetchProducts() {
   try {
-    const res = await fetch(`/opt/build/repo/.next/server/pages/api/products`)
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
+    )
     if (!res.ok) {
       throw new error(
         `Error fetching products: ${res.status} ${res.statusText} ${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
