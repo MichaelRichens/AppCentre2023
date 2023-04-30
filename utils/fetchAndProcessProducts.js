@@ -1,5 +1,5 @@
 async function fetchProducts() {
-  apiUrl = `${process.env.NEXT_PUBLIC_DEPLOY_URL}/api/products`
+  apiUrl = `/api/products`
   try {
     const res = await fetch(apiUrl)
     if (!res.ok) {
