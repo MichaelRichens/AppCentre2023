@@ -37,25 +37,54 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleUserChangeChange = (event) => {
-    if (isNaN(event.target.value)) {
-      console.log('x')
+  const handleExistingUsersChange = (event) => {
+    const { name, value } = event.target
+    if (isNaN(value)) {
       return
     }
-    const userChange = calculateUserChange(event.target.value)
-    setFormData({ ...formData, userChange })
+    setFormData({ ...formData, [name]: parseInt(value) })
   }
 
-  const handleExistingUsersChange = (event) => {
-    if (isNaN(event.target.value)) {
-      console.log('y')
+  const handleExistingUsersBlur = (event) => {
+    const { name, value } = event.target
+    if (isNaN(value)) {
+      setFormData({ ...formData, [name]: productData.minUsers })
+      return
+    } else {
+      const existingUsers = Math.min(
+        Math.max(parseInt(event.target.value), productData.minUsers),
+        productData.maxUsers
+      )
+      setFormData({ ...formData, [name]: existingUsers })
+    }
+  }
+
+  const handleUserChangeChange = (event) => {
+    const { name, value } = event.target
+    console.log(1)
+    if (isNaN(value) && (formData.type != 'sub' || value != '-')) {
       return
     }
-    const existingUsers = Math.min(
-      Math.max(event.target.value, productData.minUsers),
-      productData.maxUsers
-    )
-    setFormData({ ...formData, existingUsers })
+    let userChange
+    if (value == '' || value == '-') {
+      userChange = value
+    } else {
+      userChange = parseInt(value)
+    }
+    setFormData({ ...formData, [name]: userChange })
+  }
+
+  const handleUserChangeBlur = (event) => {
+    const { name, value } = event.target
+    if (isNaN(value)) {
+      setFormData({
+        ...formData,
+        [name]: formData.type == 'add' ? productData.minUserChange : 0,
+      })
+    } else {
+      const userChange = calculateUserChange(parseInt(event.target.value))
+      setFormData({ ...formData, [name]: userChange })
+    }
   }
 
   const calculateUserChange = (value) => {
@@ -77,20 +106,10 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
 
     // If the remainder is not 0, it means the userChange value is not divisible by productData.minUsers.
     // Positive remainder means positive number (adding users), negative remainder is removing users.
-    // direction is whether we have a higher or lower number of userChange than it was prior to the amount being changed
-    const direction = userChange > formData.userChange ? 1 : -1
-    if (remainder > 0 && direction > 0) {
-      // Positive user change that has been increased
+    if (remainder > 0) {
       userChange += productData.minUsers - remainder
-    } else if (
-      (remainder > 0 && direction < 0) ||
-      (remainder < 0 && direction > 0)
-    ) {
-      // Positive userChange that has been decreased OR Negative userChange that has been increased
+    } else if (remainder < 0) {
       userChange -= remainder
-    } else if (remainder < 0 && direction < 0) {
-      // Negative userChange that has been decreased
-      userChange -= productData.minUsers + remainder
     }
 
     // Return the final userChange value.
@@ -142,7 +161,6 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
     style: 'currency',
     currency: 'GBP',
   }).format(price)
-
   return (
     <section>
       <form>
@@ -171,6 +189,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
                 min={productData.minUsers}
                 max={productData.maxUsers}
                 onChange={handleExistingUsersChange}
+                onBlur={handleExistingUsersBlur}
               />
             </label>
             <br />
@@ -189,6 +208,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
             }
             max={productData.maxUsers - formData.existingUsers}
             onChange={handleUserChangeChange}
+            onBlur={handleUserChangeBlur}
           />
         </label>
         {formData.type === 'sub' && (
