@@ -23,9 +23,10 @@ async function fetchProducts(productFamily) {
 /**
  * Processes all the skus for a gfi product for use by the rest of the application
  * @param {Array} products - The array of product skus to process.
- * @returns {Object} The processed products object, which has the individual product skus sorted into a useful order, and boundary data needed for the product configurator.
+ * @returns {Object} The processed products object, which has the individual product skus sorted by years, low to high, and then by user tier low to high. And boundary data needed for the product configurator.
  */
 const processProducts = (products) => {
+  //This sorting is important, it being done is relied on elsewhere
   const sortedProducts = products.sort((a, b) => {
     if (a.product_family !== b.product_family) {
       return a.product_family.localeCompare(b.product_family)
