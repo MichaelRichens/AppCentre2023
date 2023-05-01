@@ -20,7 +20,7 @@ function generateSkusAndCalculatePrice(products, configuratorOptions) {
     // Your code here
   })
 
-  return { price: price, skus: skus }
+  return { price: price, skus: skus, type: options.type, years: options.years }
 }
 
 export default generateSkusAndCalculatePrice
