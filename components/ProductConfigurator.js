@@ -61,7 +61,6 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
 
   const handleUserChangeChange = (event) => {
     const { name, value } = event.target
-    console.log(1)
     if (isNaN(value) && (formData.type != 'sub' || value != '-')) {
       return
     }
