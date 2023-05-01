@@ -52,7 +52,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
 
   const calculateUserChange = (value) => {
     // Parse the user input as an integer.
-    let userChange = parseInt(value)
+    let userChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
 
     // Calculate the minimum and maximum user change values based on the type of subscription.
     const minUserChange =
@@ -66,16 +66,25 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
 
     // Calculate the remainder of userChange when divided by productData.minUsers.
     const remainder = userChange % productData.minUsers
+
     // If the remainder is not 0, it means the userChange value is not divisible by productData.minUsers.
-    if (remainder !== 0) {
-      // Determine the direction of change (1 for positive change, -1 for negative change).
-      const direction = value > formData.userChange ? 1 : -1
-      // Add the difference between productData.minUsers and the remainder (or negative remainder when direction is negative) to the userChange value,
-      // multiplied by the direction of change.
-      userChange += direction * (productData.minUsers - remainder * direction)
-      // Clamp the userChange value again to ensure it remains between minUserChange and maxUserChange.
-      userChange = Math.min(Math.max(userChange, minUserChange), maxUserChange)
+    // Positive remainder means positive number (adding users), negative remainder is removing users.
+    // direction is whether we have a higher or lower number of userChange than it was prior to the amount being changed
+    const direction = userChange > formData.userChange ? 1 : -1
+    if (remainder > 0 && direction > 0) {
+      // Positive user change that has been increased
+      userChange += productData.minUsers - remainder
+    } else if (
+      (remainder > 0 && direction < 0) ||
+      (remainder < 0 && direction > 0)
+    ) {
+      // Positive userChange that has been decreased OR Negative userChange that has been increased
+      userChange -= remainder
+    } else if (remainder < 0 && direction < 0) {
+      // Negative userChange that has been decreased
+      userChange -= productData.minUsers + remainder
     }
+
     // Return the final userChange value.
     return userChange
   }
@@ -171,7 +180,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
                 : productData.minUsers
             }
             max={productData.maxUsers - formData.existingUsers}
-            onChange={handleUserChangeChange}
+            onBlur={handleUserChangeChange}
           />
         </label>
         {formData.type === 'sub' && (
