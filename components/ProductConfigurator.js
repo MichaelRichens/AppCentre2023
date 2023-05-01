@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
+import { useConfiguratorContext } from '../components/contexts/ConfiguratorContext'
+
 /**
  * ProductConfigurator is a component that allows users to configure a their subscription
  * It generates a subscription for the software product with the passed productFamily
+ * Form data is stored in the app level ConfiguratorContext, keyed by productFamily
  * It is customised with the passed productName.
  *
  * @param {Object} props - The properties passed to the component.
@@ -13,19 +16,18 @@ import React, { useState, useEffect } from 'react'
  */
 
 const ProductConfigurator = ({ productName, productFamily, productData }) => {
-  const [formData, setFormData] = useState({
+  const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
+  const savedData = configuratorData[productFamily] || {
     type: 'sub',
     users: productData.minUsers,
     years: productData.minYears,
-  })
+  }
+
+  const [formData, setFormData] = useState(savedData)
 
   useEffect(() => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      users: productData.minUsers,
-      years: productData.minYears,
-    }))
-  }, [productData])
+    saveConfiguratorData(productFamily, formData)
+  }, [formData])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
