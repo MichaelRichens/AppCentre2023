@@ -7,8 +7,6 @@
  */
 function generateSkusAndCalculatePrice(productSkus, configuratorOptions) {
   //Placeholder - price calculation logic here
-  console.log(configuratorOptions)
-  console.log(productSkus)
   return { price: 0, skus: {} }
 }
 
