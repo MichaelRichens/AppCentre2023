@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 
 import { useConfiguratorContext } from '../components/contexts/ConfiguratorContext'
 
+import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
+
 /**
  * ProductConfigurator is a component that allows users to configure a their subscription
  * It generates a subscription for the software product with the passed productFamily
@@ -73,6 +75,16 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
       }`
     )
 
+  const { price } = generateSkusAndCalculatePrice(
+    productData.products,
+    savedData
+  )
+
+  const formattedPrice = new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+  }).format(price)
+
   return (
     <section>
       <form>
@@ -105,6 +117,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
         <br />
         {yearsLabel}
       </form>
+      <div>Price: {formattedPrice}</div>
     </section>
   )
 }
