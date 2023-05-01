@@ -38,11 +38,19 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
   }
 
   const handleUserChangeChange = (event) => {
+    if (isNaN(event.target.value)) {
+      console.log('x')
+      return
+    }
     const userChange = calculateUserChange(event.target.value)
     setFormData({ ...formData, userChange })
   }
 
   const handleExistingUsersChange = (event) => {
+    if (isNaN(event.target.value)) {
+      console.log('y')
+      return
+    }
     const existingUsers = Math.min(
       Math.max(event.target.value, productData.minUsers),
       productData.maxUsers
@@ -157,7 +165,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
             <label>
               Current Users on Subscription:
               <input
-                type='number'
+                type='text'
                 name='existingUsers'
                 value={formData.existingUsers}
                 min={productData.minUsers}
@@ -171,7 +179,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
         <label>
           {userChangeLabel}
           <input
-            type='number'
+            type='text'
             name='userChange'
             value={formData.userChange}
             min={
@@ -180,7 +188,7 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
                 : productData.minUsers
             }
             max={productData.maxUsers - formData.existingUsers}
-            onBlur={handleUserChangeChange}
+            onChange={handleUserChangeChange}
           />
         </label>
         {formData.type === 'sub' && (
