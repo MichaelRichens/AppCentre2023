@@ -6,7 +6,20 @@
  * @returns {Object} An object with the calculated price in the `price` field, and a `skus` field that contains an object that has a field for each sku with the value being the quantity of that sku.
  */
 function generateSkusAndCalculatePrice(products, configuratorOptions) {
-  const numUsers = configuratorOptions.users
+  /**
+   * @var Number - Represents the total number of users on the subscription, including existing users and any being added.
+   * This value is used for determining the price band based on the subscription type.
+   */
+  const numUsersForPriceBand =
+    configuratorOptions.userChange + configuratorOptions.existingUsers
+  /**
+   * @var Number - Represents the total number of users being added to the description.
+   * This value is used for determining the quantity to purchase.
+   */
+  let numUsersToPurchase = configuratorOptions.userChange
+  if (configuratorOptions.type != 'add') {
+    numUsersToPurchase += configuratorOptions.existingUsers
+  }
   let price = 0
   const skus = {}
 
@@ -14,12 +27,10 @@ function generateSkusAndCalculatePrice(products, configuratorOptions) {
     (sku) => sku.years == configuratorOptions.years
   )
 
-  console.log(configuratorOptions)
   // We are relying on products (and therefore productsWithCorrectYear) being passed in already sorted by low to high user tiers.
   for (let i = productsWithCorrectYear.length - 1; i >= 0; i--) {
     const product = productsWithCorrectYear[i]
-    console.log(product)
-    console.log(product.units_from)
+
     let unitsFrom
     if (Number.isInteger(product.units_from) && product.units_from > 0) {
       unitsFrom = product.units_from
@@ -34,12 +45,12 @@ function generateSkusAndCalculatePrice(products, configuratorOptions) {
       unitsTo = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_USERS, 10)
     }
 
-    if (unitsFrom <= numUsers && numUsers <= unitsTo) {
-      console.log(
-        `${unitsFrom} <= ${numUsers} <= ${unitsTo} with price: ${product.price}`
-      )
-      skus[product.sku] = numUsers
-      price += product.price * numUsers
+    if (unitsFrom <= numUsersForPriceBand && numUsersForPriceBand <= unitsTo) {
+      /*console.log(
+        `${unitsFrom} <= ${numUsersForPriceBand} <= ${unitsTo} with price: ${product.price}`
+      )*/
+      skus[product.sku] = numUsersToPurchase
+      price += product.price * numUsersToPurchase
       break
     }
   }

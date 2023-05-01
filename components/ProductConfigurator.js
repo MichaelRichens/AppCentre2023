@@ -21,8 +21,9 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
   const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
   const savedData = configuratorData[productFamily] || {
     type: 'sub',
-    users: productData.minUsers,
+    userChange: 0,
     years: productData.minYears,
+    existingUsers: productData.minUsers,
   }
 
   const [formData, setFormData] = useState(savedData)
@@ -36,18 +37,58 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleUsersChange = (event) => {
-    const users = Math.min(
+  const handleUserChangeChange = (event) => {
+    const userChange = calculateUserChange(event.target.value)
+    setFormData({ ...formData, userChange })
+  }
+
+  const handleExistingUsersChange = (event) => {
+    const existingUsers = Math.min(
       Math.max(event.target.value, productData.minUsers),
       productData.maxUsers
     )
-    setFormData({ ...formData, users })
+    setFormData({ ...formData, existingUsers })
   }
 
-  const usersLabel =
-    formData.type === 'add'
-      ? 'Set Number of Users Currently on Subscription:'
-      : 'Number of Users:'
+  const calculateUserChange = (value) => {
+    // Parse the user input as an integer.
+    let userChange = parseInt(value)
+
+    // Calculate the minimum and maximum user change values based on the type of subscription.
+    const minUserChange =
+      formData.type === 'new' || formData.type === 'add'
+        ? productData.minUsers
+        : productData.minUsers - formData.existingUsers
+    const maxUserChange = productData.maxUsers - formData.existingUsers
+
+    // Clamp the userChange value to be between minUserChange and maxUserChange.
+    userChange = Math.min(Math.max(userChange, minUserChange), maxUserChange)
+
+    // Calculate the remainder of userChange when divided by productData.minUsers.
+    const remainder = userChange % productData.minUsers
+    // If the remainder is not 0, it means the userChange value is not divisible by productData.minUsers.
+    if (remainder !== 0) {
+      // Determine the direction of change (1 for positive change, -1 for negative change).
+      const direction = value > formData.userChange ? 1 : -1
+      // Add the difference between productData.minUsers and the remainder (or negative remainder when direction is negative) to the userChange value,
+      // multiplied by the direction of change.
+      userChange += direction * (productData.minUsers - remainder * direction)
+      // Clamp the userChange value again to ensure it remains between minUserChange and maxUserChange.
+      userChange = Math.min(Math.max(userChange, minUserChange), maxUserChange)
+    }
+    // Return the final userChange value.
+    return userChange
+  }
+
+  const canShowAddOption =
+    productData.maxUsers - productData.minUsers > formData.existingUsers
+
+  const userChangeLabel =
+    formData.type == 'new'
+      ? 'Number of Users'
+      : formData.type === 'add'
+      ? 'Users to Add'
+      : 'Adjust Number of Users By:'
 
   const yearsLabel =
     productData.minYears !== productData.maxYears ? (
@@ -96,23 +137,48 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
             onChange={handleInputChange}>
             <option value='sub'>Existing Subscription Renewal</option>
             <option value='new'>New Subscription</option>
-            <option value='add'>Add Users To Subscription</option>
+            {canShowAddOption && (
+              <option value='add'>Add Users To Subscription</option>
+            )}
           </select>
         </label>
         <br />
+        {formData.type !== 'new' && (
+          <>
+            <label>
+              Current Users on Subscription:
+              <input
+                type='number'
+                name='existingUsers'
+                value={formData.existingUsers}
+                min={productData.minUsers}
+                max={productData.maxUsers}
+                onChange={handleExistingUsersChange}
+              />
+            </label>
+            <br />
+          </>
+        )}
         <label>
-          {usersLabel}
+          {userChangeLabel}
           <input
             type='number'
-            name='users'
-            value={formData.users}
-            min={productData.minUsers}
-            max={productData.maxUsers}
-            onChange={handleUsersChange}
+            name='userChange'
+            value={formData.userChange}
+            min={
+              formData.type === 'sub'
+                ? productData.minUsers - formData.existingUsers
+                : productData.minUsers
+            }
+            max={productData.maxUsers - formData.existingUsers}
+            onChange={handleUserChangeChange}
           />
         </label>
         {formData.type === 'sub' && (
-          <span> (Adjust number to add or remove users)</span>
+          <span>
+            {' '}
+            Users to Renew: {formData.existingUsers + formData.userChange}
+          </span>
         )}
         <br />
         {yearsLabel}
