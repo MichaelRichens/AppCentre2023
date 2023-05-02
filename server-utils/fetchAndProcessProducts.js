@@ -1,5 +1,24 @@
 import { connectToDatabase } from './mongodb'
 
+async function fetchExtensions(productFamily) {
+  try {
+    const client = await connectToDatabase()
+    const db = client.db(process.env.DB_NAME)
+    const productsCollection = db.collection('extensions')
+    const query = productFamily ? { product_family: productFamily } : {}
+    const extensions = await productsCollection.find(query).toArray()
+
+    // Convert _id to string
+    const ext = extensions.map((ext) => {
+      return { ...ext, _id: ext._id.toString() }
+    })
+    return ext
+  } catch (error) {
+    console.error('Error fetching extensions:', error)
+    throw new Error('Failed to fetch extensions from database')
+  }
+}
+
 async function fetchProducts(productFamily) {
   try {
     const client = await connectToDatabase()
@@ -24,7 +43,8 @@ async function fetchProducts(productFamily) {
  * @param {Array} products - The array of product skus to process.
  * @returns {Object} The processed products object, which has the individual product skus sorted by years, low to high, and then by user tier low to high. And boundary data needed for the product configurator.
  */
-const processProducts = (products) => {
+const processProducts = (products, extensions) => {
+  // We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of users for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
   //This sorting is important, it being done is relied on elsewhere
   const sortedProducts = products.sort((a, b) => {
     if (a.product_family !== b.product_family) {
@@ -36,7 +56,32 @@ const processProducts = (products) => {
     return a.units_from - b.units_from
   })
 
-  const productData = { products: sortedProducts }
+  const sortedExtensions = extensions.sort((a, b) => {
+    if (a.product_family !== b.product_family) {
+      return a.product_family.localeCompare(b.product_family)
+    }
+    if (a.years !== b.years) {
+      return a.years - b.years
+    }
+    if (a.name !== b.name) {
+      return a.name.localeCompare(b.name)
+    }
+  })
+
+  const extensionNames = sortedExtensions.reduce((accumulator, current) => {
+    if (!accumulator.includes(current.name)) {
+      accumulator.push(current.name)
+    }
+    return accumulator
+  }, [])
+
+  console.log(extensionNames)
+
+  const productData = {
+    products: sortedProducts,
+    extensions: sortedExtensions,
+    extensionNames: extensionNames,
+  }
 
   if (productData.products.length === 0) {
     productData.minUsers = 0
@@ -73,8 +118,11 @@ const processProducts = (products) => {
 }
 
 const fetchAndProcessProducts = async (productFamily) => {
-  const products = await fetchProducts(productFamily)
-  return processProducts(products)
+  const [products, extensions] = await Promise.all([
+    fetchProducts(productFamily),
+    fetchExtensions(productFamily),
+  ])
+  return processProducts(products, extensions)
 }
 
 export default fetchAndProcessProducts
