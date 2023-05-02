@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from './contexts/ConfiguratorContext'
 import TypeChangeSelect from './configurator/TypeChangeSelect'
+import PurchaseUnitInput from './configurator/PurchaseUnitInput'
 import Word from '../utils/types/word'
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
@@ -109,6 +110,7 @@ const SubscriptionConfigurator = ({
   }
 
   const handleExistingUsersBlur = (event) => {
+    console.log(event.target)
     const { value } = event.target
     let existingUsersError = false
     if (isNaN(value) || value == '') {
@@ -238,9 +240,9 @@ const SubscriptionConfigurator = ({
     let str = ''
     switch (formData.type) {
       case 'sub':
-        str += `Renewing with ${formData.existingUsers + formData.userChange} ${
-          unitName.pluralLC
-        }`
+        str += `Renewing ${productName} with ${
+          formData.existingUsers + formData.userChange
+        } ${unitName.pluralLC}`
         str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
         break
       case 'new':
@@ -248,74 +250,20 @@ const SubscriptionConfigurator = ({
         str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
         break
       case 'add':
-        str += `Purchasing ${formData.userChange} additional ${
+        str += `Purchasing ${formData.userChange} additional ${productName} ${
           unitName.pluralLC
         }, bringing the total to ${
           formData.existingUsers + formData.userChange
         } ${unitName.pluralLC}`
         break
     }
-    return <p>{str + ` - ${formattedPrice} + vat`}</p>
+    return (
+      <>
+        <p>{str}</p>
+        <p>{`${formattedPrice} + vat`}</p>
+      </>
+    )
   })()
-
-  const existingUsersInputLegend = `Current ${unitName.pluralC} on Subscription`
-
-  const existingUsersInput = (
-    <fieldset>
-      <legend>{existingUsersInputLegend}</legend>
-      <input
-        type='number'
-        step={productData.minUsers}
-        name='existingUsers'
-        className={configuratorStyles.userQty}
-        value={formData.existingUsers}
-        min={productData.minUsers}
-        max={productData.maxUsers}
-        onChange={handleExistingUsersChange}
-        onBlur={handleExistingUsersBlur}
-        aria-label={existingUsersInputLegend}
-      />
-      {formData.existingUsersError !== false && (
-        <span className={configuratorStyles.formError}>
-          {formData.existingUsersError}
-        </span>
-      )}
-    </fieldset>
-  )
-
-  const userChangeInputLegend =
-    formData.type == 'new'
-      ? `Number of ${unitName.pluralC}`
-      : formData.type === 'add'
-      ? `${unitName.pluralC} to Add`
-      : `Adjust Number of ${unitName.pluralC} By`
-
-  const userChangeInput = (
-    <fieldset>
-      <legend>{userChangeInputLegend}</legend>
-      <input
-        type='number'
-        step={productData.minUsers}
-        name='userChange'
-        className={configuratorStyles.userQty}
-        value={formData.userChange}
-        min={
-          formData.type === 'sub'
-            ? productData.minUsers - formData.existingUsers
-            : productData.minUsers
-        }
-        max={productData.maxUsers - formData.existingUsers}
-        onChange={handleUserChangeChange}
-        onBlur={handleUserChangeBlur}
-        aria-label={userChangeInputLegend}
-      />
-      {formData.userChangeError !== false && (
-        <span className={configuratorStyles.formError}>
-          {formData.userChangeError}
-        </span>
-      )}
-    </fieldset>
-  )
 
   const extensionCheckboxes = (
     <fieldset className={configuratorStyles.checkbox}>
@@ -367,7 +315,9 @@ const SubscriptionConfigurator = ({
 
   return (
     <form className={configuratorStyles.configurator}>
-      {currentSummary}
+      <fieldset className={configuratorStyles.summary}>
+        {currentSummary}
+      </fieldset>
       <TypeChangeSelect
         type={formData.type}
         addOption={
@@ -377,8 +327,40 @@ const SubscriptionConfigurator = ({
         }
         onTypeChange={handleTypeChange}
       />
-      {formData.type !== 'new' && <>{existingUsersInput}</>}
-      {userChangeInput}
+      {formData.type !== 'new' && (
+        <PurchaseUnitInput
+          legend={`Current ${unitName.pluralC} on Subscription`}
+          min={productData.minUsers}
+          max={productData.maxUsers}
+          step={productData.minUsers}
+          name='existingUsers'
+          value={formData.existingUsers}
+          onChange={handleExistingUsersChange}
+          onBlur={handleExistingUsersBlur}
+          error={formData.existingUsersError}
+        />
+      )}
+      <PurchaseUnitInput
+        legend={
+          formData.type == 'new'
+            ? `Number of ${unitName.pluralC}`
+            : formData.type === 'add'
+            ? `${unitName.pluralC} to Add`
+            : `Adjust Number of ${unitName.pluralC} By`
+        }
+        min={
+          formData.type === 'sub'
+            ? productData.minUsers - formData.existingUsers
+            : productData.minUsers
+        }
+        max={productData.maxUsers - formData.existingUsers}
+        step={productData.minUsers}
+        name='userChange'
+        value={formData.userChange}
+        onChange={handleUserChangeChange}
+        onBlur={handleUserChangeBlur}
+        error={formData.userChangeError}
+      />
       {haveAnyExtensions && <>{extensionCheckboxes}</>}
       {yearsSelect}
     </form>

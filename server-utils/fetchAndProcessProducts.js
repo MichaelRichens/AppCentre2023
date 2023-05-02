@@ -100,11 +100,12 @@ const processProducts = (products, extensions) => {
     productData.maxYears = 0
   } else {
     const minUsersFrom = Math.min(
-      ...productData.products.map((product) => product.users_from)
+      ...productData.products.map((product) => product.units_from)
     )
     const maxUsersTo = Math.max(
-      ...productData.products.map((product) => product.users_to)
+      ...productData.products.map((product) => product.units_to)
     )
+
     const minYears = Math.min(
       ...productData.products.map((product) => product.years)
     )
@@ -123,7 +124,6 @@ const processProducts = (products, extensions) => {
     productData.minYears = minYears
     productData.maxYears = maxYears
   }
-
   return productData
 }
 

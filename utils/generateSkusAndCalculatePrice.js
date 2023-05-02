@@ -25,6 +25,16 @@ function generateSkusAndCalculatePrice(
   if (configuratorOptions.type != 'add') {
     numUsersToPurchase += configuratorOptions.existingUsers
   }
+
+  if (numUsersToPurchase < 1) {
+    return {
+      price: 0,
+      skus: {},
+      type: configuratorOptions.type,
+      years: configuratorOptions.years,
+    }
+  }
+
   let price = 0
   const skus = {}
 
@@ -62,12 +72,16 @@ function generateSkusAndCalculatePrice(
     }
   }
 
+  // If we haven't found it, it is probably a too high a unit number (above max limit).  Probably the user quantity is being edited, just return 0 price and no skus, and it will probably sort itself out when the user finishes editing the field.
+  // And if not, this seems to be the way to do the least harm.
+  // Alternative would be either to not live update as the unit field is being edited, but I like that feature.  Or to coerce the numbers as they are being edited, but that's a real usability pain.
   if (!foundProductSku) {
-    // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
-    // Look for things like a bad figure in users_from, users_to or years - we don't really check for problems when importing this data
-    throw new Error(
-      'Unable to find correct product sku, unable to proceed.  This probably indicates an error in the database.'
-    )
+    return {
+      price: 0,
+      skus: {},
+      type: configuratorOptions.type,
+      years: configuratorOptions.years,
+    }
   }
 
   const filteredExtensions = extensions.filter((extension) => {
