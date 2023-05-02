@@ -4,6 +4,11 @@
   margin-right: 1em;
 }
 
+.configurator input.userQty {
+  width: calc(4ch);
+  text-align: right;
+}
+
 .configurator .formError {
   color: rgb(193, 127, 4);
 }

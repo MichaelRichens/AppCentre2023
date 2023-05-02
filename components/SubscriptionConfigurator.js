@@ -193,6 +193,28 @@ const SubscriptionConfigurator = ({
     currency: 'GBP',
   }).format(price)
 
+  const currentSummary = (() => {
+    let str = ''
+    switch (formData.type) {
+      case 'sub':
+        str += `Renewing with ${
+          formData.existingUsers + formData.userChange
+        } users`
+        str += ` for ${formData.years} Year${formData.years != 1 ? 's' : ''}`
+        break
+      case 'new':
+        str += `With ${formData.userChange} users`
+        str += ` for ${formData.years} Year${formData.years != 1 ? 's' : ''}`
+        break
+      case 'add':
+        str += `Bringing the total to ${
+          formData.existingUsers + formData.userChange
+        } users`
+        break
+    }
+    return str + ` - ${formattedPrice} + vat`
+  })()
+
   return (
     <form className={configuratorStyles.configurator}>
       <label>
@@ -205,33 +227,7 @@ const SubscriptionConfigurator = ({
           )}
         </select>
       </label>
-      <span>
-        {(() => {
-          let str = ''
-          switch (formData.type) {
-            case 'sub':
-              str += `Renewing with ${
-                formData.existingUsers + formData.userChange
-              } users`
-              str += ` for ${formData.years} Year${
-                formData.years != 1 ? 's' : ''
-              }`
-              break
-            case 'new':
-              str += `With ${formData.userChange} users`
-              str += ` for ${formData.years} Year${
-                formData.years != 1 ? 's' : ''
-              }`
-              break
-            case 'add':
-              str += `Bringing the total to ${
-                formData.existingUsers + formData.userChange
-              } users`
-              break
-          }
-          return str + ` - ${formattedPrice} + vat`
-        })()}
-      </span>
+      <span>{currentSummary}</span>
       <br />
       {formData.type !== 'new' && (
         <>
@@ -240,6 +236,7 @@ const SubscriptionConfigurator = ({
             <input
               type='text'
               name='existingUsers'
+              className={configuratorStyles.userQty}
               value={formData.existingUsers}
               min={productData.minUsers}
               max={productData.maxUsers}
@@ -255,6 +252,7 @@ const SubscriptionConfigurator = ({
         <input
           type='text'
           name='userChange'
+          className={configuratorStyles.userQty}
           value={formData.userChange}
           min={
             formData.type === 'sub'
