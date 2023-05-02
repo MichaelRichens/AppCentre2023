@@ -64,7 +64,7 @@ function generateSkusAndCalculatePrice(
 
   if (!foundProductSku) {
     // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
-    // Look for things like a bad figure in users_from, users_to or years - we don't exhaustively check for problems when importing this data
+    // Look for things like a bad figure in users_from, users_to or years - we don't really check for problems when importing this data
     throw new Error(
       'Unable to find correct product sku, unable to proceed.  This probably indicates an error in the database.'
     )
@@ -86,10 +86,16 @@ function generateSkusAndCalculatePrice(
     uniqueExtensions.length !== configuratorOptions.checkedExtensions.length
   ) {
     // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
-    // Look for things like a bad figure in years - we don't exhaustively check for problems when importing this data
-    throw new Error(
-      'Extension mismatch, unable to proceed.  This probably indicates an error in the database.'
-    )
+    // Have also had this pop up randomly during dev, and hoping it is due to stale code...
+    // If its a bad db entry, look for things like a bad figure in years - we don't really check for problems when importing this data
+    const uniqueExtensionsKeys = uniqueExtensions
+      .map((extension) => extension.key)
+      .join(', ')
+    const checkedExtensionsKeys =
+      configuratorOptions.checkedExtensions.join(', ')
+
+    const errorMessage = `Extension mismatch, unable to proceed. This probably indicates an error in the database. Unique Extensions: ${uniqueExtensionsKeys} != Checked Extensions: ${checkedExtensionsKeys}`
+    throw new Error(errorMessage)
   }
 
   uniqueExtensions.forEach((extension) => {
