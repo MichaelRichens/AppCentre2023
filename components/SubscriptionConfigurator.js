@@ -51,7 +51,10 @@ const SubscriptionConfigurator = ({
   const handleTypeChange = (event) => {
     const { name, value } = event.target
     let userChange = formData.userChange
-    if (value === 'new' && userChange < productData.minUsers) {
+    if (
+      (value === 'new' || value === 'add') &&
+      userChange < productData.minUsers
+    ) {
       userChange = productData.minUsers
     } else if (
       value === 'sub' &&
