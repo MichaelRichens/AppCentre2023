@@ -8,13 +8,6 @@
  * singularC, and pluralC. These properties store the singular and plural forms
  * of the word in lowercase and with the first letter capitalized, respectively.
  * Once an instance of the Word class is created, it is immutable.
- *
- * @example
- * import Word from '../lib/word';
- *
- * const exampleWord = new Word('Singular', 'Plural');
- * console.log(exampleWord.singularLC); // singular
- * console.log(exampleWord.pluralC); // Plural
  */
 
 class Word {
