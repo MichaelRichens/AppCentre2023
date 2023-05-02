@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-
 import { useConfiguratorContext } from './contexts/ConfiguratorContext'
-
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
+import configuratorStyles from '../styles/Configurator.shared.module.css'
 
 /**
- * ProductConfigurator is a component that allows users to configure a their subscription
+ * SubscriptionConfigurator is a component that allows users to configure a their subscription
  * It generates a subscription for the software product with the passed productFamily
  * Form data is stored in the app level ConfiguratorContext, keyed by productFamily
  * It is customised with the passed productName.
@@ -137,10 +136,10 @@ const SubscriptionConfigurator = ({
     // Positive remainder means positive number (adding users), negative remainder is removing users.
     if (remainder > 0) {
       userChange += productData.minUsers - remainder
-      userChangeError = `Minimum Change: ${productData.minUsers}`
+      userChangeError = `Must be changed in steps of ${productData.minUsers}`
     } else if (remainder < 0) {
       userChange -= remainder
-      userChangeError = `Minimum Change: ${productData.minUsers}`
+      userChangeError = `Must be changed in steps of ${productData.minUsers}`
     }
 
     // Return the final userChange value.
@@ -192,9 +191,10 @@ const SubscriptionConfigurator = ({
     style: 'currency',
     currency: 'GBP',
   }).format(price)
+
   return (
     <>
-      <form>
+      <form className={configuratorStyles.configurator}>
         <label>
           Type:
           <select
@@ -208,6 +208,27 @@ const SubscriptionConfigurator = ({
             )}
           </select>
         </label>
+        <span>
+          {(() => {
+            let str = ''
+            switch (formData.type) {
+              case 'sub':
+                str += `Renewing with ${
+                  formData.existingUsers + formData.userChange
+                } users`
+                break
+              case 'new':
+                str += `With ${formData.userChange} users`
+                break
+              case 'add':
+                str += `Bringing the total to ${
+                  formData.existingUsers + formData.userChange
+                } users`
+                break
+            }
+            return str + ` for ${formattedPrice} + vat`
+          })()}
+        </span>
         <br />
         {formData.type !== 'new' && (
           <>
@@ -242,14 +263,10 @@ const SubscriptionConfigurator = ({
             onBlur={handleUserChangeBlur}
           />
         </label>
-        {formData.type === 'sub' && (
-          <span>
-            {' '}
-            Users to Renew: {formData.existingUsers + formData.userChange}
-          </span>
-        )}
         {formData.userChangeError !== false && (
-          <span className='formError'> {formData.userChangeError}</span>
+          <span className={configuratorStyles.formError}>
+            {formData.userChangeError}
+          </span>
         )}
         <br />
         {yearsLabel}

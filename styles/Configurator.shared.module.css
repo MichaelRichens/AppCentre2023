@@ -1,0 +1,9 @@
+.configurator input,
+.configurator select {
+  margin-left: 0.5em;
+  margin-right: 1em;
+}
+
+.configurator .formError {
+  color: rgb(193, 127, 4);
+}
