@@ -56,6 +56,7 @@ function generateSkusAndCalculatePrice(products, configuratorOptions) {
       break
     }
   }
+
   if (!foundProductSku) {
     // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
     throw new Error('Unable to find correct product sku.')
