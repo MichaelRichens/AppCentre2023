@@ -34,13 +34,15 @@ const SubscriptionConfigurator = ({
 
   const [formData, setFormData] = useState(savedData)
 
+  useEffect(() => {
+    saveConfiguratorData(productFamily, formData)
+  }, [formData])
+
   if (formData.userChangeError === undefined) {
     formData.userChangeError = false
   }
 
-  useEffect(() => {
-    saveConfiguratorData(productFamily, formData)
-  }, [formData])
+  const haveAnyExtensions = productData.extensionNames.length > 0
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -175,18 +177,98 @@ const SubscriptionConfigurator = ({
     // Return the final userChange value.
     return { userChange: userChange, userChangeError: userChangeError }
   }
+  const { price } = generateSkusAndCalculatePrice(
+    productData.products,
+    savedData
+  )
 
+  const formattedPrice = new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: 'GBP',
+  }).format(price)
   const canShowAddOption =
     productData.maxUsers - productData.minUsers > formData.existingUsers
 
-  const userChangeLabel =
-    formData.type == 'new'
-      ? `Number of ${unitName.pluralC}`
-      : formData.type === 'add'
-      ? `${unitName.pluralC} to Add`
-      : `Adjust Number of ${unitName.pluralC} By:`
+  const typeChangeSelect = (
+    <label>
+      Type:
+      <select name='type' value={formData.type} onChange={handleTypeChange}>
+        <option value='sub'>Existing Subscription Renewal</option>
+        <option value='new'>New Subscription</option>
+        {canShowAddOption && (
+          <option value='add'>Add {unitName.pluralC} To Subscription</option>
+        )}
+      </select>
+    </label>
+  )
 
-  const yearsInput =
+  const currentSummary = (() => {
+    let str = ''
+    switch (formData.type) {
+      case 'sub':
+        str += `Renewing with ${formData.existingUsers + formData.userChange} ${
+          unitName.pluralLC
+        }`
+        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
+        break
+      case 'new':
+        str += `With ${formData.userChange} ${unitName.pluralLC}`
+        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
+        break
+      case 'add':
+        str += `Bringing the total to ${
+          formData.existingUsers + formData.userChange
+        } ${unitName.pluralLC}`
+        break
+    }
+    return <span>{str + ` - ${formattedPrice} + vat`}</span>
+  })()
+
+  const existingUsersInput = (
+    <>
+      <label>
+        Current {unitName.pluralC} on Subscription:
+        <input
+          type='text'
+          name='existingUsers'
+          className={configuratorStyles.userQty}
+          value={formData.existingUsers}
+          min={productData.minUsers}
+          max={productData.maxUsers}
+          onChange={handleExistingUsersChange}
+          onBlur={handleExistingUsersBlur}
+        />
+      </label>
+    </>
+  )
+
+  const userChangeInput = (
+    <label>
+      {formData.type == 'new'
+        ? `Number of ${unitName.pluralC}`
+        : formData.type === 'add'
+        ? `${unitName.pluralC} to Add`
+        : `Adjust Number of ${unitName.pluralC} By:`}
+      <input
+        type='text'
+        name='userChange'
+        className={configuratorStyles.userQty}
+        value={formData.userChange}
+        min={
+          formData.type === 'sub'
+            ? productData.minUsers - formData.existingUsers
+            : productData.minUsers
+        }
+        max={productData.maxUsers - formData.existingUsers}
+        onChange={handleUserChangeChange}
+        onBlur={handleUserChangeBlur}
+      />
+    </label>
+  )
+
+  const extensionCheckboxes = <>Extensions</>
+
+  const yearsSelect =
     productData.minYears !== productData.maxYears ? (
       <label>
         {formData.type == 'add' && 'Remaining '}Subscription Length
@@ -213,94 +295,31 @@ const SubscriptionConfigurator = ({
       }`
     )
 
-  const { price } = generateSkusAndCalculatePrice(
-    productData.products,
-    savedData
-  )
-
-  const formattedPrice = new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: 'GBP',
-  }).format(price)
-
-  const currentSummary = (() => {
-    let str = ''
-    switch (formData.type) {
-      case 'sub':
-        str += `Renewing with ${formData.existingUsers + formData.userChange} ${
-          unitName.pluralLC
-        }`
-        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
-        break
-      case 'new':
-        str += `With ${formData.userChange} ${unitName.pluralLC}`
-        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
-        break
-      case 'add':
-        str += `Bringing the total to ${
-          formData.existingUsers + formData.userChange
-        } ${unitName.pluralLC}`
-        break
-    }
-    return str + ` - ${formattedPrice} + vat`
-  })()
-
   return (
     <form className={configuratorStyles.configurator}>
-      <label>
-        Type:
-        <select name='type' value={formData.type} onChange={handleTypeChange}>
-          <option value='sub'>Existing Subscription Renewal</option>
-          <option value='new'>New Subscription</option>
-          {canShowAddOption && (
-            <option value='add'>Add {unitName.pluralC} To Subscription</option>
-          )}
-        </select>
-      </label>
-      <span>{currentSummary}</span>
+      {typeChangeSelect}
+      {currentSummary}
       <br />
       {formData.type !== 'new' && (
         <>
-          <label>
-            Current {unitName.pluralC} on Subscription:
-            <input
-              type='text'
-              name='existingUsers'
-              className={configuratorStyles.userQty}
-              value={formData.existingUsers}
-              min={productData.minUsers}
-              max={productData.maxUsers}
-              onChange={handleExistingUsersChange}
-              onBlur={handleExistingUsersBlur}
-            />
-          </label>
+          {existingUsersInput}
           <br />
         </>
       )}
-      <label>
-        {userChangeLabel}
-        <input
-          type='text'
-          name='userChange'
-          className={configuratorStyles.userQty}
-          value={formData.userChange}
-          min={
-            formData.type === 'sub'
-              ? productData.minUsers - formData.existingUsers
-              : productData.minUsers
-          }
-          max={productData.maxUsers - formData.existingUsers}
-          onChange={handleUserChangeChange}
-          onBlur={handleUserChangeBlur}
-        />
-      </label>
+      {userChangeInput}
       {formData.userChangeError !== false && (
         <span className={configuratorStyles.formError}>
           {formData.userChangeError}
         </span>
       )}
       <br />
-      {yearsInput}
+      {haveAnyExtensions && (
+        <>
+          {extensionCheckboxes}
+          <br />
+        </>
+      )}
+      {yearsSelect}
     </form>
   )
 }
