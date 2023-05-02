@@ -41,24 +41,49 @@ const SubscriptionConfigurator = ({
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    setFormData({ ...formData, [name]: value, userChangeError: false })
+    setFormData({
+      ...formData,
+      [name]: value,
+      userChangeError: false,
+    })
+  }
+
+  const handleTypeChange = (event) => {
+    const { name, value } = event.target
+    let userChange = formData.userChange
+    if (value === 'new' && userChange < productData.minUsers) {
+      userChange = productData.minUsers
+    } else if (
+      value === 'sub' &&
+      (formData.type === 'new' || formData.type === 'add')
+    ) {
+      userChange = 0
+    }
+    setFormData({
+      ...formData,
+      [name]: value,
+      userChange: userChange,
+      userChangeError: false,
+    })
   }
 
   const handleExistingUsersChange = (event) => {
     const { name, value } = event.target
     if (isNaN(value)) {
+      console.log(1)
       return
     }
+    console.log(2)
     setFormData({
       ...formData,
-      [name]: parseInt(value),
+      [name]: value == '' ? '' : parseInt(value),
       userChangeError: false,
     })
   }
 
   const handleExistingUsersBlur = (event) => {
     const { name, value } = event.target
-    if (isNaN(value)) {
+    if (isNaN(value) || value == '') {
       setFormData({ ...formData, [name]: productData.minUsers })
       return
     } else {
@@ -218,7 +243,7 @@ const SubscriptionConfigurator = ({
     <form className={configuratorStyles.configurator}>
       <label>
         Type:
-        <select name='type' value={formData.type} onChange={handleInputChange}>
+        <select name='type' value={formData.type} onChange={handleTypeChange}>
           <option value='sub'>Existing Subscription Renewal</option>
           <option value='new'>New Subscription</option>
           {canShowAddOption && (
