@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { useConfiguratorContext } from '../components/contexts/ConfiguratorContext'
+import { useConfiguratorContext } from './contexts/ConfiguratorContext'
 
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
 
@@ -17,7 +17,11 @@ import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePric
  * @returns {JSX.Element} The rendered component.
  */
 
-const ProductConfigurator = ({ productName, productFamily, productData }) => {
+const SubscriptionConfigurator = ({
+  productName,
+  productFamily,
+  productData,
+}) => {
   const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
   const savedData = configuratorData[productFamily] || {
     type: 'sub',
@@ -224,4 +228,4 @@ const ProductConfigurator = ({ productName, productFamily, productData }) => {
   )
 }
 
-export default ProductConfigurator
+export default SubscriptionConfigurator

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Page from './Page'
-import ProductConfigurator from './ProductConfigurator'
+import SubscriptionConfigurator from './SubscriptionConfigurator'
 
 /**
  * ProductPage is a wrapper component that renders the Page component with a product configurator generated from the productFamily prop.
@@ -24,7 +24,7 @@ const ProductPage = ({
     <Page title={productName}>
       <>
         <section>{productIntro}</section>
-        <ProductConfigurator
+        <SubscriptionConfigurator
           productName={productName}
           productFamily={productFamily}
           productData={productData}
