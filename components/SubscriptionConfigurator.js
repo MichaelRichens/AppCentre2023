@@ -32,13 +32,17 @@ const SubscriptionConfigurator = ({
 
   const [formData, setFormData] = useState(savedData)
 
+  if (formData.userChangeError === undefined) {
+    formData.userChangeError = false
+  }
+
   useEffect(() => {
     saveConfiguratorData(productFamily, formData)
   }, [formData])
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    setFormData({ ...formData, [name]: value })
+    setFormData({ ...formData, [name]: value, userChangeError: false })
   }
 
   const handleExistingUsersChange = (event) => {
@@ -46,7 +50,11 @@ const SubscriptionConfigurator = ({
     if (isNaN(value)) {
       return
     }
-    setFormData({ ...formData, [name]: parseInt(value) })
+    setFormData({
+      ...formData,
+      [name]: parseInt(value),
+      userChangeError: false,
+    })
   }
 
   const handleExistingUsersBlur = (event) => {
@@ -59,7 +67,11 @@ const SubscriptionConfigurator = ({
         Math.max(parseInt(event.target.value), productData.minUsers),
         productData.maxUsers
       )
-      setFormData({ ...formData, [name]: existingUsers })
+      setFormData({
+        ...formData,
+        [name]: existingUsers,
+        userChangeError: false,
+      })
     }
   }
 
@@ -74,7 +86,7 @@ const SubscriptionConfigurator = ({
     } else {
       userChange = parseInt(value)
     }
-    setFormData({ ...formData, [name]: userChange })
+    setFormData({ ...formData, [name]: userChange, userChangeError: false })
   }
 
   const handleUserChangeBlur = (event) => {
@@ -85,12 +97,19 @@ const SubscriptionConfigurator = ({
         [name]: formData.type == 'add' ? productData.minUserChange : 0,
       })
     } else {
-      const userChange = calculateUserChange(parseInt(event.target.value))
-      setFormData({ ...formData, [name]: userChange })
+      const { userChange, userChangeError } = calculateUserChange(
+        parseInt(event.target.value)
+      )
+      setFormData({
+        ...formData,
+        [name]: userChange,
+        userChangeError: userChangeError,
+      })
     }
   }
 
   const calculateUserChange = (value) => {
+    let userChangeError = false
     // Parse the user input as an integer.
     let userChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
 
@@ -100,9 +119,16 @@ const SubscriptionConfigurator = ({
         ? productData.minUsers
         : productData.minUsers - formData.existingUsers
     const maxUserChange = productData.maxUsers - formData.existingUsers
-
+    const userChangeBeforeClamp = value
     // Clamp the userChange value to be between minUserChange and maxUserChange.
     userChange = Math.min(Math.max(userChange, minUserChange), maxUserChange)
+    if (userChange !== userChangeBeforeClamp) {
+      if (userChange === minUserChange) {
+        userChangeError = `Minimum Allowed Value: ${minUserChange}`
+      } else if (userChange == maxUserChange) {
+        userChangeError = `Maximum Allowed Value ${maxUserChange}`
+      }
+    }
 
     // Calculate the remainder of userChange when divided by productData.minUsers.
     const remainder = userChange % productData.minUsers
@@ -111,12 +137,14 @@ const SubscriptionConfigurator = ({
     // Positive remainder means positive number (adding users), negative remainder is removing users.
     if (remainder > 0) {
       userChange += productData.minUsers - remainder
+      userChangeError = `Minimum Change: ${productData.minUsers}`
     } else if (remainder < 0) {
       userChange -= remainder
+      userChangeError = `Minimum Change: ${productData.minUsers}`
     }
 
     // Return the final userChange value.
-    return userChange
+    return { userChange: userChange, userChangeError: userChangeError }
   }
 
   const canShowAddOption =
@@ -219,6 +247,9 @@ const SubscriptionConfigurator = ({
             {' '}
             Users to Renew: {formData.existingUsers + formData.userChange}
           </span>
+        )}
+        {formData.userChangeError !== false && (
+          <span className='formError'> {formData.userChangeError}</span>
         )}
         <br />
         {yearsLabel}
