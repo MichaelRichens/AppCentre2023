@@ -10,7 +10,8 @@ import SubscriptionConfigurator from './SubscriptionConfigurator'
  * @param {JSX.Element} props.productIntro - A short intro to the product to be displayed at the top of the page, before the product configurator. HTML allowed, and should be included (will render inside a &lt;section&gt;).
  * @param {string} props.productFamily - The product family identifier.
  * @param {Object} props.productData - Products data from the database - pricing, skus etc.
- * @param {React.ReactNode} props.children - The child components to render within the page.
+ * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
+ * @param {React.ReactNode} props.children - The child components to render within the page.*
  * @returns {JSX.Element} The ProductPage component.
  */
 const SubscriptionPage = ({
@@ -18,6 +19,7 @@ const SubscriptionPage = ({
   productIntro,
   productFamily,
   productData,
+  unitName,
   children,
 }) => {
   return (
@@ -29,6 +31,7 @@ const SubscriptionPage = ({
             productName={productName}
             productFamily={productFamily}
             productData={productData}
+            unitName={unitName}
           />
         </section>
         {children}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from './contexts/ConfiguratorContext'
+import Word from '../utils/types/word'
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
 
@@ -13,6 +14,7 @@ import configuratorStyles from '../styles/Configurator.shared.module.css'
  * @param {string} props.productName - The name of the product to be configured.
  * @param {string} props.productFamily - The identifier for the product family.
  * @param {Object} props.productData - Products data from the database - pricing, skus etc.
+ * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
  * @returns {JSX.Element} The rendered component.
  */
 
@@ -20,6 +22,7 @@ const SubscriptionConfigurator = ({
   productName,
   productFamily,
   productData,
+  unitName,
 }) => {
   const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
   const savedData = configuratorData[productFamily] || {
@@ -178,10 +181,10 @@ const SubscriptionConfigurator = ({
 
   const userChangeLabel =
     formData.type == 'new'
-      ? 'Number of Users'
+      ? `Number of ${unitName.pluralC}`
       : formData.type === 'add'
-      ? 'Users to Add'
-      : 'Adjust Number of Users By:'
+      ? `${unitName.pluralC} to Add`
+      : `Adjust Number of ${unitName.pluralC} By:`
 
   const yearsInput =
     productData.minYears !== productData.maxYears ? (
@@ -224,19 +227,19 @@ const SubscriptionConfigurator = ({
     let str = ''
     switch (formData.type) {
       case 'sub':
-        str += `Renewing with ${
-          formData.existingUsers + formData.userChange
-        } users`
+        str += `Renewing with ${formData.existingUsers + formData.userChange} ${
+          unitName.pluralLC
+        }`
         str += ` for ${formData.years} Year${formData.years != 1 ? 's' : ''}`
         break
       case 'new':
-        str += `With ${formData.userChange} users`
+        str += `With ${formData.userChange} ${unitName.pluralLC}`
         str += ` for ${formData.years} Year${formData.years != 1 ? 's' : ''}`
         break
       case 'add':
         str += `Bringing the total to ${
           formData.existingUsers + formData.userChange
-        } users`
+        } ${unitName.pluralLC}`
         break
     }
     return str + ` - ${formattedPrice} + vat`
@@ -250,7 +253,7 @@ const SubscriptionConfigurator = ({
           <option value='sub'>Existing Subscription Renewal</option>
           <option value='new'>New Subscription</option>
           {canShowAddOption && (
-            <option value='add'>Add Users To Subscription</option>
+            <option value='add'>Add {unitName.pluralC} To Subscription</option>
           )}
         </select>
       </label>
@@ -259,7 +262,7 @@ const SubscriptionConfigurator = ({
       {formData.type !== 'new' && (
         <>
           <label>
-            Current Users on Subscription:
+            Current {unitName.pluralC} on Subscription:
             <input
               type='text'
               name='existingUsers'

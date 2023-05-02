@@ -1,7 +1,6 @@
 import React from 'react'
-
 import SubscriptionPage from '../components/SubscriptionPage'
-
+import Word from '../utils/types/word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
@@ -22,7 +21,8 @@ const Connect = (props) => {
       productName='Kerio Control'
       productIntro={<p>Kerio Control is etc.</p>}
       productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL}
-      productData={productData}></SubscriptionPage>
+      productData={productData}
+      unitName={new Word('user', 'users')}></SubscriptionPage>
   )
 }
 
