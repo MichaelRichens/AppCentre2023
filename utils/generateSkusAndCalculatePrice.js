@@ -1,11 +1,16 @@
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
- * @param {Array} products- The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
+ * @param {Array} products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
+ * @param {Array} extensions - The individual extensions skus data to calculate price from.
  * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
  * @returns {Object} An object with the calculated price in the `price` field, and a `skus` field that contains an object that has a field for each sku with the value being the quantity of that sku.
  */
-function generateSkusAndCalculatePrice(products, configuratorOptions) {
+function generateSkusAndCalculatePrice(
+  products,
+  extensions,
+  configuratorOptions
+) {
   /**
    * @var Number - Represents the total number of users on the subscription, including existing users and any being added.
    * This value is used for determining the price band based on the subscription type.
@@ -59,8 +64,38 @@ function generateSkusAndCalculatePrice(products, configuratorOptions) {
 
   if (!foundProductSku) {
     // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
-    throw new Error('Unable to find correct product sku.')
+    // Look for things like a bad figure in users_from, users_to or years - we don't exhaustively check for problems when importing this data
+    throw new Error(
+      'Unable to find correct product sku, unable to proceed.  This probably indicates an error in the database.'
+    )
   }
+
+  const filteredExtensions = extensions.filter((extension) => {
+    return (
+      extension.years === configuratorOptions.years &&
+      configuratorOptions.checkedExtensions.some((key) => key === extension.key)
+    )
+  })
+
+  // checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
+  const uniqueExtensions = Array.from(
+    new Set(filteredExtensions.map((extension) => extension.key))
+  ).map((key) => filteredExtensions.find((extension) => extension.key === key))
+
+  if (
+    uniqueExtensions.length !== configuratorOptions.checkedExtensions.length
+  ) {
+    // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
+    // Look for things like a bad figure in years - we don't exhaustively check for problems when importing this data
+    throw new Error(
+      'Extension mismatch, unable to proceed.  This probably indicates an error in the database.'
+    )
+  }
+
+  uniqueExtensions.forEach((extension) => {
+    skus[extension.sku] = numUsersToPurchase
+    price += extension.price * numUsersToPurchase
+  })
 
   return {
     price: price,

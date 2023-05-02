@@ -204,7 +204,7 @@ const SubscriptionConfigurator = ({
     // Return the final userChange value.
     return { userChange: userChange, userChangeError: userChangeError }
   }
-  console.log(formData)
+
   const handleExtensionCheckboxChange = (event) => {
     const { value, checked } = event.target
     let newCheckedExtensions = [...formData.checkedExtensions]
@@ -222,6 +222,7 @@ const SubscriptionConfigurator = ({
 
   const { price } = generateSkusAndCalculatePrice(
     productData.products,
+    productData.extensions,
     savedData
   )
 
