@@ -104,10 +104,8 @@ const SubscriptionConfigurator = ({
   const handleExistingUsersChange = (event) => {
     const { value } = event.target
     if (isNaN(value)) {
-      console.log(1)
       return
     }
-    console.log(2)
     updateFormData({
       existingUsers: value == '' ? '' : parseInt(value),
     })
