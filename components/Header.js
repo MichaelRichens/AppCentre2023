@@ -17,6 +17,9 @@ const Header = () => {
           <li>
             <NavLink href='/kerio-connect'>Kerio Connect</NavLink>
           </li>
+          <li>
+            <NavLink href='/kerio-control'>Kerio Control</NavLink>
+          </li>
         </ul>
       </nav>
     </header>

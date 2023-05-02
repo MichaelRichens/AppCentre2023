@@ -5,7 +5,6 @@ async function fetchProducts(productFamily) {
     const client = await connectToDatabase()
     const db = client.db(process.env.DB_NAME)
     const productsCollection = db.collection('products')
-
     const query = productFamily ? { product_family: productFamily } : {}
     const products = await productsCollection.find(query).toArray()
 
@@ -73,8 +72,8 @@ const processProducts = (products) => {
   return productData
 }
 
-const fetchAndProcessProducts = async () => {
-  const products = await fetchProducts()
+const fetchAndProcessProducts = async (productFamily) => {
+  const products = await fetchProducts(productFamily)
   return processProducts(products)
 }
 
