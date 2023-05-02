@@ -230,11 +230,11 @@ const SubscriptionConfigurator = ({
         str += `Renewing with ${formData.existingUsers + formData.userChange} ${
           unitName.pluralLC
         }`
-        str += ` for ${formData.years} Year${formData.years != 1 ? 's' : ''}`
+        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
         break
       case 'new':
         str += `With ${formData.userChange} ${unitName.pluralLC}`
-        str += ` for ${formData.years} Year${formData.years != 1 ? 's' : ''}`
+        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
         break
       case 'add':
         str += `Bringing the total to ${
