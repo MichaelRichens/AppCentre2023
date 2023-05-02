@@ -42,7 +42,7 @@ const SubscriptionConfigurator = ({
     formData.userChangeError = false
   }
 
-  const haveAnyExtensions = productData.extensionNames.length > 0
+  const haveAnyExtensions = productData.availableExtensions.length > 0
 
   const handleInputChange = (event) => {
     const { name, value } = event.target

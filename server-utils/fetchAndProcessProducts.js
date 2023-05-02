@@ -56,7 +56,14 @@ const processProducts = (products, extensions) => {
     return a.units_from - b.units_from
   })
 
-  const sortedExtensions = extensions.sort((a, b) => {
+  const extensionsWithKey = extensions.map((extension) => {
+    return {
+      ...extension,
+      key: extension.name.replace(/\s+/g, ''),
+    }
+  })
+
+  const sortedExtensions = extensionsWithKey.sort((a, b) => {
     if (a.product_family !== b.product_family) {
       return a.product_family.localeCompare(b.product_family)
     }
@@ -68,19 +75,24 @@ const processProducts = (products, extensions) => {
     }
   })
 
-  const extensionNames = sortedExtensions.reduce((accumulator, current) => {
-    if (!accumulator.includes(current.name)) {
-      accumulator.push(current.name)
+  const uniqueExtensions = sortedExtensions.reduce((acc, extension) => {
+    if (!acc[extension.key]) {
+      acc[extension.key] = {
+        key: extension.key,
+        name: extension.name,
+      }
     }
-    return accumulator
-  }, [])
+    return acc
+  }, {})
 
-  console.log(extensionNames)
+  const uniqueExtensionsArray = Object.values(uniqueExtensions)
+
+  console.log(uniqueExtensionsArray)
 
   const productData = {
     products: sortedProducts,
     extensions: sortedExtensions,
-    extensionNames: extensionNames,
+    availableExtensions: uniqueExtensionsArray,
   }
 
   if (productData.products.length === 0) {
