@@ -54,7 +54,7 @@ const SubscriptionConfigurator = ({
   }
 
   const handleTypeChange = (event) => {
-    const { name, value } = event.target
+    const { value } = event.target
     let userChange = formData.userChange
     if (
       (value === 'new' || value === 'add') &&
@@ -69,14 +69,14 @@ const SubscriptionConfigurator = ({
     }
     setFormData({
       ...formData,
-      [name]: value,
+      type: value,
       userChange: userChange,
       userChangeError: false,
     })
   }
 
   const handleExistingUsersChange = (event) => {
-    const { name, value } = event.target
+    const { value } = event.target
     if (isNaN(value)) {
       console.log(1)
       return
@@ -84,13 +84,13 @@ const SubscriptionConfigurator = ({
     console.log(2)
     setFormData({
       ...formData,
-      [name]: value == '' ? '' : parseInt(value),
+      existingUsers: value == '' ? '' : parseInt(value),
       userChangeError: false,
     })
   }
 
   const handleExistingUsersBlur = (event) => {
-    const { name, value } = event.target
+    const { value } = event.target
     if (isNaN(value) || value == '') {
       setFormData({ ...formData, [name]: productData.minUsers })
       return
@@ -101,14 +101,14 @@ const SubscriptionConfigurator = ({
       )
       setFormData({
         ...formData,
-        [name]: existingUsers,
+        existingUsers: existingUsers,
         userChangeError: false,
       })
     }
   }
 
   const handleUserChangeChange = (event) => {
-    const { name, value } = event.target
+    const { value } = event.target
     if (isNaN(value) && (formData.type != 'sub' || value != '-')) {
       return
     }
@@ -118,15 +118,15 @@ const SubscriptionConfigurator = ({
     } else {
       userChange = parseInt(value)
     }
-    setFormData({ ...formData, [name]: userChange, userChangeError: false })
+    setFormData({ ...formData, userChange: userChange, userChangeError: false })
   }
 
   const handleUserChangeBlur = (event) => {
-    const { name, value } = event.target
+    const { value } = event.target
     if (isNaN(value)) {
       setFormData({
         ...formData,
-        [name]: formData.type == 'add' ? productData.minUserChange : 0,
+        userChange: formData.type == 'add' ? productData.minUserChange : 0,
       })
     } else {
       const { userChange, userChangeError } = calculateUserChange(
@@ -134,7 +134,7 @@ const SubscriptionConfigurator = ({
       )
       setFormData({
         ...formData,
-        [name]: userChange,
+        userChange: userChange,
         userChangeError: userChangeError,
       })
     }
