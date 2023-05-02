@@ -87,8 +87,6 @@ const processProducts = (products, extensions) => {
 
   const uniqueExtensionsArray = Object.values(uniqueExtensions)
 
-  console.log(uniqueExtensionsArray)
-
   const productData = {
     products: sortedProducts,
     extensions: sortedExtensions,
