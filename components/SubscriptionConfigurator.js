@@ -220,19 +220,6 @@ const SubscriptionConfigurator = ({
   const canShowAddOption =
     productData.maxUsers - productData.minUsers > formData.existingUsers
 
-  const typeChangeSelect = (
-    <label>
-      Type:
-      <select name='type' value={formData.type} onChange={handleTypeChange}>
-        <option value='sub'>Existing Subscription Renewal</option>
-        <option value='new'>New Subscription</option>
-        {canShowAddOption && (
-          <option value='add'>Add {unitName.pluralC} To Subscription</option>
-        )}
-      </select>
-    </label>
-  )
-
   const currentSummary = (() => {
     let str = ''
     switch (formData.type) {
@@ -243,11 +230,13 @@ const SubscriptionConfigurator = ({
         str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
         break
       case 'new':
-        str += `With ${formData.userChange} ${unitName.pluralLC}`
+        str += `Purchasing ${productName} with ${formData.userChange} ${unitName.pluralLC}`
         str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
         break
       case 'add':
-        str += `Bringing the total to ${
+        str += `Purchasing ${formData.userChange} additional ${
+          unitName.pluralLC
+        }, bringing the total to ${
           formData.existingUsers + formData.userChange
         } ${unitName.pluralLC}`
         break
@@ -255,31 +244,44 @@ const SubscriptionConfigurator = ({
     return <span>{str + ` - ${formattedPrice} + vat`}</span>
   })()
 
+  const typeChangeSelect = (
+    <fieldset>
+      <legend>Type of Purchase</legend>
+      <select name='type' value={formData.type} onChange={handleTypeChange}>
+        <option value='sub'>Existing Subscription Renewal</option>
+        <option value='new'>New Subscription</option>
+        {canShowAddOption && (
+          <option value='add'>Add {unitName.pluralC} To Subscription</option>
+        )}
+      </select>
+    </fieldset>
+  )
+
   const existingUsersInput = (
-    <>
-      <label>
-        Current {unitName.pluralC} on Subscription:
-        <input
-          type='text'
-          name='existingUsers'
-          className={configuratorStyles.userQty}
-          value={formData.existingUsers}
-          min={productData.minUsers}
-          max={productData.maxUsers}
-          onChange={handleExistingUsersChange}
-          onBlur={handleExistingUsersBlur}
-        />
-      </label>
-    </>
+    <fieldset>
+      <legend>Current {unitName.pluralC} on Subscription</legend>
+      <input
+        type='text'
+        name='existingUsers'
+        className={configuratorStyles.userQty}
+        value={formData.existingUsers}
+        min={productData.minUsers}
+        max={productData.maxUsers}
+        onChange={handleExistingUsersChange}
+        onBlur={handleExistingUsersBlur}
+      />
+    </fieldset>
   )
 
   const userChangeInput = (
-    <label>
-      {formData.type == 'new'
-        ? `Number of ${unitName.pluralC}`
-        : formData.type === 'add'
-        ? `${unitName.pluralC} to Add`
-        : `Adjust Number of ${unitName.pluralC} By:`}
+    <fieldset>
+      <legend>
+        {formData.type == 'new'
+          ? `Number of ${unitName.pluralC}`
+          : formData.type === 'add'
+          ? `${unitName.pluralC} to Add`
+          : `Adjust Number of ${unitName.pluralC} By`}
+      </legend>
       <input
         type='text'
         name='userChange'
@@ -294,16 +296,32 @@ const SubscriptionConfigurator = ({
         onChange={handleUserChangeChange}
         onBlur={handleUserChangeBlur}
       />
-    </label>
+    </fieldset>
   )
 
-  const extensionCheckboxes = <>Extensions</>
+  const extensionCheckboxes = (
+    <fieldset className={configuratorStyles.checkbox}>
+      <legend>Select Extensions</legend>
+      {productData.availableExtensions.map((extension) => (
+        <label key={extension.key} className={configuratorStyles.checkbox}>
+          <input
+            type='checkbox'
+            name='extensions'
+            value={extension.key}
+            id={`extension-${extension.key}`}
+          />
+          {extension.name}
+        </label>
+      ))}
+    </fieldset>
+  )
 
   const yearsSelect =
     productData.minYears !== productData.maxYears ? (
-      <label>
-        {formData.type == 'add' && 'Remaining '}Subscription Length
-        {formData.type == 'add' ? ' <=' : ':'}
+      <fieldset>
+        <legend>
+          {formData.type == 'add' && 'Remaining '}Subscription Length
+        </legend>
         <select
           name='years'
           value={formData.years}
@@ -319,7 +337,7 @@ const SubscriptionConfigurator = ({
             }
           )}
         </select>
-      </label>
+      </fieldset>
     ) : (
       `Subscription Length ${productData.minYears} ${
         productData.minYears > 1 ? 'Years' : 'Year'
@@ -328,8 +346,8 @@ const SubscriptionConfigurator = ({
 
   return (
     <form className={configuratorStyles.configurator}>
-      {typeChangeSelect}
       {currentSummary}
+      {typeChangeSelect}
       <br />
       {formData.type !== 'new' && (
         <>

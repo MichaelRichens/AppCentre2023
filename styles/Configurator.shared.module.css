@@ -4,9 +4,18 @@
   margin-right: 1em;
 }
 
-.configurator input.userQty {
+input.userQty {
   width: calc(5ch);
   text-align: right;
+}
+
+.checkbox label {
+  margin-right: 1em;
+}
+
+.checkbox input[type='checkbox'] {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
 .configurator .formError {
