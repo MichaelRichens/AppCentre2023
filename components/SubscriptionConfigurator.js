@@ -156,10 +156,11 @@ const SubscriptionConfigurator = ({
       ? 'Users to Add'
       : 'Adjust Number of Users By:'
 
-  const yearsLabel =
+  const yearsInput =
     productData.minYears !== productData.maxYears ? (
       <label>
-        Subscription Length in Years:
+        {formData.type == 'add' && 'Remaining '}Subscription Length
+        {formData.type == 'add' ? ' <=' : ':'}
         <select
           name='years'
           value={formData.years}
@@ -169,7 +170,7 @@ const SubscriptionConfigurator = ({
               const year = productData.minYears + i
               return (
                 <option key={year} value={year}>
-                  {year}
+                  {year} Year{year != 1 && 's'}
                 </option>
               )
             }
@@ -193,86 +194,86 @@ const SubscriptionConfigurator = ({
   }).format(price)
 
   return (
-    <>
-      <form className={configuratorStyles.configurator}>
-        <label>
-          Type:
-          <select
-            name='type'
-            value={formData.type}
-            onChange={handleInputChange}>
-            <option value='sub'>Existing Subscription Renewal</option>
-            <option value='new'>New Subscription</option>
-            {canShowAddOption && (
-              <option value='add'>Add Users To Subscription</option>
-            )}
-          </select>
-        </label>
-        <span>
-          {(() => {
-            let str = ''
-            switch (formData.type) {
-              case 'sub':
-                str += `Renewing with ${
-                  formData.existingUsers + formData.userChange
-                } users`
-                break
-              case 'new':
-                str += `With ${formData.userChange} users`
-                break
-              case 'add':
-                str += `Bringing the total to ${
-                  formData.existingUsers + formData.userChange
-                } users`
-                break
-            }
-            return str + ` for ${formattedPrice} + vat`
-          })()}
+    <form className={configuratorStyles.configurator}>
+      <label>
+        Type:
+        <select name='type' value={formData.type} onChange={handleInputChange}>
+          <option value='sub'>Existing Subscription Renewal</option>
+          <option value='new'>New Subscription</option>
+          {canShowAddOption && (
+            <option value='add'>Add Users To Subscription</option>
+          )}
+        </select>
+      </label>
+      <span>
+        {(() => {
+          let str = ''
+          switch (formData.type) {
+            case 'sub':
+              str += `Renewing with ${
+                formData.existingUsers + formData.userChange
+              } users`
+              str += ` for ${formData.years} Year${
+                formData.years != 1 ? 's' : ''
+              }`
+              break
+            case 'new':
+              str += `With ${formData.userChange} users`
+              str += ` for ${formData.years} Year${
+                formData.years != 1 ? 's' : ''
+              }`
+              break
+            case 'add':
+              str += `Bringing the total to ${
+                formData.existingUsers + formData.userChange
+              } users`
+              break
+          }
+          return str + ` - ${formattedPrice} + vat`
+        })()}
+      </span>
+      <br />
+      {formData.type !== 'new' && (
+        <>
+          <label>
+            Current Users on Subscription:
+            <input
+              type='text'
+              name='existingUsers'
+              value={formData.existingUsers}
+              min={productData.minUsers}
+              max={productData.maxUsers}
+              onChange={handleExistingUsersChange}
+              onBlur={handleExistingUsersBlur}
+            />
+          </label>
+          <br />
+        </>
+      )}
+      <label>
+        {userChangeLabel}
+        <input
+          type='text'
+          name='userChange'
+          value={formData.userChange}
+          min={
+            formData.type === 'sub'
+              ? productData.minUsers - formData.existingUsers
+              : productData.minUsers
+          }
+          max={productData.maxUsers - formData.existingUsers}
+          onChange={handleUserChangeChange}
+          onBlur={handleUserChangeBlur}
+        />
+      </label>
+      {formData.userChangeError !== false && (
+        <span className={configuratorStyles.formError}>
+          {formData.userChangeError}
         </span>
-        <br />
-        {formData.type !== 'new' && (
-          <>
-            <label>
-              Current Users on Subscription:
-              <input
-                type='text'
-                name='existingUsers'
-                value={formData.existingUsers}
-                min={productData.minUsers}
-                max={productData.maxUsers}
-                onChange={handleExistingUsersChange}
-                onBlur={handleExistingUsersBlur}
-              />
-            </label>
-            <br />
-          </>
-        )}
-        <label>
-          {userChangeLabel}
-          <input
-            type='text'
-            name='userChange'
-            value={formData.userChange}
-            min={
-              formData.type === 'sub'
-                ? productData.minUsers - formData.existingUsers
-                : productData.minUsers
-            }
-            max={productData.maxUsers - formData.existingUsers}
-            onChange={handleUserChangeChange}
-            onBlur={handleUserChangeBlur}
-          />
-        </label>
-        {formData.userChangeError !== false && (
-          <span className={configuratorStyles.formError}>
-            {formData.userChangeError}
-          </span>
-        )}
-        <br />
-        {yearsLabel}
-      </form>
-      <div>Price: {formattedPrice}</div>
-    </>
+      )}
+      <br />
+      {yearsInput}
+    </form>
   )
 }
 
