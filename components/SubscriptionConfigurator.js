@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from './contexts/ConfiguratorContext'
+import TypeChangeSelect from './configurator/TypeChangeSelect'
 import Word from '../utils/types/word'
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
@@ -257,23 +258,6 @@ const SubscriptionConfigurator = ({
     return <p>{str + ` - ${formattedPrice} + vat`}</p>
   })()
 
-  const typeChangeSelect = (
-    <fieldset>
-      <legend>Type of Purchase</legend>
-      <select
-        name='type'
-        value={formData.type}
-        onChange={handleTypeChange}
-        aria-label='Type of Purchase'>
-        <option value='sub'>Existing Subscription Renewal</option>
-        <option value='new'>New Subscription</option>
-        {canShowAddOption && (
-          <option value='add'>{`Add ${unitName.pluralC} To Subscription`}</option>
-        )}
-      </select>
-    </fieldset>
-  )
-
   const existingUsersInputLegend = `Current ${unitName.pluralC} on Subscription`
 
   const existingUsersInput = (
@@ -384,7 +368,15 @@ const SubscriptionConfigurator = ({
   return (
     <form className={configuratorStyles.configurator}>
       {currentSummary}
-      {typeChangeSelect}
+      <TypeChangeSelect
+        type={formData.type}
+        addOption={
+          productData.maxUsers - productData.minUsers > formData.existingUsers
+            ? `Add ${unitName.pluralC} To Subscription`
+            : false
+        }
+        onTypeChange={handleTypeChange}
+      />
       {formData.type !== 'new' && <>{existingUsersInput}</>}
       {userChangeInput}
       {haveAnyExtensions && <>{extensionCheckboxes}</>}
