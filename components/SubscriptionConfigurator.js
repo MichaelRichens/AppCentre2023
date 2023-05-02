@@ -34,10 +34,6 @@ const SubscriptionConfigurator = ({
 
   const [formData, setFormData] = useState(savedData)
 
-  useEffect(() => {
-    saveConfiguratorData(productFamily, formData)
-  }, [formData])
-
   if (formData.userChangeError === undefined) {
     formData.userChangeError = false
   }
@@ -45,15 +41,43 @@ const SubscriptionConfigurator = ({
     formData.existingUsersError = false
   }
 
+  /**
+   * Applies any fields in the passed object as changes to the formData object
+   * Leaves other fields as they current are set.
+   * Except: It automatically sets error fields to `false` if they are not explicitly
+   * provided in the newData object.
+   *
+   * @param {Object} newData - An object containing the new form data
+   *      properties to be merged with the current formData state.
+   */
+
+  const updateFormData = (newData) => {
+    const errorFields = ['existingUsersError', 'userChangeError']
+
+    const updatedData = {
+      ...formData,
+      ...newData,
+    }
+
+    errorFields.forEach((field) => {
+      if (!newData.hasOwnProperty(field)) {
+        updatedData[field] = false
+      }
+    })
+
+    setFormData(updatedData)
+  }
+
+  useEffect(() => {
+    saveConfiguratorData(productFamily, formData)
+  }, [formData])
+
   const haveAnyExtensions = productData.availableExtensions.length > 0
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    setFormData({
-      ...formData,
+    updateFormData({
       [name]: value,
-      existingUsersError: false,
-      userChangeError: false,
     })
   }
 
@@ -71,12 +95,9 @@ const SubscriptionConfigurator = ({
     ) {
       userChange = 0
     }
-    setFormData({
-      ...formData,
+    updateFormData({
       type: value,
       userChange: userChange,
-      existingUsersError: false,
-      userChangeError: false,
     })
   }
 
@@ -87,11 +108,8 @@ const SubscriptionConfigurator = ({
       return
     }
     console.log(2)
-    setFormData({
-      ...formData,
+    updateFormData({
       existingUsers: value == '' ? '' : parseInt(value),
-      existingUsersError: false,
-      userChangeError: false,
     })
   }
 
@@ -99,11 +117,8 @@ const SubscriptionConfigurator = ({
     const { value } = event.target
     let existingUsersError = false
     if (isNaN(value) || value == '') {
-      setFormData({
-        ...formData,
+      updateFormData({
         existingUsers: productData.minUsers,
-        existingUsersError: false,
-        userChangeError: false,
       })
       return
     } else {
@@ -118,11 +133,9 @@ const SubscriptionConfigurator = ({
           existingUsersError = `Must be renewed in blocks of ${productData.minUsers}.`
         }
       }
-      setFormData({
-        ...formData,
+      updateFormData({
         existingUsers: existingUsers,
         existingUsersError: existingUsersError,
-        userChangeError: false,
       })
     }
   }
@@ -138,27 +151,22 @@ const SubscriptionConfigurator = ({
     } else {
       userChange = parseInt(value)
     }
-    setFormData({
-      ...formData,
+    updateFormData({
       userChange: userChange,
-      existingUsersError: false,
-      userChangeError: false,
     })
   }
 
   const handleUserChangeBlur = (event) => {
     const { value } = event.target
     if (isNaN(value)) {
-      setFormData({
-        ...formData,
+      updateFormData({
         userChange: formData.type == 'add' ? productData.minUserChange : 0,
       })
     } else {
       const { userChange, userChangeError } = calculateUserChange(
         parseInt(event.target.value)
       )
-      setFormData({
-        ...formData,
+      updateFormData({
         userChange: userChange,
         userChangeError: userChangeError,
       })
