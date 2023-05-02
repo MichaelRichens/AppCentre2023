@@ -111,14 +111,13 @@ const SubscriptionConfigurator = ({
     let userChangeError = false
     // Parse the user input as an integer.
     let userChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
-
     // Calculate the minimum and maximum user change values based on the type of subscription.
     const minUserChange =
       formData.type === 'new' || formData.type === 'add'
         ? productData.minUsers
         : productData.minUsers - formData.existingUsers
     const maxUserChange = productData.maxUsers - formData.existingUsers
-    const userChangeBeforeClamp = value
+    const userChangeBeforeClamp = userChange
     // Clamp the userChange value to be between minUserChange and maxUserChange.
     userChange = Math.min(Math.max(userChange, minUserChange), maxUserChange)
     if (userChange !== userChangeBeforeClamp) {
