@@ -165,7 +165,7 @@ const SubscriptionConfigurator = ({
     currency: 'GBP',
   }).format(price)
   return (
-    <section>
+    <>
       <form>
         <label>
           Type:
@@ -224,7 +224,7 @@ const SubscriptionConfigurator = ({
         {yearsLabel}
       </form>
       <div>Price: {formattedPrice}</div>
-    </section>
+    </>
   )
 }
 

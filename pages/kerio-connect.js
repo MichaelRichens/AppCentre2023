@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ProductPage from '../components/ProductPage'
+import SubscriptionPage from '../components/SubscriptionPage'
 
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -18,11 +18,11 @@ export async function getStaticProps() {
 const Connect = (props) => {
   const { productData } = props
   return (
-    <ProductPage
+    <SubscriptionPage
       productName='Kerio Connect'
       productIntro={<p>Kerio Connect is etc.</p>}
       productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT}
-      productData={productData}></ProductPage>
+      productData={productData}></SubscriptionPage>
   )
 }
 

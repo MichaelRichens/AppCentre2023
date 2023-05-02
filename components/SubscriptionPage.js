@@ -13,7 +13,7 @@ import SubscriptionConfigurator from './SubscriptionConfigurator'
  * @param {React.ReactNode} props.children - The child components to render within the page.
  * @returns {JSX.Element} The ProductPage component.
  */
-const ProductPage = ({
+const SubscriptionPage = ({
   productName,
   productIntro,
   productFamily,
@@ -24,15 +24,17 @@ const ProductPage = ({
     <Page title={productName}>
       <>
         <section>{productIntro}</section>
-        <SubscriptionConfigurator
-          productName={productName}
-          productFamily={productFamily}
-          productData={productData}
-        />
+        <section>
+          <SubscriptionConfigurator
+            productName={productName}
+            productFamily={productFamily}
+            productData={productData}
+          />
+        </section>
         {children}
       </>
     </Page>
   )
 }
 
-export default ProductPage
+export default SubscriptionPage
