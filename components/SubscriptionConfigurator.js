@@ -27,19 +27,15 @@ const SubscriptionConfigurator = ({
   const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
   const savedData = configuratorData[productFamily] || {
     type: 'sub',
-    userChange: 0,
-    years: productData.minYears,
     existingUsers: productData.minUsers,
+    userChange: 0,
+    checkedExtensions: [],
+    years: productData.minYears,
+    userChangeError: false,
+    existingUsersError: false,
   }
 
   const [formData, setFormData] = useState(savedData)
-
-  if (formData.userChangeError === undefined) {
-    formData.userChangeError = false
-  }
-  if (formData.existingUsersError === undefined) {
-    formData.existingUsersError = false
-  }
 
   /**
    * Applies any fields in the passed object as changes to the formData object
@@ -208,6 +204,22 @@ const SubscriptionConfigurator = ({
     // Return the final userChange value.
     return { userChange: userChange, userChangeError: userChangeError }
   }
+  console.log(formData)
+  const handleExtensionCheckboxChange = (event) => {
+    const { value, checked } = event.target
+    let newCheckedExtensions = [...formData.checkedExtensions]
+
+    if (checked) {
+      newCheckedExtensions.push(value)
+    } else {
+      newCheckedExtensions = newCheckedExtensions.filter(
+        (extensionKey) => extensionKey !== value
+      )
+    }
+
+    updateFormData({ checkedExtensions: newCheckedExtensions })
+  }
+
   const { price } = generateSkusAndCalculatePrice(
     productData.products,
     savedData
@@ -330,6 +342,8 @@ const SubscriptionConfigurator = ({
             name='extensions'
             value={extension.key}
             id={`extension-${extension.key}`}
+            checked={formData.checkedExtensions.includes(extension.key)}
+            onChange={handleExtensionCheckboxChange}
           />
           {extension.name}
         </label>
