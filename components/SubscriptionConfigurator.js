@@ -241,27 +241,34 @@ const SubscriptionConfigurator = ({
         } ${unitName.pluralLC}`
         break
     }
-    return <span>{str + ` - ${formattedPrice} + vat`}</span>
+    return <p>{str + ` - ${formattedPrice} + vat`}</p>
   })()
 
   const typeChangeSelect = (
     <fieldset>
       <legend>Type of Purchase</legend>
-      <select name='type' value={formData.type} onChange={handleTypeChange}>
+      <select
+        name='type'
+        value={formData.type}
+        onChange={handleTypeChange}
+        aria-label='Type of Purchase'>
         <option value='sub'>Existing Subscription Renewal</option>
         <option value='new'>New Subscription</option>
         {canShowAddOption && (
-          <option value='add'>Add {unitName.pluralC} To Subscription</option>
+          <option value='add'>{`Add ${unitName.pluralC} To Subscription`}</option>
         )}
       </select>
     </fieldset>
   )
 
+  const existingUsersInputLegend = `Current ${unitName.pluralC} on Subscription`
+
   const existingUsersInput = (
     <fieldset>
-      <legend>Current {unitName.pluralC} on Subscription</legend>
+      <legend>{existingUsersInputLegend}</legend>
       <input
-        type='text'
+        type='number'
+        step={productData.minUsers}
         name='existingUsers'
         className={configuratorStyles.userQty}
         value={formData.existingUsers}
@@ -269,21 +276,29 @@ const SubscriptionConfigurator = ({
         max={productData.maxUsers}
         onChange={handleExistingUsersChange}
         onBlur={handleExistingUsersBlur}
+        aria-label={existingUsersInputLegend}
       />
+      {formData.existingUsersError !== false && (
+        <span className={configuratorStyles.formError}>
+          {formData.existingUsersError}
+        </span>
+      )}
     </fieldset>
   )
 
+  const userChangeInputLegend =
+    formData.type == 'new'
+      ? `Number of ${unitName.pluralC}`
+      : formData.type === 'add'
+      ? `${unitName.pluralC} to Add`
+      : `Adjust Number of ${unitName.pluralC} By`
+
   const userChangeInput = (
     <fieldset>
-      <legend>
-        {formData.type == 'new'
-          ? `Number of ${unitName.pluralC}`
-          : formData.type === 'add'
-          ? `${unitName.pluralC} to Add`
-          : `Adjust Number of ${unitName.pluralC} By`}
-      </legend>
+      <legend>{userChangeInputLegend}</legend>
       <input
-        type='text'
+        type='number'
+        step={productData.minUsers}
         name='userChange'
         className={configuratorStyles.userQty}
         value={formData.userChange}
@@ -295,7 +310,13 @@ const SubscriptionConfigurator = ({
         max={productData.maxUsers - formData.existingUsers}
         onChange={handleUserChangeChange}
         onBlur={handleUserChangeBlur}
+        aria-label={userChangeInputLegend}
       />
+      {formData.userChangeError !== false && (
+        <span className={configuratorStyles.formError}>
+          {formData.userChangeError}
+        </span>
+      )}
     </fieldset>
   )
 
@@ -316,22 +337,25 @@ const SubscriptionConfigurator = ({
     </fieldset>
   )
 
+  const yearsSelectLegend = `${
+    formData.type == 'add' ? 'Remaining ' : ''
+  }Subscription Length`
+
   const yearsSelect =
     productData.minYears !== productData.maxYears ? (
       <fieldset>
-        <legend>
-          {formData.type == 'add' && 'Remaining '}Subscription Length
-        </legend>
+        <legend>{yearsSelectLegend}</legend>
         <select
           name='years'
           value={formData.years}
-          onChange={handleInputChange}>
+          onChange={handleInputChange}
+          aria-label={yearsSelectLegend}>
           {[...Array(productData.maxYears - productData.minYears + 1)].map(
             (_, i) => {
               const year = productData.minYears + i
               return (
                 <option key={year} value={year}>
-                  {year} Year{year != 1 && 's'}
+                  {`${year} Year${year != 1 ? 's' : ''}`}
                 </option>
               )
             }
@@ -348,31 +372,9 @@ const SubscriptionConfigurator = ({
     <form className={configuratorStyles.configurator}>
       {currentSummary}
       {typeChangeSelect}
-      <br />
-      {formData.type !== 'new' && (
-        <>
-          {existingUsersInput}
-          {formData.existingUsersError !== false && (
-            <span className={configuratorStyles.formError}>
-              {formData.existingUsersError}
-            </span>
-          )}
-          <br />
-        </>
-      )}
+      {formData.type !== 'new' && <>{existingUsersInput}</>}
       {userChangeInput}
-      {formData.userChangeError !== false && (
-        <span className={configuratorStyles.formError}>
-          {formData.userChangeError}
-        </span>
-      )}
-      <br />
-      {haveAnyExtensions && (
-        <>
-          {extensionCheckboxes}
-          <br />
-        </>
-      )}
+      {haveAnyExtensions && <>{extensionCheckboxes}</>}
       {yearsSelect}
     </form>
   )
