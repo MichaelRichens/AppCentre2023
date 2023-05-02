@@ -28,6 +28,7 @@ function generateSkusAndCalculatePrice(products, configuratorOptions) {
   )
 
   // We are relying on products (and therefore productsWithCorrectYear) being passed in already sorted by low to high user tiers.
+  let foundProductSku = false
   for (let i = productsWithCorrectYear.length - 1; i >= 0; i--) {
     const product = productsWithCorrectYear[i]
 
@@ -51,8 +52,13 @@ function generateSkusAndCalculatePrice(products, configuratorOptions) {
       )*/
       skus[product.sku] = numUsersToPurchase
       price += product.price * numUsersToPurchase
+      foundProductSku = true
       break
     }
+  }
+  if (!foundProductSku) {
+    // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
+    throw new Error('Unable to find correct product sku.')
   }
 
   return {
