@@ -5,7 +5,7 @@
 }
 
 .configurator input.userQty {
-  width: calc(4ch);
+  width: calc(5ch);
   text-align: right;
 }
 

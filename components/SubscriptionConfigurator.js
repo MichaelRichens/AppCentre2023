@@ -41,6 +41,9 @@ const SubscriptionConfigurator = ({
   if (formData.userChangeError === undefined) {
     formData.userChangeError = false
   }
+  if (formData.existingUsersError === undefined) {
+    formData.existingUsersError = false
+  }
 
   const haveAnyExtensions = productData.availableExtensions.length > 0
 
@@ -49,6 +52,7 @@ const SubscriptionConfigurator = ({
     setFormData({
       ...formData,
       [name]: value,
+      existingUsersError: false,
       userChangeError: false,
     })
   }
@@ -71,6 +75,7 @@ const SubscriptionConfigurator = ({
       ...formData,
       type: value,
       userChange: userChange,
+      existingUsersError: false,
       userChangeError: false,
     })
   }
@@ -85,23 +90,38 @@ const SubscriptionConfigurator = ({
     setFormData({
       ...formData,
       existingUsers: value == '' ? '' : parseInt(value),
+      existingUsersError: false,
       userChangeError: false,
     })
   }
 
   const handleExistingUsersBlur = (event) => {
     const { value } = event.target
+    let existingUsersError = false
     if (isNaN(value) || value == '') {
-      setFormData({ ...formData, [name]: productData.minUsers })
+      setFormData({
+        ...formData,
+        existingUsers: productData.minUsers,
+        existingUsersError: false,
+        userChangeError: false,
+      })
       return
     } else {
-      const existingUsers = Math.min(
-        Math.max(parseInt(event.target.value), productData.minUsers),
+      let existingUsers = Math.min(
+        Math.max(parseInt(event.target.value), 1),
         productData.maxUsers
       )
+      if (formData.type === 'sub') {
+        const remainder = existingUsers % productData.minUsers
+        if (remainder !== 0) {
+          existingUsers += productData.minUsers - remainder
+          existingUsersError = `Must be renewed in blocks of ${productData.minUsers}.`
+        }
+      }
       setFormData({
         ...formData,
         existingUsers: existingUsers,
+        existingUsersError: existingUsersError,
         userChangeError: false,
       })
     }
@@ -118,7 +138,12 @@ const SubscriptionConfigurator = ({
     } else {
       userChange = parseInt(value)
     }
-    setFormData({ ...formData, userChange: userChange, userChangeError: false })
+    setFormData({
+      ...formData,
+      userChange: userChange,
+      existingUsersError: false,
+      userChangeError: false,
+    })
   }
 
   const handleUserChangeBlur = (event) => {
@@ -303,6 +328,11 @@ const SubscriptionConfigurator = ({
       {formData.type !== 'new' && (
         <>
           {existingUsersInput}
+          {formData.existingUsersError !== false && (
+            <span className={configuratorStyles.formError}>
+              {formData.existingUsersError}
+            </span>
+          )}
           <br />
         </>
       )}
