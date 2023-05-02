@@ -363,9 +363,7 @@ const SubscriptionConfigurator = ({
         </select>
       </fieldset>
     ) : (
-      `Subscription Length ${productData.minYears} ${
-        productData.minYears > 1 ? 'Years' : 'Year'
-      }`
+      ''
     )
 
   return (
