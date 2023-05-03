@@ -5,7 +5,7 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["configurator", "nextjs", "Referers", "skus"],
+    "cSpell.words": ["configurator", "nextjs", "rata", "Referers", "skus"],
     "editor.formatOnSave": true,
     "prettier.proseWrap": "always",
     "prettier.semi": false,

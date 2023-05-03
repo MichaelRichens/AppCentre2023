@@ -8,7 +8,11 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
   const minDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
     .toISOString()
     .slice(0, 10)
-
+  const maxDate = new Date(
+    currentDate.setFullYear(currentDate.getFullYear() + maxYears)
+  )
+    .toISOString()
+    .slice(0, 10)
   useEffect(() => {
     if (renewalDate) {
       const selectedDate = new Date(renewalDate)
@@ -62,6 +66,7 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
           type='date'
           value={renewalDate}
           min={minDate}
+          max={maxDate}
           className={notCurrentSelection ? styles.notCurrentSelection : ''}
           onChange={(event) => {
             setRenewalDate(event.target.value)
