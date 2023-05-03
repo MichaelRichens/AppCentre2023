@@ -107,7 +107,6 @@ function generateSkusAndCalculatePrice(
       .join(', ')
     const checkedExtensionsKeys =
       configuratorOptions.checkedExtensions.join(', ')
-
     const errorMessage = `Extension mismatch, unable to proceed. This probably indicates an error in the database. Unique Extensions: ${uniqueExtensionsKeys} != Checked Extensions: ${checkedExtensionsKeys}`
     throw new Error(errorMessage)
   }
