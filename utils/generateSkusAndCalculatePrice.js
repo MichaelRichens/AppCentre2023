@@ -1,43 +1,41 @@
+import ProductConfiguration from './types/ProductConfiguration'
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
- * @param Array products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
- * @param Array extensions - The individual extensions skus data to calculate price from.
- * @param Object configuratorOptions - The configurator options, such as type, users, and years.
- * @returns Object An object with the calculated price in the `price` field, and a `skus` field that contains an object that has a field for each sku with the value being the quantity of that sku.
+ * @param {Object[]} products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
+ * @param {Object[]} extensions - The individual extensions skus data to calculate price from.
+ * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
+ * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
 function generateSkusAndCalculatePrice(
   products,
   extensions,
   configuratorOptions
 ) {
-  console.log(configuratorOptions)
-  let result = {
-    price: 0,
-    skus: {},
-    type: configuratorOptions.type,
-    years: configuratorOptions.years,
-  }
+  /** The return object */
+  const result = new ProductConfiguration(
+    configuratorOptions.type,
+    0,
+    configuratorOptions.years
+  )
+
   /**
-   * @var Number - Represents the total number of users on the subscription, including existing users and any being added.
+   * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
    * This value is used for determining the price band based on the subscription type.
    */
   let numUsersForPriceBand
-
   /**
-   * @var Number - Represents the total number of users being added to the description.
+   * @type {number} - Represents the total number of users being added to the description.
    * This value is used for determining the quantity to purchase.
    */
   let numUsersToPurchase
-
   /**
-   * @var Number - The number of complete years to purchase for.
+   * @type {number} - The number of complete years to purchase for.
    * If fractional years are not allowed for a type option, any part year will be rounded up to here (not that this should ever happen)
    */
   let wholeYears
-
   /**
-   * @var Number - The fractional part of a year that is allowed with some types (eg 'add' - adding new users).
+   * @type {number} - The fractional part of a year that is allowed with some types (eg 'add' - adding new users).
    * Price will be calculated pro-rata from the 1 year sku
    */
   let partYears = 0
@@ -73,6 +71,7 @@ function generateSkusAndCalculatePrice(
   if (numUsersToPurchase < 1) {
     return result
   }
+  result.users = numUsersToPurchase
 
   const productsWithCorrectWholeYear = products.filter(
     (sku) => sku.years === wholeYears
@@ -115,47 +114,43 @@ function generateSkusAndCalculatePrice(
     result.price += partYearProduct.price * numUsersToPurchase * partYears
   }
 
-  const filteredExtensions = extensions.filter((extension) => {
-    return (
-      extension.years === wholeYears &&
-      configuratorOptions.checkedExtensions.some((key) => key === extension.key)
+  if (wholeYears > 0) {
+    const wholeYearExtensions = findExtensions(
+      configuratorOptions.checkedExtensions,
+      extensions,
+      wholeYears
     )
-  })
 
-  // checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
-  const uniqueExtensions = Array.from(
-    new Set(filteredExtensions.map((extension) => extension.key))
-  ).map((key) => filteredExtensions.find((extension) => extension.key === key))
-
-  if (
-    uniqueExtensions.length !== configuratorOptions.checkedExtensions.length
-  ) {
-    // This is probably bad data in the database, though could be a user screwing with the data being fed into the function.
-    // Have also had this pop up randomly during dev, and hoping it is due to stale code...
-    // If its a bad db entry, look for things like a bad figure in years - we don't really check for problems when importing this data
-    const uniqueExtensionsKeys = uniqueExtensions
-      .map((extension) => extension.key)
-      .join(', ')
-    const checkedExtensionsKeys =
-      configuratorOptions.checkedExtensions.join(', ')
-    const errorMessage = `Extension mismatch, unable to proceed. This probably indicates an error in the database. Unique Extensions: ${uniqueExtensionsKeys} != Checked Extensions: ${checkedExtensionsKeys}`
-    throw new Error(errorMessage)
+    wholeYearExtensions.forEach((extension) => {
+      result.skus[extension.sku] = numUsersToPurchase
+      result.price += extension.price * numUsersToPurchase
+    })
   }
 
-  uniqueExtensions.forEach((extension) => {
-    result.skus[extension.sku] = numUsersToPurchase
-    result.price += extension.price * numUsersToPurchase
-  })
+  if (partYears > 0) {
+    const partYearExtensions = findExtensions(
+      configuratorOptions.checkedExtensions,
+      extensions,
+      1
+    )
 
+    partYearExtensions.forEach((extension) => {
+      if (!result.skus.hasOwnProperty(extension.sku)) {
+        result.skus[extension.sku] = 0
+      }
+      result.skus[extension.sku] += numUsersToPurchase * partYears
+      result.price += extension.price * numUsersToPurchase * partYears
+    })
+  }
   return result
 }
 
 /**
  * Helper function.
  * Returns the sku of first product it encounters (searching from the end of the passed array) which has a user band that matches the passed number.
- * @param array sortedProductsOfCorrectYear - An array of products, where we want to find the one which is for the correct user band
- * @param number numUsersForPriceBand - The number of users, from which to find the user band.
- * @returns object|boolean - The found product, or false if none was found.
+ * @param {object[]} sortedProductsOfCorrectYear - An array of products, where we want to find the one which is for the correct user band
+ * @param {number} numUsersForPriceBand - The number of users, from which to find the user band.
+ * @returns {object|boolean} - The found product, or false if none was found.
  */
 function findProductWithCorrectUserBand(
   sortedProductsOfCorrectYear,
@@ -183,6 +178,39 @@ function findProductWithCorrectUserBand(
     }
   }
   return false
+}
+
+/**
+ * Helper function.
+ * Returns the correct extensions that match a passed array of extension keys and a value for the years property.
+ * Will throw if it can't find everything, since the alternative is likely to be a wrong purchase (it also normally indicates a coding or db screw up we want to be aware of quickly).
+ * @param {string[]} searchKeys - The extension keys that must all be found.
+ * @param {Object[]} extensions - The collection of extensions to search in.
+ * @param {number} years - The years value that the found extension keys need to have.
+ * @returns {Object[]} - The passed in extensions that matched the passed keys and the passed years value
+ * @throws {Error} If the function is unable to find all the extensions it is looking for with the data it has to search in, it will throw.
+ */
+function findExtensions(searchKeys, extensions, years) {
+  const yearMatches = extensions.filter((extension) => {
+    return (
+      extension.years === years &&
+      searchKeys.some((key) => key === extension.key)
+    )
+  })
+
+  // checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
+  const uniqueExtensions = Array.from(
+    new Set(yearMatches.map((extension) => extension.key))
+  ).map((key) => yearMatches.find((extension) => extension.key === key))
+
+  if (uniqueExtensions.length !== searchKeys.length) {
+    // This is probably bad data in the database, though could be a user screwing with the data being fed into the function. If its a bad db entry, look for things like a bad figure in years - we don't really check for problems when importing this data
+    const uKeys = uniqueExtensions.map((extension) => extension.key).join(', ')
+    const sKeys = searchKeys.join(', ')
+    const errorMessage = `Extension mismatch, unable to proceed. This probably indicates an error in the database. Looking for year duration: ${years}.\nUnique Extensions: ${uKeys} != Checked Extensions: ${sKeys}`
+    throw new Error(errorMessage)
+  }
+  return uniqueExtensions
 }
 
 export default generateSkusAndCalculatePrice

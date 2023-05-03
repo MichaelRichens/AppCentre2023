@@ -1,7 +1,7 @@
 /**
  * Word class definition.
  *
- * @file
+ * @module
  * This module provides a Word class that represents a word in both
  * its singular and plural forms. The class constructor takes two arguments:
  * singular and plural. The class has four properties: singularLC, pluralLC,
