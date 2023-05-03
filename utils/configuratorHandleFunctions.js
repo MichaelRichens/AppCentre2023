@@ -1,13 +1,3 @@
-export const createHandleInputChange = (updateFormData) => (event) => {
-  const { name, value } = event.target
-  const parsedValue = parseFloat(value)
-  const finalValue = isNaN(parsedValue) ? value : parsedValue
-
-  updateFormData({
-    [name]: finalValue,
-  })
-}
-
 export const createHandleTypeChange =
   (updateFormData, formData, productData) => (event) => {
     const { value } = event.target
@@ -23,9 +13,20 @@ export const createHandleTypeChange =
     ) {
       userChange = 0
     }
+
+    let years = formData.years
+    if (value === 'sub' || value === 'new') {
+      // make sure we have a whole number for years
+      years = Math.max(
+        productData.minYears,
+        Math.min(productData.maxYears, Math.ceil(formData.years))
+      )
+    }
+
     updateFormData({
       type: value,
       userChange: userChange,
+      years: years,
     })
   }
 
@@ -144,4 +145,19 @@ export const createHandleExtensionCheckboxChange =
       )
     }
     updateFormData({ checkedExtensions: newCheckedExtensions })
+  }
+
+export const createHandleYearsChange = (updateFormData) => (event) => {
+  const { value } = event.target
+  const parsedValue = parseFloat(value)
+  const finalValue = isNaN(parsedValue) ? value : parsedValue
+
+  updateFormData({
+    years: finalValue,
+  })
+}
+
+export const createHandleMonthsRemainingChange =
+  (updateFormData) => (event) => {
+    console.log(event.target.value)
   }

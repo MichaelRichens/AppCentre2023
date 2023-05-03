@@ -5,15 +5,17 @@ import TypeChangeSelect from './configurator/TypeChangeSelect'
 import PurchaseUnitInput from './configurator/PurchaseUnitInput'
 import ExtensionCheckboxes from './configurator/ExtensionCheckboxes'
 import YearsSelect from './configurator/YearsSelect'
+import MonthsRemainingSelect from './configurator/MonthsRemainingSelect'
 import Word from '../utils/types/word'
 import {
-  createHandleInputChange,
   createHandleTypeChange,
   createHandleExistingUsersBlur,
   createHandleExistingUsersChange,
   createHandleUserChangeChange,
   createHandleUserChangeBlur,
   createHandleExtensionCheckboxChange,
+  createHandleYearsChange,
+  createHandleMonthsRemainingChange,
 } from '../utils/configuratorHandleFunctions'
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
@@ -87,8 +89,6 @@ const SubscriptionConfigurator = ({
     formData
   )
 
-  const handleInputChange = createHandleInputChange(updateFormData)
-
   const handleTypeChange = createHandleTypeChange(
     updateFormData,
     formData,
@@ -119,6 +119,11 @@ const SubscriptionConfigurator = ({
     updateFormData,
     formData
   )
+
+  const handleYearsChange = createHandleYearsChange(updateFormData)
+
+  const handleMonthsRemainingChange =
+    createHandleMonthsRemainingChange(updateFormData)
 
   return (
     <form className={configuratorStyles.configurator}>
@@ -181,15 +186,22 @@ const SubscriptionConfigurator = ({
         onChange={handleExtensionCheckboxChange}
       />
 
-      <YearsSelect
-        legend={`${
-          formData.type == 'add' ? 'Remaining ' : ''
-        }Subscription Length`}
-        value={formData.years}
-        onChange={handleInputChange}
-        from={productData.minYears}
-        to={productData.maxYears}
-      />
+      {formData.type == 'sub' || formData.type == 'new' ? (
+        <YearsSelect
+          legend='Subscription Length'
+          value={formData.years}
+          onChange={handleYearsChange}
+          from={productData.minYears}
+          to={productData.maxYears}
+        />
+      ) : (
+        <MonthsRemainingSelect
+          legend='Time Remaining Until Renewal Date'
+          value={formData.years / 4}
+          onChange={handleMonthsRemainingChange}
+          maxYears={productData.maxYears}
+        />
+      )}
     </form>
   )
 }
