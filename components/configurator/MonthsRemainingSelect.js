@@ -3,6 +3,7 @@ import styles from '../../styles/MonthsRemainingSelect.module.css'
 
 const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
   const [renewalDate, setRenewalDate] = useState(null)
+  const [notCurrentSelection, setNotCurrentSelection] = useState(false)
   const currentDate = new Date()
   const minDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
     .toISOString()
@@ -33,30 +34,41 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
   }, [renewalDate])
 
   return (
-    <fieldset>
+    <fieldset className={styles.monthsRemaining}>
       <legend>{legend}</legend>
-      <div>
-        <label htmlFor='renewalDate'>Renewal Date: </label>
+      <label>
+        <span>Select Remaining Time:</span>
+        <select
+          value={value}
+          onChange={(event) => {
+            onChange(event)
+            setNotCurrentSelection(true)
+          }}>
+          {Array.from({ length: Math.ceil(maxYears * 4) }, (_, index) => {
+            const monthEnd = (index + 1) * 3
+            const optionValue = (index + 1) * 0.25
+
+            return (
+              <option key={index} value={optionValue}>
+                {`Up to ${monthEnd} Months Remaining`}
+              </option>
+            )
+          })}
+        </select>
+      </label>
+      <label>
+        <span>Or Choose Renewal Date:</span>
         <input
           type='date'
-          id='renewalDate'
           value={renewalDate}
           min={minDate}
-          onChange={(event) => setRenewalDate(event.target.value)}
+          className={notCurrentSelection ? styles.notCurrentSelection : ''}
+          onChange={(event) => {
+            setRenewalDate(event.target.value)
+            setNotCurrentSelection(false)
+          }}
         />
-      </div>
-      <select value={value} onChange={onChange}>
-        {Array.from({ length: Math.ceil(maxYears * 4) }, (_, index) => {
-          const monthEnd = (index + 1) * 3
-          const optionValue = (index + 1) * 0.25
-
-          return (
-            <option key={index} value={optionValue}>
-              {`Up to ${monthEnd} Months Remaining`}
-            </option>
-          )
-        })}
-      </select>
+      </label>
     </fieldset>
   )
 }
