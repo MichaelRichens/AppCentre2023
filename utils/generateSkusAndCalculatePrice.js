@@ -80,27 +80,39 @@ function generateSkusAndCalculatePrice(
   /** @var Array - Holds part codes for products with a 1 year subscription, used for pro-rata of part year items */
   const productsWithOneYear = products.filter((sku) => sku.years === 1)
 
-  const wholeYearProduct = findProductWithCorrectUserBand(
-    productsWithCorrectWholeYear,
-    numUsersForPriceBand
-  )
-  console.log('w ' + wholeYears)
-  console.log('p ' + partYears)
-  if (wholeYearProduct === false) {
-    // If we haven't found it, it is probably a too high a unit number (above max limit).  Probably the user quantity is being edited, just return 0 price and no skus, and it will probably sort itself out when the user finishes editing the field.
-    // And if not, this seems to be the way to do the least harm.
-    // Alternative would be either to not live update as the unit field is being edited, but I like that feature.  Or to coerce the numbers as they are being edited, but that's a real usability pain.
-    return result
+  if (wholeYears > 0) {
+    const wholeYearProduct = findProductWithCorrectUserBand(
+      productsWithCorrectWholeYear,
+      numUsersForPriceBand
+    )
+
+    if (wholeYearProduct === false) {
+      // If we haven't found it, it is probably a too high a unit number (above max limit).  Probably the user quantity is being edited, just return 0 price and no skus, and it will probably sort itself out when the user finishes editing the field.
+      // And if not, this seems to be the way to do the least harm.
+      // Alternative would be either to not live update as the unit field is being edited, but I like that feature.  Or to coerce the numbers as they are being edited, but that's a real usability pain.
+      return result
+    }
+
+    result.skus[wholeYearProduct.sku] = numUsersToPurchase
+    result.price += wholeYearProduct.price * numUsersToPurchase
   }
-
-  result.skus[wholeYearProduct.sku] = numUsersToPurchase
-  result.price += wholeYearProduct.price * numUsersToPurchase
-
   if (partYears > 0) {
     const partYearProduct = findProductWithCorrectUserBand(
       productsWithOneYear,
       numUsersForPriceBand
     )
+    if (partYearProduct === false) {
+      if (wholeYears > 0) {
+        throw new Error(
+          'This really should never happen.  Missing 1 year part code for product?'
+        )
+      }
+      // wholeYears == 0, so we haven't found any part codes for this product.  Exit early for reasons given in comment after partYearProduct search failure.
+      return result
+    }
+
+    result.skus[partYearProduct.sku] = numUsersToPurchase * partYears
+    result.price += partYearProduct.price * numUsersToPurchase * partYears
   }
 
   const filteredExtensions = extensions.filter((extension) => {
