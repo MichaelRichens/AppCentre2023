@@ -1,6 +1,17 @@
 import React from 'react'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
+/**
+ * SubscriptionSummary is a tightly coupled subcomponent of the SubscriptionConfigurator form
+ * that displays a summary of the current subscription configuration based on the form data.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.productName - The name of the product being purchased.
+ * @param {number} props.price - The price of the subscription as currently configured.
+ * @param {Object} props.formData - The form data object, containing the current form values.
+ * @param {Word} props.unitName - An object containing the names of the units the subscription is measured in.
+ */
+
 const SubscriptionSummary = ({ productName, price, formData, unitName }) => {
   const formattedPrice = new Intl.NumberFormat('en-GB', {
     style: 'currency',
