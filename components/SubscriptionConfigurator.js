@@ -197,7 +197,7 @@ const SubscriptionConfigurator = ({
       ) : (
         <MonthsRemainingSelect
           legend='Time Remaining Until Renewal Date'
-          value={formData.years / 4}
+          value={formData.years}
           onChange={handleMonthsRemainingChange}
           maxYears={productData.maxYears}
         />

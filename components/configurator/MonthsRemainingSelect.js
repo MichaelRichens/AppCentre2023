@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import styles from '../../styles/MonthsRemainingSelect.module.css'
 
 const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
   const [renewalDate, setRenewalDate] = useState(null)
@@ -10,13 +11,16 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
   useEffect(() => {
     if (renewalDate) {
       const selectedDate = new Date(renewalDate)
-      const monthsDifference =
-        Math.ceil((selectedDate - currentDate) / (1000 * 60 * 60 * 24 * 30)) - 1
 
-      if (monthsDifference >= 0) {
-        const optionValue = Math.ceil(monthsDifference / 3) * 0.25
+      const yearsDifference =
+        selectedDate.getFullYear() - currentDate.getFullYear()
+      const monthsDifference = selectedDate.getMonth() - currentDate.getMonth()
+      const daysDifference = selectedDate.getDate() - currentDate.getDate()
+      const totalMonthsDifference =
+        yearsDifference * 12 + monthsDifference - (daysDifference <= 0 ? 1 : 0)
+      if (totalMonthsDifference >= 0) {
+        const optionValue = Math.floor(totalMonthsDifference / 3) * 0.25 + 0.25
 
-        // Create a synthetic event object
         const syntheticEvent = {
           target: {
             value: optionValue,
