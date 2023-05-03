@@ -15,15 +15,36 @@ function generateSkusAndCalculatePrice(
    * @var Number - Represents the total number of users on the subscription, including existing users and any being added.
    * This value is used for determining the price band based on the subscription type.
    */
-  const numUsersForPriceBand =
-    configuratorOptions.userChange + configuratorOptions.existingUsers
+  let numUsersForPriceBand
+
   /**
    * @var Number - Represents the total number of users being added to the description.
    * This value is used for determining the quantity to purchase.
    */
-  let numUsersToPurchase = configuratorOptions.userChange
-  if (configuratorOptions.type != 'add') {
-    numUsersToPurchase += configuratorOptions.existingUsers
+  let numUsersToPurchase
+
+  const addUnitPriceBandConsidersAllUsers =
+    process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true'
+
+  switch (configuratorOptions.type) {
+    case 'new':
+      numUsersForPriceBand = configuratorOptions.userChange
+      numUsersToPurchase = configuratorOptions.userChange
+      break
+    case 'add':
+      if (addUnitPriceBandConsidersAllUsers) {
+        numUsersForPriceBand =
+          configuratorOptions.userChange + configuratorOptions.existingUsers
+      } else {
+        numUsersForPriceBand = configuratorOptions.userChange
+      }
+      numUsersToPurchase = configuratorOptions.userChange
+      break
+    default:
+      numUsersForPriceBand =
+        configuratorOptions.userChange + configuratorOptions.existingUsers
+      numUsersToPurchase =
+        configuratorOptions.userChange + configuratorOptions.existingUsers
   }
 
   if (numUsersToPurchase < 1) {

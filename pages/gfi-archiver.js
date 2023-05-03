@@ -5,7 +5,7 @@ import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
   const productData = await fetchAndProcessProducts(
-    process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL
+    process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER
   )
 
   return {
@@ -14,16 +14,16 @@ export async function getStaticProps() {
   }
 }
 
-const Control = (props) => {
+const Archiver = (props) => {
   const { productData } = props
   return (
     <SubscriptionPage
-      productName='Kerio Control'
-      productIntro={<p>Kerio Control is etc.</p>}
-      productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL}
+      productName='GFI Archiver'
+      productIntro={<p>GFI Archiver is etc.</p>}
+      productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER}
       productData={productData}
-      unitName={new Word('user', 'users')}></SubscriptionPage>
+      unitName={new Word('mailbox', 'mailboxes')}></SubscriptionPage>
   )
 }
 
-export default Control
+export default Archiver

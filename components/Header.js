@@ -20,6 +20,9 @@ const Header = () => {
           <li>
             <NavLink href='/kerio-control'>Kerio Control</NavLink>
           </li>
+          <li>
+            <NavLink href='/gfi-archiver'>GFI Archiver</NavLink>
+          </li>
         </ul>
       </nav>
     </header>
