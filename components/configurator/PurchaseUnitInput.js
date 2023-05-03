@@ -16,6 +16,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {number} props.value - The current value of the input field.
  * @param {Function} props.onChange - The onChange event handler for the input field.
  * @param {Function} props.onBlur - The onBlur event handler for the input field.
+ * @param {boolean?} props.allowDisplay - Option parameter.  If false, component will not be rendered.
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
 const PurchaseUnitInput = ({
@@ -28,7 +29,11 @@ const PurchaseUnitInput = ({
   onChange,
   onBlur,
   error,
+  allowDisplay,
 }) => {
+  if (allowDisplay === false) {
+    return null
+  }
   return (
     <fieldset>
       <legend>{legend}</legend>

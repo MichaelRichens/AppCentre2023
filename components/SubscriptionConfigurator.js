@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from './contexts/ConfiguratorContext'
+import SubscriptionSummary from './configurator/SubscriptionSummary'
 import TypeChangeSelect from './configurator/TypeChangeSelect'
 import PurchaseUnitInput from './configurator/PurchaseUnitInput'
 import ExtensionCheckboxes from './configurator/ExtensionCheckboxes'
@@ -229,47 +230,14 @@ const SubscriptionConfigurator = ({
     savedData
   )
 
-  const formattedPrice = new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: 'GBP',
-  }).format(price)
-  const canShowAddOption =
-    productData.maxUsers - productData.minUsers > formData.existingUsers
-
-  const currentSummary = (() => {
-    let str = ''
-    switch (formData.type) {
-      case 'sub':
-        str += `Renewing ${productName} with ${
-          formData.existingUsers + formData.userChange
-        } ${unitName.pluralLC}`
-        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
-        break
-      case 'new':
-        str += `Purchasing ${productName} with ${formData.userChange} ${unitName.pluralLC}`
-        str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
-        break
-      case 'add':
-        str += `Purchasing ${formData.userChange} additional ${productName} ${
-          unitName.pluralLC
-        }, bringing the total to ${
-          formData.existingUsers + formData.userChange
-        } ${unitName.pluralLC}`
-        break
-    }
-    return (
-      <>
-        <p>{str}</p>
-        <p>{`${formattedPrice} + vat`}</p>
-      </>
-    )
-  })()
-
   return (
     <form className={configuratorStyles.configurator}>
-      <fieldset className={configuratorStyles.summary}>
-        {currentSummary}
-      </fieldset>
+      <SubscriptionSummary
+        productName={productName}
+        price={price}
+        formData={formData}
+        unitName={unitName}
+      />
 
       <TypeChangeSelect
         type={formData.type}
@@ -281,19 +249,18 @@ const SubscriptionConfigurator = ({
         onTypeChange={handleTypeChange}
       />
 
-      {formData.type !== 'new' && (
-        <PurchaseUnitInput
-          legend={`Current ${unitName.pluralC} on Subscription`}
-          min={productData.minUsers}
-          max={productData.maxUsers}
-          step={productData.minUsers}
-          name='existingUsers'
-          value={formData.existingUsers}
-          onChange={handleExistingUsersChange}
-          onBlur={handleExistingUsersBlur}
-          error={formData.existingUsersError}
-        />
-      )}
+      <PurchaseUnitInput
+        legend={`Current ${unitName.pluralC} on Subscription`}
+        min={productData.minUsers}
+        max={productData.maxUsers}
+        step={productData.minUsers}
+        name='existingUsers'
+        value={formData.existingUsers}
+        onChange={handleExistingUsersChange}
+        onBlur={handleExistingUsersBlur}
+        error={formData.existingUsersError}
+        allowDisplay={formData.type !== 'new'}
+      />
 
       <PurchaseUnitInput
         legend={
