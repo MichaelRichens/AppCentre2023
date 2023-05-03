@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from './contexts/ConfiguratorContext'
 import TypeChangeSelect from './configurator/TypeChangeSelect'
 import PurchaseUnitInput from './configurator/PurchaseUnitInput'
+import YearsSelect from './configurator/YearsSelect'
 import Word from '../utils/types/word'
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
@@ -284,40 +285,12 @@ const SubscriptionConfigurator = ({
     </fieldset>
   )
 
-  const yearsSelectLegend = `${
-    formData.type == 'add' ? 'Remaining ' : ''
-  }Subscription Length`
-
-  const yearsSelect =
-    productData.minYears !== productData.maxYears ? (
-      <fieldset>
-        <legend>{yearsSelectLegend}</legend>
-        <select
-          name='years'
-          value={formData.years}
-          onChange={handleInputChange}
-          aria-label={yearsSelectLegend}>
-          {[...Array(productData.maxYears - productData.minYears + 1)].map(
-            (_, i) => {
-              const year = productData.minYears + i
-              return (
-                <option key={year} value={year}>
-                  {`${year} Year${year != 1 ? 's' : ''}`}
-                </option>
-              )
-            }
-          )}
-        </select>
-      </fieldset>
-    ) : (
-      ''
-    )
-
   return (
     <form className={configuratorStyles.configurator}>
       <fieldset className={configuratorStyles.summary}>
         {currentSummary}
       </fieldset>
+
       <TypeChangeSelect
         type={formData.type}
         addOption={
@@ -327,6 +300,7 @@ const SubscriptionConfigurator = ({
         }
         onTypeChange={handleTypeChange}
       />
+
       {formData.type !== 'new' && (
         <PurchaseUnitInput
           legend={`Current ${unitName.pluralC} on Subscription`}
@@ -340,6 +314,7 @@ const SubscriptionConfigurator = ({
           error={formData.existingUsersError}
         />
       )}
+
       <PurchaseUnitInput
         legend={
           formData.type == 'new'
@@ -361,8 +336,18 @@ const SubscriptionConfigurator = ({
         onBlur={handleUserChangeBlur}
         error={formData.userChangeError}
       />
+
       {haveAnyExtensions && <>{extensionCheckboxes}</>}
-      {yearsSelect}
+
+      <YearsSelect
+        legend={`${
+          formData.type == 'add' ? 'Remaining ' : ''
+        }Subscription Length`}
+        value={formData.years}
+        onChange={handleInputChange}
+        from={productData.minYears}
+        to={productData.maxYears}
+      />
     </form>
   )
 }
