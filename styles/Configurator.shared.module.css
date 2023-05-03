@@ -1,3 +1,7 @@
+.configurator > fieldset {
+  margin-bottom: 0.5em;
+}
+
 .configurator input,
 .configurator select {
   margin-left: 0.5em;
