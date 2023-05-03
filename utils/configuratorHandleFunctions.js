@@ -1,7 +1,10 @@
 export const createHandleInputChange = (updateFormData) => (event) => {
   const { name, value } = event.target
+  const parsedValue = parseFloat(value)
+  const finalValue = isNaN(parsedValue) ? value : parsedValue
+
   updateFormData({
-    [name]: value,
+    [name]: finalValue,
   })
 }
 
