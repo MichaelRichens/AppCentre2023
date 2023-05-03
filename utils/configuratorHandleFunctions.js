@@ -162,7 +162,6 @@ export const createHandleMonthsRemainingChange =
     const { value } = event.target
     const parsedValue = parseFloat(value)
     const finalValue = isNaN(parsedValue) ? value : parsedValue
-    console.log(finalValue)
     updateFormData({
       years: finalValue,
     })
