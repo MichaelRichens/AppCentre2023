@@ -54,7 +54,7 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
 
             return (
               <option key={index} value={optionValue}>
-                {`Up to ${monthEnd} Months Remaining`}
+                {`Less Than ${monthEnd} Months Remaining`}
               </option>
             )
           })}
