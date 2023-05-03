@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from './contexts/ConfiguratorContext'
 import TypeChangeSelect from './configurator/TypeChangeSelect'
 import PurchaseUnitInput from './configurator/PurchaseUnitInput'
+import ExtensionCheckboxes from './configurator/ExtensionCheckboxes'
 import YearsSelect from './configurator/YearsSelect'
 import Word from '../utils/types/word'
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
@@ -212,7 +213,6 @@ const SubscriptionConfigurator = ({
   const handleExtensionCheckboxChange = (event) => {
     const { value, checked } = event.target
     let newCheckedExtensions = [...formData.checkedExtensions]
-
     if (checked) {
       newCheckedExtensions.push(value)
     } else {
@@ -220,7 +220,6 @@ const SubscriptionConfigurator = ({
         (extensionKey) => extensionKey !== value
       )
     }
-
     updateFormData({ checkedExtensions: newCheckedExtensions })
   }
 
@@ -265,25 +264,6 @@ const SubscriptionConfigurator = ({
       </>
     )
   })()
-
-  const extensionCheckboxes = (
-    <fieldset className={configuratorStyles.checkbox}>
-      <legend>Select Extensions</legend>
-      {productData.availableExtensions.map((extension) => (
-        <label key={extension.key} className={configuratorStyles.checkbox}>
-          <input
-            type='checkbox'
-            name='extensions'
-            value={extension.key}
-            id={`extension-${extension.key}`}
-            checked={formData.checkedExtensions.includes(extension.key)}
-            onChange={handleExtensionCheckboxChange}
-          />
-          {extension.name}
-        </label>
-      ))}
-    </fieldset>
-  )
 
   return (
     <form className={configuratorStyles.configurator}>
@@ -337,7 +317,11 @@ const SubscriptionConfigurator = ({
         error={formData.userChangeError}
       />
 
-      {haveAnyExtensions && <>{extensionCheckboxes}</>}
+      <ExtensionCheckboxes
+        availableExtensions={productData.availableExtensions}
+        selectedExtensions={formData.checkedExtensions}
+        onChange={handleExtensionCheckboxChange}
+      />
 
       <YearsSelect
         legend={`${
