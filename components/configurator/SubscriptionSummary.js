@@ -12,7 +12,13 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {Word} props.unitName - An object containing the names of the units the subscription is measured in.
  */
 
-const SubscriptionSummary = ({ productName, price, formData, unitName }) => {
+const SubscriptionSummary = ({
+  productName,
+  price,
+  formData,
+  productData,
+  unitName,
+}) => {
   const formattedPrice = new Intl.NumberFormat('en-GB', {
     style: 'currency',
     currency: 'GBP',
@@ -40,6 +46,33 @@ const SubscriptionSummary = ({ productName, price, formData, unitName }) => {
   return (
     <fieldset className={configuratorStyles.summary}>
       <p>{str}</p>
+      {formData.checkedExtensions && formData.checkedExtensions.length > 0 ? (
+        <p>
+          {'With the ' +
+            productData.availableExtensions
+              .filter((extension) =>
+                formData.checkedExtensions.includes(extension.key)
+              )
+              .map((extension, index, filteredExtensions) => {
+                if (
+                  index === filteredExtensions.length - 1 &&
+                  filteredExtensions.length > 1
+                ) {
+                  return ` and ${extension.name}`
+                } else if (
+                  index === filteredExtensions.length - 1 ||
+                  filteredExtensions.length === 1
+                ) {
+                  return `${extension.name}`
+                } else {
+                  return `${extension.name}, `
+                }
+              })
+              .join('') +
+            ` extension${formData.checkedExtensions.length > 1 ? 's' : ''}.`}
+        </p>
+      ) : null}
+
       <p>{`${formattedPrice} + vat`}</p>
     </fieldset>
   )

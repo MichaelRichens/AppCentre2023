@@ -126,6 +126,7 @@ const SubscriptionConfigurator = ({
         productName={productName}
         price={price}
         formData={formData}
+        productData={productData}
         unitName={unitName}
       />
 
