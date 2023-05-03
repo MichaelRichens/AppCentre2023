@@ -6,6 +6,15 @@ import PurchaseUnitInput from './configurator/PurchaseUnitInput'
 import ExtensionCheckboxes from './configurator/ExtensionCheckboxes'
 import YearsSelect from './configurator/YearsSelect'
 import Word from '../utils/types/word'
+import {
+  createHandleInputChange,
+  createHandleTypeChange,
+  createHandleExistingUsersBlur,
+  createHandleExistingUsersChange,
+  createHandleUserChangeChange,
+  createHandleUserChangeBlur,
+  createHandleExtensionCheckboxChange,
+} from '../utils/configuratorHandleFunctions'
 import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
 
@@ -41,7 +50,6 @@ const SubscriptionConfigurator = ({
   }
 
   const [formData, setFormData] = useState(savedData)
-
   /**
    * Applies any fields in the passed object as changes to the formData object
    * Leaves other fields as they current are set.
@@ -73,160 +81,42 @@ const SubscriptionConfigurator = ({
     saveConfiguratorData(productFamily, formData)
   }, [formData])
 
-  const haveAnyExtensions = productData.availableExtensions.length > 0
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target
-    updateFormData({
-      [name]: value,
-    })
-  }
-
-  const handleTypeChange = (event) => {
-    const { value } = event.target
-    let userChange = formData.userChange
-    if (
-      (value === 'new' || value === 'add') &&
-      userChange < productData.minUsers
-    ) {
-      userChange = productData.minUsers
-    } else if (
-      value === 'sub' &&
-      (formData.type === 'new' || formData.type === 'add')
-    ) {
-      userChange = 0
-    }
-    updateFormData({
-      type: value,
-      userChange: userChange,
-    })
-  }
-
-  const handleExistingUsersChange = (event) => {
-    const { value } = event.target
-    if (isNaN(value)) {
-      return
-    }
-    updateFormData({
-      existingUsers: value == '' ? '' : parseInt(value),
-    })
-  }
-
-  const handleExistingUsersBlur = (event) => {
-    console.log(event.target)
-    const { value } = event.target
-    let existingUsersError = false
-    if (isNaN(value) || value == '') {
-      updateFormData({
-        existingUsers: productData.minUsers,
-      })
-      return
-    } else {
-      let existingUsers = Math.min(
-        Math.max(parseInt(event.target.value), 1),
-        productData.maxUsers
-      )
-      if (formData.type === 'sub') {
-        const remainder = existingUsers % productData.minUsers
-        if (remainder !== 0) {
-          existingUsers += productData.minUsers - remainder
-          existingUsersError = `Must be renewed in blocks of ${productData.minUsers}.`
-        }
-      }
-      updateFormData({
-        existingUsers: existingUsers,
-        existingUsersError: existingUsersError,
-      })
-    }
-  }
-
-  const handleUserChangeChange = (event) => {
-    const { value } = event.target
-    if (isNaN(value) && (formData.type != 'sub' || value != '-')) {
-      return
-    }
-    let userChange
-    if (value == '' || value == '-') {
-      userChange = value
-    } else {
-      userChange = parseInt(value)
-    }
-    updateFormData({
-      userChange: userChange,
-    })
-  }
-
-  const handleUserChangeBlur = (event) => {
-    const { value } = event.target
-    if (isNaN(value)) {
-      updateFormData({
-        userChange: formData.type == 'add' ? productData.minUserChange : 0,
-      })
-    } else {
-      const { userChange, userChangeError } = calculateUserChange(
-        parseInt(event.target.value)
-      )
-      updateFormData({
-        userChange: userChange,
-        userChangeError: userChangeError,
-      })
-    }
-  }
-
-  const calculateUserChange = (value) => {
-    let userChangeError = false
-    // Parse the user input as an integer.
-    let userChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
-    // Calculate the minimum and maximum user change values based on the type of subscription.
-    const minUserChange =
-      formData.type === 'new' || formData.type === 'add'
-        ? productData.minUsers
-        : productData.minUsers - formData.existingUsers
-    const maxUserChange = productData.maxUsers - formData.existingUsers
-    const userChangeBeforeClamp = userChange
-    // Clamp the userChange value to be between minUserChange and maxUserChange.
-    userChange = Math.min(Math.max(userChange, minUserChange), maxUserChange)
-    if (userChange !== userChangeBeforeClamp) {
-      if (userChange === minUserChange) {
-        userChangeError = `Minimum Allowed Value: ${minUserChange}`
-      } else if (userChange == maxUserChange) {
-        userChangeError = `Maximum Allowed Value ${maxUserChange}`
-      }
-    }
-
-    // Calculate the remainder of userChange when divided by productData.minUsers.
-    const remainder = userChange % productData.minUsers
-
-    // If the remainder is not 0, it means the userChange value is not divisible by productData.minUsers.
-    // Positive remainder means positive number (adding users), negative remainder is removing users.
-    if (remainder > 0) {
-      userChange += productData.minUsers - remainder
-      userChangeError = `Must be changed in steps of ${productData.minUsers}`
-    } else if (remainder < 0) {
-      userChange -= remainder
-      userChangeError = `Must be changed in steps of ${productData.minUsers}`
-    }
-
-    // Return the final userChange value.
-    return { userChange: userChange, userChangeError: userChangeError }
-  }
-
-  const handleExtensionCheckboxChange = (event) => {
-    const { value, checked } = event.target
-    let newCheckedExtensions = [...formData.checkedExtensions]
-    if (checked) {
-      newCheckedExtensions.push(value)
-    } else {
-      newCheckedExtensions = newCheckedExtensions.filter(
-        (extensionKey) => extensionKey !== value
-      )
-    }
-    updateFormData({ checkedExtensions: newCheckedExtensions })
-  }
-
   const { price } = generateSkusAndCalculatePrice(
     productData.products,
     productData.extensions,
+    formData
+  )
+
+  const handleInputChange = createHandleInputChange(updateFormData)
+
+  const handleTypeChange = createHandleTypeChange(
+    updateFormData,
+    formData,
+    productData
+  )
+
+  const handleExistingUsersChange =
+    createHandleExistingUsersChange(updateFormData)
+
+  const handleExistingUsersBlur = createHandleExistingUsersBlur(
+    updateFormData,
+    formData,
+    productData
+  )
+
+  const handleUserChangeChange = createHandleUserChangeChange(
+    updateFormData,
+    formData
+  )
+
+  const handleUserChangeBlur = createHandleUserChangeBlur(
+    updateFormData,
+    formData,
+    productData
+  )
+
+  const handleExtensionCheckboxChange = createHandleExtensionCheckboxChange(
+    updateFormData,
     formData
   )
 
