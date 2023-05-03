@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styles from '../../styles/MonthsRemainingSelect.module.css'
 
 const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
-  const [renewalDate, setRenewalDate] = useState(null)
+  const [renewalDate, setRenewalDate] = useState('')
   const [notCurrentSelection, setNotCurrentSelection] = useState(false)
   const currentDate = new Date()
   const minDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
