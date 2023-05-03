@@ -250,6 +250,7 @@ const SubscriptionConfigurator = ({
       />
 
       <PurchaseUnitInput
+        allowDisplay={formData.type !== 'new'}
         legend={`Current ${unitName.pluralC} on Subscription`}
         min={productData.minUsers}
         max={productData.maxUsers}
@@ -259,7 +260,6 @@ const SubscriptionConfigurator = ({
         onChange={handleExistingUsersChange}
         onBlur={handleExistingUsersBlur}
         error={formData.existingUsersError}
-        allowDisplay={formData.type !== 'new'}
       />
 
       <PurchaseUnitInput
