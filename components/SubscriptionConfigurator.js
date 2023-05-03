@@ -227,7 +227,7 @@ const SubscriptionConfigurator = ({
   const { price } = generateSkusAndCalculatePrice(
     productData.products,
     productData.extensions,
-    savedData
+    formData
   )
 
   return (
