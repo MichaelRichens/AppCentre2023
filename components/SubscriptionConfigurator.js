@@ -7,6 +7,8 @@ import ExtensionCheckboxes from './configurator/ExtensionCheckboxes'
 import YearsSelect from './configurator/YearsSelect'
 import MonthsRemainingSelect from './configurator/MonthsRemainingSelect'
 import Word from '../utils/types/Word'
+import ProductConfiguration from '../utils/types/ProductConfiguration'
+import PurchaseType from '../utils/types/enums/PurchaseType'
 import {
   createHandleTypeChange,
   createHandleExistingUsersBlur,
