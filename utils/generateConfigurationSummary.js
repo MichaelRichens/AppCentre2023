@@ -5,7 +5,7 @@ import React from 'react'
  *
  * @returns {JSX.Element}
  */
-function generateSummary(
+function generateConfigurationSummary(
   productName,
   type,
   price,
@@ -44,4 +44,4 @@ function generateSummary(
   return null
 }
 
-export default generateSummary
+export default generateConfigurationSummary

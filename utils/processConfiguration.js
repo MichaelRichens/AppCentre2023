@@ -1,5 +1,5 @@
 import ProductConfiguration from './types/ProductConfiguration'
-import generateSummary from './generateSummary'
+import generateConfigurationSummary from './generateConfigurationSummary'
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
@@ -8,11 +8,7 @@ import generateSummary from './generateSummary'
  * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
  * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
-function generateSkusAndCalculatePrice(
-  products,
-  extensions,
-  configuratorOptions
-) {
+function processConfiguration(products, extensions, configuratorOptions) {
   /** The return object */
   const result = new ProductConfiguration(
     configuratorOptions.type,
@@ -143,7 +139,7 @@ function generateSkusAndCalculatePrice(
       result.price += extension.price * numUsersToPurchase * partYears
     })
   }
-  result.summary = generateSummary(
+  result.summary = generateConfigurationSummary(
     productName,
     result.type,
     result.price,
@@ -223,4 +219,4 @@ function findExtensions(searchKeys, extensions, years) {
   return uniqueExtensions
 }
 
-export default generateSkusAndCalculatePrice
+export default processConfiguration

@@ -17,7 +17,7 @@ import {
   createHandleYearsChange,
   createHandleMonthsRemainingChange,
 } from '../utils/configuratorHandleFunctions'
-import generateSkusAndCalculatePrice from '../utils/generateSkusAndCalculatePrice'
+import processConfiguration from '../utils/processConfiguration'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
 
 /**
@@ -83,7 +83,7 @@ const SubscriptionConfigurator = ({
     saveConfiguratorData(productFamily, formData)
   }, [formData])
 
-  const currentConfiguration = generateSkusAndCalculatePrice(
+  const currentConfiguration = processConfiguration(
     productData.products,
     productData.extensions,
     formData
