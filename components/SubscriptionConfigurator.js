@@ -146,7 +146,12 @@ const SubscriptionConfigurator = ({
       />
 
       <PurchaseUnitInput
-        allowDisplay={formData.type !== 'new'}
+        allowDisplay={
+          formData.type == 'new' ||
+          (formData.type == 'add' &&
+            process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
+              'true')
+        }
         legend={`Current ${unitName.pluralC} on Subscription`}
         min={productData.minUsers}
         max={productData.maxUsers}

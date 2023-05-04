@@ -164,14 +164,14 @@ function findProductWithCorrectUserBand(
     if (Number.isInteger(product.units_from) && product.units_from > 0) {
       unitsFrom = product.units_from
     } else {
-      unitsFrom = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_USERS, 10)
+      unitsFrom = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
     }
 
     let unitsTo
     if (Number.isInteger(product.units_to) && product.units_to > 0) {
       unitsTo = product.units_to
     } else {
-      unitsTo = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_USERS, 10)
+      unitsTo = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
     }
     if (unitsFrom <= numUsersForPriceBand && numUsersForPriceBand <= unitsTo) {
       return product

@@ -116,11 +116,11 @@ const processProducts = (products, extensions) => {
     productData.minUsers =
       minUsersFrom >= 1
         ? minUsersFrom
-        : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_USERS, 10)
+        : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
     productData.maxUsers =
       maxUsersTo >= 1
         ? maxUsersTo
-        : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_USERS, 10)
+        : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
     productData.minYears = minYears
     productData.maxYears = maxYears
   }

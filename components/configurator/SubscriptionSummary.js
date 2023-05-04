@@ -29,18 +29,21 @@ const SubscriptionSummary = ({
       str += `Renewing ${productName} with ${
         formData.existingUsers + formData.userChange
       } ${unitName.pluralLC}`
-      str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
+      str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}.`
       break
     case 'new':
       str += `Purchasing ${productName} with ${formData.userChange} ${unitName.pluralLC}`
-      str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}`
+      str += ` for ${formData.years} year${formData.years != 1 ? 's' : ''}.`
       break
     case 'add':
-      str += `Purchasing ${formData.userChange} additional ${productName} ${
-        unitName.pluralLC
-      }, bringing the total to ${
-        formData.existingUsers + formData.userChange
-      } ${unitName.pluralLC}`
+      str += `Purchasing ${formData.userChange} additional ${productName} ${unitName.pluralLC}`
+      str +=
+        process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
+        'true'
+          ? `, bringing the total to ${
+              formData.existingUsers + formData.userChange
+            } ${unitName.pluralLC}.`
+          : '.'
       break
   }
   return (
