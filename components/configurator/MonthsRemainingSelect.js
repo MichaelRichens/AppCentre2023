@@ -3,7 +3,6 @@ import styles from '../../styles/MonthsRemainingSelect.module.css'
 
 const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
   const [renewalDate, setRenewalDate] = useState('')
-  const [notCurrentSelection, setNotCurrentSelection] = useState(false)
   const currentDate = new Date()
   const minDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000)
     .toISOString()
@@ -44,8 +43,8 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
         <select
           value={value}
           onChange={(event) => {
+            setRenewalDate('')
             onChange(event)
-            setNotCurrentSelection(true)
           }}>
           {Array.from({ length: Math.ceil(maxYears * 4) }, (_, index) => {
             const monthEnd = (index + 1) * 3
@@ -66,10 +65,8 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
           value={renewalDate}
           min={minDate}
           max={maxDate}
-          className={notCurrentSelection ? styles.notCurrentSelection : ''}
           onChange={(event) => {
             setRenewalDate(event.target.value)
-            setNotCurrentSelection(false)
           }}
         />
       </label>

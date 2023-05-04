@@ -1,5 +1,6 @@
 import React from 'react'
 import SubscriptionPage from '../components/SubscriptionPage'
+import PricingType from '../utils/types/enums/PricingType'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -22,6 +23,7 @@ const Archiver = (props) => {
       productIntro={<p>GFI Archiver is etc.</p>}
       productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER}
       productData={productData}
+      pricingType={PricingType.UNIT}
       unitName={new Word('mailbox', 'mailboxes')}></SubscriptionPage>
   )
 }

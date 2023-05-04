@@ -1,7 +1,9 @@
 import React from 'react'
 
 import Page from './Page'
+import PricingWithUnits from './PricingWithUnits'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
+import PricingType from '../utils/types/enums/PricingType'
 
 /**
  * ProductPage is a wrapper component that renders the Page component with a product configurator generated from the productFamily prop.
@@ -10,6 +12,7 @@ import SubscriptionConfigurator from './SubscriptionConfigurator'
  * @param {JSX.Element} props.productIntro - A short intro to the product to be displayed at the top of the page, before the product configurator. HTML allowed, and should be included (will render inside a &lt;section&gt;).
  * @param {string} props.productFamily - The product family identifier.
  * @param {Object} props.productData - Products data from the database - pricing, skus etc.
+ * @param {PricingType} props.pricingType - The type of pricing used for this product subscription.
  * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
  * @param {React.ReactNode} props.children - The child components to render within the page.*
  * @returns {JSX.Element} The ProductPage component.
@@ -19,6 +22,7 @@ const SubscriptionPage = ({
   productIntro,
   productFamily,
   productData,
+  pricingType,
   unitName,
   children,
 }) => {
@@ -26,6 +30,15 @@ const SubscriptionPage = ({
     <Page title={productName}>
       <>
         <section>{productIntro}</section>
+        <section>
+          {pricingType === PricingType.UNIT ? (
+            <PricingWithUnits
+              productName={productName}
+              productData={productData}
+              unitName={unitName}
+            />
+          ) : null}
+        </section>
         <section>
           <SubscriptionConfigurator
             productName={productName}
