@@ -31,11 +31,11 @@ const SubscriptionPage = ({
       <>
         <section>{productIntro}</section>
         <section>
-          <h2>{productName} Pricing</h2>
+          <h2 id='pricingHeading'>{productName} Pricing</h2>
           {pricingType === PricingType.UNIT ? (
             <PriceTableWithUnits
               productName={productName}
-              sortedProductData={productData}
+              productData={productData}
               unitName={unitName}
             />
           ) : null}
