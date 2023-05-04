@@ -1,3 +1,7 @@
+.configurator .formError {
+  color: rgb(193, 127, 4);
+}
+
 .configurator > fieldset {
   margin-bottom: 0.5em;
 }
@@ -25,8 +29,4 @@ input.unitQty {
 .checkbox input[type='checkbox'] {
   margin-left: 0.5em;
   margin-right: 0.5em;
-}
-
-.configurator .formError {
-  color: rgb(193, 127, 4);
 }
