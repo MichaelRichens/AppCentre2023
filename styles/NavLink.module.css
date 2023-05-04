@@ -1,0 +1,9 @@
+.current,
+.current:link,
+.current:hover,
+.current:active,
+.current:visited {
+  text-decoration: inherit;
+  cursor: inherit;
+  color: inherit;
+}
