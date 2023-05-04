@@ -20,7 +20,6 @@
     "bracketSameLine": true
   },
   "dependencies": {
-    "@nextui-org/react": "^1.0.0-beta.12",
     "express": "^4.18.2",
     "mongodb": "^5.4.0",
     "next": "^13.4.0",

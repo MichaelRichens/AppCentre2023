@@ -1,5 +1,4 @@
 import React from 'react'
-import { Table } from '@nextui-org/react'
 import Word from '../utils/types/Word'
 import { formatPrice } from '../utils/displayFunctions'
 
@@ -13,7 +12,6 @@ import { formatPrice } from '../utils/displayFunctions'
  * @returns {JSX.Element} The pricing element.
  */
 const PriceTableWithUnits = ({ productName, productData, unitName }) => {
-  console.log(productData)
   if (!productData.products || productData.products.length === 0) {
     error.log('No products found.')
     return null
@@ -32,7 +30,6 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
       } ${unitName.pluralC}`
       columns.push({ key: key, label: label })
     }
-    console.log(product)
     if (rows.length == 0 || rows[rows.length - 1].key != product.years) {
       rows.push({
         key: product.years,
@@ -43,9 +40,11 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
       unitName.singularC
     }`
   }
-  console.log(rows)
-  return (
-    <Table bordered headerLined striped aria-labelledby='pricingHeading'>
+
+  return null
+}
+
+/*<Table bordered headerLined striped aria-labelledby='pricingHeading'>
       <Table.Header columns={columns}>
         {(column) => (
           <Table.Column key={column.key}>{column.label}</Table.Column>
@@ -58,8 +57,6 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
           </Table.Row>
         )}
       </Table.Body>
-    </Table>
-  )
-}
+        </Table>*/
 
 export default PriceTableWithUnits
