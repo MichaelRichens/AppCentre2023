@@ -130,100 +130,97 @@ const SubscriptionConfigurator = ({
     createHandleMonthsRemainingChange(updateFormData)
 
   return (
-    <>
-      <h2>{productName} Configurator</h2>
-      <form className={configuratorStyles.configurator}>
-        <SubscriptionSummary configuration={currentConfiguration.summary} />
+    <form className={configuratorStyles.configurator}>
+      <SubscriptionSummary configuration={currentConfiguration.summary} />
 
-        <TypeChangeSelect
-          type={formData.type}
-          addUserOption={
-            productData.maxUsers - productData.minUsers > formData.existingUsers
-              ? `Add ${unitName.pluralC} To Subscription`
-              : false
-          }
-          addExtOption={
-            productData.availableExtensions.length > 0
-              ? 'Add Extensions to Subscription'
-              : false
-          }
-          onTypeChange={handleTypeChange}
+      <TypeChangeSelect
+        type={formData.type}
+        addUserOption={
+          productData.maxUsers - productData.minUsers > formData.existingUsers
+            ? `Add ${unitName.pluralC} To Subscription`
+            : false
+        }
+        addExtOption={
+          productData.availableExtensions.length > 0
+            ? 'Add Extensions to Subscription'
+            : false
+        }
+        onTypeChange={handleTypeChange}
+      />
+
+      <PurchaseUnitInput
+        allowDisplay={
+          formData.type === PurchaseType.SUB ||
+          formData.type === PurchaseType.EXT ||
+          (formData.type === PurchaseType.ADD &&
+            process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
+              'true')
+        }
+        legend={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${
+          unitName.pluralC
+        } on Subscription`}
+        min={productData.minUsers}
+        max={productData.maxUsers}
+        step={productData.minUsers}
+        name='existingUsers'
+        value={formData.existingUsers}
+        onChange={handleExistingUsersChange}
+        onBlur={handleExistingUsersBlur}
+        error={formData.existingUsersError}
+      />
+
+      <PurchaseUnitInput
+        allowDisplay={formData.type !== PurchaseType.EXT}
+        legend={
+          formData.type === PurchaseType.NEW
+            ? `Number of ${unitName.pluralC}`
+            : formData.type === PurchaseType.ADD
+            ? `${unitName.pluralC} to Add`
+            : `Adjust Number of ${unitName.pluralC} By`
+        }
+        min={
+          formData.type === PurchaseType.SUB
+            ? productData.minUsers - formData.existingUsers
+            : productData.minUsers
+        }
+        max={productData.maxUsers - formData.existingUsers}
+        step={productData.minUsers}
+        name='userChange'
+        value={formData.userChange}
+        onChange={handleUserChangeChange}
+        onBlur={handleUserChangeBlur}
+        error={formData.userChangeError}
+      />
+
+      <ExtensionCheckboxes
+        legend={
+          formData.type === PurchaseType.EXT
+            ? 'New Extensions to Add'
+            : 'Select Extensions'
+        }
+        availableExtensions={productData.availableExtensions}
+        selectedExtensions={formData.checkedExtensions}
+        onChange={handleExtensionCheckboxChange}
+      />
+
+      {formData.type === PurchaseType.SUB ||
+      formData.type === PurchaseType.NEW ? (
+        <YearsSelect
+          legend='Subscription Length'
+          value={formData.years}
+          onChange={handleYearsChange}
+          from={productData.minYears}
+          to={productData.maxYears}
         />
-
-        <PurchaseUnitInput
-          allowDisplay={
-            formData.type === PurchaseType.SUB ||
-            formData.type === PurchaseType.EXT ||
-            (formData.type === PurchaseType.ADD &&
-              process.env
-                .NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true')
-          }
-          legend={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${
-            unitName.pluralC
-          } on Subscription`}
-          min={productData.minUsers}
-          max={productData.maxUsers}
-          step={productData.minUsers}
-          name='existingUsers'
-          value={formData.existingUsers}
-          onChange={handleExistingUsersChange}
-          onBlur={handleExistingUsersBlur}
-          error={formData.existingUsersError}
+      ) : (
+        <MonthsRemainingSelect
+          legend='Time Remaining Until Renewal Date'
+          value={formData.years}
+          onChange={handleMonthsRemainingChange}
+          maxYears={productData.maxYears}
         />
-
-        <PurchaseUnitInput
-          allowDisplay={formData.type !== PurchaseType.EXT}
-          legend={
-            formData.type === PurchaseType.NEW
-              ? `Number of ${unitName.pluralC}`
-              : formData.type === PurchaseType.ADD
-              ? `${unitName.pluralC} to Add`
-              : `Adjust Number of ${unitName.pluralC} By`
-          }
-          min={
-            formData.type === PurchaseType.SUB
-              ? productData.minUsers - formData.existingUsers
-              : productData.minUsers
-          }
-          max={productData.maxUsers - formData.existingUsers}
-          step={productData.minUsers}
-          name='userChange'
-          value={formData.userChange}
-          onChange={handleUserChangeChange}
-          onBlur={handleUserChangeBlur}
-          error={formData.userChangeError}
-        />
-
-        <ExtensionCheckboxes
-          legend={
-            formData.type === PurchaseType.EXT
-              ? 'New Extensions to Add'
-              : 'Select Extensions'
-          }
-          availableExtensions={productData.availableExtensions}
-          selectedExtensions={formData.checkedExtensions}
-          onChange={handleExtensionCheckboxChange}
-        />
-
-        {formData.type === PurchaseType.SUB ||
-        formData.type === PurchaseType.NEW ? (
-          <YearsSelect
-            legend='Subscription Length'
-            value={formData.years}
-            onChange={handleYearsChange}
-            from={productData.minYears}
-            to={productData.maxYears}
-          />
-        ) : (
-          <MonthsRemainingSelect
-            legend='Time Remaining Until Renewal Date'
-            value={formData.years}
-            onChange={handleMonthsRemainingChange}
-            maxYears={productData.maxYears}
-          />
-        )}
-      </form>
-    </>
+      )}
+    </form>
   )
 }
 
