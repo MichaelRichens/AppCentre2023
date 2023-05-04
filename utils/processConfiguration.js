@@ -172,7 +172,7 @@ function processConfiguration(
     extensionNames,
     unitName
   )
-  console.log(result)
+
   return result
 }
 

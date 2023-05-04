@@ -23,6 +23,9 @@ const Header = () => {
           <li>
             <NavLink href='/gfi-archiver'>GFI Archiver</NavLink>
           </li>
+          <li>
+            <NavLink href='/gfi-languard'>GFI LanGuard</NavLink>
+          </li>
         </ul>
       </nav>
     </header>

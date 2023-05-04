@@ -1,16 +1,27 @@
 import PurchaseType from './enums/PurchaseType'
-/**
- * ConfigurationSummary class definition.
- *
- * @module
- * This module ...
- */
+import Word from './Word'
 
 const createProductDescription = Symbol('privateMethod')
 const createExtensionsDescription = Symbol('privateMethod')
 const createPrice = Symbol('privateMethod')
 const durationString = Symbol('durationString')
 
+/**
+ * ConfigurationSummary class definition.
+ *
+ * @module
+ * This module takes in various attributes of a product configuration, and generates some text summaries suitable for display to the user.
+ * It is immutable.
+ *
+ * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
+ * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
+ * @param {number} price - The total price in GBP.
+ * @param {number} existingUsers - The existing unit on a subscription which is being modified.
+ * @param {number} userChange - The change in units being made to the subscription (or total users for a new subscription).
+ * @param {number} years - The duration in years that the subscription will run for (or is running for if that is not being modified).  Can be fractional for some `type` values.
+ * @param {string[]} extensionNames - The names (as in user-appropriate descriptions) of the extensions on this configuration, may be existing or new depending on `type`
+ * @param {Word} unitName - A Word type object holding the name for the unit that the subscription is measured in - eg 'User'
+ */
 class ConfigurationSummary {
   constructor(
     productName,
@@ -91,7 +102,8 @@ class ConfigurationSummary {
           extensionNames.slice(-1)
         : extensionNames[0]
     str += ' extension'
-    str += extensionNames.length > 1 ? 's' : '' + '.'
+    str += extensionNames.length > 1 ? 's' : ''
+    str += '.'
     return str
   }
 

@@ -5,7 +5,14 @@
     }
   ],
   "settings": {
-    "cSpell.words": ["configurator", "nextjs", "rata", "Referers", "skus"],
+    "cSpell.words": [
+      "configurator",
+      "LANGUARD",
+      "nextjs",
+      "rata",
+      "Referers",
+      "skus"
+    ],
     "editor.formatOnSave": true,
     "prettier.proseWrap": "always",
     "prettier.semi": false,
