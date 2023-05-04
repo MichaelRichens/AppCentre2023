@@ -30,7 +30,7 @@ class ConfigurationSummary {
       years,
       unitName
     )
-    this.extensions = this[createExtensionsDescription](extensionNames)
+    this.extensions = this[createExtensionsDescription](type, extensionNames)
     this.price = this[createPrice](price)
 
     // Make the object immutable
@@ -70,15 +70,20 @@ class ConfigurationSummary {
               }.`
             : '.'
         break
+      case PurchaseType.EXT:
+        str += `Existing ${productName} subscription of ${existingUsers} ${
+          unitName.pluralLC
+        } with ${this[durationString](years)} remaining.`
+        break
     }
     return str
   }
 
-  [createExtensionsDescription](extensionNames) {
+  [createExtensionsDescription](type, extensionNames) {
     if (!extensionNames || extensionNames.length == 0) {
       return ''
     }
-    let str = 'With the '
+    let str = `${type === PurchaseType.EXT ? 'Adding' : 'With'} the `
     str +=
       extensionNames.length > 1
         ? extensionNames.slice(0, -1).join(', ') +

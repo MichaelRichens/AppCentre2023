@@ -2,6 +2,7 @@ import React from 'react'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 const ExtensionCheckboxes = ({
+  legend,
   availableExtensions,
   selectedExtensions,
   onChange,
@@ -11,7 +12,7 @@ const ExtensionCheckboxes = ({
   }
   return (
     <fieldset className={configuratorStyles.checkbox}>
-      <legend>Select Extensions</legend>
+      <legend>{legend}</legend>
       {availableExtensions.map((extension) => (
         <label key={extension.key} className={configuratorStyles.checkbox}>
           <input

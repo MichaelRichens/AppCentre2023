@@ -135,9 +135,14 @@ const SubscriptionConfigurator = ({
 
       <TypeChangeSelect
         type={formData.type}
-        addOption={
+        addUserOption={
           productData.maxUsers - productData.minUsers > formData.existingUsers
             ? `Add ${unitName.pluralC} To Subscription`
+            : false
+        }
+        addExtOption={
+          productData.availableExtensions.length > 0
+            ? 'Add Extensions to Subscription'
             : false
         }
         onTypeChange={handleTypeChange}
@@ -145,12 +150,15 @@ const SubscriptionConfigurator = ({
 
       <PurchaseUnitInput
         allowDisplay={
-          formData.type === PurchaseType.NEW ||
+          formData.type === PurchaseType.SUB ||
+          formData.type === PurchaseType.EXT ||
           (formData.type === PurchaseType.ADD &&
             process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
               'true')
         }
-        legend={`Current ${unitName.pluralC} on Subscription`}
+        legend={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${
+          unitName.pluralC
+        } on Subscription`}
         min={productData.minUsers}
         max={productData.maxUsers}
         step={productData.minUsers}
@@ -162,6 +170,7 @@ const SubscriptionConfigurator = ({
       />
 
       <PurchaseUnitInput
+        allowDisplay={formData.type !== PurchaseType.EXT}
         legend={
           formData.type === PurchaseType.NEW
             ? `Number of ${unitName.pluralC}`
@@ -184,6 +193,11 @@ const SubscriptionConfigurator = ({
       />
 
       <ExtensionCheckboxes
+        legend={
+          formData.type === PurchaseType.EXT
+            ? 'New Extensions to Add'
+            : 'Select Extensions'
+        }
         availableExtensions={productData.availableExtensions}
         selectedExtensions={formData.checkedExtensions}
         onChange={handleExtensionCheckboxChange}
