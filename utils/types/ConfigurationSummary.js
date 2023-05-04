@@ -1,3 +1,4 @@
+import PurchaseType from './enums/PurchaseType'
 /**
  * ConfigurationSummary class definition.
  *
@@ -46,17 +47,17 @@ class ConfigurationSummary {
   ) {
     let str = ''
     switch (type) {
-      case 'sub':
+      case PurchaseType.SUB:
         str += `Renewing ${productName} with ${existingUsers + userChange} ${
           unitName.pluralLC
         }`
         str += ` for ${this[durationString](years)}.`
         break
-      case 'new':
+      case PurchaseType.NEW:
         str += `Purchasing ${productName} with ${userChange} ${unitName.pluralLC}`
         str += ` for ${this[durationString](years)}.`
         break
-      case 'add':
+      case PurchaseType.ADD:
         str += `Purchasing ${userChange} additional ${productName} ${unitName.pluralLC}`
         str += ` for the remaining ${this[durationString](
           years

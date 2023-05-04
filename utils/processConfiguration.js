@@ -1,5 +1,6 @@
 import ProductConfiguration from './types/ProductConfiguration'
 import ConfigurationSummary from './types/ConfigurationSummary'
+import PurchaseType from './types/enums/PurchaseType'
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
@@ -40,18 +41,18 @@ function processConfiguration(
    */
   let wholeYears
   /**
-   * @type {number} - The fractional part of a year that is allowed with some types (eg 'add' - adding new users).
+   * @type {number} - The fractional part of a year that is allowed with some types (eg PurchaseType.ADD - adding new users).
    * Price will be calculated pro-rata from the 1 year sku
    */
   let partYears = 0
 
   switch (configuratorOptions.type) {
-    case 'new':
+    case PurchaseType.NEW:
       numUsersForPriceBand = configuratorOptions.userChange
       numUsersToPurchase = configuratorOptions.userChange
       wholeYears = Math.ceil(configuratorOptions.years)
       break
-    case 'add':
+    case PurchaseType.ADD:
       if (
         process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
         'true'

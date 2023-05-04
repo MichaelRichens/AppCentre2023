@@ -1,21 +1,23 @@
+import PurchaseType from './types/enums/PurchaseType'
+
 export const createHandleTypeChange =
   (updateFormData, formData, productData) => (event) => {
     const { value } = event.target
     let userChange = formData.userChange
     if (
-      (value === 'new' || value === 'add') &&
+      (value === PurchaseType.NEW || value === PurchaseType.ADD) &&
       userChange < productData.minUsers
     ) {
       userChange = productData.minUsers
     } else if (
-      value === 'sub' &&
-      (formData.type === 'new' || formData.type === 'add')
+      value === PurchaseType.SUB &&
+      (formData.type === PurchaseType.NEW || formData.type === PurchaseType.ADD)
     ) {
       userChange = 0
     }
 
     let years = formData.years
-    if (value === 'sub' || value === 'new') {
+    if (value === PurchaseType.SUB || value === PurchaseType.NEW) {
       // make sure we have a whole number for years
       years = Math.max(
         productData.minYears,
@@ -44,7 +46,7 @@ export const createHandleExistingUsersBlur =
         Math.max(parseInt(event.target.value), 1),
         productData.maxUsers
       )
-      if (formData.type === 'sub') {
+      if (formData.type === PurchaseType.SUB) {
         const remainder = existingUsers % productData.minUsers
         if (remainder !== 0) {
           existingUsers += productData.minUsers - remainder
@@ -71,7 +73,7 @@ export const createHandleExistingUsersChange = (updateFormData) => (event) => {
 export const createHandleUserChangeChange =
   (updateFormData, formData) => (event) => {
     const { value } = event.target
-    if (isNaN(value) && (formData.type != 'sub' || value != '-')) {
+    if (isNaN(value) && (formData.type != PurchaseType.SUB || value != '-')) {
       return
     }
     let userChange
@@ -91,7 +93,8 @@ export const createHandleUserChangeBlur =
     // early exit if NaN entered - not an error, since its probably been left blank, just set to default minimum.
     if (isNaN(value)) {
       updateFormData({
-        userChange: formData.type == 'add' ? productData.minUserChange : 0,
+        userChange:
+          formData.type == PurchaseType.ADD ? productData.minUserChange : 0,
       })
       return
     }
@@ -100,7 +103,7 @@ export const createHandleUserChangeBlur =
     let userChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
     // Calculate the minimum and maximum user change values based on the type of subscription.
     const minUserChange =
-      formData.type === 'new' || formData.type === 'add'
+      formData.type === PurchaseType.NEW || formData.type === PurchaseType.ADD
         ? productData.minUsers
         : productData.minUsers - formData.existingUsers
     const maxUserChange = productData.maxUsers - formData.existingUsers

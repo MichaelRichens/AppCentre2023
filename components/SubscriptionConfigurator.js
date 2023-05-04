@@ -44,7 +44,7 @@ const SubscriptionConfigurator = ({
 }) => {
   const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
   const savedData = configuratorData[productFamily] || {
-    type: 'sub',
+    type: PurchaseType.SUB,
     existingUsers: productData.minUsers,
     userChange: 0,
     checkedExtensions: [],
@@ -145,8 +145,8 @@ const SubscriptionConfigurator = ({
 
       <PurchaseUnitInput
         allowDisplay={
-          formData.type == 'new' ||
-          (formData.type == 'add' &&
+          formData.type === PurchaseType.NEW ||
+          (formData.type === PurchaseType.ADD &&
             process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
               'true')
         }
@@ -163,14 +163,14 @@ const SubscriptionConfigurator = ({
 
       <PurchaseUnitInput
         legend={
-          formData.type == 'new'
+          formData.type === PurchaseType.NEW
             ? `Number of ${unitName.pluralC}`
-            : formData.type === 'add'
+            : formData.type === PurchaseType.ADD
             ? `${unitName.pluralC} to Add`
             : `Adjust Number of ${unitName.pluralC} By`
         }
         min={
-          formData.type === 'sub'
+          formData.type === PurchaseType.SUB
             ? productData.minUsers - formData.existingUsers
             : productData.minUsers
         }
@@ -189,7 +189,8 @@ const SubscriptionConfigurator = ({
         onChange={handleExtensionCheckboxChange}
       />
 
-      {formData.type == 'sub' || formData.type == 'new' ? (
+      {formData.type === PurchaseType.SUB ||
+      formData.type === PurchaseType.NEW ? (
         <YearsSelect
           legend='Subscription Length'
           value={formData.years}
