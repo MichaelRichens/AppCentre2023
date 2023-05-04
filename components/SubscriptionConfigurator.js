@@ -83,7 +83,7 @@ const SubscriptionConfigurator = ({
     saveConfiguratorData(productFamily, formData)
   }, [formData])
 
-  const { price } = generateSkusAndCalculatePrice(
+  const currentConfiguration = generateSkusAndCalculatePrice(
     productData.products,
     productData.extensions,
     formData
@@ -129,7 +129,7 @@ const SubscriptionConfigurator = ({
     <form className={configuratorStyles.configurator}>
       <SubscriptionSummary
         productName={productName}
-        price={price}
+        price={currentConfiguration.price}
         formData={formData}
         productData={productData}
         unitName={unitName}

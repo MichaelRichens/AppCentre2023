@@ -1,4 +1,5 @@
 import ProductConfiguration from './types/ProductConfiguration'
+import generateSummary from './generateSummary'
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
@@ -106,7 +107,7 @@ function generateSkusAndCalculatePrice(
           'This really should never happen.  Missing 1 year part code for product?'
         )
       }
-      // wholeYears == 0, so we haven't found any part codes for this product.  Exit early for reasons given in comment after partYearProduct search failure.
+      // wholeYears == 0, so we haven't found any part codes for this product and there are no skus on result.  Exit early for reasons given in comment after partYearProduct search failure.
       return result
     }
 
@@ -142,6 +143,15 @@ function generateSkusAndCalculatePrice(
       result.price += extension.price * numUsersToPurchase * partYears
     })
   }
+  result.summary = generateSummary(
+    productName,
+    result.type,
+    result.price,
+    configuratorOptions.existingUsers,
+    configuratorOptions.userChange,
+    wholeYears + partYears,
+    unitName
+  )
   return result
 }
 
