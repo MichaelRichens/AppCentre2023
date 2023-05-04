@@ -84,9 +84,11 @@ const SubscriptionConfigurator = ({
   }, [formData])
 
   const currentConfiguration = processConfiguration(
+    productName,
     productData.products,
     productData.extensions,
-    formData
+    formData,
+    unitName
   )
 
   const handleTypeChange = createHandleTypeChange(
@@ -127,13 +129,7 @@ const SubscriptionConfigurator = ({
 
   return (
     <form className={configuratorStyles.configurator}>
-      <SubscriptionSummary
-        productName={productName}
-        price={currentConfiguration.price}
-        formData={formData}
-        productData={productData}
-        unitName={unitName}
-      />
+      <SubscriptionSummary configuration={currentConfiguration.summary} />
 
       <TypeChangeSelect
         type={formData.type}

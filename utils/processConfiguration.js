@@ -1,14 +1,22 @@
 import ProductConfiguration from './types/ProductConfiguration'
-import generateConfigurationSummary from './generateConfigurationSummary'
+import ConfigurationSummary from './types/ConfigurationSummary'
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
+ * @param {string} ProductName - The text name of the product.
  * @param {Object[]} products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
  * @param {Object[]} extensions - The individual extensions skus data to calculate price from.
  * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
+ * @param {Word} unitName - The type of units that are being used (users or whatever)
  * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
-function processConfiguration(products, extensions, configuratorOptions) {
+function processConfiguration(
+  productName,
+  products,
+  extensions,
+  configuratorOptions,
+  unitName
+) {
   /** The return object */
   const result = new ProductConfiguration(
     configuratorOptions.type,
@@ -110,6 +118,8 @@ function processConfiguration(products, extensions, configuratorOptions) {
     result.skus[partYearProduct.sku] = numUsersToPurchase * partYears
     result.price += partYearProduct.price * numUsersToPurchase * partYears
   }
+  /** @type {string[]|boolean} Needs to be populated with a list of extension names to generate the summary from. Or boolean false if there are none. */
+  let extensionNames = false
 
   if (wholeYears > 0) {
     const wholeYearExtensions = findExtensions(
@@ -122,6 +132,7 @@ function processConfiguration(products, extensions, configuratorOptions) {
       result.skus[extension.sku] = numUsersToPurchase
       result.price += extension.price * numUsersToPurchase
     })
+    extensionNames = wholeYearExtensions.map((extension) => extension.name)
   }
 
   if (partYears > 0) {
@@ -138,14 +149,18 @@ function processConfiguration(products, extensions, configuratorOptions) {
       result.skus[extension.sku] += numUsersToPurchase * partYears
       result.price += extension.price * numUsersToPurchase * partYears
     })
+    if (extensionNames === false) {
+      extensionNames = partYearExtensions.map((extension) => extension.name)
+    }
   }
-  result.summary = generateConfigurationSummary(
+  result.summary = new ConfigurationSummary(
     productName,
     result.type,
     result.price,
     configuratorOptions.existingUsers,
     configuratorOptions.userChange,
     wholeYears + partYears,
+    extensionNames,
     unitName
   )
   return result
