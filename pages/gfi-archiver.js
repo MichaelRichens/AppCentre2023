@@ -1,6 +1,6 @@
 import React from 'react'
 import SubscriptionPage from '../components/SubscriptionPage'
-import Word from '../utils/types/word'
+import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
