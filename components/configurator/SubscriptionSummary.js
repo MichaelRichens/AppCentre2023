@@ -11,7 +11,6 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 
 const SubscriptionSummary = ({ configuration }) => {
-  console.log(configuration)
   return (
     <fieldset className={configuratorStyles.summary}>
       <p>{configuration.product}</p>
