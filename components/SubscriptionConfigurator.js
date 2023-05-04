@@ -6,7 +6,7 @@ import PurchaseUnitInput from './configurator/PurchaseUnitInput'
 import ExtensionCheckboxes from './configurator/ExtensionCheckboxes'
 import YearsSelect from './configurator/YearsSelect'
 import MonthsRemainingSelect from './configurator/MonthsRemainingSelect'
-import Word from '../utils/types/word'
+import Word from '../utils/types/Word'
 import {
   createHandleTypeChange,
   createHandleExistingUsersBlur,
