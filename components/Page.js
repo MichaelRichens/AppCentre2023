@@ -1,4 +1,6 @@
 import React from 'react'
+import { useEffect } from 'react'
+import smartquotes from 'smartquotes'
 import Header from './Header'
 import Footer from './Footer'
 
@@ -10,16 +12,20 @@ import Footer from './Footer'
  * @returns {JSX.Element} The Page component.
  */
 const Page = ({ title, children }) => {
-  return (
-    <>
-      <Header />
-      <main>
-        <h1>{title}</h1>
-        {children}
-      </main>
-      <Footer />
-    </>
-  )
+	// This converts standard quotes into smart quotes in all text displayed.
+	useEffect(() => {
+		smartquotes().listen()
+	}, [])
+	return (
+		<>
+			<Header />
+			<main>
+				<h1>{title}</h1>
+				{children}
+			</main>
+			<Footer />
+		</>
+	)
 }
 
 export default Page
