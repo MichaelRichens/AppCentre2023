@@ -1,6 +1,6 @@
 import React from 'react'
 import Word from '../utils/types/Word'
-import { formatPrice } from '../utils/displayFunctions'
+import formatPrice from '../utils/formatPrice'
 import priceTableStyles from '../styles/PriceTable.shared.module.css'
 
 /**

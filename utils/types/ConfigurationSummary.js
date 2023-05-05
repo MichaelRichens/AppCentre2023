@@ -1,6 +1,6 @@
 import PurchaseType from './enums/PurchaseType'
 import Word from './Word'
-import { formatPrice } from '../displayFunctions'
+import formatPrice from '../formatPrice'
 
 const createProductDescription = Symbol('privateMethod')
 const createExtensionsDescription = Symbol('privateMethod')
