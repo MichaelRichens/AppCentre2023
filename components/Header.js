@@ -4,7 +4,7 @@ import NavLink from './NavLink'
 const Header = () => {
   return (
     <header>
-      <div id='header-nav-container'>
+      <div id='headerNavContainer'>
         <nav aria-label='Primary navigation'>
           <ul>
             <li>
