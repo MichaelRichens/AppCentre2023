@@ -1,26 +1,30 @@
 {
-  "folders": [
-    {
-      "path": "."
-    }
-  ],
-  "settings": {
-    "cSpell.words": [
-      "configurator",
-      "labelledby",
-      "LANGUARD",
-      "nextjs",
-      "nextui",
-      "rata",
-      "Referers",
-      "skus"
-    ],
-    "editor.formatOnSave": true,
-    "prettier.proseWrap": "always",
-    "prettier.semi": false,
-    "prettier.configPath": "./package.json",
-    "prettier.bracketSpacing": true,
-    "prettier.bracketSameLine": true,
-    "prettier.singleAttributePerLine": false
-  }
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"cSpell.words": [
+			"configurator",
+			"describedby",
+			"GPT's",
+			"labelledby",
+			"LANGUARD",
+			"nextjs",
+			"nextui",
+			"rata",
+			"Referers",
+			"skus"
+		],
+		"editor.formatOnSave": true,
+		"prettier.proseWrap": "always",
+		"prettier.semi": false,
+		"prettier.configPath": "./package.json",
+		"prettier.bracketSpacing": true,
+		"prettier.bracketSameLine": true,
+		"prettier.singleAttributePerLine": false,
+		"editor.tabSize": 2,
+		"editor.insertSpaces": false
+	}
 }
