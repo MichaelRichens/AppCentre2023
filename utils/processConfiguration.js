@@ -81,6 +81,7 @@ function processConfiguration(
   }
 
   if (numUsersToPurchase < 1) {
+    // No users, just exit early with default result.
     return result
   }
 
