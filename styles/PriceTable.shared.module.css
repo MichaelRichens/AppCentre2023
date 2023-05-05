@@ -1,6 +1,57 @@
 .priceTable {
+  border-collapse: collapse;
+}
+
+table.priceTable th,
+table.priceTable td {
+  padding: 1em 2em;
+  border: 1px solid transparent;
+}
+
+/* Darken the entire first row (thead row) except for the first cell */
+table.priceTable thead th:not(:first-child) {
+  background-color: rgba(0, 0, 0, 0.1);
+  mix-blend-mode: multiply;
+}
+
+/* Darken the first column at a darker shade */
+table.priceTable th:first-child,
+table.priceTable tbody td:first-child {
+  background-color: rgba(0, 0, 0, 0.1);
+  mix-blend-mode: multiply;
+}
+
+/* Darken odd-numbered rows in the tbody at a lighter shade, excluding the first cell */
+table.priceTable tbody tr:nth-child(even) td:not(:first-child) {
+  background-color: rgba(0, 0, 0, 0.05);
+  mix-blend-mode: multiply;
+}
+
+/* Add border-radius to the table */
+.priceTable {
   border-collapse: separate;
-  border-spacing: 3em 1em;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Add border-radius to the top-left cell */
+.priceTable thead th:first-child {
+  border-top-left-radius: 10px;
+}
+
+/* Add border-radius to the bottom-left cell */
+.priceTable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 10px;
+}
+
+/* Add border-radius to the top-right cell */
+.priceTable thead th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Add border-radius to the bottom-right cell */
+.priceTable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 10px;
 }
 
 .priceTable th[scope='col'] {
