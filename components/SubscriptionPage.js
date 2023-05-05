@@ -1,7 +1,7 @@
 import React from 'react'
 
 import Page from './Page'
-import PricingWithUnits from './PricingWithUnits'
+import PriceTableWithUnits from './PriceTableWithUnits'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
 import PricingType from '../utils/types/enums/PricingType'
 
@@ -31,8 +31,9 @@ const SubscriptionPage = ({
       <>
         <section>{productIntro}</section>
         <section>
+          <h2 id='pricingHeading'>{productName} Pricing</h2>
           {pricingType === PricingType.UNIT ? (
-            <PricingWithUnits
+            <PriceTableWithUnits
               productName={productName}
               productData={productData}
               unitName={unitName}
@@ -40,6 +41,7 @@ const SubscriptionPage = ({
           ) : null}
         </section>
         <section>
+          <h2>{productName} Configurator</h2>
           <SubscriptionConfigurator
             productName={productName}
             productFamily={productFamily}

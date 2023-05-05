@@ -1,9 +1,9 @@
 import PurchaseType from './enums/PurchaseType'
 import Word from './Word'
+import { formatPrice } from '../displayFunctions'
 
 const createProductDescription = Symbol('privateMethod')
 const createExtensionsDescription = Symbol('privateMethod')
-const createPrice = Symbol('privateMethod')
 const durationString = Symbol('durationString')
 
 /**
@@ -42,7 +42,7 @@ class ConfigurationSummary {
       unitName
     )
     this.extensions = this[createExtensionsDescription](type, extensionNames)
-    this.price = this[createPrice](price)
+    this.price = formatPrice(price)
 
     // Make the object immutable
     Object.freeze(this)
@@ -105,14 +105,6 @@ class ConfigurationSummary {
     str += extensionNames.length > 1 ? 's' : ''
     str += '.'
     return str
-  }
-
-  [createPrice](price) {
-    const formattedPrice = new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency: 'GBP',
-    }).format(price)
-    return `${formattedPrice} + vat`
   }
 
   [durationString](years) {
