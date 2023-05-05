@@ -21,9 +21,9 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
   const columns = ['Subscription Length']
   const rows = []
   const shortestYears = productData.products[0].years
+  let currentRowYear = -1
   for (let i = 0; i < productData.products.length; i++) {
     const product = productData.products[i]
-    const tier = `tier${product.units_from}`
 
     if (product.years === shortestYears) {
       const label = `${product.units_from} ${
@@ -33,6 +33,14 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
     }
     if (rows.length == 0 || rows[rows.length - 1].length === columns.length) {
       rows.push([`${product.years} Year${product.years != 1 ? 's' : ''}`])
+      currentRowYear = product.years
+    }
+    if (product.years !== currentRowYear) {
+      // We're assuming we have the same user tiers in the database for each subscription length.
+      //If this isn't true a lot of assumptions break down, so throw an error and go fix it.
+      throw new Error(
+        'Uneven number of skus found for different subscription lengths.  Cannot create price table.'
+      )
     }
     rows[rows.length - 1].push(formatPrice(product.price))
   }
