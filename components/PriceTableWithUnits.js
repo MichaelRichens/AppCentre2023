@@ -1,6 +1,7 @@
 import React from 'react'
 import Word from '../utils/types/Word'
 import { formatPrice } from '../utils/displayFunctions'
+import priceTableStyles from '../styles/PriceTable.shared.module.css'
 
 /**
  * PricingWithUnits provides a price table element for the passed products.
@@ -17,46 +18,59 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
     return null
   }
 
-  const columns = [{ key: 'years', label: 'Subscription Length' }]
+  const columns = ['Subscription Length']
   const rows = []
   const shortestYears = productData.products[0].years
   for (let i = 0; i < productData.products.length; i++) {
     const product = productData.products[i]
-    const key = `tier${product.units_from}`
+    const tier = `tier${product.units_from}`
 
     if (product.years === shortestYears) {
       const label = `${product.units_from} ${
         product.units_to > product.units_from ? '- ' + product.units_to : '+'
       } ${unitName.pluralC}`
-      columns.push({ key: key, label: label })
+      columns.push(label)
     }
-    if (rows.length == 0 || rows[rows.length - 1].key != product.years) {
-      rows.push({
-        key: product.years,
-        years: `${product.years} Year${product.years != 1 ? 's' : ''}`,
-      })
+    if (rows.length == 0 || rows[rows.length - 1].length === columns.length) {
+      rows.push([`${product.years} Year${product.years != 1 ? 's' : ''}`])
     }
-    rows[rows.length - 1][key] = `${formatPrice(product.price)} per ${
-      unitName.singularC
-    }`
+    rows[rows.length - 1].push(formatPrice(product.price))
   }
-
-  return null
+  console.log(rows)
+  return (
+    <table
+      className={priceTableStyles.priceTable}
+      aria-labelledby='pricingHeading'
+      aria-describedby='pricingCaption'>
+      <caption id='pricingCaption'>
+        Per {unitName.singularC} Pricing for {productName}
+      </caption>
+      <thead>
+        <tr>
+          {columns.map((label, index) => (
+            <th key={index} scope='col'>
+              {label}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((cell, cellIndex) =>
+              cellIndex === 0 ? (
+                <th key={cellIndex} scope='row'>
+                  {cell}
+                </th>
+              ) : (
+                <td key={cellIndex}>{cell}</td>
+              )
+            )}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
 }
-
-/*<Table bordered headerLined striped aria-labelledby='pricingHeading'>
-      <Table.Header columns={columns}>
-        {(column) => (
-          <Table.Column key={column.key}>{column.label}</Table.Column>
-        )}
-      </Table.Header>
-      <Table.Body items={rows}>
-        {(item) => (
-          <Table.Row key={item.key}>
-            {(columnKey) => <Table.Cell>{item[columnKey]}</Table.Cell>}
-          </Table.Row>
-        )}
-      </Table.Body>
-        </Table>*/
 
 export default PriceTableWithUnits
