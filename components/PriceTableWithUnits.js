@@ -44,7 +44,6 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
     }
     rows[rows.length - 1].push(formatPrice(product.price))
   }
-  console.log(rows)
   return (
     <table
       className={priceTableStyles.priceTable}
