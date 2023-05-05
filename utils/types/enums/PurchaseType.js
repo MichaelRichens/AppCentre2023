@@ -9,10 +9,10 @@
  * @property {string} EXT - Additional extension(s) to an existing subscription.
  */
 const PurchaseType = Object.freeze({
-  SUB: 'sub',
-  NEW: 'new',
-  ADD: 'add',
-  EXT: 'ext',
+	SUB: 'sub',
+	NEW: 'new',
+	ADD: 'add',
+	EXT: 'ext',
 })
 
 export default PurchaseType

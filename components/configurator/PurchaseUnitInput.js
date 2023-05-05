@@ -20,40 +20,40 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
 const PurchaseUnitInput = ({
-  allowDisplay,
-  legend,
-  min,
-  max,
-  step,
-  name,
-  value,
-  onChange,
-  onBlur,
-  error,
+	allowDisplay,
+	legend,
+	min,
+	max,
+	step,
+	name,
+	value,
+	onChange,
+	onBlur,
+	error,
 }) => {
-  if (allowDisplay === false) {
-    return null
-  }
-  return (
-    <fieldset>
-      <legend>{legend}</legend>
-      <input
-        type='number'
-        min={min}
-        max={max}
-        step={step}
-        name={name}
-        className={configuratorStyles.unitQty}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        aria-label={legend}
-      />
-      {error !== false && (
-        <span className={configuratorStyles.formError}>{error}</span>
-      )}
-    </fieldset>
-  )
+	if (allowDisplay === false) {
+		return null
+	}
+	return (
+		<fieldset>
+			<legend>{legend}</legend>
+			<input
+				type='number'
+				min={min}
+				max={max}
+				step={step}
+				name={name}
+				className={configuratorStyles.unitQty}
+				value={value}
+				onChange={onChange}
+				onBlur={onBlur}
+				aria-label={legend}
+			/>
+			{error !== false && (
+				<span className={configuratorStyles.formError}>{error}</span>
+			)}
+		</fieldset>
+	)
 }
 
 export default PurchaseUnitInput

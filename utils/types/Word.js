@@ -11,20 +11,20 @@
  */
 
 class Word {
-  constructor(singular, plural) {
-    this.singularLC = singular.toLowerCase()
-    this.pluralLC = plural.toLowerCase()
-    this.singularC = this.capitalize(singular.toLowerCase())
-    this.pluralC = this.capitalize(plural.toLowerCase())
+	constructor(singular, plural) {
+		this.singularLC = singular.toLowerCase()
+		this.pluralLC = plural.toLowerCase()
+		this.singularC = this.capitalize(singular.toLowerCase())
+		this.pluralC = this.capitalize(plural.toLowerCase())
 
-    // Make the object immutable
-    Object.freeze(this)
-  }
+		// Make the object immutable
+		Object.freeze(this)
+	}
 
-  // Helper method to capitalize the first letter of a word
-  capitalize(word) {
-    return word.charAt(0).toUpperCase() + word.slice(1)
-  }
+	// Helper method to capitalize the first letter of a word
+	capitalize(word) {
+		return word.charAt(0).toUpperCase() + word.slice(1)
+	}
 }
 
 export default Word

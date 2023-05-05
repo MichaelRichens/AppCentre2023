@@ -11,13 +11,13 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 
 const SubscriptionSummary = ({ configuration }) => {
-  return (
-    <fieldset className={configuratorStyles.summary}>
-      <p>{configuration.product}</p>
-      <p>{configuration.extensions}</p>
-      <p>{configuration.price}</p>
-    </fieldset>
-  )
+	return (
+		<fieldset className={configuratorStyles.summary}>
+			<p>{configuration.product}</p>
+			<p>{configuration.extensions}</p>
+			<p>{configuration.price}</p>
+		</fieldset>
+	)
 }
 
 export default SubscriptionSummary

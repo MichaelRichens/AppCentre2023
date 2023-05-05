@@ -13,23 +13,23 @@ import { createContext, useContext, useState } from 'react'
 const ConfiguratorContext = createContext()
 
 export const useConfiguratorContext = () => {
-  return useContext(ConfiguratorContext)
+	return useContext(ConfiguratorContext)
 }
 
 export const ConfiguratorProvider = ({ children }) => {
-  const [configuratorData, setConfiguratorData] = useState({})
+	const [configuratorData, setConfiguratorData] = useState({})
 
-  const saveConfiguratorData = (productFamily, formData) => {
-    setConfiguratorData((prevData) => ({
-      ...prevData,
-      [productFamily]: formData,
-    }))
-  }
+	const saveConfiguratorData = (productFamily, formData) => {
+		setConfiguratorData((prevData) => ({
+			...prevData,
+			[productFamily]: formData,
+		}))
+	}
 
-  return (
-    <ConfiguratorContext.Provider
-      value={{ configuratorData, saveConfiguratorData }}>
-      {children}
-    </ConfiguratorContext.Provider>
-  )
+	return (
+		<ConfiguratorContext.Provider
+			value={{ configuratorData, saveConfiguratorData }}>
+			{children}
+		</ConfiguratorContext.Provider>
+	)
 }

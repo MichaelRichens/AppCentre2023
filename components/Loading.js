@@ -5,11 +5,11 @@ import styles from '../styles/Loading.module.css'
  * @returns The placeholder element.
  */
 const Loading = () => {
-  return (
-    <div className={styles['loading-container']}>
-      <p className={styles['loading']}></p>
-    </div>
-  )
+	return (
+		<div className={styles['loading-container']}>
+			<p className={styles['loading']}></p>
+		</div>
+	)
 }
 
 export default Loading

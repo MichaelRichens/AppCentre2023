@@ -6,7 +6,7 @@
  * @property {string} UNIT - Pricing is done on a per unit (eg user) basis
  */
 const PricingType = Object.freeze({
-  UNIT: 'unit',
+	UNIT: 'unit',
 })
 
 export default PricingType

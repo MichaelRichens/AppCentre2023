@@ -1,4 +1,4 @@
 {
-  "prettier.configPath": "./package.json",
-  "prettier.requireConfig": true
+	"prettier.configPath": "./package.json",
+	"prettier.requireConfig": true
 }

@@ -5,11 +5,11 @@
  * @returns {string} The formatted price string with ' + vat' appended.
  */
 const formatPrice = (price) => {
-  const formattedPrice = new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: 'GBP',
-  }).format(price)
-  return `${formattedPrice} + vat`
+	const formattedPrice = new Intl.NumberFormat('en-GB', {
+		style: 'currency',
+		currency: 'GBP',
+	}).format(price)
+	return `${formattedPrice} + vat`
 }
 
 export default formatPrice
