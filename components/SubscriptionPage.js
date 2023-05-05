@@ -2,6 +2,7 @@ import React from 'react'
 
 import Page from './Page'
 import PriceTableSubscriptionWithUnits from './PriceTableSubscriptionWithUnits'
+import PriceTableSubscriptions from './PriceTableSubscriptions'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
 import PricingType from '../utils/types/enums/PricingType'
 
@@ -37,6 +38,11 @@ const SubscriptionPage = ({
               productName={productName}
               productData={productData}
               unitName={unitName}
+            />
+          ) : null}
+          {productData.extensions && productData.extensions.length > 0 ? (
+            <PriceTableSubscriptions
+              caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
             />
           ) : null}
         </section>
