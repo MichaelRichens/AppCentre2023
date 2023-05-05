@@ -19,46 +19,47 @@ import PricingType from '../utils/types/enums/PricingType'
  * @returns {JSX.Element} The ProductPage component.
  */
 const SubscriptionPage = ({
-  productName,
-  productIntro,
-  productFamily,
-  productData,
-  pricingType,
-  unitName,
-  children,
+	productName,
+	productIntro,
+	productFamily,
+	productData,
+	pricingType,
+	unitName,
+	children,
 }) => {
-  return (
-    <Page title={productName}>
-      <>
-        <section>{productIntro}</section>
-        <section>
-          <h2 id='pricingHeading'>{productName} Pricing</h2>
-          {pricingType === PricingType.UNIT ? (
-            <PriceTableSubscriptionWithUnits
-              productName={productName}
-              productData={productData}
-              unitName={unitName}
-            />
-          ) : null}
-          {productData.extensions && productData.extensions.length > 0 ? (
-            <PriceTableSubscriptions
-              caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
-            />
-          ) : null}
-        </section>
-        <section>
-          <h2>{productName} Configurator</h2>
-          <SubscriptionConfigurator
-            productName={productName}
-            productFamily={productFamily}
-            productData={productData}
-            unitName={unitName}
-          />
-        </section>
-        {children}
-      </>
-    </Page>
-  )
+	return (
+		<Page title={productName}>
+			<>
+				<section>{productIntro}</section>
+				<section>
+					<h2 id='pricingHeading'>{productName} Pricing</h2>
+					{pricingType === PricingType.UNIT ? (
+						<PriceTableSubscriptionWithUnits
+							productName={productName}
+							productData={productData}
+							unitName={unitName}
+						/>
+					) : null}
+					{productData.extensions && productData.extensions.length > 0 ? (
+						<PriceTableSubscriptions
+							caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
+							extensions={productData.extensions}
+						/>
+					) : null}
+				</section>
+				<section>
+					<h2>{productName} Configurator</h2>
+					<SubscriptionConfigurator
+						productName={productName}
+						productFamily={productFamily}
+						productData={productData}
+						unitName={unitName}
+					/>
+				</section>
+				{children}
+			</>
+		</Page>
+	)
 }
 
 export default SubscriptionPage
