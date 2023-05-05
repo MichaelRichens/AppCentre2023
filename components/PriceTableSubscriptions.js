@@ -19,9 +19,11 @@ const PriceTableSubscriptions = ({ caption }) => {
 			aria-labelledby='pricingHeading'
 			aria-describedby='pricingCaption'>
 			<caption id={captionId}>"{caption}"</caption>
-			<tr>
-				<td>test</td>
-			</tr>
+			<tbody>
+				<tr>
+					<td>test</td>
+				</tr>
+			</tbody>
 		</table>
 	)
 }
