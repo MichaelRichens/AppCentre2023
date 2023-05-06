@@ -1,0 +1,32 @@
+.header {
+	background-color: cyan;
+}
+
+.headerNavContainer {
+	display: flex;
+	flex-direction: column;
+	font-family: 'Lato', sans-serif;
+}
+
+.headerNavContainer nav {
+	margin-bottom: 0.5em;
+}
+
+.headerNavContainer ul {
+	display: flex;
+	flex-wrap: wrap;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.headerNavContainer li {
+	white-space: nowrap;
+	margin-right: 2em;
+}
+
+.headerNavContainer a {
+	color: black;
+	text-decoration: none;
+	font-weight: bold;
+}

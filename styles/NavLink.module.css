@@ -3,7 +3,9 @@
 .current:hover,
 .current:active,
 .current:visited {
-  text-decoration: inherit;
-  cursor: inherit;
-  color: inherit;
+	text-decoration: inherit;
+	cursor: inherit;
+	color: inherit;
+	font-weight: inherit;
+	opacity: 0.8;
 }
