@@ -6,6 +6,7 @@ import PriceTableSubscriptions from './PriceTableSubscriptions'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
 import TableData from '../utils/types/TableData'
 import PricingType from '../utils/types/enums/PricingType'
+import formatPrice from '../utils/formatPrice'
 
 /**
  * ProductPage is a wrapper component that renders the Page component with a product configurator generated from the productFamily prop.
@@ -47,7 +48,11 @@ const SubscriptionPage = ({
 		)
 
 		productData.extensions.forEach((ext) => {
-			extensionsTable.setData(yearLabel(ext.years), ext.name, ext.price)
+			extensionsTable.setData(
+				yearLabel(ext.years),
+				ext.name,
+				formatPrice(ext.price)
+			)
 		})
 	}
 
