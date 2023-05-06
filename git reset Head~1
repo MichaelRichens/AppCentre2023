@@ -1,0 +1,1129 @@
+[33mcommit 937bba990f9f4a999c212caeaccdfaf1cd6e6a70[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat May 6 11:07:17 2023 +0100
+
+    added some fonts
+
+[33mcommit cb56b78ba1348ef1375b1ea9b3cb7810bd0276b0[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat May 6 02:40:45 2023 +0100
+
+    formated subscription pricing
+
+[33mcommit 99c7eb3afe55692f25cc4c8eae44020d314a3285[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat May 6 02:34:58 2023 +0100
+
+    added local function to generatecolumn year label + removed logging
+
+[33mcommit 65e62d9e44b26dff4f7f59b670b05f6a3dcb419e[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat May 6 02:26:15 2023 +0100
+
+    Created TableData class to manage and genertae html table structure, and used it to write PriceTableSubscription component and use this for extensions pricing table.
+
+[33mcommit aa06698d4088fe8b29b45a9cb1885c3894278e94[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat May 6 00:55:16 2023 +0100
+
+    Set up prettier and ran it site wide.  Main changes, spaces => tabs and line endings.
+
+[33mcommit 2c76adc55feb0c4498f932ddd0905748ef8a2a41[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat May 6 00:44:03 2023 +0100
+
+    passed in extensions to price table
+
+[33mcommit 4f699cb3f6c333ce30cb9bce3ef27d6fe972819a[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri May 5 22:42:55 2023 +0100
+
+    comment
+
+[33mcommit de778a73de972de4a785edc0a12114bc656a11a9[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri May 5 22:40:04 2023 +0100
+
+    Installed smartquotes packge and enabled it in Page component
+
+[33mcommit e4c52cb601311d65adcefd1bd60e9439e7afbe3d[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri May 5 22:39:28 2023 +0100
+
+    made test table legal html
+
+[33mcommit 106241260e53bafa56e564c55ef071306422b1da[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri May 5 22:05:14 2023 +0100
+
+    Started on extension price table
+
+[33mcommit ff26dbcbff377d36302ce9661f5050da75e376db[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri May 5 22:04:43 2023 +0100
+
+    Project editor settings
+
+[33mcommit dc5e78f242315fdc13ffcb20f510a42a2ed73a41[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri May 5 21:19:55 2023 +0100
+
+    reorganised displayPrice into its own file
+
+[33mcommit 159ebafa25f29ef14d8ae8bbd36a09a9141db2b2[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri May 5 21:18:39 2023 +0100
+
+    updated next
+
+[33mcommit bece2e4293ee036ceadee955a06b3ab6363326d5[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 13:52:15 2023 +0100
+
+    renamed price table
+
+[33mcommit ba396c87b3598dd43775c592f0e221aad033586e[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 12:52:22 2023 +0100
+
+    styling PriceTable
+
+[33mcommit 48a3db586b443844b406222a7192e55341e4dfd2[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 12:48:56 2023 +0100
+
+    styling PriceTable
+
+[33mcommit ce852d76e5b3ba13dcf236f126a2cc3f1eae3552[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 11:52:41 2023 +0100
+
+    removed logging
+
+[33mcommit 0a7682787f6c27cca58ffc73a2a261f3ff657996[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 11:52:18 2023 +0100
+
+    comment
+
+[33mcommit 361a846435971b6c854085695b326658345c6844[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 10:01:43 2023 +0100
+
+    Added a sanity check
+
+[33mcommit 08d2c0aff7b356508ff22dbd6c80f4254178e3eb[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 09:55:56 2023 +0100
+
+    renamed id
+
+[33mcommit e0e2843cbf010b3a2432ae21ebc6980ef1944122[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 09:42:58 2023 +0100
+
+    redid basiic pricing table with html table
+
+[33mcommit f3cb1211bd4908d26f95c379a86bde2588e86a52[m
+Merge: 4ca2bf8 803777e
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri May 5 08:48:54 2023 +0100
+
+    NavLink changes that had not been commited to github merged with changes that had been commited.
+
+[33mcommit 803777e0e16e7efe48bb510713cfd48de83f80af[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 23:15:19 2023 +0100
+
+    unistalled nextui, component done with its Table component is commented out to be reworked
+
+[33mcommit df36dfceef1bc2af414872f4d89ff64414171fc6[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 23:05:19 2023 +0100
+
+    Basic price table done, currently using a nextui Table element
+
+[33mcommit bab59d91772353fce9c0939e81f6292f679658e8[m[33m ([m[1;31morigin/test[m[33m, [m[1;32mtest[m[33m)[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 21:54:36 2023 +0100
+
+    updated npm packages to latest versions using ncu
+
+[33mcommit 3e43975234d67b34cffe6ada1d9b29c0129ccb4a[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 21:44:10 2023 +0100
+
+    installed nextui and upgraded next
+
+[33mcommit 803684be7da8f507c529e2ce57e95c8541a10d23[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 21:43:45 2023 +0100
+
+    added context and made modifications to use nextui
+
+[33mcommit 797b5f4c94096be83ab9201b457cc1c2a9aa1003[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 21:38:32 2023 +0100
+
+    fiddled with pricing table
+
+[33mcommit 4ca2bf8bdba9042bd3f2a19f5b5e3dd36d0788e3[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 16:55:38 2023 +0100
+
+    fiddling with navlink
+
+[33mcommit dcf91e92ba2978206f5b42d9baefd1421f74d529[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 16:04:11 2023 +0100
+
+    Started on a price table component
+
+[33mcommit 927ab8d70272b070e64872e642986c5150cbb3dd[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 14:39:38 2023 +0100
+
+    Added GFI LanGuard page
+
+[33mcommit 65d95eb3a04bc734a5b1d93300edd042040263e6[m[33m ([m[1;31morigin/prod[m[33m)[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 14:13:03 2023 +0100
+
+    Renamed TempWord.js to Word.js
+
+[33mcommit 83b5a9a931ff82948a4623289fbce05888256fa1[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 14:12:28 2023 +0100
+
+    Renamed word.js to TempWord.js
+
+[33mcommit de18c048bc105b813fa5d07917138eb07c8d0dfb[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 13:22:30 2023 +0100
+
+    reordered styles
+
+[33mcommit a4b50d01ca54528103e92d747a0744b11ac1a547[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 13:20:23 2023 +0100
+
+    Add extension functionality added to SubscriptionConfigurator
+
+[33mcommit 59e1f4683b57290ffecdfebdf99731b0455415b0[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 11:58:18 2023 +0100
+
+    Created PurchaseType enum and replaced previous string identifiers with it
+
+[33mcommit 4ccff737ee1540bcdf0670b58b36353a979f21e1[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 11:44:11 2023 +0100
+
+    imported some types
+
+[33mcommit ccc5f000c0bc886508f32273941afe6222ad73ad[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 11:25:46 2023 +0100
+
+    removed logging
+
+[33mcommit 5f28503255c45c19b36e6928ae2d16540145ca25[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 11:21:30 2023 +0100
+
+    Switched to new product configuration summary system.
+
+[33mcommit de86d3ee084a0a9e3cadfad5f7d5e54e829072b0[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu May 4 09:56:47 2023 +0100
+
+    renamed utility functions
+
+[33mcommit 95bcf61ef9259cfc3f443359dc0102180dd5501e[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 07:45:34 2023 +0100
+
+    part way through moving summary generation to generate skus function
+
+[33mcommit 7abe366b20fdc448540345a2f76fc810fe8f3d36[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 07:23:02 2023 +0100
+
+    renamed some env variables and fixed users to add to only display existing users if the relevant env variable is set.
+
+[33mcommit f19b1cefb00d2a7442cbe48bf864b212ea9c5d24[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 07:10:50 2023 +0100
+
+    fixed calendar picker not working
+
+[33mcommit d0cb2a925af615c7b5647d25d7f63162734201cf[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 06:55:49 2023 +0100
+
+    fixed imports
+
+[33mcommit 2dca7e281620bdd49f68d0c7f3e554547c1cf6b0[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 06:54:29 2023 +0100
+
+    fixed import
+
+[33mcommit 4d29f58c27e468f083b124bb04a89583aefc06e0[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu May 4 00:21:59 2023 +0100
+
+    pro rata extensions added
+
+[33mcommit bfcd583f2a548c96ce3efdf128e8aae012c13658[m[33m ([m[1;32mprod[m[33m)[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 21:39:57 2023 +0100
+
+    Reworded month select list
+
+[33mcommit 492d91069b931505f7eba4cbd551e6c09468448b[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 21:34:48 2023 +0100
+
+    pro-rata of product skus appears to be working after inital test.  Extensions not done yet.
+
+[33mcommit ea485cd49471a0d80077558f296259b3afbcabe5[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 21:24:07 2023 +0100
+
+    Part way through updating price calculations to deal with part years - not currently functional
+
+[33mcommit 050f56cdcbf78c0d86448a2b9a3bccdbcddf115b[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 20:14:19 2023 +0100
+
+    removed old loggoing
+
+[33mcommit c24fabec35f6828cef169fc1c31580fa5d29cfce[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 20:12:39 2023 +0100
+
+    fixed null being passed to input value prop
+
+[33mcommit 7a7b2912b71707ece0118cd3988bcd1f2fdbad40[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 16:47:59 2023 +0100
+
+    configurator form style tweak
+
+[33mcommit 973e0815fb4f0e084319f0b29d9a165c3af39ae4[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 16:45:20 2023 +0100
+
+    tweaked layout of months remaaining component
+
+[33mcommit ea95c0c5abfcf45e48200d5d90af4e0e892e5a6b[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 16:26:34 2023 +0100
+
+    vaguley working months remaining component - not integrated with pricing logic yet
+
+[33mcommit cd889cd65843e30af8a3d351bff9427c3235523f[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 15:38:33 2023 +0100
+
+    Part way through implementing a months remaining select control
+
+[33mcommit c14f978b2f893e2f491211a0f0b848d9c3f4dae3[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 14:03:51 2023 +0100
+
+    fixed bug with numeric value being stored as string and therefore failing === check
+
+[33mcommit d050b977eeb1611f88b120bcadbe4d78d0a977cb[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 13:47:36 2023 +0100
+
+    Added extensions to the SubscriptionSummary component.
+
+[33mcommit d4802dea98cafecdd6df273e70f355f9729f5b34[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 13:20:40 2023 +0100
+
+    added a gfi archiver page, added env option to swap between different styles of add user pricing.  fixed bug in price calc
+
+[33mcommit 9eee975dec2b9eeb2457e54de22a99fbf723b7ec[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 09:59:17 2023 +0100
+
+    pulled handle* functions out of SubscriptionConfigurator into external configuratorHandleFunctions file
+
+[33mcommit 6035b30927c62ba1cfee62266b83a156d775ac7d[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed May 3 09:58:26 2023 +0100
+
+    fixed working with wrong state variable
+
+[33mcommit caef903c7c1742b40c06a414fb3b59381618c947[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 08:01:25 2023 +0100
+
+    reordered PurchaseUnitInput props
+
+[33mcommit 6660e08d9a9099bd685dca731bd320bd2433471c[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 07:48:55 2023 +0100
+
+    tweaked docblock
+
+[33mcommit 07a87e31049d2cd7d455a896c23ae43557966e29[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 07:46:53 2023 +0100
+
+    added docblock to SubscriptionSummary
+
+[33mcommit 58a450c86bfba0895eae5f443046136f9ad29df2[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 07:42:07 2023 +0100
+
+    pulled SubscriptionSummary into its own component
+
+[33mcommit ccbb1794aa0ff4e49273ae2260170c01af5d4852[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 07:27:36 2023 +0100
+
+    pulled out ExtensionCheckboxes configurator sub component
+
+[33mcommit 2e184964bee0b314c140d3df60241601779bdf06[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 07:26:32 2023 +0100
+
+    whitespace
+
+[33mcommit ac70db76a4d7af8e477cd97d700fdd97576424d6[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 07:08:20 2023 +0100
+
+    pulled out YearsSelect configurator sub component
+
+[33mcommit 520973d23572fc745cab8add101273851644b812[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed May 3 00:29:45 2023 +0100
+
+    pulled user quantity fields out into a shared component.  Dealt with some sku processing errors in both database import and price calculation.  Edited form somewhat.
+
+[33mcommit aa284346ace893b0da3981fa881ce5d3a706d6b0[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 23:16:12 2023 +0100
+
+    pulled TypeChangeSelect into its won component
+
+[33mcommit e68180ecec4b9f840b02142b0eecf7fece5236ed[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 21:29:37 2023 +0100
+
+    added a hopefully more useful error message
+
+[33mcommit 647cc3ab791abf5d7069d2b67f48ff57748b09ff[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 21:17:22 2023 +0100
+
+    Added price calculation for selected extensions
+
+[33mcommit e835171b55b39d38462d983a745a2d7a1e2440dc[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 20:54:17 2023 +0100
+
+    integrated extension checkboxes into formData
+
+[33mcommit f00bd304f730b03010d6f38cf52948f1bc305233[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 20:29:04 2023 +0100
+
+    minor fiddling
+
+[33mcommit 5ea48561cdca63c1d73759e55875821527bab417[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 20:20:44 2023 +0100
+
+    whitespace
+
+[33mcommit 615437a79cc00f2f07718b6f25227802ecf5c466[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 20:19:33 2023 +0100
+
+    Throw an error if a matching product sku isn't found.
+
+[33mcommit 40a239fa9a0f54b9ccd6d6cc4b368eed07e45297[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 20:12:26 2023 +0100
+
+    tidied up the html and added some accessibility bits to the form
+
+[33mcommit 5c61f84227cd3ea6c7fa1d4d271fa771578a8dd7[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 17:33:39 2023 +0100
+
+    updated to modern npm
+
+[33mcommit 54dbb6062df223e20825693d30d50079ae5cbd3d[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 16:56:43 2023 +0100
+
+    Reworked form to use fieldsets and added extension group (not yet hooked in to logic)
+
+[33mcommit 45c28e60fb22fd1c49f6c1aeb74958ef1cbe5f6e[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 16:34:34 2023 +0100
+
+    removed logging
+
+[33mcommit 87c010dd718d47b1b7bdcd120fe38190b5572b06[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 16:20:27 2023 +0100
+
+    removed logging
+
+[33mcommit bc8af652cf61116049aed57a8f436c99920ab282[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 15:47:50 2023 +0100
+
+    simplified form error handling
+
+[33mcommit 5eb1f40cd4c2f4d3de62276b3795fca2e39ad7e8[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 15:15:37 2023 +0100
+
+    added and modified error checking with user numbers
+
+[33mcommit 6bd998cfe3e81bacd95507fd4bb96f81b5fab8a4[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 14:50:34 2023 +0100
+
+    removed unneeded deconstuction of event targets
+
+[33mcommit 4f42e0a94286de02f9fc1c12b403b2d68a0aebe4[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 14:50:09 2023 +0100
+
+    did some more processing on extension data
+
+[33mcommit 2f30ab1e8af2e32e00699890597abfee546332c1[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 14:18:25 2023 +0100
+
+    reorganised subscription form, pulling most of the components out into predefined constants to make it less busy.  Added place to put extensions.
+
+[33mcommit f8e5cd34d68cf2aba01f34f313a0d4a545e97f2a[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 13:48:30 2023 +0100
+
+    comments
+
+[33mcommit 0712a371fe3505d34c4924aba15fd506b26719a4[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 13:48:19 2023 +0100
+
+    added fetching extension info from mongodb and processing it with product data
+
+[33mcommit 8d92bc8e6b6e74260f4fe017e9ae2e790458906b[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 12:43:37 2023 +0100
+
+    fixed capitalisation error
+
+[33mcommit f784f89d34eb0aeeaea6aa09b169fa6969ab83b2[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 12:42:23 2023 +0100
+
+    handled the fact that no all subscriptions are handled in users
+
+[33mcommit 98d8f4882e1f0f1a7c8cc9e44fea234fdd09d705[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 11:19:20 2023 +0100
+
+    added kerio control skeleton page + fixed bug in database import that wasn't querying productFamily
+
+[33mcommit 16e9201ad2d6c35bc757520f15888459ad0e38b2[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 11:01:50 2023 +0100
+
+    another type change case handled
+
+[33mcommit 091741fc1ba7a25cec6e76c798bbf0efae5c11a5[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 10:59:45 2023 +0100
+
+    handled some cases of default values on type of subscription change
+
+[33mcommit c7fa2692cc37de2c43ddbdba70e274ba5d5e699d[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 10:41:58 2023 +0100
+
+    fixed wrong original value being stored
+
+[33mcommit 462ab0694ff215f665e336da1f09ecac590344b7[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 10:34:54 2023 +0100
+
+    Moved sumary info into a variable from main form, tweaked styling of user quantity inputs
+
+[33mcommit 43e8288f7b7f1e9070fc2d53d074e646102f9cd0[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 10:25:11 2023 +0100
+
+    Fixed issues with subscription length options
+
+[33mcommit 3c24015b08187a04f1431b6b731d7ba743725b02[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Tue May 2 10:04:39 2023 +0100
+
+    Completed error display and expanded on current form configuration output
+
+[33mcommit 44435e33cef5be45f6ad40dd5edb8d0b9c001be4[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 07:25:26 2023 +0100
+
+    Error display on userChange
+
+[33mcommit 9de1a9a14bd64b8e9f4bf77d3840ce66ccc208f1[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 06:55:04 2023 +0100
+
+    renamed product page
+
+[33mcommit ad60813e7417cf6b3ea3e4ba21c43a439c563d78[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Tue May 2 06:51:33 2023 +0100
+
+    renamed configurator
+
+[33mcommit 7b32a1864ce73d8e92544681be570ca9f7f7dc8c[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 21:43:16 2023 +0100
+
+    removed logging
+
+[33mcommit 9bd11e29cdf48d390a2e53df2ee06f2267876c53[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 21:38:10 2023 +0100
+
+    Got onblur and onchange validation working together on user fields - very fiddly and still needs work
+
+[33mcommit ade813e17c7df02607505b6436dc8097a45d26e2[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 20:53:19 2023 +0100
+
+    fiddled with validation a bit, converted users inputs from number to text.  Still has basic usability issues.
+
+[33mcommit bccabb9b323481a5438304a965c358e9c7de8a81[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 19:23:21 2023 +0100
+
+    fixed validation of userChange
+
+[33mcommit a6f154745599dc5a95fec7cc1c7ea29611dd35a7[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 13:54:32 2023 +0100
+
+    Improved the configurator form with additional logic, and added functional price calculation
+
+[33mcommit dff043cfc8b212fa634a5118886e130c4c8e34c8[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 12:27:34 2023 +0100
+
+    basic price calculation
+
+[33mcommit 7b11c6798a3686ad5f43123d8a2addba6be4ba37[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 10:52:41 2023 +0100
+
+    used copy of param
+
+[33mcommit 1d72341073a8cc34996ca2641befea3285260dcb[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 10:50:41 2023 +0100
+
+    started on calculating price
+
+[33mcommit 1afecd8b2a144d29781295ee6adf757c890d9698[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 10:36:04 2023 +0100
+
+    removed logging
+
+[33mcommit 82b443445411e4bd5666e44fa1f972cd691349b3[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 10:32:47 2023 +0100
+
+    comment
+
+[33mcommit 05dd71a753a5b1bf7fab982c246f641f0b762853[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 10:30:29 2023 +0100
+
+    created a skelton price and sku calculation function, and liinked it in to the configuraotr
+
+[33mcommit 3ccd970e3ca6876362330652b3377810108bed5d[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Mon May 1 09:57:31 2023 +0100
+
+    added a context to save state app wide for different versions of the configurator form
+
+[33mcommit 3c90202ce1107502d11fd6479765b3e6f5ca88b1[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 22:43:10 2023 +0100
+
+    First draft of configurator form.
+
+[33mcommit 9ed23f4e79706820cbd0ca1074bcdf5f2aca80c5[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 22:11:13 2023 +0100
+
+    processed products from db to get min and max users
+
+[33mcommit 2661d24990d8dc20f9633960a8955f87be9884d6[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 21:30:35 2023 +0100
+
+    modified products database calls to only get data on a single product
+
+[33mcommit 874f9746f6e7b370fe08db2ba574609172c96082[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 18:08:35 2023 +0100
+
+    moved server side utilities into their own directory
+
+[33mcommit 4e05310083860b03feb787fee7c5175ef18bc3ac[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 18:02:03 2023 +0100
+
+    removed unused import
+
+[33mcommit 6118e6a69f3d6572822390ca15c21c234a4e873a[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 18:00:05 2023 +0100
+
+    removed products api and handled fetching products data in a function that is reachable at build time by getStaticProps
+
+[33mcommit 3d1b2bd0c0f9aa2c50b63c8da29dd898b412406d[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:32:39 2023 +0100
+
+    more error fiddling
+
+[33mcommit 9a72d1346e5eba7946e9de83ed534b11e350b449[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:31:21 2023 +0100
+
+    more error fiddling
+
+[33mcommit 144ee456a5c43c68ba549f03b1e6190d1ed6c182[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:29:43 2023 +0100
+
+    more error fiddling
+
+[33mcommit 67d94df3125fd39de4e3db05e18c0002d24dda41[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:27:55 2023 +0100
+
+    more error fiddling
+
+[33mcommit e5593e5c4823ab41e3f588f96533c3eb7818f6da[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:26:02 2023 +0100
+
+    more error fiddling
+
+[33mcommit 12dc92a8663f77b88292d5430d8994846c72d6a0[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:21:37 2023 +0100
+
+    trying deliberately wrong api route to check error consistency
+
+[33mcommit e15afc329057e6485c664229b933c51bbc9dd721[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:19:08 2023 +0100
+
+    more fiddling to try and get it to work
+
+[33mcommit 9f62a639ca43fc7af6cd312931ebc7bde45da2c0[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:14:12 2023 +0100
+
+    try it with a relative api url
+
+[33mcommit cf046753b0f7ca13846400ab138ab42df450db9e[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 17:08:49 2023 +0100
+
+    edited error handling
+
+[33mcommit 4b8f6551c85d7624057c1bc671ffa2a75f334e68[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 16:59:40 2023 +0100
+
+    added error handling to fetchProducts
+
+[33mcommit 58bea1757c24f763dde3ac3acfc19d6a8d91d320[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 16:54:28 2023 +0100
+
+    pulled revalidation time into env variable
+
+[33mcommit b4e259ae8cd4880ec37c025dac57edb09454bfe2[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sun Apr 30 16:52:23 2023 +0100
+
+    implemented getStaticProps for reading product information from the database, pulled out previous context and hook that managed product data
+
+[33mcommit 6b6b9b2f25150a611331a39b6962180dee220e0c[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat Apr 29 18:32:45 2023 +0100
+
+    roughed out a ProductPage and ProductConfigurator component outline.  A few minor edits elsewhere
+
+[33mcommit 3192131d803f9b73fb96bbe2ca1f7dd61c0a4061[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat Apr 29 17:44:40 2023 +0100
+
+    made processedProducts use copies rather than references
+
+[33mcommit ad53629a7f1917e8226efa0fa421fe7f9c11931b[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat Apr 29 12:49:52 2023 +0100
+
+    Added processing of products into product_families
+
+[33mcommit 86a19a4bc485fb3a42c0fc82a813d86f2ca7afbb[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat Apr 29 12:05:03 2023 +0100
+
+    removed get-price api and example code that used it
+
+[33mcommit dfeee635cab7dc0dd439caceaf802c4cf5ab73d8[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat Apr 29 12:04:37 2023 +0100
+
+    changed each product into a sublist
+
+[33mcommit c954b804c9022b52eec9c6705f993194fa90dd95[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat Apr 29 11:59:50 2023 +0100
+
+    simpliified products api to make it always get all products
+
+[33mcommit 449f70b4fcc74905c47c17d45c063f62e5532403[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Sat Apr 29 00:32:52 2023 +0100
+
+    created a context to hold product data looked up from the database, and provide access to it without relooking it up
+
+[33mcommit 948754067a158e5a60965cb4edd361ec4f60f8ec[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri Apr 28 23:23:24 2023 +0100
+
+    fiddled with mongodb connection, and added option to call api/products to get all products
+
+[33mcommit 740aef1095ded4ee51569e2864046d96e39907f7[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri Apr 28 22:49:12 2023 +0100
+
+    minor tweaks to db connection, functionally the same
+
+[33mcommit 0f53e0d60b2f0b86eddaaf514e3e5c03babf9528[m
+Merge: 0a240dc dd6761c
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri Apr 28 22:40:25 2023 +0100
+
+    Merge branch 'main' of https://github.com/MichaelRichens/AppCentre2023
+
+[33mcommit 0a240dc7c3bf50f49ac0248a4789ce7635f565e5[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri Apr 28 22:29:55 2023 +0100
+
+    obsolete lock file fix
+
+[33mcommit dd6761c7f4b65ad5a8160191e68787ade6dd8374[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 15:03:17 2023 +0100
+
+    comment
+
+[33mcommit 4144fc2997249db13ceaf91921e3b481eced5177[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:52:51 2023 +0100
+
+    removed logging
+
+[33mcommit b7a42697b7733c798dcfe128d11d63e735738e57[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:50:09 2023 +0100
+
+    removed bad config value
+
+[33mcommit 1d08f16bf740ad2658b9c8125c424d108eae4df2[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:47:28 2023 +0100
+
+    increased function timeout for testing
+
+[33mcommit 0ce30656c7dda7d786aacc08b31a8829a7099f69[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:40:46 2023 +0100
+
+    debug logging
+
+[33mcommit 828f496353cb7ec83f82cd6e1e0784074d4d63f7[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:16:41 2023 +0100
+
+    undid previous change
+
+[33mcommit 32d10015ff8aeed340bbee52dcf4c9b91a16aad0[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:14:48 2023 +0100
+
+    testing need to list an env variable here
+
+[33mcommit b2ae211473b290ace6b5277d7fbab42dca4bcfb5[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:07:16 2023 +0100
+
+    Added some error handling to example ProductsList component
+
+[33mcommit 529203369e0304d802bbfd447f83f7b6341ebfba[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 14:01:49 2023 +0100
+
+    Added mongodb connection with basic test code
+
+[33mcommit 832239050aa027d79af2d69b9d299e568f442898[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 12:11:14 2023 +0100
+
+    set cahce time to a week
+
+[33mcommit 8bbb75313932b888b813140caa5711d360af8892[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 11:23:54 2023 +0100
+
+    rationalised env variables
+
+[33mcommit 607f96c3cbab52847ebc7e0c038711c9fee048f5[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 11:06:52 2023 +0100
+
+    adjusted env variables and removed test code
+
+[33mcommit eb704f94ea0d26a4ca1d5987a3daa3e51d106f5f[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 10:58:52 2023 +0100
+
+    more fiddling with env variables, and test code to check them
+
+[33mcommit 280882cae3b80b7f1c3eb3b08413f105797e6a48[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 10:46:45 2023 +0100
+
+    more fiddling with api routes, and env variables, and some test code
+
+[33mcommit 125a2751633a205a0a4869329446e0ad4faa9897[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 10:29:21 2023 +0100
+
+    test code to debug api route on netlify
+
+[33mcommit 8804398b2814d379acc623909c3ac0dde9ab7327[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 10:14:58 2023 +0100
+
+    test code to debug api route on netlify
+
+[33mcommit 405ef196355bf154fffa4a3fde62c04b30fe0965[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 10:04:46 2023 +0100
+
+    netlify config
+
+[33mcommit 1dac0f05f53c13e67874c5c81a8c3f3f5ff32caf[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 09:55:31 2023 +0100
+
+    netlify config
+
+[33mcommit dbc162945863451d53749ee513c4195c61be6227[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 09:49:56 2023 +0100
+
+    netlify config
+
+[33mcommit a73b697714258d8751c11037f90e14523f9c4eae[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 09:37:32 2023 +0100
+
+    netlify config changes
+
+[33mcommit 60fc9e2ef02ec00c2c6062057b9f2841d6d43d27[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 09:31:29 2023 +0100
+
+    netlify config
+
+[33mcommit b5bf8fbdeca620bb9a8e439ef6523315c4f04da7[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Fri Apr 28 09:25:51 2023 +0100
+
+    netlify config changes
+
+[33mcommit 6cfc3aa3944777c634ac8074475aabbab98c3d12[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri Apr 28 00:23:32 2023 +0100
+
+    netlify config
+
+[33mcommit 96f0726127d2cb107dd33d477044d5dd83b1553d[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri Apr 28 00:20:33 2023 +0100
+
+    netlify config stuff
+
+[33mcommit 510e204b40cd6086773ed9eb1dff0abfc33f681c[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Fri Apr 28 00:08:21 2023 +0100
+
+    netlify config changes
+
+[33mcommit 2674433a562ba69d49855cad772d4cd61968a8a6[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu Apr 27 23:54:55 2023 +0100
+
+    restored navlink code that got lost somewhere
+
+[33mcommit 20f5ebed22cdbac5b6811f811dccadd59458de0b[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu Apr 27 23:49:50 2023 +0100
+
+    removed _redirect to see if it resolves netlify issue
+
+[33mcommit 6950f491210582096d5d5c8acb59443c68783a36[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu Apr 27 23:20:29 2023 +0100
+
+    removed NavLink elements to investigate whether they are causing an issue
+
+[33mcommit 1cc12e24ce70e845e1cc2ee18c2d9ea03e42b192[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu Apr 27 23:12:56 2023 +0100
+
+    deleted webpack.config.js
+
+[33mcommit 0f921cb2fe997f3594e813a378b0422c9ccc46d4[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu Apr 27 22:38:02 2023 +0100
+
+    tweaked netlify settings + messed with packages without changing anything major
+
+[33mcommit 2ebb25ff094e48ab2f602c385b2a6e0279a786a9[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Thu Apr 27 22:08:09 2023 +0100
+
+    updated lock file with correct version of npm installed
+
+[33mcommit a62a01c486a4bc555c18b7e2d09e31df71cd6cf7[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu Apr 27 16:48:58 2023 +0100
+
+    added comment
+
+[33mcommit 104e74688cda9812245c05fa14d4407f07229b11[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu Apr 27 16:32:37 2023 +0100
+
+    removed unnecesery containing div from Page component
+
+[33mcommit 43ec1ed31c36484aa9accd29c404da015ad63d0b[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu Apr 27 16:22:13 2023 +0100
+
+    updated webpack
+
+[33mcommit f3bbc5504e0ebe2e1be67ca99689c27d8e9fe868[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu Apr 27 12:30:30 2023 +0100
+
+    added skeleton of get-price api route and calling function
+
+[33mcommit 8cdc2c450bae15576ff570a279c7498be5b9b084[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu Apr 27 11:13:32 2023 +0100
+
+    Made a NavLink component and used it in header
+
+[33mcommit 2946dcab2a044b7b8f13c1c8392f748b9cb86155[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu Apr 27 10:46:45 2023 +0100
+
+    Made header links inactive on the page that they are on
+
+[33mcommit f5d3474f2040dc9c541c9246b2005d088f48302c[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Thu Apr 27 10:09:50 2023 +0100
+
+    set up prettier for project with basic settings
+
+[33mcommit bfc07bb869ea693bd0b1749218af2831f3e24f00[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed Apr 26 21:41:20 2023 +0100
+
+    corrected build settings
+
+[33mcommit 1f822b458f2a0814a18b73d9ee83ed0f4ee15a3b[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed Apr 26 21:28:27 2023 +0100
+
+    replaced next-on-netlify with @pluginetlify/plugin-nextjs
+
+[33mcommit 6611b4fce424393011c6ef97870615878eae529f[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed Apr 26 21:19:53 2023 +0100
+
+    ran npm audit fix --force
+
+[33mcommit 467a7179bccfea76599e5476fa223ee8aae32c38[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed Apr 26 21:12:54 2023 +0100
+
+    set version correctly
+
+[33mcommit 1b83aaddbcef5f5c75f43ce973d284c7442daceb[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed Apr 26 21:12:15 2023 +0100
+
+    renamed package to comply with naming guidelines
+
+[33mcommit ed4ca514608c49340e3c8bc18b07839c7c31a757[m
+Author: Michael Richens <michael.richens@gmail.com>
+Date:   Wed Apr 26 21:10:01 2023 +0100
+
+    Converted site to use next.js
+
+[33mcommit b9b30fc1e65748eb23aafb2bbcf8ffd52fc6d894[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed Apr 26 11:56:22 2023 +0100
+
+    fixed .env.local file being required to exist
+
+[33mcommit e3ddbfc1089d2cadd543f42916b8f8307bea1b8c[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed Apr 26 10:59:35 2023 +0100
+
+    created vscode workspace
+
+[33mcommit 9a8aa3ac544855e98042ffac553a09b94898da5a[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed Apr 26 10:41:04 2023 +0100
+
+    Added dotenv.  Added NotFound routing.  Added Netlify config.
+
+[33mcommit 552313f018d6fc301853107cbd5d89999b84d5fa[m
+Author: Michael Richens <michael@2ndchancepc.co.uk>
+Date:   Wed Apr 26 09:44:30 2023 +0100
+
+    Initial commit

@@ -2,7 +2,7 @@ import React from 'react'
 
 import Page from './Page'
 import PriceTableSubscriptionWithUnits from './PriceTableSubscriptionWithUnits'
-import PriceTableSubscriptions from './PriceTableSubscriptions'
+import SimpleTable from './SimpleTable'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
 import TableData from '../utils/types/TableData'
 import PricingType from '../utils/types/enums/PricingType'
@@ -70,7 +70,7 @@ const SubscriptionPage = ({
 						/>
 					) : null}
 					{extensionsTable ? (
-						<PriceTableSubscriptions
+						<SimpleTable
 							caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
 							tableData={extensionsTable}
 						/>
