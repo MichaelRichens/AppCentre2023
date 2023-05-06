@@ -1,6 +1,7 @@
 import React from 'react'
 import { ConfiguratorProvider } from '../components/contexts/ConfiguratorContext'
 
+import '../styles/font-face.css'
 import '../styles/global.css'
 
 function App({ Component, pageProps }) {
