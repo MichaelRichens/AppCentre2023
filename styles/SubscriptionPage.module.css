@@ -1,0 +1,19 @@
+.priceTables > div {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.priceTables table {
+	margin-bottom: 2em;
+}
+
+.priceTables table:last-child {
+	margin-bottom: 0;
+}
+
+.priceTables caption {
+	font-weight: bold;
+	font-family: 'Times New Roman', Times, serif;
+	font-size: 120%;
+}

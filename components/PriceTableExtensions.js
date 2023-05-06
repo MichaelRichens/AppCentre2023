@@ -2,8 +2,9 @@ import React from 'react'
 import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
 import formatPrice from '../utils/formatPrice'
+import priceTableStyles from '../styles/Table.shared.module.css'
 
-const ExtensionsTable = ({ productName, extensionsData, unitName }) => {
+const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 	const yearLabel = (years) => `${years} Year${years != 1 ? 's' : ''}`
 	// relying on productData.extensions being pre-sorted
 	const uniqueYears = new Set(extensionsData.map((ext) => yearLabel(ext.years)))
@@ -17,10 +18,12 @@ const ExtensionsTable = ({ productName, extensionsData, unitName }) => {
 
 	return (
 		<SimpleTable
-			caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
 			tableData={extensionsTable}
+			caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
+			className={priceTableStyles.priceTable}
+			ariaLabelledby={'pricingHeading'}
 		/>
 	)
 }
 
-export default ExtensionsTable
+export default PriceTableExtensions

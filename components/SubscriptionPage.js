@@ -1,10 +1,10 @@
 import React from 'react'
-
 import Page from './Page'
-import PriceTableSubscriptionWithUnits from './PriceTableSubscriptionWithUnits'
-import ExtensionsTable from './ExtensionsTable'
+import PriceTableWithUnits from './PriceTableWithUnits'
+import PriceTableExtensions from './PriceTableExtensions'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
 import PricingType from '../utils/types/enums/PricingType'
+import styles from '../styles/SubscriptionPage.module.css'
 
 /**
  * ProductPage is a wrapper component that renders the Page component with a product configurator generated from the productFamily prop.
@@ -32,28 +32,32 @@ const SubscriptionPage = ({
 
 	return (
 		<Page title={productName}>
-			<>
-				<section>{productIntro}</section>
-				<section>
-					<h2 id='pricingHeading'>{productName} Pricing</h2>
+			<section>{productIntro}</section>
+			<section className={styles.priceTables}>
+				<h2 id='pricingHeading'>{productName} Pricing</h2>
+				<div>
 					{pricingType === PricingType.UNIT ? (
-						<PriceTableSubscriptionWithUnits productName={productName} productData={productData} unitName={unitName} />
+						<PriceTableWithUnits productName={productName} products={productData.products} unitName={unitName} />
 					) : null}
 					{haveExtensions ? (
-						<ExtensionsTable productName={productName} extensionsData={productData.extensions} unitName={unitName} />
+						<PriceTableExtensions
+							productName={productName}
+							extensionsData={productData.extensions}
+							unitName={unitName}
+						/>
 					) : null}
-				</section>
-				<section>
-					<h2>{productName} Configurator</h2>
-					<SubscriptionConfigurator
-						productName={productName}
-						productFamily={productFamily}
-						productData={productData}
-						unitName={unitName}
-					/>
-				</section>
-				{children}
-			</>
+				</div>
+			</section>
+			<section className={styles.Configurator}>
+				<h2>{productName} Configurator</h2>
+				<SubscriptionConfigurator
+					productName={productName}
+					productFamily={productFamily}
+					productData={productData}
+					unitName={unitName}
+				/>
+			</section>
+			{children}
 		</Page>
 	)
 }
