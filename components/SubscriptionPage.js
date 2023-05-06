@@ -4,6 +4,7 @@ import Page from './Page'
 import PriceTableSubscriptionWithUnits from './PriceTableSubscriptionWithUnits'
 import PriceTableSubscriptions from './PriceTableSubscriptions'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
+import TableData from '../utils/types/TableData'
 import PricingType from '../utils/types/enums/PricingType'
 
 /**
@@ -27,6 +28,34 @@ const SubscriptionPage = ({
 	unitName,
 	children,
 }) => {
+	let extensionsTable = false
+	if (
+		productData.availableExtensions &&
+		productData.availableExtensions.length > 0
+	) {
+		// relying on productData.extensions being pre-sorted
+		const uniqueYears = new Set(
+			productData.extensions.map(
+				(ext) => `${ext.years} Year${ext.years != 1 ? 's' : ''}`
+			)
+		)
+		const uniqueNames = new Set(productData.extensions.map((ext) => ext.name))
+
+		extensionsTable = new TableData(
+			Array.from(uniqueYears),
+			Array.from(uniqueNames),
+			'Subscription Length'
+		)
+
+		productData.extensions.forEach((ext) => {
+			extensionsTable.setData(
+				`${ext.years} Year${ext.years != 1 ? 's' : ''}`,
+				ext.name,
+				ext.price
+			)
+		})
+	}
+	console.log(extensionsTable)
 	return (
 		<Page title={productName}>
 			<>
@@ -40,10 +69,10 @@ const SubscriptionPage = ({
 							unitName={unitName}
 						/>
 					) : null}
-					{productData.extensions && productData.extensions.length > 0 ? (
+					{extensionsTable ? (
 						<PriceTableSubscriptions
 							caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
-							extensions={productData.extensions}
+							tableData={extensionsTable}
 						/>
 					) : null}
 				</section>
