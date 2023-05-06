@@ -157,7 +157,13 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 			/>
 
 			<ExtensionCheckboxes
-				legend={formData.type === PurchaseType.EXT ? 'New Extensions to Add' : 'Select Extensions'}
+				legend={
+					formData.type === PurchaseType.EXT
+						? 'New Extensions to Add'
+						: formData.type === PurchaseType.ADD
+						? 'Extensions You Currently Have'
+						: 'Select Extensions'
+				}
 				availableExtensions={productData.availableExtensions}
 				selectedExtensions={formData.checkedExtensions}
 				onChange={handleExtensionCheckboxChange}
