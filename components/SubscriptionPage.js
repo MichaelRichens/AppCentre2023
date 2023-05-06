@@ -33,11 +33,10 @@ const SubscriptionPage = ({
 		productData.availableExtensions &&
 		productData.availableExtensions.length > 0
 	) {
+		const yearLabel = (years) => `${years} Year${years != 1 ? 's' : ''}`
 		// relying on productData.extensions being pre-sorted
 		const uniqueYears = new Set(
-			productData.extensions.map(
-				(ext) => `${ext.years} Year${ext.years != 1 ? 's' : ''}`
-			)
+			productData.extensions.map((ext) => yearLabel(ext.years))
 		)
 		const uniqueNames = new Set(productData.extensions.map((ext) => ext.name))
 
@@ -48,14 +47,10 @@ const SubscriptionPage = ({
 		)
 
 		productData.extensions.forEach((ext) => {
-			extensionsTable.setData(
-				`${ext.years} Year${ext.years != 1 ? 's' : ''}`,
-				ext.name,
-				ext.price
-			)
+			extensionsTable.setData(yearLabel(ext.years), ext.name, ext.price)
 		})
 	}
-	console.log(extensionsTable)
+
 	return (
 		<Page title={productName}>
 			<>
