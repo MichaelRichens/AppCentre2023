@@ -49,3 +49,8 @@
 	text-decoration: none;
 	font-weight: bold;
 }
+
+.headerNavContainer .currentPageStyle {
+	font-weight: 300;
+	color: #ddd;
+}

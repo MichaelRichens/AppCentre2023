@@ -10,26 +10,38 @@ const Header = () => {
 					<nav aria-label='Info'>
 						<ul>
 							<li>
-								<NavLink href='/'>Home</NavLink>
+								<NavLink href='/' currentPageStyle={styles.currentPageStyle}>
+									Home
+								</NavLink>
 							</li>
 							<li>
-								<NavLink href='/about-us'>About Us</NavLink>
+								<NavLink href='/about-us' currentPageStyle={styles.currentPageStyle}>
+									About Us
+								</NavLink>
 							</li>
 						</ul>
 					</nav>
 					<nav aria-label='Products'>
 						<ul>
 							<li>
-								<NavLink href='/kerio-connect'>Kerio Connect</NavLink>
+								<NavLink href='/kerio-connect' currentPageStyle={styles.currentPageStyle}>
+									Kerio Connect
+								</NavLink>
 							</li>
 							<li>
-								<NavLink href='/kerio-control'>Kerio Control</NavLink>
+								<NavLink href='/kerio-control' currentPageStyle={styles.currentPageStyle}>
+									Kerio Control
+								</NavLink>
 							</li>
 							<li>
-								<NavLink href='/gfi-archiver'>GFI Archiver</NavLink>
+								<NavLink href='/gfi-archiver' currentPageStyle={styles.currentPageStyle}>
+									GFI Archiver
+								</NavLink>
 							</li>
 							<li>
-								<NavLink href='/gfi-languard'>GFI LanGuard</NavLink>
+								<NavLink href='/gfi-languard' currentPageStyle={styles.currentPageStyle}>
+									GFI LanGuard
+								</NavLink>
 							</li>
 						</ul>
 					</nav>

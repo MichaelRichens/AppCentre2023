@@ -16,7 +16,8 @@
 			"nextui",
 			"rata",
 			"Referers",
-			"skus"
+			"skus",
+			"truetype"
 		],
 		"editor.formatOnSave": true,
 		"prettier.proseWrap": "always",
