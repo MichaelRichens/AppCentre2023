@@ -1,32 +1,32 @@
 .configurator .formError {
-  color: rgb(193, 127, 4);
+	color: rgb(193, 127, 4);
 }
 
 .configurator > fieldset {
-  margin-bottom: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 .configurator input,
 .configurator select {
-  margin-left: 0.5em;
-  margin-right: 1em;
+	margin-left: 0.5em;
+	margin-right: 1em;
 }
 
 .summary > p {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 input.unitQty {
-  width: calc(7ch);
-  text-align: right;
+	width: calc(7ch);
+	text-align: right;
 }
 
 .checkbox label {
-  margin-right: 1em;
+	margin-right: 1em;
 }
 
 .checkbox input[type='checkbox'] {
-  margin-left: 0.5em;
-  margin-right: 0.5em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
 }
