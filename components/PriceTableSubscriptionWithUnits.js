@@ -1,7 +1,7 @@
 import React from 'react'
 import Word from '../utils/types/Word'
 import formatPrice from '../utils/formatPrice'
-import priceTableStyles from '../styles/PriceTable.shared.module.css'
+import priceTableStyles from '../styles/Table.shared.module.css'
 
 /**
  * PricingWithUnits provides a price table element for the passed products.

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import TableData from '../utils/types/TableData'
 import formatPrice from '../utils/formatPrice'
 import generateUniqueId from '../utils/generateUniqueId'
-import priceTableStyles from '../styles/PriceTable.shared.module.css'
+import priceTableStyles from '../styles/Table.shared.module.css'
 
 const SimpleTable = ({ caption, tableData }) => {
 	// Unique ID for the caption element is needed because their might be multiple copies of this component.
