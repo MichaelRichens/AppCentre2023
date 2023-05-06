@@ -9,7 +9,7 @@ const ExtensionsTable = ({ productName, extensionsData, unitName }) => {
 	const uniqueYears = new Set(extensionsData.map((ext) => yearLabel(ext.years)))
 	const uniqueNames = new Set(extensionsData.map((ext) => ext.name))
 
-	const extensionsTable = new TableData(Array.from(uniqueYears), Array.from(uniqueNames), 'Subscription Length')
+	const extensionsTable = new TableData(uniqueYears, uniqueNames, 'Subscription Length')
 
 	extensionsData.forEach((ext) => {
 		extensionsTable.setData(yearLabel(ext.years), ext.name, formatPrice(ext.price))

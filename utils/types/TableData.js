@@ -1,7 +1,7 @@
 /**
  * TableData class is used to manage tabular data with rows and columns, and generate a JSX element from them to go inside an html table.
- * @property {string[]} rows - Array of row names.
- * @property {string[]} columns - Array of column names.
+ * @property {string[] | Set<string>} rows - Array or Set of row names.
+ * @property {string[] | Set<string>} columns - Array or Set of column names.
  * @property {string?} topLeft - The text to appear in the top left cell of the table.
  * @method setData(row: string, column: string, value: string) - Sets the data value at the specified row and column.
  * @method getData(row: string, column: string) - Gets the data value at the specified row and column.
@@ -10,13 +10,13 @@
 class TableData {
 	/**
 	 * Constructor for the TableData class.
-	 * @param {string[]} rows - Array of row names.
-	 * @param {string[]} columns - Array of column names.
+	 * @param {string[] | Set<string>} rows - Array or Set of row names.
+	 * @param {string[] | Set<string>} columns - Array or Set of column names.
 	 * @param {string?} topLeft - The text to appear in the top left cell of the table.
 	 */
 	constructor(rows, columns, topLeft = null) {
-		this.rows = rows
-		this.columns = columns
+		this.rows = [...rows]
+		this.columns = [...columns]
 		this.topLeft = topLeft
 		this.data = {}
 
