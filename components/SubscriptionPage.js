@@ -2,11 +2,9 @@ import React from 'react'
 
 import Page from './Page'
 import PriceTableSubscriptionWithUnits from './PriceTableSubscriptionWithUnits'
-import SimpleTable from './SimpleTable'
+import ExtensionsTable from './ExtensionsTable'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
-import TableData from '../utils/types/TableData'
 import PricingType from '../utils/types/enums/PricingType'
-import formatPrice from '../utils/formatPrice'
 
 /**
  * ProductPage is a wrapper component that renders the Page component with a product configurator generated from the productFamily prop.
@@ -29,19 +27,8 @@ const SubscriptionPage = ({
 	unitName,
 	children,
 }) => {
+	const haveExtensions = productData.availableExtensions && productData.availableExtensions.length > 0
 	let extensionsTable = false
-	if (productData.availableExtensions && productData.availableExtensions.length > 0) {
-		const yearLabel = (years) => `${years} Year${years != 1 ? 's' : ''}`
-		// relying on productData.extensions being pre-sorted
-		const uniqueYears = new Set(productData.extensions.map((ext) => yearLabel(ext.years)))
-		const uniqueNames = new Set(productData.extensions.map((ext) => ext.name))
-
-		extensionsTable = new TableData(Array.from(uniqueYears), Array.from(uniqueNames), 'Subscription Length')
-
-		productData.extensions.forEach((ext) => {
-			extensionsTable.setData(yearLabel(ext.years), ext.name, formatPrice(ext.price))
-		})
-	}
 
 	return (
 		<Page title={productName}>
@@ -52,11 +39,8 @@ const SubscriptionPage = ({
 					{pricingType === PricingType.UNIT ? (
 						<PriceTableSubscriptionWithUnits productName={productName} productData={productData} unitName={unitName} />
 					) : null}
-					{extensionsTable ? (
-						<SimpleTable
-							caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
-							tableData={extensionsTable}
-						/>
+					{haveExtensions ? (
+						<ExtensionsTable productName={productName} extensionsData={productData.extensions} unitName={unitName} />
 					) : null}
 				</section>
 				<section>
