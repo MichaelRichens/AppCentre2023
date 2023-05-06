@@ -1,28 +1,37 @@
 .priceTable {
 	border-collapse: collapse;
+	max-width: 60em;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-table.priceTable th,
-table.priceTable td {
-	padding: 0.8em 2em;
+.priceTable th,
+.priceTable td {
+	padding-top: 0.8em;
+	padding-bottom: 0.8em;
 	border: 1px solid transparent;
 }
 
+.priceTable th {
+	padding-left: 2em;
+	padding-right: 2em;
+}
+
 /* Darken the entire first row (thead row) except for the first cell */
-table.priceTable thead th:not(:first-child) {
+.priceTable thead th:not(:first-child) {
 	background-color: rgba(0, 0, 0, 0.1);
 	mix-blend-mode: multiply;
 }
 
 /* Darken the first column at a darker shade */
-table.priceTable th:first-child,
-table.priceTable tbody td:first-child {
+.priceTable th:first-child,
+.priceTable tbody td:first-child {
 	background-color: rgba(0, 0, 0, 0.1);
 	mix-blend-mode: multiply;
 }
 
 /* Darken odd-numbered rows in the tbody at a lighter shade, excluding the first cell */
-table.priceTable tbody tr:nth-child(even) td:not(:first-child) {
+.priceTable tbody tr:nth-child(even) td:not(:first-child) {
 	background-color: rgba(0, 0, 0, 0.05);
 	mix-blend-mode: multiply;
 }
@@ -72,4 +81,42 @@ table.priceTable tbody tr:nth-child(even) td:not(:first-child) {
 	text-align: left;
 	padding-left: 3em;
 	font-weight: normal;
+}
+
+@media (max-width: 1000px) {
+	.priceTable th {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+	.priceTable th[scope='col'] {
+		text-align: center;
+	}
+}
+
+@media (max-width: 850px) {
+	.priceTable {
+		max-width: initial;
+	}
+	.priceTable th[scope='col'] {
+		font-size: 90%;
+	}
+}
+
+@media (max-width: 775px) {
+	.priceTable {
+		font-size: 90%;
+	}
+}
+
+@media (max-width: 700px) {
+	.priceTable th {
+		padding-left: 0.5em;
+		padding-right: 0.5em;
+	}
+}
+
+@media (max-width: 625px) {
+	.priceTable {
+		font-size: 80%;
+	}
 }
