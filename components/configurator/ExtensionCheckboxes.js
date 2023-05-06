@@ -1,12 +1,7 @@
 import React from 'react'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
-const ExtensionCheckboxes = ({
-	legend,
-	availableExtensions,
-	selectedExtensions,
-	onChange,
-}) => {
+const ExtensionCheckboxes = ({ legend, availableExtensions, selectedExtensions, onChange }) => {
 	if (availableExtensions.length === 0) {
 		return null
 	}

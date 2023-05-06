@@ -3,8 +3,7 @@
 	/* The number in the noise png is its opacity - there are a few other versions available, higher opacity == more pronounced noise effect 
 		Experimented with some different shades for the colour gradient, these are darker blue on the left, and lighter on the right.
 		(115deg, #1e2748, #27355d, #1e2748) (115deg, #232f57, #2a375b, #232f57) (115deg, #273563, #2f3f6b, #273563) (115deg, #2c3a6b, #32446e, #2c3a6b) */
-	background-image: url('/images/textures/noise80.png'),
-		linear-gradient(115deg, #232f57, #2a375b, #232f57);
+	background-image: url('/images/textures/noise80.png'), linear-gradient(115deg, #232f57, #2a375b, #232f57);
 	background-blend-mode: overlay;
 	background-repeat: repeat;
 	color: white;

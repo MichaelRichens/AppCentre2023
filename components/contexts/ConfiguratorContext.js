@@ -27,8 +27,7 @@ export const ConfiguratorProvider = ({ children }) => {
 	}
 
 	return (
-		<ConfiguratorContext.Provider
-			value={{ configuratorData, saveConfiguratorData }}>
+		<ConfiguratorContext.Provider value={{ configuratorData, saveConfiguratorData }}>
 			{children}
 		</ConfiguratorContext.Provider>
 	)

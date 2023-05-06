@@ -73,12 +73,7 @@ class TableData {
 	 * @returns {JSX.Element} The generated table structure.
 	 */
 	generate() {
-		if (
-			!this.rows ||
-			!this.columns ||
-			this.rows.length === 0 ||
-			this.columns.length === 0
-		) {
+		if (!this.rows || !this.columns || this.rows.length === 0 || this.columns.length === 0) {
 			throw new Error('Rows or columns are undefined or empty.')
 		}
 
@@ -101,9 +96,7 @@ class TableData {
 							{this.columns.map((col, colIndex) => {
 								const cellData = this.getData(row, col)
 								if (cellData === undefined) {
-									throw new Error(
-										`Data is missing for row: ${row}, column: ${col}.`
-									)
+									throw new Error(`Data is missing for row: ${row}, column: ${col}.`)
 								}
 								return <td key={colIndex}>{cellData}</td>
 							})}

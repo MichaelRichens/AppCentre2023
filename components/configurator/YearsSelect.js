@@ -7,11 +7,7 @@ const YearsSelect = ({ legend, value, onChange, from, to }) => {
 	return (
 		<fieldset>
 			<legend>{legend}</legend>
-			<select
-				name='years'
-				value={value}
-				onChange={onChange}
-				aria-label={legend}>
+			<select name='years' value={value} onChange={onChange} aria-label={legend}>
 				{[...Array(to - from + 1)].map((_, i) => {
 					const year = from + i
 					return (

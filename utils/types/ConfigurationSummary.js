@@ -23,24 +23,8 @@ const durationString = Symbol('durationString')
  * @param {Word} unitName - A Word type object holding the name for the unit that the subscription is measured in - eg 'User'
  */
 class ConfigurationSummary {
-	constructor(
-		productName,
-		type,
-		price,
-		existingUsers,
-		userChange,
-		years,
-		extensionNames,
-		unitName
-	) {
-		this.product = this[createProductDescription](
-			productName,
-			type,
-			existingUsers,
-			userChange,
-			years,
-			unitName
-		)
+	constructor(productName, type, price, existingUsers, userChange, years, extensionNames, unitName) {
+		this.product = this[createProductDescription](productName, type, existingUsers, userChange, years, unitName)
 		this.extensions = this[createExtensionsDescription](type, extensionNames)
 		this.price = formatPrice(price)
 
@@ -48,20 +32,11 @@ class ConfigurationSummary {
 		Object.freeze(this)
 	}
 
-	[createProductDescription](
-		productName,
-		type,
-		existingUsers,
-		userChange,
-		years,
-		unitName
-	) {
+	[createProductDescription](productName, type, existingUsers, userChange, years, unitName) {
 		let str = ''
 		switch (type) {
 			case PurchaseType.SUB:
-				str += `Renewing ${productName} with ${existingUsers + userChange} ${
-					unitName.pluralLC
-				}`
+				str += `Renewing ${productName} with ${existingUsers + userChange} ${unitName.pluralLC}`
 				str += ` for ${this[durationString](years)}.`
 				break
 			case PurchaseType.NEW:
@@ -70,21 +45,16 @@ class ConfigurationSummary {
 				break
 			case PurchaseType.ADD:
 				str += `Purchasing ${userChange} additional ${productName} ${unitName.pluralLC}`
-				str += ` for the remaining ${this[durationString](
-					years
-				)} on your subscription`
+				str += ` for the remaining ${this[durationString](years)} on your subscription`
 				str +=
-					process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
-					'true'
-						? `, bringing the total to ${existingUsers + userChange} ${
-								unitName.pluralLC
-						  }.`
+					process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true'
+						? `, bringing the total to ${existingUsers + userChange} ${unitName.pluralLC}.`
 						: '.'
 				break
 			case PurchaseType.EXT:
-				str += `Existing ${productName} subscription of ${existingUsers} ${
-					unitName.pluralLC
-				} with ${this[durationString](years)} remaining.`
+				str += `Existing ${productName} subscription of ${existingUsers} ${unitName.pluralLC} with ${this[
+					durationString
+				](years)} remaining.`
 				break
 		}
 		return str
@@ -97,9 +67,7 @@ class ConfigurationSummary {
 		let str = `${type === PurchaseType.EXT ? 'Adding' : 'With'} the `
 		str +=
 			extensionNames.length > 1
-				? extensionNames.slice(0, -1).join(', ') +
-				  ', and ' +
-				  extensionNames.slice(-1)
+				? extensionNames.slice(0, -1).join(', ') + ', and ' + extensionNames.slice(-1)
 				: extensionNames[0]
 		str += ' extension'
 		str += extensionNames.length > 1 ? 's' : ''

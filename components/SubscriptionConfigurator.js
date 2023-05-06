@@ -36,12 +36,7 @@ import configuratorStyles from '../styles/Configurator.shared.module.css'
  * @returns {JSX.Element} The rendered component.
  */
 
-const SubscriptionConfigurator = ({
-	productName,
-	productFamily,
-	productData,
-	unitName,
-}) => {
+const SubscriptionConfigurator = ({ productName, productFamily, productData, unitName }) => {
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
 	const savedData = configuratorData[productFamily] || {
 		type: PurchaseType.SUB,
@@ -93,41 +88,21 @@ const SubscriptionConfigurator = ({
 		unitName
 	)
 
-	const handleTypeChange = createHandleTypeChange(
-		updateFormData,
-		formData,
-		productData
-	)
+	const handleTypeChange = createHandleTypeChange(updateFormData, formData, productData)
 
-	const handleExistingUsersChange =
-		createHandleExistingUsersChange(updateFormData)
+	const handleExistingUsersChange = createHandleExistingUsersChange(updateFormData)
 
-	const handleExistingUsersBlur = createHandleExistingUsersBlur(
-		updateFormData,
-		formData,
-		productData
-	)
+	const handleExistingUsersBlur = createHandleExistingUsersBlur(updateFormData, formData, productData)
 
-	const handleUserChangeChange = createHandleUserChangeChange(
-		updateFormData,
-		formData
-	)
+	const handleUserChangeChange = createHandleUserChangeChange(updateFormData, formData)
 
-	const handleUserChangeBlur = createHandleUserChangeBlur(
-		updateFormData,
-		formData,
-		productData
-	)
+	const handleUserChangeBlur = createHandleUserChangeBlur(updateFormData, formData, productData)
 
-	const handleExtensionCheckboxChange = createHandleExtensionCheckboxChange(
-		updateFormData,
-		formData
-	)
+	const handleExtensionCheckboxChange = createHandleExtensionCheckboxChange(updateFormData, formData)
 
 	const handleYearsChange = createHandleYearsChange(updateFormData)
 
-	const handleMonthsRemainingChange =
-		createHandleMonthsRemainingChange(updateFormData)
+	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
 	return (
 		<form className={configuratorStyles.configurator}>
@@ -140,11 +115,7 @@ const SubscriptionConfigurator = ({
 						? `Add ${unitName.pluralC} To Subscription`
 						: false
 				}
-				addExtOption={
-					productData.availableExtensions.length > 0
-						? 'Add Extensions to Subscription'
-						: false
-				}
+				addExtOption={productData.availableExtensions.length > 0 ? 'Add Extensions to Subscription' : false}
 				onTypeChange={handleTypeChange}
 			/>
 
@@ -153,12 +124,9 @@ const SubscriptionConfigurator = ({
 					formData.type === PurchaseType.SUB ||
 					formData.type === PurchaseType.EXT ||
 					(formData.type === PurchaseType.ADD &&
-						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS ===
-							'true')
+						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true')
 				}
-				legend={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${
-					unitName.pluralC
-				} on Subscription`}
+				legend={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${unitName.pluralC} on Subscription`}
 				min={productData.minUsers}
 				max={productData.maxUsers}
 				step={productData.minUsers}
@@ -178,11 +146,7 @@ const SubscriptionConfigurator = ({
 						? `${unitName.pluralC} to Add`
 						: `Adjust Number of ${unitName.pluralC} By`
 				}
-				min={
-					formData.type === PurchaseType.SUB
-						? productData.minUsers - formData.existingUsers
-						: productData.minUsers
-				}
+				min={formData.type === PurchaseType.SUB ? productData.minUsers - formData.existingUsers : productData.minUsers}
 				max={productData.maxUsers - formData.existingUsers}
 				step={productData.minUsers}
 				name='userChange'
@@ -193,18 +157,13 @@ const SubscriptionConfigurator = ({
 			/>
 
 			<ExtensionCheckboxes
-				legend={
-					formData.type === PurchaseType.EXT
-						? 'New Extensions to Add'
-						: 'Select Extensions'
-				}
+				legend={formData.type === PurchaseType.EXT ? 'New Extensions to Add' : 'Select Extensions'}
 				availableExtensions={productData.availableExtensions}
 				selectedExtensions={formData.checkedExtensions}
 				onChange={handleExtensionCheckboxChange}
 			/>
 
-			{formData.type === PurchaseType.SUB ||
-			formData.type === PurchaseType.NEW ? (
+			{formData.type === PurchaseType.SUB || formData.type === PurchaseType.NEW ? (
 				<YearsSelect
 					legend='Subscription Length'
 					value={formData.years}

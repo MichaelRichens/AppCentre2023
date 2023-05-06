@@ -99,28 +99,14 @@ const processProducts = (products, extensions) => {
 		productData.minYears = 0
 		productData.maxYears = 0
 	} else {
-		const minUsersFrom = Math.min(
-			...productData.products.map((product) => product.units_from)
-		)
-		const maxUsersTo = Math.max(
-			...productData.products.map((product) => product.units_to)
-		)
+		const minUsersFrom = Math.min(...productData.products.map((product) => product.units_from))
+		const maxUsersTo = Math.max(...productData.products.map((product) => product.units_to))
 
-		const minYears = Math.min(
-			...productData.products.map((product) => product.years)
-		)
-		const maxYears = Math.max(
-			...productData.products.map((product) => product.years)
-		)
+		const minYears = Math.min(...productData.products.map((product) => product.years))
+		const maxYears = Math.max(...productData.products.map((product) => product.years))
 
-		productData.minUsers =
-			minUsersFrom >= 1
-				? minUsersFrom
-				: parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
-		productData.maxUsers =
-			maxUsersTo >= 1
-				? maxUsersTo
-				: parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
+		productData.minUsers = minUsersFrom >= 1 ? minUsersFrom : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
+		productData.maxUsers = maxUsersTo >= 1 ? maxUsersTo : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
 		productData.minYears = minYears
 		productData.maxYears = maxYears
 	}
@@ -128,10 +114,7 @@ const processProducts = (products, extensions) => {
 }
 
 const fetchAndProcessProducts = async (productFamily) => {
-	const [products, extensions] = await Promise.all([
-		fetchProducts(productFamily),
-		fetchExtensions(productFamily),
-	])
+	const [products, extensions] = await Promise.all([fetchProducts(productFamily), fetchExtensions(productFamily)])
 	return processProducts(products, extensions)
 }
 

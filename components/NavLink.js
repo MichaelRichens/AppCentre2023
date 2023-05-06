@@ -16,11 +16,7 @@ const NavLink = ({ href, children }) => {
 
 	if (isCurrentPage) {
 		return (
-			<Link
-				href={href}
-				className={styles.current}
-				aria-current='page'
-				onClick={handleCurrentPageClick}>
+			<Link href={href} className={styles.current} aria-current='page' onClick={handleCurrentPageClick}>
 				{children}
 			</Link>
 		)

@@ -26,9 +26,9 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
 		const product = productData.products[i]
 
 		if (product.years === shortestYears) {
-			const label = `${product.units_from} ${
-				product.units_to > product.units_from ? '- ' + product.units_to : '+'
-			} ${unitName.pluralC}`
+			const label = `${product.units_from} ${product.units_to > product.units_from ? '- ' + product.units_to : '+'} ${
+				unitName.pluralC
+			}`
 			columns.push(label)
 		}
 		if (rows.length == 0 || rows[rows.length - 1].length === columns.length) {
@@ -38,17 +38,12 @@ const PriceTableWithUnits = ({ productName, productData, unitName }) => {
 		if (product.years !== currentRowYear) {
 			// We're assuming we have the same user tiers in the database for each subscription length.
 			//If this isn't true a lot of assumptions break down, so throw an error and go fix it.
-			throw new Error(
-				'Uneven number of skus found for different subscription lengths.  Cannot create price table.'
-			)
+			throw new Error('Uneven number of skus found for different subscription lengths.  Cannot create price table.')
 		}
 		rows[rows.length - 1].push(formatPrice(product.price))
 	}
 	return (
-		<table
-			className={priceTableStyles.priceTable}
-			aria-labelledby='pricingHeading'
-			aria-describedby='pricingCaption'>
+		<table className={priceTableStyles.priceTable} aria-labelledby='pricingHeading' aria-describedby='pricingCaption'>
 			<caption id='pricingCaption'>
 				Per {unitName.singularC} Pricing for {productName}
 			</caption>

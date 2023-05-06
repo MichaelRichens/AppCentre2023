@@ -16,28 +16,15 @@ import PurchaseType from '../../utils/types/enums/PurchaseType'
  * @param {function} props.onTypeChange - Callback to handle changes to the selected type.
  * @returns {ReactElement} The rendered TypeChangeSelect component.
  */
-const TypeChangeSelect = ({
-	type,
-	addUserOption,
-	addExtOption,
-	onTypeChange,
-}) => {
+const TypeChangeSelect = ({ type, addUserOption, addExtOption, onTypeChange }) => {
 	return (
 		<fieldset>
 			<legend>Type of Purchase</legend>
-			<select
-				name='type'
-				value={type}
-				onChange={onTypeChange}
-				aria-label='Type of Purchase'>
+			<select name='type' value={type} onChange={onTypeChange} aria-label='Type of Purchase'>
 				<option value={PurchaseType.SUB}>Existing Subscription Renewal</option>
 				<option value={PurchaseType.NEW}>New Subscription</option>
-				{addUserOption !== false && (
-					<option value={PurchaseType.ADD}>{addUserOption}</option>
-				)}
-				{addExtOption !== false && (
-					<option value={PurchaseType.EXT}>{addExtOption}</option>
-				)}
+				{addUserOption !== false && <option value={PurchaseType.ADD}>{addUserOption}</option>}
+				{addExtOption !== false && <option value={PurchaseType.EXT}>{addExtOption}</option>}
 			</select>
 		</fieldset>
 	)

@@ -30,29 +30,16 @@ const SubscriptionPage = ({
 	children,
 }) => {
 	let extensionsTable = false
-	if (
-		productData.availableExtensions &&
-		productData.availableExtensions.length > 0
-	) {
+	if (productData.availableExtensions && productData.availableExtensions.length > 0) {
 		const yearLabel = (years) => `${years} Year${years != 1 ? 's' : ''}`
 		// relying on productData.extensions being pre-sorted
-		const uniqueYears = new Set(
-			productData.extensions.map((ext) => yearLabel(ext.years))
-		)
+		const uniqueYears = new Set(productData.extensions.map((ext) => yearLabel(ext.years)))
 		const uniqueNames = new Set(productData.extensions.map((ext) => ext.name))
 
-		extensionsTable = new TableData(
-			Array.from(uniqueYears),
-			Array.from(uniqueNames),
-			'Subscription Length'
-		)
+		extensionsTable = new TableData(Array.from(uniqueYears), Array.from(uniqueNames), 'Subscription Length')
 
 		productData.extensions.forEach((ext) => {
-			extensionsTable.setData(
-				yearLabel(ext.years),
-				ext.name,
-				formatPrice(ext.price)
-			)
+			extensionsTable.setData(yearLabel(ext.years), ext.name, formatPrice(ext.price))
 		})
 	}
 
@@ -63,11 +50,7 @@ const SubscriptionPage = ({
 				<section>
 					<h2 id='pricingHeading'>{productName} Pricing</h2>
 					{pricingType === PricingType.UNIT ? (
-						<PriceTableSubscriptionWithUnits
-							productName={productName}
-							productData={productData}
-							unitName={unitName}
-						/>
+						<PriceTableSubscriptionWithUnits productName={productName} productData={productData} unitName={unitName} />
 					) : null}
 					{extensionsTable ? (
 						<SimpleTable

@@ -19,18 +19,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {Function} props.onBlur - The onBlur event handler for the input field.
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
-const PurchaseUnitInput = ({
-	allowDisplay,
-	legend,
-	min,
-	max,
-	step,
-	name,
-	value,
-	onChange,
-	onBlur,
-	error,
-}) => {
+const PurchaseUnitInput = ({ allowDisplay, legend, min, max, step, name, value, onChange, onBlur, error }) => {
 	if (allowDisplay === false) {
 		return null
 	}
@@ -49,9 +38,7 @@ const PurchaseUnitInput = ({
 				onBlur={onBlur}
 				aria-label={legend}
 			/>
-			{error !== false && (
-				<span className={configuratorStyles.formError}>{error}</span>
-			)}
+			{error !== false && <span className={configuratorStyles.formError}>{error}</span>}
 		</fieldset>
 	)
 }

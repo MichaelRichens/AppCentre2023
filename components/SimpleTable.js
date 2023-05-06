@@ -14,10 +14,7 @@ const SimpleTable = ({ caption, tableData }) => {
 	}, [])
 
 	return (
-		<table
-			className={priceTableStyles.priceTable}
-			aria-labelledby='pricingHeading'
-			aria-describedby='pricingCaption'>
+		<table className={priceTableStyles.priceTable} aria-labelledby='pricingHeading' aria-describedby='pricingCaption'>
 			<caption id={captionId}>{caption}</caption>
 			{tableData.generate()}
 		</table>

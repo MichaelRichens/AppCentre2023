@@ -5,9 +5,7 @@ import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts(
-		process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT
-	)
+	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT)
 
 	return {
 		props: { productData },
