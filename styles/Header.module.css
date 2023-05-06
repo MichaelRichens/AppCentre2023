@@ -1,15 +1,33 @@
 .header {
-	background-color: cyan;
+	position: relative;
+	/* The number is the noise png is its opacity - there are a few other versions available, higher opacity == more pronounced noise effect */
+	background-image: url('/images/textures/noise80.png'),
+		linear-gradient(to right, #1e2748, #27355d, #1e2748);
+	background-blend-mode: overlay;
+	background-repeat: repeat;
+	color: white;
+	min-height: 100px;
+	height: 100%;
+	display: flex;
+}
+
+.headerInnerWrapper {
+	flex-grow: 1;
 }
 
 .headerNavContainer {
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
+	align-items: stretch;
+	height: 100%;
 	font-family: 'Lato', sans-serif;
 }
 
 .headerNavContainer nav {
+	margin-top: 0.5em;
 	margin-bottom: 0.5em;
+	flex-shrink: 0;
 }
 
 .headerNavContainer ul {
@@ -26,7 +44,7 @@
 }
 
 .headerNavContainer a {
-	color: black;
+	color: white;
 	text-decoration: none;
 	font-weight: bold;
 }

@@ -5,7 +5,7 @@ import styles from '../styles/Header.module.css'
 const Header = () => {
 	return (
 		<header className={styles.header}>
-			<div id='headerInnerWrapper'>
+			<div id='headerInnerWrapper' className={styles.headerInnerWrapper}>
 				<div id='headerNavContainer' className={styles.headerNavContainer}>
 					<nav aria-label='Info'>
 						<ul>
