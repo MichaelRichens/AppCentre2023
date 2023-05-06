@@ -14,7 +14,7 @@ class ProductConfiguration {
 	 * @param {number} users - The number of users.
 	 * @param {number} [price=0] - The price of the selected product configuration.
 	 * @param {Object} [skus={}] - An object containing the SKUs for the product as keys, and quantities as values.
-	 * @param {JSX.Element|null} [description=null] - The summary of the product, for user display.  May be null if it isn't generated yet.
+	 * @param {JSX.Element|null} [summary=null] - The summary of the product, for user display.  May be null if it isn't generated yet.
 	 */
 	constructor(type, users, years, price = 0, skus = {}, summary = null) {
 		this.type = type
