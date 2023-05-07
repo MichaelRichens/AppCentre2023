@@ -54,12 +54,12 @@
 }
 
 .headerNavContainer a:hover {
-	color: lightblue;
+	color: lightgray;
 }
 
 .headerNavContainer .currentPageStyle,
 .headerNavContainer a.currentPageStyle:hover {
-	color: cyan;
+	color: lightblue;
 }
 
 .navDropdown {
