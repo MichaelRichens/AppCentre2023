@@ -44,7 +44,8 @@
 	margin-right: 2em;
 }
 
-.headerNavContainer a {
+.headerNavContainer a,
+.headerNavContainer button {
 	color: white;
 	text-decoration: none;
 	font-weight: bold;

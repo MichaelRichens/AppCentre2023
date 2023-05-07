@@ -33,11 +33,13 @@ import NavLink from './NavLink'
 const DropdownMenu = ({ title, linkData, className }) => {
 	const router = useRouter()
 	const [showDropdown, setShowDropdown] = useState(false)
+	const [forceShowDropdown, setForceShowDropdown] = useState(false) // New state variable
 	const menuItemRef = useRef(null)
 
 	useEffect(() => {
 		const handleRouteChange = () => {
 			const shouldShowDropdown = linkData.some((data) => router.pathname === data.href)
+			setForceShowDropdown(shouldShowDropdown)
 			setShowDropdown(shouldShowDropdown)
 		}
 
@@ -66,24 +68,31 @@ const DropdownMenu = ({ title, linkData, className }) => {
 			className={styles.menuItem}
 			ref={menuItemRef}
 			onMouseEnter={() => setShowDropdown(true)}
-			onMouseLeave={() => setShowDropdown(false)}
+			onMouseLeave={() => {
+				if (!forceShowDropdown) {
+					// Only set showDropdown to false when forceShowDropdown is false
+					setShowDropdown(false)
+				}
+			}}
 			onBlur={handleBlur}
 			onKeyDown={handleKeyDown}
-			tabIndex={0}
 			aria-haspopup='true'
 			aria-expanded={showDropdown}>
-			<div className={styles.menuTitle}>{title}</div>
-			{showDropdown && (
-				<div className={`${styles.dropdown} ${className}`} role='menu'>
-					{linkData.map((data, index) => (
-						<div key={index} className={styles.link} role='none'>
-							<NavLink href={data.href} currentPageStyle={data.currentPageStyle} role='menuitem' tabIndex={-1}>
-								{data.linkText}
-							</NavLink>
-						</div>
-					))}
-				</div>
-			)}
+			<button className={styles.menuTitle}>{title}</button>
+			<div
+				className={`${styles.dropdown} ${className} ${showDropdown ? styles.visibleDropdown : ''} ${
+					!forceShowDropdown ? styles.dropdownIsDefaultClosed : ''
+				}`}
+				role='menu'
+				aria-hidden={!showDropdown}>
+				{linkData.map((data, index) => (
+					<div key={index} className={styles.link} role='none'>
+						<NavLink href={data.href} currentPageStyle={data.currentPageStyle} role='menuitem' tabIndex={-1}>
+							{data.linkText}
+						</NavLink>
+					</div>
+				))}
+			</div>
 		</div>
 	)
 }
