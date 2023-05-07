@@ -25,22 +25,16 @@ const Header = () => {
 					<nav aria-label='Products'>
 						<ul>
 							<li>
-								<ProductDropdown title='Kerio Connect' hrefStart='/kerio-connect' />
+								<ProductDropdown hrefStart='/kerio-connect'>Kerio Connect</ProductDropdown>
 							</li>
 							<li>
-								<NavLink href='/kerio-control' currentPageStyle={headerStyles.currentPageStyle}>
-									Kerio Control
-								</NavLink>
+								<ProductDropdown hrefStart='/kerio-control'>Kerio Control</ProductDropdown>
 							</li>
 							<li>
-								<NavLink href='/gfi-archiver' currentPageStyle={headerStyles.currentPageStyle}>
-									GFI Archiver
-								</NavLink>
+								<ProductDropdown hrefStart='/gfi-archiver'>GFI Archiver</ProductDropdown>
 							</li>
 							<li>
-								<NavLink href='/gfi-languard' currentPageStyle={headerStyles.currentPageStyle}>
-									GFI LanGuard
-								</NavLink>
+								<ProductDropdown hrefStart='/gfi-languard'>GFI LanGuard</ProductDropdown>
 							</li>
 						</ul>
 					</nav>

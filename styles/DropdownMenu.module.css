@@ -2,7 +2,7 @@
 
 .menuItem {
 	position: relative;
-	display: inline-block;
+
 	cursor: pointer;
 }
 
@@ -12,12 +12,12 @@
 	border: none;
 	font-family: inherit;
 	font-size: inherit;
-	font-weight: inherit;
+	font-weight: bold;
 	text-align: left;
 	outline: none;
 	line-height: inherit;
 	color: inherit;
-	cursor: pointer; /* Use pointer cursor for elements that open a menu on hover */
+	cursor: default;
 }
 
 .dropdown {
@@ -26,15 +26,17 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	padding: 0.5rem;
-	border: 1px solid #ccc;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
 	visibility: hidden;
 	opacity: 0;
+	z-index: 10;
 }
 
 .dropdownIsDefaultClosed {
+	border: 1px solid lightblue;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	transition: visibility 0s, opacity 0.3s;
+	z-index: 20;
 }
 
 .visibleDropdown {
@@ -43,6 +45,10 @@
 }
 
 .link {
-	padding: 0.5rem 1rem;
 	white-space: nowrap;
+}
+
+.link > a {
+	display: inline-block;
+	padding: 0.5rem 1rem;
 }

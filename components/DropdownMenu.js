@@ -33,13 +33,13 @@ import NavLink from './NavLink'
 const DropdownMenu = ({ title, linkData, className }) => {
 	const router = useRouter()
 	const [showDropdown, setShowDropdown] = useState(false)
-	const [forceShowDropdown, setForceShowDropdown] = useState(false) // New state variable
+	const [isFixedOpen, setIsFixedOpen] = useState(false) // New state variable
 	const menuItemRef = useRef(null)
 
 	useEffect(() => {
 		const handleRouteChange = () => {
 			const shouldShowDropdown = linkData.some((data) => router.pathname === data.href)
-			setForceShowDropdown(shouldShowDropdown)
+			setIsFixedOpen(shouldShowDropdown)
 			setShowDropdown(shouldShowDropdown)
 		}
 
@@ -69,7 +69,7 @@ const DropdownMenu = ({ title, linkData, className }) => {
 			ref={menuItemRef}
 			onMouseEnter={() => setShowDropdown(true)}
 			onMouseLeave={() => {
-				if (!forceShowDropdown) {
+				if (!isFixedOpen) {
 					setShowDropdown(false)
 				}
 			}}
@@ -77,10 +77,11 @@ const DropdownMenu = ({ title, linkData, className }) => {
 			onKeyDown={handleKeyDown}
 			aria-haspopup='true'
 			aria-expanded={showDropdown}>
-			<button className={styles.menuTitle}>{title}</button>
+			<button className={`${styles.menuTitle} ${isFixedOpen ? linkData[0].currentPageStyle : ''}`}>{title}</button>
 			<div
+				zI
 				className={`${styles.dropdown} ${className} ${showDropdown ? styles.visibleDropdown : ''} ${
-					!forceShowDropdown ? styles.dropdownIsDefaultClosed : ''
+					!isFixedOpen ? styles.dropdownIsDefaultClosed : ''
 				}`}
 				role='menu'
 				aria-hidden={!showDropdown}>

@@ -11,10 +11,10 @@ import headerStyles from '../styles/Header.shared.module.css'
  * @param {string} props.hrefStart - The unique first part of the product urls, eg '/kerio-connect' which.
  * @returns {JSX.Element} The component.
  */
-const ProductDropdown = ({ title, hrefStart }) => {
+const ProductDropdown = ({ hrefStart, children }) => {
 	return (
 		<DropdownMenu
-			title={title}
+			title={children}
 			linkData={[
 				{ linkText: 'Info', href: hrefStart, currentPageStyle: headerStyles.currentPageStyle },
 				{

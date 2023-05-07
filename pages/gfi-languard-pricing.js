@@ -5,7 +5,7 @@ import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT)
+	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_LANGUARD)
 
 	return {
 		props: { productData },
@@ -13,17 +13,17 @@ export async function getStaticProps() {
 	}
 }
 
-const ConnectPricing = (props) => {
+const LanGuardPricing = (props) => {
 	const { productData } = props
 	return (
 		<SubscriptionPage
-			productName='Kerio Connect'
-			productIntro={<p>Kerio Connect is licenced on a per-user yearly subscription basis.</p>}
-			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT}
+			productName='GFI LanGuard'
+			productIntro={<p>GFI Languard is licenced on a per-node yearly subscription basis.</p>}
+			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_LANGUARD}
 			productData={productData}
 			pricingType={PricingType.UNIT}
-			unitName={new Word('user', 'users')}></SubscriptionPage>
+			unitName={new Word('node', 'nodes')}></SubscriptionPage>
 	)
 }
 
-export default ConnectPricing
+export default LanGuardPricing
