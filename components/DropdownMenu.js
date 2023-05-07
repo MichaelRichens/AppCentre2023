@@ -70,7 +70,6 @@ const DropdownMenu = ({ title, linkData, className }) => {
 			onMouseEnter={() => setShowDropdown(true)}
 			onMouseLeave={() => {
 				if (!forceShowDropdown) {
-					// Only set showDropdown to false when forceShowDropdown is false
 					setShowDropdown(false)
 				}
 			}}

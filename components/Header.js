@@ -1,22 +1,22 @@
 import React from 'react'
 import NavLink from './NavLink'
-import styles from '../styles/Header.module.css'
-import DropdownMenu from './DropdownMenu'
+import headerStyles from '../styles/Header.shared.module.css'
+import ProductDropdown from './ProductDropdown'
 
 const Header = () => {
 	return (
-		<header className={styles.header}>
-			<div id='headerInnerWrapper' className={styles.headerInnerWrapper}>
-				<div id='headerNavContainer' className={styles.headerNavContainer}>
+		<header className={headerStyles.header}>
+			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
+				<div id='headerNavContainer' className={headerStyles.headerNavContainer}>
 					<nav aria-label='Info'>
 						<ul>
 							<li>
-								<NavLink href='/' currentPageStyle={styles.currentPageStyle}>
+								<NavLink href='/' currentPageStyle={headerStyles.currentPageStyle}>
 									Home
 								</NavLink>
 							</li>
 							<li>
-								<NavLink href='/about-us' currentPageStyle={styles.currentPageStyle}>
+								<NavLink href='/about-us' currentPageStyle={headerStyles.currentPageStyle}>
 									About Us
 								</NavLink>
 							</li>
@@ -25,26 +25,20 @@ const Header = () => {
 					<nav aria-label='Products'>
 						<ul>
 							<li>
-								<DropdownMenu
-									title='Kerio Connect'
-									linkData={[
-										{ linkText: 'Info', href: '/kerio-connect', currentPageStyle: styles.currentPageStyle },
-										{ linkText: 'Pricing', href: '/kerio-connect-pricing', currentPageStyle: styles.currentPageStyle },
-									]}
-									className={styles.navDropdown}></DropdownMenu>
+								<ProductDropdown title='Kerio Connect' hrefStart='/kerio-connect' />
 							</li>
 							<li>
-								<NavLink href='/kerio-control' currentPageStyle={styles.currentPageStyle}>
+								<NavLink href='/kerio-control' currentPageStyle={headerStyles.currentPageStyle}>
 									Kerio Control
 								</NavLink>
 							</li>
 							<li>
-								<NavLink href='/gfi-archiver' currentPageStyle={styles.currentPageStyle}>
+								<NavLink href='/gfi-archiver' currentPageStyle={headerStyles.currentPageStyle}>
 									GFI Archiver
 								</NavLink>
 							</li>
 							<li>
-								<NavLink href='/gfi-languard' currentPageStyle={styles.currentPageStyle}>
+								<NavLink href='/gfi-languard' currentPageStyle={headerStyles.currentPageStyle}>
 									GFI LanGuard
 								</NavLink>
 							</li>
