@@ -2,14 +2,7 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-}
-
-.priceTables table {
-	margin-bottom: 2em;
-}
-
-.priceTables table:last-child {
-	margin-bottom: 0;
+	gap: 2em;
 }
 
 .priceTables caption {

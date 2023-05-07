@@ -1,0 +1,26 @@
+/* DropdownMenu.module.css */
+.menuItem {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.menuTitle {
+	padding: 0;
+}
+
+.dropdown {
+	position: absolute;
+	left: -1em;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.link {
+	padding: 0.5rem 1rem;
+	white-space: nowrap;
+}

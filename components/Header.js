@@ -1,6 +1,7 @@
 import React from 'react'
 import NavLink from './NavLink'
 import styles from '../styles/Header.module.css'
+import DropdownMenu from './DropdownMenu'
 
 const Header = () => {
 	return (
@@ -23,6 +24,15 @@ const Header = () => {
 					</nav>
 					<nav aria-label='Products'>
 						<ul>
+							<li>
+								<DropdownMenu
+									title='test'
+									linkData={[
+										{ linkText: 'home', href: '/', currentPageStyle: styles.currentPageStyle },
+										{ linkText: 'about', href: '/about-us', currentPageStyle: styles.currentPageStyle },
+									]}
+									className={styles.navDropdown}></DropdownMenu>
+							</li>
 							<li>
 								<NavLink href='/kerio-connect' currentPageStyle={styles.currentPageStyle}>
 									Kerio Connect
