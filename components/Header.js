@@ -26,17 +26,12 @@ const Header = () => {
 						<ul>
 							<li>
 								<DropdownMenu
-									title='test'
+									title='Kerio Connect'
 									linkData={[
-										{ linkText: 'home', href: '/', currentPageStyle: styles.currentPageStyle },
-										{ linkText: 'about', href: '/about-us', currentPageStyle: styles.currentPageStyle },
+										{ linkText: 'Info', href: '/kerio-connect', currentPageStyle: styles.currentPageStyle },
+										{ linkText: 'Pricing', href: '/kerio-connect-pricing', currentPageStyle: styles.currentPageStyle },
 									]}
 									className={styles.navDropdown}></DropdownMenu>
-							</li>
-							<li>
-								<NavLink href='/kerio-connect' currentPageStyle={styles.currentPageStyle}>
-									Kerio Connect
-								</NavLink>
 							</li>
 							<li>
 								<NavLink href='/kerio-control' currentPageStyle={styles.currentPageStyle}>

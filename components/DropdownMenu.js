@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import styles from '../styles/DropdownMenu.module.css'
 import NavLink from './NavLink'
@@ -33,28 +33,51 @@ import NavLink from './NavLink'
 const DropdownMenu = ({ title, linkData, className }) => {
 	const router = useRouter()
 	const [showDropdown, setShowDropdown] = useState(false)
-
-	// Check if any of the links match the current route
-	const isOpenByRoute = linkData.some((data) => router.pathname === data.href)
+	const menuItemRef = useRef(null)
 
 	useEffect(() => {
-		setShowDropdown(isOpenByRoute)
-	}, [router.pathname, linkData])
+		const handleRouteChange = () => {
+			const shouldShowDropdown = linkData.some((data) => router.pathname === data.href)
+			setShowDropdown(shouldShowDropdown)
+		}
 
-	const toggleDropdown = () => {
-		if (!isOpenByRoute) {
+		handleRouteChange() // Call once on mount to set the initial state
+		router.events.on('routeChangeComplete', handleRouteChange) // Listen for route changes
+
+		return () => {
+			router.events.off('routeChangeComplete', handleRouteChange) // Clean up the listener on unmount
+		}
+	}, [router.pathname, linkData, router.events])
+
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter' || event.key === ' ') {
 			setShowDropdown(!showDropdown)
 		}
 	}
 
+	const handleBlur = (event) => {
+		if (!menuItemRef.current.contains(event.relatedTarget)) {
+			setShowDropdown(false)
+		}
+	}
+
 	return (
-		<div className={styles.menuItem} onMouseEnter={toggleDropdown} onMouseLeave={toggleDropdown}>
+		<div
+			className={styles.menuItem}
+			ref={menuItemRef}
+			onMouseEnter={() => setShowDropdown(true)}
+			onMouseLeave={() => setShowDropdown(false)}
+			onBlur={handleBlur}
+			onKeyDown={handleKeyDown}
+			tabIndex={0}
+			aria-haspopup='true'
+			aria-expanded={showDropdown}>
 			<div className={styles.menuTitle}>{title}</div>
 			{showDropdown && (
-				<div className={`${styles.dropdown} ${className}`}>
+				<div className={`${styles.dropdown} ${className}`} role='menu'>
 					{linkData.map((data, index) => (
-						<div key={index} className={styles.link}>
-							<NavLink href={data.href} currentPageStyle={data.currentPageStyle}>
+						<div key={index} className={styles.link} role='none'>
+							<NavLink href={data.href} currentPageStyle={data.currentPageStyle} role='menuitem' tabIndex={-1}>
 								{data.linkText}
 							</NavLink>
 						</div>
