@@ -1,4 +1,5 @@
 // pages/api/store-configuration.js
+/*
 import { isProductConfiguration } from '../../utils/typeCheck'
 
 export default async function handler(req, res) {
@@ -14,3 +15,4 @@ export default async function handler(req, res) {
 		res.status(405).json({ message: 'Method not allowed' })
 	}
 }
+*/
