@@ -54,7 +54,7 @@
 }
 
 .headerNavContainer a:hover {
-	color: lightgray;
+	color: rgb(194, 227, 238);
 }
 
 .headerNavContainer .currentPageStyle,
