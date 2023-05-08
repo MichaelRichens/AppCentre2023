@@ -1,38 +1,93 @@
+/* General Form Styles */
 .configurator {
+	font-family: 'Open Sans', sans-serif;
 	max-width: 50em;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
+	padding: 2em;
 }
 
-.configurator .formError {
-	color: rgb(193, 127, 4);
+/* Fieldset Styles */
+.configurator fieldset {
+	border: 5px solid #ccc;
+	border-radius: 5px;
+	padding: 0.7em;
+	margin-bottom: 1em;
+	font-weight: 600;
 }
 
-.configurator > fieldset {
-	margin-bottom: 0.5em;
+/* Legend Styles */
+.configurator fieldset legend {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.1em;
+	color: #333;
+	padding: 0.1em 1em;
+	width: 90%;
+	background-color: #ddd;
+	border: 1px #999 solid;
+	border-radius: 3px;
+	display: block;
+}
+
+/* Input, Select and Textarea Styles */
+.configurator .input-wrapper {
+	margin-left: 20%;
+	margin-bottom: 10px;
 }
 
 .configurator input,
-.configurator select {
-	margin-left: 0.5em;
-	margin-right: 1em;
+.configurator select,
+.configurator textarea {
+	max-width: fit-content;
+	padding: 0.5em;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1em;
+	font-weight: 500;
+	border: 1px solid #ccc;
+	border-radius: 3px;
 }
 
-.summary > p {
-	margin: 0;
-	padding: 0;
+/* Checkbox and Radio Button Styles */
+.configurator input[type='checkbox'],
+.configurator input[type='radio'] {
+	width: auto;
+	margin-right: 5px;
 }
 
-input.unitQty {
-	width: calc(7ch);
-	text-align: right;
+/* Label Styles */
+.configurator label {
+	display: block;
+	font-weight: 600;
+	font-size: 0.95em;
+	color: #333;
+	margin-bottom: 3px;
+	width: 100%;
 }
 
-.checkbox label {
-	margin-right: 1em;
+/* Summary Styles */
+.configurator .summary {
+	font-family: 'Open Sans', sans-serif;
+	color: #666;
+	margin-bottom: 8px;
 }
 
-.checkbox input[type='checkbox'] {
-	margin-left: 0.5em;
-	margin-right: 0.5em;
+/* Button Styles */
+.configurator button {
+	font-family: 'Lato', sans-serif;
+	font-size: 1em;
+	font-weight: 600;
+	color: #fff;
+	background-color: #3a3a3a;
+	border: none;
+	border-radius: 3px;
+	padding: 10px 20px;
+	cursor: pointer;
+	transition: background-color 0.3s, transform 0.1s;
+}
+
+.configurator button:hover {
+	color: #ccc;
+}
+
+.configurator button:active {
+	transform: scale(0.96);
 }

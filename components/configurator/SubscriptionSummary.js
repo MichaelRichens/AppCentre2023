@@ -8,13 +8,19 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  *
  * @param {Object} props - The component props.
  * @param {ConfigurationSummary} props.configuration - Details of the configuration to summarise.
+ * @param {boolean?} props.haveExtensionOptions - Are there any extensions available for this product?
  */
 
-const SubscriptionSummary = ({ configuration }) => {
+const SubscriptionSummary = ({ configuration, haveExtensionOptions }) => {
+	console.log(configuration)
 	return (
 		<fieldset className={configuratorStyles.summary}>
+			<legend>Summary</legend>
 			<p>{configuration.product}</p>
-			{configuration.extensions.length > 0 && <p>{configuration.extensions}</p>}
+			{haveExtensionOptions ? (
+				<p>{configuration.extensions.length > 0 ? configuration.extensions : 'With no Extensions'}</p>
+			) : null}
+
 			<p>{configuration.price}</p>
 			<button type='submit'>Save</button>
 		</fieldset>

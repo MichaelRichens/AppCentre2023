@@ -111,8 +111,6 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
-			<SubscriptionSummary configuration={currentConfiguration.summary} />
-
 			<TypeChangeSelect
 				type={formData.type}
 				addUserOption={
@@ -122,6 +120,11 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 				}
 				addExtOption={productData.availableExtensions.length > 0 ? 'Add Extensions to Subscription' : false}
 				onTypeChange={handleTypeChange}
+			/>
+
+			<SubscriptionSummary
+				configuration={currentConfiguration.summary}
+				haveExtensionOptions={productData.availableExtensions.length > 0}
 			/>
 
 			<PurchaseUnitInput
