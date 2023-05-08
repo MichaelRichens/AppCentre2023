@@ -16,7 +16,7 @@ const Control = (props) => {
 	const productData = props.productData
 	return (
 		<ProductInfoPage
-			title='GFI Archiver'
+			title='Kerio Control'
 			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL}
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
