@@ -1,6 +1,14 @@
 .topConfigurator {
-	font-size: 85%;
+	font-size: 90%;
 	float: right;
 	margin-left: 0.7em;
 	margin-bottom: 0.2em;
+	width: 30em;
+}
+
+@media (max-width: 1000px) {
+	.topConfigurator {
+		font-size: 80%;
+		width: 27em;
+	}
 }
