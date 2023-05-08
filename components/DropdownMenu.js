@@ -4,13 +4,13 @@ import styles from '../styles/DropdownMenu.module.css'
 import NavLink from './NavLink'
 
 /**
+ *  @component
  * DropdownMenu component.
  *
  * A navigation menu item that displays a list of links in a dropdown
  * when hovered over. The dropdown will remain open if the current
  * page matches any of the links inside the dropdown.
  *
- * @component
  * @example
  * // Sample usage in the parent component
  * <DropdownMenu
