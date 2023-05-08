@@ -2,7 +2,7 @@ import React from 'react'
 import Page from './Page'
 import PriceTableWithUnits from './PriceTableWithUnits'
 import PriceTableExtensions from './PriceTableExtensions'
-import SubscriptionConfigurator from './SubscriptionConfigurator'
+import SubscriptionConfigurator from './configurator/SubscriptionConfigurator'
 import PricingType from '../utils/types/enums/PricingType'
 import styles from '../styles/SubscriptionPage.module.css'
 

@@ -16,6 +16,7 @@ const SubscriptionSummary = ({ configuration }) => {
 			<p>{configuration.product}</p>
 			{configuration.extensions.length > 0 && <p>{configuration.extensions}</p>}
 			<p>{configuration.price}</p>
+			<button type='submit'>Save</button>
 		</fieldset>
 	)
 }

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { useConfiguratorContext } from './contexts/ConfiguratorContext'
-import SubscriptionSummary from './configurator/SubscriptionSummary'
-import TypeChangeSelect from './configurator/TypeChangeSelect'
-import PurchaseUnitInput from './configurator/PurchaseUnitInput'
-import ExtensionCheckboxes from './configurator/ExtensionCheckboxes'
-import YearsSelect from './configurator/YearsSelect'
-import MonthsRemainingSelect from './configurator/MonthsRemainingSelect'
-import Word from '../utils/types/Word'
-import ProductConfiguration from '../utils/types/ProductConfiguration'
-import PurchaseType from '../utils/types/enums/PurchaseType'
+import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
+import SubscriptionSummary from './SubscriptionSummary'
+import TypeChangeSelect from './TypeChangeSelect'
+import PurchaseUnitInput from './PurchaseUnitInput'
+import ExtensionCheckboxes from './ExtensionCheckboxes'
+import YearsSelect from './YearsSelect'
+import MonthsRemainingSelect from './MonthsRemainingSelect'
+import Word from '../../utils/types/Word'
+import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleTypeChange,
 	createHandleExistingUsersBlur,
@@ -18,9 +17,9 @@ import {
 	createHandleExtensionCheckboxChange,
 	createHandleYearsChange,
 	createHandleMonthsRemainingChange,
-} from '../utils/configuratorHandleFunctions'
-import processConfiguration from '../utils/processConfiguration'
-import configuratorStyles from '../styles/Configurator.shared.module.css'
+} from '../../utils/configuratorHandleFunctions'
+import processConfiguration from '../../utils/processConfiguration'
+import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 /**
  * @warning Do not have more than 1 of these components rendered with the same productFamily at the same time, they will not share data properly since they only read from ConfiguratorContext on rerender.

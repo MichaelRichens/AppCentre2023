@@ -1,7 +1,7 @@
 import React from 'react'
 import useMediaQuery from './hooks/useMediaQuery'
 import Page from './Page'
-import SubscriptionConfigurator from './SubscriptionConfigurator'
+import SubscriptionConfigurator from './configurator/SubscriptionConfigurator'
 import styles from '../styles/ProductInfoPage.module.css'
 
 /**
