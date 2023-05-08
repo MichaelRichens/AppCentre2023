@@ -1,4 +1,5 @@
 import React from 'react'
+import useMediaQuery from './hooks/useMediaQuery'
 import Page from './Page'
 import SubscriptionConfigurator from './SubscriptionConfigurator'
 import styles from '../styles/ProductInfoPage.module.css'
@@ -13,26 +14,31 @@ import styles from '../styles/ProductInfoPage.module.css'
  * @returns {JSX.Element} The ProductInfoPage component.
  */
 const ProductInfoPage = ({ title, productFamily, productData, unitName, children }) => {
+	const showTopConfigurator = useMediaQuery('(min-width: 800px)')
 	return (
 		<Page title={title}>
 			<>
-				<section className={styles.topConfigurator}>
-					<SubscriptionConfigurator
-						productName={title}
-						productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER}
-						productData={productData}
-						unitName={unitName}
-					/>
-				</section>
+				{showTopConfigurator && (
+					<section className={styles.topConfigurator}>
+						<SubscriptionConfigurator
+							productName={title}
+							productFamily={productFamily}
+							productData={productData}
+							unitName={unitName}
+						/>
+					</section>
+				)}
 				{children}
-				<section className={styles.bottomConfigurator}>
-					<SubscriptionConfigurator
-						productName={title}
-						productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER}
-						productData={productData}
-						unitName={unitName}
-					/>
-				</section>
+				{!showTopConfigurator && (
+					<section>
+						<SubscriptionConfigurator
+							productName={title}
+							productFamily={productFamily}
+							productData={productData}
+							unitName={unitName}
+						/>
+					</section>
+				)}
 			</>
 		</Page>
 	)

@@ -4,17 +4,3 @@
 	margin-left: 0.7em;
 	margin-bottom: 0.2em;
 }
-
-.bottomConfigurator {
-	display: none;
-}
-
-@media (max-width: 800px) {
-	.topConfigurator {
-		display: none;
-	}
-
-	.bottomConfigurator {
-		display: block;
-	}
-}

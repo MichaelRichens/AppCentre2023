@@ -23,6 +23,8 @@ import processConfiguration from '../utils/processConfiguration'
 import configuratorStyles from '../styles/Configurator.shared.module.css'
 
 /**
+ * @warning Do not have more than 1 of these components rendered with the same productFamily at the same time, they will not share data properly since they only read from ConfiguratorContext on rerender.
+ * @component
  * SubscriptionConfigurator is a component that allows users to configure a their subscription
  * It generates a subscription for the software product with the passed productFamily
  * Form data is stored in the app level ConfiguratorContext, keyed by productFamily
@@ -38,6 +40,7 @@ import configuratorStyles from '../styles/Configurator.shared.module.css'
 
 const SubscriptionConfigurator = ({ productName, productFamily, productData, unitName }) => {
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
+
 	const savedData = configuratorData[productFamily] || {
 		type: PurchaseType.SUB,
 		existingUsers: productData.minUsers,
