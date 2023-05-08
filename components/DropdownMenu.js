@@ -84,13 +84,15 @@ const DropdownMenu = ({ title, linkData, className }) => {
 				}`}
 				role='menu'
 				aria-hidden={!showDropdown}>
-				{linkData.map((data, index) => (
-					<div key={index} className={styles.link} role='none'>
-						<NavLink href={data.href} currentPageStyle={data.currentPageStyle} role='menuitem' tabIndex={-1}>
-							{data.linkText}
-						</NavLink>
-					</div>
-				))}
+				<div>
+					{linkData.map((data, index) => (
+						<div key={index} className={styles.link} role='none'>
+							<NavLink href={data.href} currentPageStyle={data.currentPageStyle} role='menuitem' tabIndex={-1}>
+								{data.linkText}
+							</NavLink>
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
 	)

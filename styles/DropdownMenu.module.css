@@ -21,22 +21,30 @@
 }
 
 .dropdown {
+	background-color: transparent;
 	position: absolute;
 	left: -1em;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-
 	visibility: hidden;
 	opacity: 0;
 	z-index: 10;
+	cursor: default;
+}
+
+.dropdown > div {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .dropdownIsDefaultClosed {
-	border: 1px solid lightblue;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	padding-bottom: 0.8em;
 	transition: visibility 0s, opacity 0.3s;
 	z-index: 20;
+}
+
+.dropdownIsDefaultClosed > div {
+	border: 1px solid lightblue;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .visibleDropdown {
@@ -46,6 +54,7 @@
 
 .link {
 	white-space: nowrap;
+	cursor: pointer;
 }
 
 .link > a {
