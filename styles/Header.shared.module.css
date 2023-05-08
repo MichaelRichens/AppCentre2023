@@ -2,9 +2,12 @@
 	position: relative;
 	/* The number in the noise png is its opacity - there are a few other versions available, higher opacity == more pronounced noise effect 
 		Experimented with some different shades for the colour gradient, these are darker blue on the left, and lighter on the right.
-		(115deg, #1e2748, #27355d, #1e2748) (115deg, #232f57, #2a375b, #232f57) (115deg, #273563, #2f3f6b, #273563) (115deg, #2c3a6b, #32446e, #2c3a6b) */
-	background-color: #273563;
-	background-image: url('/images/textures/noise80.png');
+		(115deg, #1e2748, #27355d, #1e2748) (115deg, #232f57, #2a375b, #232f57) (115deg, #273563, #2f3f6b, #273563) (115deg, #2c3a6b, #32446e, #2c3a6b) 
+		
+		Note: the .navDropdown needs its background adjusted to match
+		*/
+
+	background-image: linear-gradient(0deg, #1e2748, #27355d), url('/images/textures/noise70.png');
 	background-blend-mode: overlay;
 	background-repeat: repeat;
 	color: white;
@@ -12,6 +15,12 @@
 	height: 100%;
 	display: flex;
 	margin-bottom: 1.7em;
+}
+
+.navDropdown {
+	background-image: linear-gradient(0deg, #1a223f 50%, #1e2748 65%), url('/images/textures/noise70.png');
+	background-blend-mode: overlay;
+	background-repeat: repeat;
 }
 
 .headerInnerWrapper {
@@ -60,11 +69,4 @@
 .headerNavContainer .currentPageStyle,
 .headerNavContainer a.currentPageStyle:hover {
 	color: lightblue;
-}
-
-.navDropdown {
-	background-color: #273563;
-	background-image: url('/images/textures/noise80.png');
-	background-blend-mode: overlay;
-	background-repeat: repeat;
 }

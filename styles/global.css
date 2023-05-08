@@ -9,7 +9,7 @@ body {
 main,
 #headerInnerWrapper,
 #footerInnerWrapper {
-	max-width: 2000px;
+	max-width: 1500px;
 	margin-left: 2em;
 	margin-right: 2em;
 }
@@ -46,8 +46,8 @@ main > section:last-child {
 	margin-bottom: 0;
 }
 
-/* Styles above 2000px + margins */
-@media (min-width: calc(4em + 2000px)), (min-width: 2100px) {
+/* Styles above 1500px + margins (must also adjust max-width on main element to match (see above)) */
+@media (min-width: calc(4em + 1500px)), (min-width: 1600px) {
 	main,
 	#headerInnerWrapper,
 	#footerInnerWrapper {
