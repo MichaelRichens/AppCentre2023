@@ -12,8 +12,7 @@ const durationString = Symbol('durationString')
  * @module
  * This module takes in various attributes of a product configuration, and generates some text summaries suitable for display to the user.
  * It is immutable.
- * It can also be called with no or null arguments, to get an empty, unfrozen object.  This shouldn't be done, and is available for the fromProperties static method.
- *
+ * @warning It can also be called with no or null arguments, to get an empty, unfrozen object.  This shouldn't be done, and is available for the fromProperties static method.
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
  * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
  * @param {number} price - The total price in GBP.
