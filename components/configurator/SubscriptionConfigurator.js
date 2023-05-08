@@ -17,6 +17,7 @@ import {
 	createHandleExtensionCheckboxChange,
 	createHandleYearsChange,
 	createHandleMonthsRemainingChange,
+	createAsyncHandleSubmit,
 } from '../../utils/configuratorHandleFunctions'
 import processConfiguration from '../../utils/processConfiguration'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
@@ -106,8 +107,10 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
+	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, unitName, formData)
+
 	return (
-		<form className={configuratorStyles.configurator}>
+		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
 			<SubscriptionSummary configuration={currentConfiguration.summary} />
 
 			<TypeChangeSelect

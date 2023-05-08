@@ -148,3 +148,22 @@ export const createHandleMonthsRemainingChange = (updateFormData) => (event) => 
 		years: finalValue,
 	})
 }
+
+export const createAsyncHandleSubmit = (productFamily, unitName, formData) => async (event) => {
+	event.preventDefault()
+
+	try {
+		const response = await fetch('/api/save-configuration', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ productFamily: productFamily, unitName: unitName, formData: formData }),
+		})
+
+		const result = await response.json()
+		console.log(result)
+	} catch (error) {
+		console.error('Error submitting form data:', error)
+	}
+}

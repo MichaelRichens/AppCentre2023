@@ -39,9 +39,18 @@ async function fetchProducts(productFamily) {
 }
 
 /**
- * Processes all the skus for a gfi product for use by the rest of the application
- * @param {Array} products - The array of product skus to process.
- * @returns {Object} The processed products object, which has the individual product skus sorted by years, low to high, and then by user tier low to high. And boundary data needed for the product configurator.
+ * Processes all the skus for a gfi product and its extensions for use by the rest of the application
+ * @function processProducts
+ * @param {Array} products - The array of product SKUs to process.
+ * @param {Array} extensions - The array of extension SKUs to process.
+ * @returns {Object} The processed products object with the following properties:
+ *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
+ *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
+ *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
+ *   @property {number} minUsers - The minimum number of users supported by the products.
+ *   @property {number} maxUsers - The maximum number of users supported by the products.
+ *   @property {number} minYears - The minimum number of years a subscription is available for.
+ *   @property {number} maxYears - The maximum number of years a subscription is available for.
  */
 const processProducts = (products, extensions) => {
 	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of users for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
@@ -113,9 +122,30 @@ const processProducts = (products, extensions) => {
 	return productData
 }
 
-const fetchAndProcessProducts = async (productFamily) => {
+/**
+ * Fetches products and extensions for a given product family and returns the pre-processed results.
+ *
+ * @async
+ * @function fetchAndProcessProducts
+ * Fetches and processes products and extensions for a given product family.
+ * @param {string} productFamily - The product family for which to fetch and process products and extensions.
+ * @returns {Promise<Object>} A promise that resolves to an object with the following properties:
+ *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
+ *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
+ *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
+ *   @property {number} minUsers - The minimum number of users supported by the products.
+ *   @property {number} maxUsers - The maximum number of users supported by the products.
+ *   @property {number} minYears - The minimum number of years a subscription is available for.
+ *   @property {number} maxYears - The maximum number of years a subscription is available for.
+ *
+ * @example
+ * const productFamily = 'CONNECT';
+ * const processedProducts = await fetchAndProcessProducts(productFamily);
+ * console.log(processedProducts);
+ */
+const asyncFetchAndProcessProducts = async (productFamily) => {
 	const [products, extensions] = await Promise.all([fetchProducts(productFamily), fetchExtensions(productFamily)])
 	return processProducts(products, extensions)
 }
 
-export default fetchAndProcessProducts
+export default asyncFetchAndProcessProducts
