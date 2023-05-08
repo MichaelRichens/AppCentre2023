@@ -1,9 +1,24 @@
 import React from 'react'
 import ProductInfoPage from '../components/ProductInfoPage'
+import Word from '../utils/types/Word'
+import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
-const Archiver = () => {
+export async function getStaticProps() {
+	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER)
+
+	return {
+		props: { productData },
+		revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
+	}
+}
+
+const Archiver = (props) => {
 	return (
-		<ProductInfoPage title='GFI Archiver' productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER}>
+		<ProductInfoPage
+			title='GFI Archiver'
+			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER}
+			productData={props.productData}
+			unitName={new Word('mailbox', 'mailboxes')}>
 			<section>
 				<p>
 					Discover GFI Archiver, an innovative email archiving and management solution that caters to businesses of all

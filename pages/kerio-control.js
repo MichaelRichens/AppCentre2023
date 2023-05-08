@@ -1,9 +1,25 @@
 import React from 'react'
 import ProductInfoPage from '../components/ProductInfoPage'
+import Word from '../utils/types/Word'
+import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
-const Control = () => {
+export async function getStaticProps() {
+	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL)
+
+	return {
+		props: { productData },
+		revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
+	}
+}
+
+const Control = (props) => {
+	const productData = props.productData
 	return (
-		<ProductInfoPage title='Kerio Control' productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL}>
+		<ProductInfoPage
+			title='GFI Archiver'
+			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL}
+			productData={props.productData}
+			unitName={new Word('user', 'users')}>
 			<section>
 				<p>
 					Introducing Kerio Control, a comprehensive network security and management solution designed to protect your

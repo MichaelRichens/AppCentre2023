@@ -1,9 +1,24 @@
 import React from 'react'
 import ProductInfoPage from '../components/ProductInfoPage'
+import Word from '../utils/types/Word'
+import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
-const LanGuard = () => {
+export async function getStaticProps() {
+	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_LANGUARD)
+
+	return {
+		props: { productData },
+		revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
+	}
+}
+
+const LanGuard = (props) => {
 	return (
-		<ProductInfoPage title='GFI LanGuard' productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_LANGUARD}>
+		<ProductInfoPage
+			title='GFI LanGuard'
+			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_LANGUARD}
+			productData={props.productData}
+			unitName={new Word('node', 'nodes')}>
 			<section>
 				<p>
 					Introducing GFI LanGuard, a powerful network security and vulnerability management solution designed for

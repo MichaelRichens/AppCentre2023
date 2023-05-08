@@ -1,9 +1,24 @@
 import React from 'react'
 import ProductInfoPage from '../components/ProductInfoPage'
+import Word from '../utils/types/Word'
+import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
-const Connect = () => {
+export async function getStaticProps() {
+	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT)
+
+	return {
+		props: { productData },
+		revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
+	}
+}
+
+const Connect = (props) => {
 	return (
-		<ProductInfoPage title='Kerio Connect' productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT}>
+		<ProductInfoPage
+			title='Kerio Connect'
+			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONNECT}
+			productData={props.productData}
+			unitName={new Word('user', 'users')}>
 			<section>
 				<p>
 					Introducing Kerio Connect, the all-in-one email and collaboration solution designed to streamline your
