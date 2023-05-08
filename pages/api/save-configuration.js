@@ -5,6 +5,7 @@ export default async function handler(req, res) {
 	if (req.method === 'POST') {
 		const { productFamily, unitName, formData } = req.body
 		if (productFamily && productFamily.length > 0 && unitName && formData) {
+			/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
 			const freshProductData = await asyncFetchAndProcessProducts(productFamily)
 			res.status(200).json({ message: 'Valid objects received.' })
 		} else {
