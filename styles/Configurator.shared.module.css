@@ -85,7 +85,7 @@
 }
 
 .configurator button:hover {
-	color: #ccc;
+	background-color: #6d6d6d;
 }
 
 .configurator button:active {
