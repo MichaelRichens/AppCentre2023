@@ -9,6 +9,8 @@
 /* Fieldset Styles */
 .configurator fieldset {
 	border: 5px solid #ccc;
+	border-right-color: #aaa;
+	border-bottom-color: #aaa;
 	border-radius: 5px;
 	padding: 0.7em;
 	margin-bottom: 1em;
