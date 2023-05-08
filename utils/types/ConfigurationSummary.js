@@ -12,6 +12,7 @@ const durationString = Symbol('durationString')
  * @module
  * This module takes in various attributes of a product configuration, and generates some text summaries suitable for display to the user.
  * It is immutable.
+ * It can also be called with no or null arguments, to get an empty, unfrozen object.  This shouldn't be done, and is available for the fromProperties static method.
  *
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
  * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
@@ -21,15 +22,50 @@ const durationString = Symbol('durationString')
  * @param {number} years - The duration in years that the subscription will run for (or is running for if that is not being modified).  Can be fractional for some `type` values.
  * @param {string[]} extensionNames - The names (as in user-appropriate descriptions) of the extensions on this configuration, may be existing or new depending on `type`
  * @param {Word} unitName - A Word type object holding the name for the unit that the subscription is measured in - eg 'User'
+ * @static fromProperties(properties: Object) - Creates a new ConfigurationSummary instance from an object with property values that match the properties of the ConfigurationSummary class.
  */
 class ConfigurationSummary {
-	constructor(productName, type, price, existingUsers, userChange, years, extensionNames, unitName) {
+	constructor(
+		productName = null,
+		type = null,
+		price = null,
+		existingUsers = null,
+		userChange = null,
+		years = null,
+		extensionNames = null,
+		unitName = null
+	) {
+		// Return empty, unfrozen, object - required by the fromProperties static method
+		if (
+			productName === null ||
+			type === null ||
+			price === null ||
+			existingUsers === null ||
+			userChange === null ||
+			years === null ||
+			extensionNames === null ||
+			unitName === null
+		) {
+			return
+		}
 		this.product = this[createProductDescription](productName, type, existingUsers, userChange, years, unitName)
 		this.extensions = this[createExtensionsDescription](type, extensionNames)
 		this.price = formatPrice(price)
 
 		// Make the object immutable
 		Object.freeze(this)
+	}
+
+	/**
+	 * Creates a new ConfigurationSummary instance from a plain object with the generated properties.
+	 * @param {Object} obj - The plain object containing the generated properties needed to create a ConfigurationSummary instance.
+	 * @returns {ConfigurationSummary} A new ConfigurationSummary instance.
+	 */
+	static fromProperties(obj) {
+		const instance = new ConfigurationSummary()
+		Object.assign(instance, obj)
+		Object.freeze(instance)
+		return instance
 	}
 
 	[createProductDescription](productName, type, existingUsers, userChange, years, unitName) {

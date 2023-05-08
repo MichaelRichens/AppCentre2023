@@ -1,3 +1,4 @@
+import ConfigurationSummary from '../utils/types/ConfigurationSummary'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
 import generateKey from '../utils/generateKey'
 import { connectToDatabase } from './mongodb'
@@ -43,8 +44,9 @@ async function getConfiguration(uniqueKey) {
 	}
 
 	const { type, users, years, price, skus, summary } = configurationData
+	const summaryInstance = ConfigurationSummary.fromProperties(configData.summary)
 
-	return new ProductConfiguration(type, users, years, price, skus, summary)
+	return new ProductConfiguration(type, users, years, price, skus, summaryInstance)
 }
 
 export { saveConfiguration, getConfiguration }
