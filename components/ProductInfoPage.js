@@ -17,29 +17,27 @@ const ProductInfoPage = ({ title, productFamily, productData, unitName, children
 	const showTopConfigurator = useMediaQuery('(min-width: 800px)')
 	return (
 		<Page title={title}>
-			<>
-				{showTopConfigurator && (
-					<section className={styles.topConfigurator}>
-						<SubscriptionConfigurator
-							productName={title}
-							productFamily={productFamily}
-							productData={productData}
-							unitName={unitName}
-						/>
-					</section>
-				)}
-				{children}
-				{!showTopConfigurator && (
-					<section>
-						<SubscriptionConfigurator
-							productName={title}
-							productFamily={productFamily}
-							productData={productData}
-							unitName={unitName}
-						/>
-					</section>
-				)}
-			</>
+			{showTopConfigurator && (
+				<section className={styles.topConfigurator}>
+					<SubscriptionConfigurator
+						productName={title}
+						productFamily={productFamily}
+						productData={productData}
+						unitName={unitName}
+					/>
+				</section>
+			)}
+			{children}
+			{!showTopConfigurator && (
+				<section>
+					<SubscriptionConfigurator
+						productName={title}
+						productFamily={productFamily}
+						productData={productData}
+						unitName={unitName}
+					/>
+				</section>
+			)}
 		</Page>
 	)
 }
