@@ -14,7 +14,7 @@ const SubscriptionSummary = ({ configuration }) => {
 	return (
 		<fieldset className={configuratorStyles.summary}>
 			<p>{configuration.product}</p>
-			<p>{configuration.extensions}</p>
+			{configuration.extensions.length > 0 && <p>{configuration.extensions}</p>}
 			<p>{configuration.price}</p>
 		</fieldset>
 	)

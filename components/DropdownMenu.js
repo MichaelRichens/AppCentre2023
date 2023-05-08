@@ -79,7 +79,6 @@ const DropdownMenu = ({ title, linkData, className }) => {
 			aria-expanded={showDropdown}>
 			<button className={`${styles.menuTitle} ${isFixedOpen ? linkData[0].currentPageStyle : ''}`}>{title}</button>
 			<div
-				zI
 				className={`${styles.dropdown} ${className} ${showDropdown ? styles.visibleDropdown : ''} ${
 					!isFixedOpen ? styles.dropdownIsDefaultClosed : ''
 				}`}
