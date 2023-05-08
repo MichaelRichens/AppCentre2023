@@ -17,6 +17,7 @@ import styles from '../styles/ProductInfoPage.module.css'
  */
 const ProductInfoPage = ({ title, productFamily, productData, unitName, children }) => {
 	const showTopConfigurator = useMediaQuery('(min-width: 800px)')
+
 	return (
 		<Page title={title}>
 			{showTopConfigurator && (
