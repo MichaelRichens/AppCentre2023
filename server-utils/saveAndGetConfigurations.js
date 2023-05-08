@@ -1,9 +1,10 @@
+import ProductConfiguration from '../utils/types/ProductConfiguration'
 import generateKey from '../utils/generateKey'
 import { connectToDatabase } from './mongodb'
 
 /**
  * Save a product configuration object to the MongoDB 'configurations' collection.
- * @param {Object} configuration - The product configuration object to save.
+ * @param {ProductConfiguration} configuration - The product configuration object to save.
  * @returns {Promise<string>} The unique key of the saved configuration.
  */
 async function saveConfiguration(configuration) {
@@ -27,7 +28,7 @@ async function saveConfiguration(configuration) {
 /**
  * Retrieve a product configuration object from the MongoDB 'configurations' collection using its unique key.
  * @param {string} uniqueKey - The unique key of the configuration to retrieve.
- * @returns {Promise<Object>} The retrieved product configuration object.
+ * @returns {Promise<ProductConfiguration>} The retrieved product configuration object.
  * @throws {Error} If a configuration with the provided key is not found.
  */
 async function getConfiguration(uniqueKey) {
@@ -35,13 +36,15 @@ async function getConfiguration(uniqueKey) {
 	const db = client.db()
 	const collection = db.collection('configurations')
 
-	const configuration = await collection.findOne({ _id: uniqueKey })
+	const configurationData = await collection.findOne({ _id: uniqueKey })
 
-	if (!configuration) {
+	if (!configurationData) {
 		throw new Error('Configuration not found.')
 	}
 
-	return configuration
+	const { type, users, years, price, skus, summary } = configurationData
+
+	return new ProductConfiguration(type, users, years, price, skus, summary)
 }
 
 export { saveConfiguration, getConfiguration }
