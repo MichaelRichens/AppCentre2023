@@ -12,7 +12,6 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 
 const SubscriptionSummary = ({ configuration, haveExtensionOptions }) => {
-	console.log(configuration)
 	return (
 		<fieldset className={configuratorStyles.summary}>
 			<legend>Summary</legend>
