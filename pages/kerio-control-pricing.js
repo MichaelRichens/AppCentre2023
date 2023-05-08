@@ -5,7 +5,7 @@ import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL)
+	const productData = await fetchAndProcessProducts('CONTROL')
 
 	return {
 		props: { productData },
@@ -19,7 +19,7 @@ const ControlPricing = (props) => {
 		<SubscriptionPage
 			productName='Kerio Control'
 			productIntro={<p>Kerio Control is licenced on a per-user yearly subscription basis.</p>}
-			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL}
+			productFamily={'CONTROL'}
 			productData={productData}
 			pricingType={PricingType.UNIT}
 			unitName={new Word('user', 'users')}></SubscriptionPage>

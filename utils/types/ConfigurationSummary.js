@@ -36,16 +36,16 @@ class ConfigurationSummary {
 		let str = ''
 		switch (type) {
 			case PurchaseType.SUB:
-				str += `Renewing ${productName} with ${existingUsers + userChange} ${unitName.pluralLC}`
+				str += `Subscription Renewal: ${productName} with ${existingUsers + userChange} ${unitName.pluralLC}`
 				str += ` for ${this[durationString](years)}.`
 				break
 			case PurchaseType.NEW:
-				str += `Purchasing ${productName} with ${userChange} ${unitName.pluralLC}`
+				str += `New Purchase: ${productName} with ${userChange} ${unitName.pluralLC}`
 				str += ` for ${this[durationString](years)}.`
 				break
 			case PurchaseType.ADD:
-				str += `Purchasing ${userChange} additional ${productName} ${unitName.pluralLC}`
-				str += ` for the remaining ${this[durationString](years)} on your subscription`
+				str += `Additional Users: ${userChange} additional ${productName} ${unitName.pluralLC}`
+				str += ` for the remaining ${this[durationString](years)} on the subscription`
 				str +=
 					process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true'
 						? `, bringing the total to ${existingUsers + userChange} ${unitName.pluralLC}.`
@@ -64,7 +64,7 @@ class ConfigurationSummary {
 		if (!extensionNames || extensionNames.length == 0) {
 			return ''
 		}
-		let str = `${type === PurchaseType.EXT ? 'Adding' : 'With'} the `
+		let str = `${type === PurchaseType.EXT ? 'Add' : 'With'} the `
 		str +=
 			extensionNames.length > 1
 				? extensionNames.slice(0, -1).join(', ') + ', and ' + extensionNames.slice(-1)

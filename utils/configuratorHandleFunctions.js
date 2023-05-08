@@ -160,7 +160,6 @@ export const createAsyncHandleSubmit = (productFamily, productName, unitName, fo
 			},
 			body: JSON.stringify({
 				productFamily: productFamily,
-				productName: productName,
 				unitName: unitName,
 				formData: formData,
 			}),

@@ -4,7 +4,7 @@ import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER)
+	const productData = await fetchAndProcessProducts('ARCHIVER')
 
 	return {
 		props: { productData },
@@ -16,7 +16,7 @@ const Archiver = (props) => {
 	return (
 		<ProductInfoPage
 			title='GFI Archiver'
-			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_ARCHIVER}
+			productFamily={'ARCHIVER'}
 			productData={props.productData}
 			unitName={new Word('mailbox', 'mailboxes')}>
 			<section>

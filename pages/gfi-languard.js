@@ -4,7 +4,7 @@ import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_LANGUARD)
+	const productData = await fetchAndProcessProducts('LANGUARD')
 
 	return {
 		props: { productData },
@@ -16,7 +16,7 @@ const LanGuard = (props) => {
 	return (
 		<ProductInfoPage
 			title='GFI LanGuard'
-			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_LANGUARD}
+			productFamily={'LANGUARD'}
 			productData={props.productData}
 			unitName={new Word('node', 'nodes')}>
 			<section>

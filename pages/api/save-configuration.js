@@ -1,20 +1,27 @@
+import getHardcodedProductData from '../../utils/getHardcodedProductData'
 import processConfiguration from '../../utils/processConfiguration'
 import asyncFetchAndProcessProducts from '../../server-utils/fetchAndProcessProducts'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
-		const { productFamily, productName, unitName, formData } = req.body
+		const { productFamily, unitName, formData } = req.body
 		if (productFamily && productFamily.length > 0 && unitName && formData) {
-			/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
-			const freshProductData = await asyncFetchAndProcessProducts(productFamily)
-			const configuration = processConfiguration(
-				productName,
-				freshProductData.products,
-				freshProductData.extensions,
-				formData,
-				unitName
-			)
-			console.log(configuration)
+			try {
+				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
+				const freshProductData = await asyncFetchAndProcessProducts(productFamily)
+				// getHardcodedProductData pulls from an env variable to translate productFamily to the product display name - do this to ensure that the name we display for a purchase line item matches the skus that are part of it
+				// Can't prevent someone from passing junk into this api, but at least anything that comes out of it should have a price and skus which match its name.
+				const hardcodedProductData = getHardcodedProductData()
+				const configuration = processConfiguration(
+					hardcodedProductData[productFamily].name,
+					freshProductData.products,
+					freshProductData.extensions,
+					formData,
+					unitName
+				)
+			} catch (error) {
+				res.status(500).json({ message: 'An error occurred when fetching or processing data.' })
+			}
 			res.status(200).json({ message: 'Valid objects received.' })
 		} else {
 			res.status(400).json({ message: 'Required data not received.' })

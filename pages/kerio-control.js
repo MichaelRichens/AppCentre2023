@@ -4,7 +4,7 @@ import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts(process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL)
+	const productData = await fetchAndProcessProducts('CONTROL')
 
 	return {
 		props: { productData },
@@ -17,7 +17,7 @@ const Control = (props) => {
 	return (
 		<ProductInfoPage
 			title='Kerio Control'
-			productFamily={process.env.NEXT_PUBLIC_PRODUCT_CODE_CONTROL}
+			productFamily={'CONTROL'}
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
 			<section>
