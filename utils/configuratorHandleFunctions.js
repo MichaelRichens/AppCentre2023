@@ -149,7 +149,7 @@ export const createHandleMonthsRemainingChange = (updateFormData) => (event) => 
 	})
 }
 
-export const createAsyncHandleSubmit = (productFamily, unitName, formData) => async (event) => {
+export const createAsyncHandleSubmit = (productFamily, productName, unitName, formData) => async (event) => {
 	event.preventDefault()
 
 	try {
@@ -158,7 +158,12 @@ export const createAsyncHandleSubmit = (productFamily, unitName, formData) => as
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify({ productFamily: productFamily, unitName: unitName, formData: formData }),
+			body: JSON.stringify({
+				productFamily: productFamily,
+				productName: productName,
+				unitName: unitName,
+				formData: formData,
+			}),
 		})
 
 		const result = await response.json()

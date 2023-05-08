@@ -55,6 +55,21 @@ async function fetchProducts(productFamily) {
 const processProducts = (products, extensions) => {
 	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of users for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
 	//This sorting is important, it being done is relied on elsewhere
+
+	// Clean up price data so that all prices are rounded to 2 decimal places - its a problem with some of the price data that gets missed on import
+	products = products.map((product) => {
+		return {
+			...product,
+			price: parseFloat(product.price.toFixed(2)),
+		}
+	})
+
+	extensions = extensions.map((extension) => {
+		return {
+			...extension,
+			price: parseFloat(extension.price.toFixed(2)),
+		}
+	})
 	const sortedProducts = products.sort((a, b) => {
 		if (a.product_family !== b.product_family) {
 			return a.product_family.localeCompare(b.product_family)

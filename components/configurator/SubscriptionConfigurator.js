@@ -107,7 +107,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
-	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, unitName, formData)
+	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, productName, unitName, formData)
 
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
