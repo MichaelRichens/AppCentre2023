@@ -1,11 +1,13 @@
 import getHardcodedProductData from '../../utils/getHardcodedProductData'
 import processConfiguration from '../../utils/processConfiguration'
 import asyncFetchAndProcessProducts from '../../server-utils/fetchAndProcessProducts'
+import { saveConfiguration } from '../../server-utils/saveAndGetConfigurations'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
 		const { productFamily, unitName, formData } = req.body
 		if (productFamily && productFamily.length > 0 && unitName && formData) {
+			let key
 			try {
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
 				const freshProductData = await asyncFetchAndProcessProducts(productFamily)
@@ -19,10 +21,11 @@ export default async function handler(req, res) {
 					formData,
 					unitName
 				)
+				key = await saveConfiguration(configuration)
 			} catch (error) {
 				res.status(500).json({ message: 'An error occurred when fetching or processing data.' })
 			}
-			res.status(200).json({ message: 'Valid objects received.' })
+			res.status(200).json({ key: key })
 		} else {
 			res.status(400).json({ message: 'Required data not received.' })
 		}
