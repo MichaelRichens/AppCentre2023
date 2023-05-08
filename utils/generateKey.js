@@ -10,13 +10,26 @@ function generateKey(length) {
 	}
 
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+	const unwantedStrings = ['FUCK', 'SHIT', 'CUNT', 'ARSE', 'FOOL', 'PRAT', 'ASS'] // Should really add some more of these
 	let result = ''
 
-	for (let i = 0; i < length; i++) {
-		result += characters.charAt(Math.floor(Math.random() * characters.length))
-	}
+	do {
+		result = ''
+		for (let i = 0; i < length; i++) {
+			result += characters.charAt(Math.floor(Math.random() * characters.length))
+		}
+	} while (containsUnwanted(result, unwantedStrings))
 
 	return result
+}
+
+function containsUnwanted(str, unwantedStrings) {
+	for (let word of unwantedStrings) {
+		if (str.includes(word)) {
+			return true
+		}
+	}
+	return false
 }
 
 export default generateKey
