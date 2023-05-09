@@ -29,22 +29,22 @@ const Header = () => {
 					<nav aria-label='Products'>
 						<ul ref={productUlRef}>
 							<li>
-								<ProductDropdown hrefStart='/kerio-connect' allowFixedOpen={!productNavIsMultiRow}>
+								<ProductDropdown hrefStart='/kerio-connect' navIsSingleRow={!productNavIsMultiRow}>
 									Kerio Connect
 								</ProductDropdown>
 							</li>
 							<li>
-								<ProductDropdown hrefStart='/kerio-control' allowFixedOpen={!productNavIsMultiRow}>
+								<ProductDropdown hrefStart='/kerio-control' navIsSingleRow={!productNavIsMultiRow}>
 									Kerio Control
 								</ProductDropdown>
 							</li>
 							<li>
-								<ProductDropdown hrefStart='/gfi-archiver' allowFixedOpen={!productNavIsMultiRow}>
+								<ProductDropdown hrefStart='/gfi-archiver' navIsSingleRow={!productNavIsMultiRow}>
 									GFI Archiver
 								</ProductDropdown>
 							</li>
 							<li>
-								<ProductDropdown hrefStart='/gfi-languard' allowFixedOpen={!productNavIsMultiRow}>
+								<ProductDropdown hrefStart='/gfi-languard' navIsSingleRow={!productNavIsMultiRow}>
 									GFI LanGuard
 								</ProductDropdown>
 							</li>
