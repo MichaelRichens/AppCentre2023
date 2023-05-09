@@ -42,6 +42,10 @@
 	flex-shrink: 0;
 }
 
+.headerNavContainer nav *:focus-visible {
+	outline: 1px solid white;
+}
+
 .headerNavContainer ul {
 	display: flex;
 	flex-wrap: wrap;
@@ -88,7 +92,4 @@
 	padding-top: 0.5em;
 	padding-left: 0.2em;
 	padding-right: 0.2em;
-}
-.headerNavContainer nav *:focus-visible {
-	outline: 1px solid white;
 }

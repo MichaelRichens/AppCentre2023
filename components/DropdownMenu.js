@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import styles from '../styles/DropdownMenu.module.css'
 import NavLink from './NavLink'
 
@@ -81,7 +82,13 @@ const DropdownMenu = ({ title, linkData, className, allowFixedOpen }) => {
 			onKeyDown={handleKeyDown}
 			aria-haspopup='true'
 			aria-expanded={showDropdown}>
-			<button className={`${styles.menuTitle} ${isFixedOpen ? linkData[0].currentPageStyle : ''}`}>{title}</button>
+			<button
+				className={`${styles.menuTitle} ${isFixedOpen ? linkData[0].currentPageStyle : ''} ${
+					showDropdown ? styles.menuTitleOpen : ''
+				}`}>
+				<Image src='/images/icons/white-triangle-right100x100.png' height='10' width='10' alt='' />
+				{title}
+			</button>
 			<div
 				className={`${styles.dropdown} ${className} ${showDropdown ? styles.visibleDropdown : ''} ${
 					!isFixedOpen ? styles.dropdownIsDefaultClosed : ''
