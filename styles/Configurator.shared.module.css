@@ -1,6 +1,5 @@
 /* General Form Styles */
 .configurator {
-	font-family: 'Open Sans', sans-serif;
 	max-width: 50em;
 	margin: 0 auto;
 	padding: 2em;
@@ -67,7 +66,6 @@
 
 /* Summary Styles */
 .configurator .summary {
-	font-family: 'Open Sans', sans-serif;
 	color: #666;
 	margin-bottom: 8px;
 }
