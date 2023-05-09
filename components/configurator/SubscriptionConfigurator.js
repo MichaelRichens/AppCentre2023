@@ -152,7 +152,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 						? `Number of ${unitName.pluralC}`
 						: formData.type === PurchaseType.ADD
 						? `${unitName.pluralC} to Add`
-						: `Adjust Number of ${unitName.pluralC} By`
+						: `Adjust Number of ${unitName.pluralC} by`
 				}
 				min={formData.type === PurchaseType.SUB ? productData.minUsers - formData.existingUsers : productData.minUsers}
 				max={productData.maxUsers - formData.existingUsers}
