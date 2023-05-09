@@ -24,7 +24,7 @@ const ProductDropdown = ({ hrefStart, allowFixedOpen, children }) => {
 					currentPageStyle: headerStyles.currentPageStyle,
 				},
 			]}
-			className={headerStyles.navDropdown}
+			className={`${headerStyles.navDropdown} ${!allowFixedOpen ? headerStyles.navDropdownNoFixedOpen : ''}`}
 			allowFixedOpen={allowFixedOpen}
 		/>
 	)
