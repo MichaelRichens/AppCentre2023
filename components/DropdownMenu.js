@@ -90,7 +90,7 @@ const DropdownMenu = ({ title, linkData, className, allowFixedOpen }) => {
 				aria-hidden={!showDropdown}>
 				<div>
 					{linkData.map((data, index) => (
-						<div key={index} className={styles.link} role='none'>
+						<div key={index} className={styles.link}>
 							<NavLink href={data.href} currentPageStyle={data.currentPageStyle} role='menuitem' tabIndex={-1}>
 								{data.linkText}
 							</NavLink>
