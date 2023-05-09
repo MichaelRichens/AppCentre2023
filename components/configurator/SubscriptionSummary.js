@@ -17,7 +17,7 @@ const SubscriptionSummary = ({ configuration, haveExtensionOptions }) => {
 			<legend>Summary</legend>
 			<p>{configuration.product}</p>
 			{haveExtensionOptions ? (
-				<p>{configuration.extensions.length > 0 ? configuration.extensions : 'With no Extensions'}</p>
+				<p>{configuration.extensions.length > 0 ? configuration.extensions : 'With no extensions'}</p>
 			) : null}
 
 			<p>{configuration.price}</p>
