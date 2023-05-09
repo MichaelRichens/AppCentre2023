@@ -12,7 +12,7 @@ const Header = () => {
 		<header className={headerStyles.header}>
 			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
 				<div id='headerNavContainer' className={headerStyles.headerNavContainer}>
-					<nav aria-label='Info'>
+					<nav className={headerStyles.infoMenu} aria-label='Info'>
 						<ul>
 							<li>
 								<NavLink href='/' currentPageStyle={headerStyles.currentPageStyle}>
