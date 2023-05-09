@@ -22,6 +22,7 @@
 		"endOfLine": "lf"
 	},
 	"dependencies": {
+		"@foxy.io/sdk": "^1.9.5",
 		"mongodb": "^5.4.0",
 		"next": "^13.4.0",
 		"next-fonts": "^1.5.1",
