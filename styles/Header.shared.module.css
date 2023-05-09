@@ -89,3 +89,6 @@
 	padding-left: 0.2em;
 	padding-right: 0.2em;
 }
+.headerNavContainer nav *:focus {
+	outline: 1px solid white;
+}
