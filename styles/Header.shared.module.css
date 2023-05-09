@@ -1,13 +1,14 @@
 .header {
 	position: relative;
 	/* The number in the noise png is its opacity - there are a few other versions available, higher opacity == more pronounced noise effect 
+		noisexx is a random colour noise, noisegsxx is a greyscale
 		Experimented with some different shades for the colour gradient, these are darker blue on the left, and lighter on the right.
 		(115deg, #1e2748, #27355d, #1e2748) (115deg, #232f57, #2a375b, #232f57) (115deg, #273563, #2f3f6b, #273563) (115deg, #2c3a6b, #32446e, #2c3a6b) 
 		
 		Note: the .navDropdown needs its background adjusted to match
 		*/
 
-	background-image: linear-gradient(0deg, #1e2748, #2d3c69, #27355d), url('/images/textures/noise50.png');
+	background-image: linear-gradient(0deg, #1e2748, #384a80, #27355d), url('/images/textures/noisegs40.png');
 	background-blend-mode: overlay;
 	background-repeat: repeat;
 	color: white;
@@ -18,7 +19,7 @@
 }
 
 .navDropdown > div {
-	background-image: linear-gradient(180deg, #212b50, #1d2747), url('/images/textures/noise50.png');
+	background-image: linear-gradient(180deg, #212b50, #1d2747), url('/images/textures/noisegs40.png');
 	background-blend-mode: overlay;
 	background-repeat: repeat;
 }
