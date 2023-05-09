@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useRef } from 'react'
+import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
 import NavLink from './NavLink'
 import headerStyles from '../styles/Header.shared.module.css'
 import ProductDropdown from './ProductDropdown'
 
 const Header = () => {
+	const productUlRef = useRef(null)
+	const productNavIsMultiRow = useIsAtLeastTwiceChildHeight(productUlRef)
+
 	return (
 		<header className={headerStyles.header}>
 			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
@@ -23,18 +27,26 @@ const Header = () => {
 						</ul>
 					</nav>
 					<nav aria-label='Products'>
-						<ul>
+						<ul ref={productUlRef}>
 							<li>
-								<ProductDropdown hrefStart='/kerio-connect'>Kerio Connect</ProductDropdown>
+								<ProductDropdown hrefStart='/kerio-connect' allowFixedOpen={!productNavIsMultiRow}>
+									Kerio Connect
+								</ProductDropdown>
 							</li>
 							<li>
-								<ProductDropdown hrefStart='/kerio-control'>Kerio Control</ProductDropdown>
+								<ProductDropdown hrefStart='/kerio-control' allowFixedOpen={!productNavIsMultiRow}>
+									Kerio Control
+								</ProductDropdown>
 							</li>
 							<li>
-								<ProductDropdown hrefStart='/gfi-archiver'>GFI Archiver</ProductDropdown>
+								<ProductDropdown hrefStart='/gfi-archiver' allowFixedOpen={!productNavIsMultiRow}>
+									GFI Archiver
+								</ProductDropdown>
 							</li>
 							<li>
-								<ProductDropdown hrefStart='/gfi-languard'>GFI LanGuard</ProductDropdown>
+								<ProductDropdown hrefStart='/gfi-languard' allowFixedOpen={!productNavIsMultiRow}>
+									GFI LanGuard
+								</ProductDropdown>
 							</li>
 						</ul>
 					</nav>

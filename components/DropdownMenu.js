@@ -28,17 +28,21 @@ import NavLink from './NavLink'
  * @param {string} props.linkData[].linkText - The text to display for the link.
  * @param {string} props.linkData[].href - The URL to navigate to when the link is clicked.
  * @param {string} props.linkData[].currentPageStyle - The CSS class to apply when the current page matches the link.
- * @param {string?} [props.className] - Optional CSS class for the dropdown container.
+ * @param {string?} props.className - Optional CSS class for the dropdown container.
+ * @param {boolean?} props.allowFixedOpen - Optionally can be passed as `false` to prevent fixed open behaviour.
  */
-const DropdownMenu = ({ title, linkData, className }) => {
+const DropdownMenu = ({ title, linkData, className, allowFixedOpen }) => {
 	const router = useRouter()
 	const [showDropdown, setShowDropdown] = useState(false)
-	const [isFixedOpen, setIsFixedOpen] = useState(false) // New state variable
+	const [isFixedOpen, setIsFixedOpen] = useState(false)
 	const menuItemRef = useRef(null)
+	if (allowFixedOpen === undefined || allowFixedOpen === null) {
+		allowFixedOpen = true
+	}
 
 	useEffect(() => {
 		const handleRouteChange = () => {
-			const shouldShowDropdown = linkData.some((data) => router.pathname === data.href)
+			const shouldShowDropdown = allowFixedOpen && linkData.some((data) => router.pathname === data.href)
 			setIsFixedOpen(shouldShowDropdown)
 			setShowDropdown(shouldShowDropdown)
 		}

@@ -9,9 +9,10 @@ import headerStyles from '../styles/Header.shared.module.css'
  *
  * @param {Object} props - The component props.
  * @param {string} props.hrefStart - The unique first part of the product urls, eg '/kerio-connect' which.
+ * @param {boolean?} props.allowFixedOpen - Optionally can be passed as `false` to prevent fixed open behaviour.
  * @returns {JSX.Element} The component.
  */
-const ProductDropdown = ({ hrefStart, children }) => {
+const ProductDropdown = ({ hrefStart, allowFixedOpen, children }) => {
 	return (
 		<DropdownMenu
 			title={children}
@@ -24,6 +25,7 @@ const ProductDropdown = ({ hrefStart, children }) => {
 				},
 			]}
 			className={headerStyles.navDropdown}
+			allowFixedOpen={allowFixedOpen}
 		/>
 	)
 }
