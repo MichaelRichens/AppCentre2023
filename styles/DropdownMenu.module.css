@@ -37,8 +37,10 @@
 }
 
 .dropdownIsDefaultClosed {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-in-out;
 	padding-bottom: 0.8em;
-	transition: visibility 0s, opacity 0.3s;
 	z-index: 20;
 }
 
@@ -50,6 +52,7 @@
 .visibleDropdown {
 	visibility: visible;
 	opacity: 1;
+	max-height: 200px;
 }
 
 .link {
