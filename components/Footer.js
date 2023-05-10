@@ -13,7 +13,8 @@ const Footer = () => {
 						<Link href='https://www.macupgrades.co.uk/store/' target='_blank' rel='noopener'>
 							MacUpgrades
 						</Link>{' '}
-						/ Second Chance PC Ltd. Company number 4331031. Registered for VAT GB 783705210.
+						/ Second Chance PC Ltd. Company Number: {process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT:{' '}
+						{process.env.NEXT_PUBLIC_VAT_NUMBER}.
 					</small>
 				</div>
 			</footer>
