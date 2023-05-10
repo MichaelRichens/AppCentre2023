@@ -2,7 +2,6 @@ import getHardcodedProductData from '../../utils/getHardcodedProductData'
 import processConfiguration from '../../utils/processConfiguration'
 import asyncFetchAndProcessProducts from '../../server-utils/fetchAndProcessProducts'
 import { saveConfiguration } from '../../server-utils/saveAndGetConfigurations'
-import { getFoxyApi } from '../../server-utils/foxy'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
@@ -26,7 +25,6 @@ export default async function handler(req, res) {
 			} catch (error) {
 				res.status(500).json({ message: 'An error occurred when fetching or processing data.' })
 			}
-			const foxy = getFoxyApi()
 			console.log(foxy)
 			res.status(200).json({ key: key })
 		} else {
