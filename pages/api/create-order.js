@@ -60,5 +60,6 @@ export default async function handler(req, res) {
 	}
 
 	// Return the order ID
+	console.log(order)
 	res.status(200).json({ id: order.result.id })
 }
