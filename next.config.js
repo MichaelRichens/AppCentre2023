@@ -2,10 +2,8 @@ const withFonts = require('next-fonts')
 
 module.exports = {
 	env: {
-		NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
 		NEXT_PUBLIC_DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || process.env.DEVELOPMENT_URL,
 		NEXT_PUBLIC_DEPLOY_URL: process.env.DEPLOY_URL || process.env.DEVELOPMENT_URL,
-		NEXT_PUBLIC_PAYPAL_CLIENT_ID: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID,
 	},
 	async headers() {
 		return [
