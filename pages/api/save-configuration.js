@@ -25,7 +25,7 @@ export default async function handler(req, res) {
 			} catch (error) {
 				res.status(500).json({ message: 'An error occurred when fetching or processing data.' })
 			}
-			console.log(foxy)
+
 			res.status(200).json({ key: key })
 		} else {
 			res.status(400).json({ message: 'Required data not received.' })
