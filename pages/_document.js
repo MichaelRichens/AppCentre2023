@@ -5,10 +5,7 @@ class MyDocument extends Document {
 	render() {
 		return (
 			<Html>
-				<Head>
-					<script
-						src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=GBP&locale=en_GB`}></script>
-				</Head>
+				<Head></Head>
 				<body>
 					<Main />
 					<NextScript />
