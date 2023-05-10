@@ -29,14 +29,6 @@ h6 {
 	text-align: center;
 }
 
-input,
-button,
-label,
-select,
-textarea {
-	font-family: 'Verdana', 'Geneva', sans-serif;
-}
-
 p {
 	max-width: 60em;
 	margin-left: auto;
