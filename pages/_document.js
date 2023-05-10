@@ -5,7 +5,10 @@ class MyDocument extends Document {
 	render() {
 		return (
 			<Html>
-				<Head>{}</Head>
+				<Head>
+					<script
+						src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=GBP&locale=en_GB`}></script>
+				</Head>
 				<body>
 					<Main />
 					<NextScript />
@@ -14,7 +17,5 @@ class MyDocument extends Document {
 		)
 	}
 }
-// This is the foxy.io snippet - should be placed just before the </body> - not sure if required so left out for the moment
-//<script data-cfasync="false" src="https://cdn.foxycart.com/appcentre/loader.js" async defer></script>
 
 export default MyDocument

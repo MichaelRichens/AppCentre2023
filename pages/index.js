@@ -1,13 +1,13 @@
 import React from 'react'
 import Page from '../components/Page'
-import { asyncPayPalConnect } from '../server-utils/paypal'
+import PayPalButton from '../components/PayPalButton'
 
 const Home = () => {
-	asyncPayPalConnect()
-
 	return (
 		<Page title='Home'>
-			<div id='your-container-element'></div>
+			<div>
+				<PayPalButton configId='test_config' />
+			</div>
 			<p>Welcome to our home page!</p>
 		</Page>
 	)
