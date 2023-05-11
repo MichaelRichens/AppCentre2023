@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductInfoPage from '../components/ProductInfoPage'
+import CartDisplay from '../components/CartDisplay'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -19,6 +20,7 @@ const Connect = (props) => {
 			productFamily={'CONNECT'}
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
+			<CartDisplay />
 			<section>
 				<p>
 					Introducing Kerio Connect, the all-in-one email and collaboration solution designed to streamline your

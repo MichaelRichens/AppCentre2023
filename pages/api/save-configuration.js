@@ -11,6 +11,8 @@ export default async function handler(req, res) {
 		if (productFamily && productFamily.length > 0 && unitName && formData) {
 			let key
 			let configuration
+			let priceInPennies
+			let name
 			try {
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
 				const freshProductData = await asyncFetchAndProcessProducts(productFamily)
@@ -24,8 +26,9 @@ export default async function handler(req, res) {
 					formData,
 					unitName
 				)
+				priceInPennies = Math.round(configuration.price * 100) // Stripe works with the smallest currency unit
 				key = await saveConfiguration(configuration)
-				const name = `${configuration.summary.product}${
+				name = `${configuration.summary.product}${
 					configuration.summary.extensions.length > 0 ? ' ' + configuration.summary.extensions : ''
 				}`
 
@@ -50,7 +53,7 @@ export default async function handler(req, res) {
 
 				const priceConfig = {
 					product: key,
-					unit_amount: Math.round(configuration.price * 100), // Stripe works with the smallest currency unit
+					unit_amount: priceInPennies,
 					currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
 				}
 
@@ -135,8 +138,8 @@ export default async function handler(req, res) {
 
 			res.status(200).json({
 				key: key,
-				name: configuration.summary.name,
-				price: configuration.price,
+				name: name,
+				price: priceInPennies,
 			})
 		} else {
 			res.status(400).json({ message: 'Required data not received.' })
