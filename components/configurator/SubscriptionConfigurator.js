@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
+import { useShoppingCart } from 'use-shopping-cart'
 import SubscriptionSummary from './SubscriptionSummary'
 import TypeChangeSelect from './TypeChangeSelect'
 import PurchaseUnitInput from './PurchaseUnitInput'
@@ -83,6 +84,8 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 		saveConfiguratorData(productFamily, formData)
 	}, [formData])
 
+	const { addItem } = useShoppingCart()
+
 	const currentConfiguration = processConfiguration(
 		productName,
 		productData.products,
@@ -107,7 +110,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
-	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, productName, unitName, formData)
+	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, unitName, formData, addItem)
 
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>

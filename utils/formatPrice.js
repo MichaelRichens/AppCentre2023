@@ -7,7 +7,7 @@
 const formatPrice = (price) => {
 	const formattedPrice = new Intl.NumberFormat('en-GB', {
 		style: 'currency',
-		currency: 'GBP',
+		currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
 	}).format(price)
 	return `${formattedPrice} + vat`
 }

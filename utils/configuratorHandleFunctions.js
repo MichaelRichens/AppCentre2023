@@ -149,7 +149,7 @@ export const createHandleMonthsRemainingChange = (updateFormData) => (event) => 
 	})
 }
 
-export const createAsyncHandleSubmit = (productFamily, productName, unitName, formData) => async (event) => {
+export const createAsyncHandleSubmit = (productFamily, unitName, formData, addItem) => async (event) => {
 	event.preventDefault()
 
 	try {
@@ -166,7 +166,21 @@ export const createAsyncHandleSubmit = (productFamily, productName, unitName, fo
 		})
 
 		const result = await response.json()
-		console.log(result)
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}\nmessage: ${result.message}`)
+		} else {
+			// Add item to cart here
+			// Assuming the returned product data has the necessary properties
+			// You may need to adjust this depending on the actual structure of your product data
+			addItem({
+				id: result.key,
+				name: result.name,
+				price: result.price,
+				currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
+				quantity: 1,
+			})
+		}
 	} catch (error) {
 		console.error('Error submitting form data:', error)
 	}

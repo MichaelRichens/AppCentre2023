@@ -15,7 +15,7 @@ const durationString = Symbol('durationString')
  * @warning It can also be called with no or null arguments, to get an empty, unfrozen object.  This shouldn't be done, and is available for the fromProperties static method.
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
  * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
- * @param {number} price - The total price in GBP.
+ * @param {number} price - The total price in GBP (or rather process.env.NEXT_PUBLIC_CURRENCY_UC / process.env.NEXT_PUBLIC_CURRENCY_LC).
  * @param {number} existingUsers - The existing unit on a subscription which is being modified.
  * @param {number} userChange - The change in units being made to the subscription (or total users for a new subscription).
  * @param {number} years - The duration in years that the subscription will run for (or is running for if that is not being modified).  Can be fractional for some `type` values.

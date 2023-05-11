@@ -10,13 +10,14 @@ export default async function handler(req, res) {
 		const { productFamily, unitName, formData } = req.body
 		if (productFamily && productFamily.length > 0 && unitName && formData) {
 			let key
+			let configuration
 			try {
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
 				const freshProductData = await asyncFetchAndProcessProducts(productFamily)
 				// getHardcodedProductData pulls from an env variable to translate productFamily to the product display name - do this to ensure that the name we display for a purchase line item matches the skus that are part of it
 				// Can't prevent someone from passing junk into this api, but at least anything that comes out of it should have a price and skus which match its name.
 				const hardcodedProductData = getHardcodedProductData()
-				const configuration = processConfiguration(
+				configuration = processConfiguration(
 					hardcodedProductData[productFamily].name,
 					freshProductData.products,
 					freshProductData.extensions,
@@ -50,7 +51,7 @@ export default async function handler(req, res) {
 				const priceConfig = {
 					product: key,
 					unit_amount: Math.round(configuration.price * 100), // Stripe works with the smallest currency unit
-					currency: 'gbp',
+					currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
 				}
 
 				let product
@@ -132,7 +133,11 @@ export default async function handler(req, res) {
 					.json({ message: 'An error occurred when fetching or processing data.', error: error.message })
 			}
 
-			res.status(200).json({ key: key })
+			res.status(200).json({
+				key: key,
+				name: configuration.summary.name,
+				price: configuration.price,
+			})
 		} else {
 			res.status(400).json({ message: 'Required data not received.' })
 		}
