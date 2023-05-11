@@ -40,7 +40,6 @@ export default async function handler(req, res) {
 					If a new product or price was created, it updates the default price of the product to the new active price.
 				*/
 
-				let newProductOrPrice = false
 				// Define product and price configuration
 				const productConfig = {
 					id: key,
@@ -76,6 +75,8 @@ export default async function handler(req, res) {
 					product = await stripe.products.update(product.id, updateConfig) // Update the product if the name or metadata has changed
 				}
 
+				let updateProductsDefaultPrice = false
+
 				// Retrieve prices associated with product
 				let prices = await stripe.prices.list({ product: product.id, active: 'true' })
 
@@ -83,7 +84,7 @@ export default async function handler(req, res) {
 				if (!prices.data.length) {
 					// If there are no active prices, create a new one with the provided configuration
 					prices.data.push(await stripe.prices.create(priceConfig))
-					newProductOrPrice = true
+					updateProductsDefaultPrice = true
 				} else {
 					// If price exists, check if it has changed and delete/create if necessary
 					let newPrice
@@ -98,7 +99,7 @@ export default async function handler(req, res) {
 									// If the price is the default price and it has changed, unset the default_price of the product and create a new price
 									await stripe.products.update(product.id, { default_price: null })
 									newPrice = await stripe.prices.create(priceConfig)
-									newProductOrPrice = true
+									updateProductsDefaultPrice = true
 								}
 								// Set the price to inactive if it's not the default price or if it has changed
 								await stripe.prices.update(price.id, { active: 'false' })
@@ -113,11 +114,11 @@ export default async function handler(req, res) {
 					}
 				}
 
-				if (newProductOrPrice) {
+				if (updateProductsDefaultPrice) {
 					// If a new product or price was created, set the default_price of the product to the id of the new active price
 					const newDefaultPrice = prices.data.find((price) => price.active)
 					if (!newDefaultPrice) {
-						throw new Error('This should never happen')
+						throw new Error('This should never happen - no default price has been set.')
 					}
 					product = await stripe.products.update(product.id, { default_price: newDefaultPrice.id })
 				}
