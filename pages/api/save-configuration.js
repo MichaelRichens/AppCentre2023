@@ -14,8 +14,11 @@ export default async function handler(req, res) {
 			let priceInPennies
 			let name
 			try {
+				// console.time('save-configuration TOTAL')
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
+				// console.time('save-configuration await 1')
 				const freshProductData = await asyncFetchAndProcessProducts(productFamily)
+				// console.timeEnd('save-configuration await 1')
 				// getHardcodedProductData pulls from an env variable to translate productFamily to the product display name - do this to ensure that the name we display for a purchase line item matches the skus that are part of it
 				// Can't prevent someone from passing junk into this api, but at least anything that comes out of it should have a price and skus which match its name.
 				const hardcodedProductData = getHardcodedProductData()
@@ -27,7 +30,9 @@ export default async function handler(req, res) {
 					unitName
 				)
 				priceInPennies = Math.round(configuration.price * 100) // Stripe works with the smallest currency unit
+				// console.time('save-configuration await 2')
 				key = await saveConfiguration(configuration)
+				// console.timeEnd('save-configuration await 2')
 				name = `${configuration.summary.product}${
 					configuration.summary.extensions.length > 0 ? ' ' + configuration.summary.extensions : ''
 				}`
@@ -60,11 +65,15 @@ export default async function handler(req, res) {
 				let product
 				try {
 					// Attempt to create a new product - we expect to create a new product in most cases.
+					// console.time('save-configuration await 3')
 					product = await stripe.products.create(productConfig)
+					// console.timeEnd('save-configuration await 3')
 				} catch (err) {
 					if (err.type === 'StripeInvalidRequestError') {
 						// If the product already exists, retrieve the existing one
+						// console.time('save-configuration await 4')
 						product = await stripe.products.retrieve(key)
+						// console.timeEnd('save-configuration await 4')
 					} else {
 						throw err // If the error is not due to an existing product, rethrow the error
 					}
@@ -76,22 +85,29 @@ export default async function handler(req, res) {
 					JSON.stringify(product.metadata) !== JSON.stringify(productConfig.metadata)
 				) {
 					const { id, ...updateConfig } = productConfig // Exclude id from update parameters
+					// console.time('save-configuration await 5')
 					product = await stripe.products.update(product.id, updateConfig) // Update the product if the name or metadata has changed
+					// console.timeEnd('save-configuration await 5')
 				}
 
 				let updateProductsDefaultPrice = false
 
 				// Retrieve prices associated with product
+				// console.time('save-configuration await 6')
 				let prices = await stripe.prices.list({ product: product.id, active: 'true' })
+				// console.timeEnd('save-configuration await 6')
 
 				// If price doesn't exist, create it
 				if (!prices.data.length) {
 					// If there are no active prices, create a new one with the provided configuration
+					// console.time('save-configuration await 7')
 					prices.data.push(await stripe.prices.create(priceConfig))
+					// console.timeEnd('save-configuration await 7')
 					updateProductsDefaultPrice = true
 				} else {
 					// If price exists, check if it has changed and delete/create if necessary
 					let newPrice
+					// console.time('save-configuration await 8')
 					prices.data = await Promise.all(
 						prices.data.map(async (price) => {
 							if (
@@ -112,6 +128,7 @@ export default async function handler(req, res) {
 							return price // If the price has not changed, keep it in the list
 						})
 					)
+					// console.timeEnd('save-configuration await 8')
 					if (newPrice) {
 						// If a new price was created, add it to the list of prices
 						prices.data.push(newPrice)
@@ -124,7 +141,9 @@ export default async function handler(req, res) {
 					if (!newDefaultPrice) {
 						throw new Error('This should never happen - no default price has been set.')
 					}
+					// console.time('save-configuration await 9')
 					product = await stripe.products.update(product.id, { default_price: newDefaultPrice.id })
+					// console.timeEnd('save-configuration await 9')
 				}
 
 				//console.log(product)
@@ -135,7 +154,7 @@ export default async function handler(req, res) {
 					.status(500)
 					.json({ message: 'An error occurred when fetching or processing data.', error: error.message })
 			}
-
+			// console.timeEnd('save-configuration TOTAL')
 			res.status(200).json({
 				key: key,
 				name: name,
