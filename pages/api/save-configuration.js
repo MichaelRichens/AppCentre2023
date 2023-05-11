@@ -62,6 +62,7 @@ export default async function handler(req, res) {
 					currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
 				}
 
+				let haveAddedProductOrPrice = true
 				let product
 				try {
 					// Attempt to create a new product - we expect to create a new product in most cases.
@@ -71,6 +72,7 @@ export default async function handler(req, res) {
 				} catch (err) {
 					if (err.type === 'StripeInvalidRequestError') {
 						// If the product already exists, retrieve the existing one
+						haveAddedProductOrPrice = false
 						// console.time('save-configuration await 4')
 						product = await stripe.products.retrieve(key)
 						// console.timeEnd('save-configuration await 4')
@@ -79,23 +81,25 @@ export default async function handler(req, res) {
 					}
 				}
 
-				// Check if product fields have changed and update if necessary
-				if (
-					product.name !== productConfig.name ||
-					JSON.stringify(product.metadata) !== JSON.stringify(productConfig.metadata)
-				) {
-					const { id, ...updateConfig } = productConfig // Exclude id from update parameters
-					// console.time('save-configuration await 5')
-					product = await stripe.products.update(product.id, updateConfig) // Update the product if the name or metadata has changed
-					// console.timeEnd('save-configuration await 5')
+				let prices = { data: [] }
+
+				if (!haveAddedProductOrPrice) {
+					// Check if product fields have changed and update if necessary
+					if (
+						product.name !== productConfig.name ||
+						JSON.stringify(product.metadata) !== JSON.stringify(productConfig.metadata)
+					) {
+						const { id, ...updateConfig } = productConfig // Exclude id from update parameters
+						// console.time('save-configuration await 5')
+						product = await stripe.products.update(product.id, updateConfig) // Update the product if the name or metadata has changed
+						// console.timeEnd('save-configuration await 5')
+					}
+
+					// Retrieve prices associated with product
+					// console.time('save-configuration await 6')
+					prices = await stripe.prices.list({ product: product.id, active: 'true' })
+					// console.timeEnd('save-configuration await 6')
 				}
-
-				let updateProductsDefaultPrice = false
-
-				// Retrieve prices associated with product
-				// console.time('save-configuration await 6')
-				let prices = await stripe.prices.list({ product: product.id, active: 'true' })
-				// console.timeEnd('save-configuration await 6')
 
 				// If price doesn't exist, create it
 				if (!prices.data.length) {
@@ -103,7 +107,7 @@ export default async function handler(req, res) {
 					// console.time('save-configuration await 7')
 					prices.data.push(await stripe.prices.create(priceConfig))
 					// console.timeEnd('save-configuration await 7')
-					updateProductsDefaultPrice = true
+					haveAddedProductOrPrice = true
 				} else {
 					// If price exists, check if it has changed and delete/create if necessary
 					let newPrice
@@ -119,7 +123,7 @@ export default async function handler(req, res) {
 									// If the price is the default price and it has changed, unset the default_price of the product and create a new price
 									await stripe.products.update(product.id, { default_price: null })
 									newPrice = await stripe.prices.create(priceConfig)
-									updateProductsDefaultPrice = true
+									haveAddedProductOrPrice = true
 								}
 								// Set the price to inactive if it's not the default price or if it has changed
 								await stripe.prices.update(price.id, { active: 'false' })
@@ -135,7 +139,7 @@ export default async function handler(req, res) {
 					}
 				}
 
-				if (updateProductsDefaultPrice) {
+				if (haveAddedProductOrPrice) {
 					// If a new product or price was created, set the default_price of the product to the id of the new active price
 					const newDefaultPrice = prices.data.find((price) => price.active)
 					if (!newDefaultPrice) {
