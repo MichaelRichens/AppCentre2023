@@ -42,6 +42,19 @@
 	font-family: 'Lato', sans-serif;
 }
 
+.logoContainer {
+	text-align: center;
+}
+
+/* This is passed to the NavLink surrounding the logo to override the usual fading of the link contents when on the current page */
+.headerNavContainer .mainLogoLinkCurrent {
+	opacity: 1;
+}
+
+.mainLogo {
+	height: 70px;
+}
+
 .headerNavContainer nav {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
@@ -98,4 +111,22 @@
 	padding-top: 0.5em;
 	padding-left: 0.2em;
 	padding-right: 0.2em;
+}
+
+@media (min-width: 1800px) {
+	.mainLogo {
+		height: 100px;
+	}
+}
+
+@media (max-width: 475px) {
+	.mainLogo {
+		height: 50px;
+	}
+}
+
+@media (max-width: 350px) {
+	.mainLogo {
+		height: 30px;
+	}
 }

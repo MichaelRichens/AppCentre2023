@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import Link from 'next/link'
 import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
 import NavLink from './NavLink'
 import headerStyles from '../styles/Header.shared.module.css'
@@ -26,6 +27,13 @@ const Header = () => {
 							</li>
 						</ul>
 					</nav>
+
+					<div className={headerStyles.logoContainer}>
+						<NavLink href='/' currentPageStyle={headerStyles.mainLogoLinkCurrent}>
+							<img className={headerStyles.mainLogo} src='images/logos/appcentre-logo-raleway.svg' alt='AppCentre' />
+						</NavLink>
+					</div>
+
 					<nav aria-label='Products'>
 						<ul ref={productUlRef}>
 							<li>
