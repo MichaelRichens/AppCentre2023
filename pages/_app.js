@@ -9,7 +9,7 @@ function App({ Component, pageProps }) {
 	return (
 		<CartProvider
 			mode='client-only'
-			stripe={process.env.NEXT_PUBLIC_STRIPE_API_PUBLIC}
+			stripe={process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY}
 			currency='GBP'
 			successUrl={`${process.env.NEXT_PUBLIC_DEPLOY_URL}/success`}
 			cancelUrl={`${process.env.NEXT_PUBLIC_DEPLOY_URL}/cancelled`}
