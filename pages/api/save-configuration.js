@@ -58,7 +58,6 @@ export default async function handler(req, res) {
 				try {
 					// Attempt to create a new product - we expect to create a new product in most cases.
 					product = await stripe.products.create(productConfig)
-					newProductOrPrice = true
 				} catch (err) {
 					if (err.type === 'StripeInvalidRequestError') {
 						// If the product already exists, retrieve the existing one
@@ -123,11 +122,13 @@ export default async function handler(req, res) {
 					product = await stripe.products.update(product.id, { default_price: newDefaultPrice.id })
 				}
 
-				console.log(product)
-				console.log(prices.data)
+				//console.log(product)
+				//console.log(prices.data)
 			} catch (error) {
 				console.error(error)
-				return res.status(500).json({ message: 'An error occurred when fetching or processing data.' })
+				return res
+					.status(500)
+					.json({ message: 'An error occurred when fetching or processing data.', error: error.message })
 			}
 
 			res.status(200).json({ key: key })
@@ -135,6 +136,6 @@ export default async function handler(req, res) {
 			res.status(400).json({ message: 'Required data not received.' })
 		}
 	} else {
-		res.status(405).json({ message: 'Method not allowed.' })
+		res.status(405).json({ message: 'Method not allowed, must be POST.' })
 	}
 }
