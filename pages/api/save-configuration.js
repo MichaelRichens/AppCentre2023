@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 					If active prices exist, it checks if they have changed or if they are not the default price. If so, it sets them to inactive and creates a new price if the default price has changed.
 					If a new product or price was created, it updates the default price of the product to the new active price.
 				*/
-				key = 'PORHLN'
+
 				let newProductOrPrice = false
 				// Define product and price configuration
 				const productConfig = {
