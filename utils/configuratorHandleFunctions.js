@@ -171,13 +171,11 @@ export const createAsyncHandleSubmit = (productFamily, unitName, formData, addIt
 			throw new Error(`HTTP error! status: ${response.status}\nmessage: ${result.message}`)
 		} else {
 			// Add item to cart here
-			// Assuming the returned product data has the necessary properties
-			// You may need to adjust this depending on the actual structure of your product data
 			addItem({
 				id: result.key,
 				name: result.name,
 				price: result.price,
-				currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
+				currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
 				quantity: 1,
 			})
 		}
