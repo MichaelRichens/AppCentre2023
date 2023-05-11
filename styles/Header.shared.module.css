@@ -8,7 +8,7 @@
 		Note: the .navDropdown needs its background adjusted to match
 		*/
 
-	background-image: linear-gradient(0deg, #1e2748, #384a80, #27355d), url('/images/textures/noisegs40.png');
+	background-image: linear-gradient(0deg, #1e2748, #384a80, #27355d), url('/images/textures/noisegs50.png');
 	background-blend-mode: overlay;
 	background-repeat: repeat;
 	color: white;
@@ -19,7 +19,7 @@
 }
 
 .navDropdown > div {
-	background-image: linear-gradient(180deg, #212b50, #1d2747), url('/images/textures/noisegs40.png');
+	background-image: linear-gradient(180deg, #212b50, #1d2747), url('/images/textures/noisegs50.png');
 	background-blend-mode: overlay;
 	background-repeat: repeat;
 }
