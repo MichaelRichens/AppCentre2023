@@ -62,12 +62,13 @@ export default async function handler(req, res) {
 					currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
 				}
 
-				let haveAddedProductOrPrice = true
+				let haveAddedProductOrPrice = false
 				let product
 				try {
 					// Attempt to create a new product - we expect to create a new product in most cases.
 					// console.time('save-configuration await 3')
 					product = await stripe.products.create(productConfig)
+					haveAddedProductOrPrice = true
 					// console.timeEnd('save-configuration await 3')
 				} catch (err) {
 					if (err.type === 'StripeInvalidRequestError') {
