@@ -29,6 +29,7 @@
 		"react-dom": "^18.2.0",
 		"react-router-dom": "^6.11.1",
 		"smartquotes": "^2.3.2",
+		"stripe": "^12.4.0",
 		"use-shopping-cart": "^3.1.7"
 	},
 	"devDependencies": {

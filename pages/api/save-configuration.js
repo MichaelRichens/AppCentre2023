@@ -2,6 +2,7 @@ import getHardcodedProductData from '../../utils/getHardcodedProductData'
 import processConfiguration from '../../utils/processConfiguration'
 import asyncFetchAndProcessProducts from '../../server-utils/fetchAndProcessProducts'
 import { saveConfiguration } from '../../server-utils/saveAndGetConfigurations'
+import { stripe } from '../../server-utils/initStripe'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
@@ -22,8 +23,32 @@ export default async function handler(req, res) {
 					unitName
 				)
 				key = await saveConfiguration(configuration)
+				const name = `${configuration.summary.product}${
+					configuration.summary.extensions.length > 0 ? ' ' + configuration.summary.extensions : ''
+				}`
+				console.log(key)
+				console.log(name)
+				console.log(configuration)
+
+				// Create a Stripe Product
+				const product = await stripe.products.create({
+					id: key,
+					name: name,
+					//metadata: configuration.metadata, // If you have metadata in your configuration object
+				})
+
+				// Create a Stripe Price
+				const price = await stripe.prices.create({
+					product: product.id,
+					unit_amount: configuration.price * 100, // Stripe works with the smallest currency unit
+					currency: 'gbp',
+				})
+
+				console.log(`Product created with ID: ${product.id} and Price ID: ${price.id}`)
+				console.log(product)
 			} catch (error) {
-				res.status(500).json({ message: 'An error occurred when fetching or processing data.' })
+				console.error(error)
+				return res.status(500).json({ message: 'An error occurred when fetching or processing data.' })
 			}
 
 			res.status(200).json({ key: key })

@@ -166,7 +166,7 @@ export const createAsyncHandleSubmit = (productFamily, productName, unitName, fo
 		})
 
 		const result = await response.json()
-		console.log(result.key)
+		console.log(result)
 	} catch (error) {
 		console.error('Error submitting form data:', error)
 	}
