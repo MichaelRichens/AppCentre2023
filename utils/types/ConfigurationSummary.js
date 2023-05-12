@@ -1,6 +1,6 @@
 import PurchaseType from './enums/PurchaseType'
 import Word from './Word'
-import formatPrice from '../formatPrice'
+import { formatPriceFromPounds } from '../formatPrice'
 
 const createProductDescription = Symbol('privateMethod')
 const createExtensionsDescription = Symbol('privateMethod')
@@ -49,7 +49,7 @@ class ConfigurationSummary {
 		}
 		this.product = this[createProductDescription](productName, type, existingUsers, userChange, years, unitName)
 		this.extensions = this[createExtensionsDescription](type, extensionNames)
-		this.price = formatPrice(price)
+		this.price = formatPriceFromPounds(price)
 
 		// Make the object immutable
 		Object.freeze(this)

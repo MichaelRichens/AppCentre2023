@@ -2,7 +2,7 @@ import React from 'react'
 import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
 import Word from '../utils/types/Word'
-import formatPrice from '../utils/formatPrice'
+import { formatPriceFromPounds } from '../utils/formatPrice'
 import priceTableStyles from '../styles/Table.shared.module.css'
 
 /**
@@ -34,7 +34,7 @@ const PriceTableWithUnits = ({ productName, products, unitName }) => {
 		tableData.setData(
 			rowNameGen(product.years),
 			columnNameGen(product.units_from, product.units_to, unitName),
-			formatPrice(product.price)
+			formatPriceFromPounds(product.price)
 		)
 	}
 

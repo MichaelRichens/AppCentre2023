@@ -217,11 +217,30 @@
 	.headerMainContent .productMenu {
 		font-size: 14px;
 	}
+	.cartWrapper {
+		width: 500px;
+	}
+}
+
+@media (max-width: 600px) {
+	.cartWrapper {
+		width: 400px;
+	}
+}
+
+@media (max-width: 500px) {
+	.cartWrapper {
+		right: 0;
+	}
 }
 
 @media (max-width: 475px) {
 	.mainLogo {
 		height: 50px;
+	}
+	.cartWrapper {
+		font-size: 90%;
+		width: 325px;
 	}
 }
 
@@ -236,7 +255,7 @@
 	.cartWrapper {
 		right: 0;
 		font-size: 90%;
-		width: 250px;
+		width: 275px;
 	}
 }
 
@@ -244,9 +263,6 @@
 	.mainLogo {
 		height: 30px;
 	}
-}
-
-@media (max-width: 325px) {
 	.cartWrapper {
 		right: -25px;
 		font-size: 90%;

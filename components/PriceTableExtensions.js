@@ -1,7 +1,7 @@
 import React from 'react'
 import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
-import formatPrice from '../utils/formatPrice'
+import { formatPriceFromPounds } from '../utils/formatPrice'
 import priceTableStyles from '../styles/Table.shared.module.css'
 
 const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
@@ -13,7 +13,7 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 	const extensionsTable = new TableData(uniqueYears, uniqueNames, 'Subscription Length')
 
 	extensionsData.forEach((ext) => {
-		extensionsTable.setData(yearLabel(ext.years), ext.name, formatPrice(ext.price))
+		extensionsTable.setData(yearLabel(ext.years), ext.name, formatPriceFromPounds(ext.price))
 	})
 
 	return (

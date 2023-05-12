@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { Tooltip } from 'react-tooltip'
 import { useShoppingCart } from 'use-shopping-cart'
@@ -8,6 +8,8 @@ import headerStyles from '../styles/Header.shared.module.css'
 const HeaderCartMenu = () => {
 	const { cartCount } = useShoppingCart()
 	const [isCartVisible, setCartVisible] = useState(false)
+	const cartRef = useRef(null)
+	const cartButtonRef = useRef(null)
 
 	const handleCartClick = () => {
 		if (cartCount > 0) {
@@ -19,9 +21,33 @@ const HeaderCartMenu = () => {
 		setCartVisible(false)
 	}
 
+	const handleClickOutside = (event) => {
+		if (
+			cartButtonRef.current &&
+			!cartRef.current.contains(event.target) &&
+			!cartButtonRef.current.contains(event.target)
+		) {
+			handleCartClose()
+		}
+	}
+
+	useEffect(() => {
+		if (isCartVisible) {
+			document.addEventListener('mousedown', handleClickOutside)
+		} else {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+
+		// cleanup function
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside)
+		}
+	}, [isCartVisible])
+
 	return (
 		<aside id='headerCartContainer' className={headerStyles.headerCartContainer}>
 			<button
+				ref={cartButtonRef}
 				className={headerStyles.cartIcon}
 				onClick={handleCartClick}
 				aria-label='Open Cart'
@@ -38,7 +64,7 @@ const HeaderCartMenu = () => {
 			</button>
 			{!isCartVisible && cartCount > 0 && <Tooltip id='open-cart' />}
 			{isCartVisible && (
-				<div className={headerStyles.cartWrapper}>
+				<div ref={cartRef} className={headerStyles.cartWrapper}>
 					<button onClick={handleCartClose} className={headerStyles.closeButton} aria-label='Close cart'>
 						X
 					</button>

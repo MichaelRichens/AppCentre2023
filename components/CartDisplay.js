@@ -1,15 +1,15 @@
 import React from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { Tooltip } from 'react-tooltip'
+import { formatPriceFromPennies } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
-	const { cartDetails, formattedTotalPrice, removeItem } = useShoppingCart()
+	const { cartDetails, totalPrice, removeItem } = useShoppingCart()
 
 	const handleRemoveItem = (id) => {
 		removeItem(id)
 	}
-
 	return (
 		<form className={styles.cartContainer}>
 			<h2>Your Cart</h2>
@@ -28,14 +28,20 @@ const CartDisplay = () => {
 									X
 								</button>
 								<Tooltip id={`remove-item-${itemID}`} />
-								{` ${item.quantity > 1 ? item.quantity + ' x ' : ''}${item.name}`}
+								{` ${item.quantity > 1 ? item.quantity + ' x ' : ''}${item.name} - ${formatPriceFromPennies(
+									item.price
+								)}${
+									item.quantity > 1
+										? ' per unit = ' + formatPriceFromPennies(item.price * item.quantity) + ' total'
+										: ''
+								}`}
 							</li>
 						)
 					})}
 				</ul>
 			</fieldset>
 			<fieldset>
-				<p>Total: {`${formattedTotalPrice} + vat`}</p>
+				<p>Total: {formatPriceFromPennies(totalPrice)}</p>
 			</fieldset>
 		</form>
 	)
