@@ -86,19 +86,18 @@ const DropdownMenu = ({ title, linkData, className, navIsSingleRow }) => {
 				className={`${styles.menuTitle} ${isFixedOpen ? linkData[0].currentPageStyle : ''} ${
 					showDropdown ? styles.menuTitleOpen : ''
 				}`}>
-				<Image src='/images/icons/white-triangle-right100x100.png' height='10' width='10' alt='' />
+				<Image src='/images/icons/white-triangle-right100x100.png' height='10' width='10' alt='' unoptimized />
 				{title}
 			</button>
 			<div
 				className={`${styles.dropdown} ${className} ${showDropdown ? styles.visibleDropdown : ''} ${
 					!isFixedOpen ? styles.dropdownIsDefaultClosed : ''
 				}`}
-				role='menu'
 				aria-hidden={!showDropdown}>
 				<div>
 					{linkData.map((data, index) => (
 						<div key={index} className={styles.link}>
-							<NavLink href={data.href} currentPageStyle={data.currentPageStyle} role='menuitem' tabIndex={-1}>
+							<NavLink href={data.href} currentPageStyle={data.currentPageStyle} tabIndex={-1}>
 								{data.linkText}
 							</NavLink>
 						</div>
