@@ -18,8 +18,6 @@
 
 /* Legend Styles */
 .configurator fieldset legend {
-	font-family: 'Roboto', sans-serif;
-	font-size: 1.1em;
 	color: #333;
 	padding: 0.1em 1em;
 	width: 90%;
@@ -40,7 +38,6 @@
 .configurator textarea {
 	max-width: fit-content;
 	padding: 0.5em;
-	font-family: 'Open Sans', sans-serif;
 	font-size: 1em;
 	font-weight: 500;
 	border: 1px solid #ccc;
@@ -68,28 +65,4 @@
 .configurator .summary {
 	color: #666;
 	margin-bottom: 8px;
-}
-
-/* Button Styles */
-.configurator button {
-	height: 35px;
-	padding-left: 1em;
-	padding-right: 1em;
-	font-family: 'Lato', sans-serif;
-	font-size: 1em;
-	font-weight: 600;
-	color: #fff;
-	background-color: #3a3a3a;
-	border: none;
-	border-radius: 3px;
-	cursor: pointer;
-	transition: background-color 0.3s, transform 0.1s;
-}
-
-.configurator button:hover {
-	background-color: #5a5a5a;
-}
-
-.configurator button:active {
-	transform: scale(0.96);
 }
