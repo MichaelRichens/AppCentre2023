@@ -200,8 +200,34 @@
 	}
 }
 
+@media (max-width: 400px) {
+	.cartWrapper {
+		right: 0;
+		font-size: 90%;
+		width: 250px;
+	}
+}
+
 @media (max-width: 350px) {
 	.mainLogo {
 		height: 30px;
+	}
+}
+
+@media (max-width: 325px) {
+	.cartWrapper {
+		right: -25px;
+		font-size: 90%;
+		width: 250px;
+		padding-left: 0.1em;
+		padding-right: 0.1em;
+	}
+}
+
+@media (max-width: 280px) {
+	.cartWrapper {
+		right: 1%;
+		font-size: 80%;
+		width: 200px;
 	}
 }
