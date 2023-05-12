@@ -34,7 +34,9 @@ const CartDisplay = () => {
 					})}
 				</ul>
 			</fieldset>
-			<h3>Total: {formattedTotalPrice}</h3>
+			<fieldset>
+				<p>Total: {`${formattedTotalPrice} + vat`}</p>
+			</fieldset>
 		</form>
 	)
 }

@@ -11,6 +11,44 @@ select {
 	background-color: #f9f9f9;
 }
 
+/* If these margins are adjusted, need to also change the styling that is applied above max width, since it takes margins into account in the media query */
+main,
+#headerInnerWrapper,
+#footerInnerWrapper {
+	max-width: 1500px;
+	margin-left: 2em;
+	margin-right: 2em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: 'Roboto', sans-serif;
+	text-align: center;
+}
+
+p {
+	max-width: 60em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+fieldset {
+	margin-bottom: 1em;
+}
+
+form > fieldset:last-child {
+	margin-bottom: 0;
+}
+
+fieldset legend {
+	font-family: 'Roboto', sans-serif;
+	font-size: 1.1em;
+}
+
 input,
 select,
 textarea {
@@ -38,36 +76,6 @@ form button:hover {
 
 form button:active {
 	transform: scale(0.96);
-}
-
-/* If these margins are adjusted, need to also change the styling that is applied above max width, since it takes margins into account in the media query */
-main,
-#headerInnerWrapper,
-#footerInnerWrapper {
-	max-width: 1500px;
-	margin-left: 2em;
-	margin-right: 2em;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-family: 'Roboto', sans-serif;
-	text-align: center;
-}
-
-p {
-	max-width: 60em;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-fieldset legend {
-	font-family: 'Roboto', sans-serif;
-	font-size: 1.1em;
 }
 
 .sr-only {
