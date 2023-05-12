@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import Image from 'next/image'
 import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
 import NavLink from './NavLink'
 import headerStyles from '../styles/Header.shared.module.css'
@@ -26,8 +27,15 @@ const Header = () => {
 							</li>
 						</ul>
 					</nav>
+
+					<div className={headerStyles.logoContainer}>
+						<NavLink href='/' currentPageStyle={headerStyles.mainLogoLinkCurrent}>
+							<img className={headerStyles.mainLogo} src='images/logos/appcentre-logo-raleway.svg' alt='AppCentre' />
+						</NavLink>
+					</div>
+
 					<nav aria-label='Products'>
-						<ul ref={productUlRef}>
+						<ul ref={productUlRef} className={productNavIsMultiRow ? headerStyles.multiRowProductNav : ''}>
 							<li>
 								<ProductDropdown hrefStart='/kerio-connect' navIsSingleRow={!productNavIsMultiRow}>
 									Kerio Connect
@@ -50,6 +58,9 @@ const Header = () => {
 							</li>
 						</ul>
 					</nav>
+				</div>
+				<div id='headerCartContainer' className={headerStyles.headerCartContainer}>
+					<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='' />
 				</div>
 			</div>
 		</header>
