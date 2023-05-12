@@ -4,6 +4,7 @@ import { ConfiguratorProvider } from '../components/contexts/ConfiguratorContext
 
 import '../styles/font-face.css'
 import '../styles/global.css'
+import 'react-tooltip/dist/react-tooltip.css'
 
 function App({ Component, pageProps }) {
 	return (

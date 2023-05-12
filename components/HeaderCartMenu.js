@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
+import { Tooltip } from 'react-tooltip'
 import { useShoppingCart } from 'use-shopping-cart'
 import CartDisplay from './CartDisplay'
 import headerStyles from '../styles/Header.shared.module.css'
@@ -23,9 +24,10 @@ const HeaderCartMenu = () => {
 			<button
 				className={headerStyles.cartIcon}
 				onClick={handleCartClick}
-				aria-label='Open cart'
-				title='Click to Open'
-				disabled={cartCount === 0}>
+				aria-label='Open Cart'
+				disabled={cartCount === 0}
+				data-tooltip-id='open-cart'
+				data-tooltip-content='Click to Open Cart'>
 				<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='Shopping Cart' />
 				<div
 					aria-label='Items in Cart'
@@ -33,6 +35,7 @@ const HeaderCartMenu = () => {
 					{cartCount}
 				</div>
 			</button>
+			{!isCartVisible && cartCount > 0 && <Tooltip id='open-cart' />}
 			{isCartVisible && (
 				<div className={headerStyles.cartWrapper}>
 					<button onClick={handleCartClose} className={headerStyles.closeButton} aria-label='Close cart'>
