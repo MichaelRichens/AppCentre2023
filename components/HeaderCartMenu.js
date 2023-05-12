@@ -32,7 +32,7 @@ const HeaderCartMenu = () => {
 				<div
 					aria-live='polite'
 					className={`${headerStyles.cartCount} ${cartCount > 0 ? headerStyles.cartFull : headerStyles.cartEmpty}`}>
-					<span className='sr-only'>Items in Cart: </span>
+					<span className='sr-only'>Quantity in Cart: </span>
 					{cartCount}
 				</div>
 			</button>

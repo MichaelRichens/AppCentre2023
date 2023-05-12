@@ -152,11 +152,11 @@
 	background-color: rgba(0, 0, 0, 0.5);
 	text-align: center;
 	line-height: 15px;
-	font-size: 12px;
+	font-size: 15px;
 }
 
 .cartEmpty {
-	background-color: #811818;
+	background-color: #512e2e;
 }
 
 .cartFull {
@@ -179,6 +179,7 @@
 	border: 2px cyan solid;
 	border-radius: 0.25em;
 	overflow-y: auto;
+	z-index: 20;
 }
 
 .closeButton {
