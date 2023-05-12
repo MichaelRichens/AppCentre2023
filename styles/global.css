@@ -11,6 +11,10 @@ select {
 	background-color: #f9f9f9;
 }
 
+header {
+	margin-bottom: 1.7em;
+}
+
 /* If these margins are adjusted, need to also change the styling that is applied above max width, since it takes margins into account in the media query */
 main,
 #headerInnerWrapper,
@@ -28,6 +32,18 @@ h5,
 h6 {
 	font-family: 'Roboto', sans-serif;
 	text-align: center;
+}
+
+h1 {
+	font-size: 3.5em;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+h2 {
+	font-size: 2.2em;
+	margin-block-start: 0.5em;
+	margin-block-end: 0.5em;
 }
 
 p {
@@ -104,5 +120,50 @@ main > section:last-child {
 	#footerInnerWrapper {
 		margin-left: auto;
 		margin-right: auto;
+	}
+}
+
+@media (max-width: 750px) {
+	header {
+		margin-bottom: 1.4em;
+	}
+	h1 {
+		font-size: 3em;
+		margin-block-start: 0.5em;
+		margin-block-end: 0.5em;
+	}
+
+	h2 {
+		font-size: 1.8em;
+		margin-block-start: 0.4em;
+		margin-block-end: 0.4em;
+	}
+}
+
+@media (max-width: 500px) {
+	header {
+		margin-bottom: 1em;
+	}
+	h1 {
+		font-size: 2.5em;
+	}
+
+	h2 {
+		font-size: 1.5em;
+	}
+}
+
+@media (max-width: 400px) {
+	header {
+		margin-bottom: 0.5em;
+	}
+	h1 {
+		margin-block-start: 0.3em;
+		margin-block-end: 0.3em;
+	}
+
+	h2 {
+		margin-block-start: 0.2em;
+		margin-block-end: 0.2em;
 	}
 }
