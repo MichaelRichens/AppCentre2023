@@ -52,7 +52,7 @@
 }
 
 /* This is passed to the NavLink surrounding the logo to override the usual fading of the link contents when on the current page */
-.logoContainer .mainLogoLinkCurrent {
+.headerMainContent .logoContainer .mainLogoLinkCurrent {
 	opacity: 1;
 }
 
@@ -171,8 +171,8 @@
 	width: 300px;
 	height: 400px;
 	padding: 0.5em;
-	background-image: linear-gradient(180deg, #394c84 0%, #27355d 13%, #384a80 50%, #27355d 100%),
-		url('/images/textures/noisegs50.png');
+	background-image: url('/images/textures/noisegs100.png');
+	background-color: #243059;
 	background-blend-mode: overlay;
 	background-repeat: repeat;
 	color: white;
