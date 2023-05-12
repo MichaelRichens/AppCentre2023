@@ -35,7 +35,7 @@ const Header = () => {
 					</div>
 
 					<nav aria-label='Products'>
-						<ul ref={productUlRef} className={productNavIsMultiRow && headerStyles.multiRowProductNav}>
+						<ul ref={productUlRef} className={productNavIsMultiRow ? headerStyles.multiRowProductNav : ''}>
 							<li>
 								<ProductDropdown hrefStart='/kerio-connect' navIsSingleRow={!productNavIsMultiRow}>
 									Kerio Connect
