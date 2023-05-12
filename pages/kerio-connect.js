@@ -20,7 +20,6 @@ const Connect = (props) => {
 			productFamily={'CONNECT'}
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
-			<CartDisplay />
 			<section>
 				<p>
 					Introducing Kerio Connect, the all-in-one email and collaboration solution designed to streamline your
