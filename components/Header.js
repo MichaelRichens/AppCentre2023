@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import Image from 'next/image'
 import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
+import HeaderCartMenu from './HeaderCartMenu'
 import NavLink from './NavLink'
 import headerStyles from '../styles/Header.shared.module.css'
 import ProductDropdown from './ProductDropdown'
@@ -12,7 +12,7 @@ const Header = () => {
 	return (
 		<header className={headerStyles.header}>
 			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
-				<div id='headerNavContainer' className={headerStyles.headerNavContainer}>
+				<div id='headerMainContent' className={headerStyles.headerMainContent}>
 					<nav className={headerStyles.infoMenu} aria-label='Info'>
 						<ul>
 							<li>
@@ -59,9 +59,7 @@ const Header = () => {
 						</ul>
 					</nav>
 				</div>
-				<div id='headerCartContainer' className={headerStyles.headerCartContainer}>
-					<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='' />
-				</div>
+				<HeaderCartMenu />
 			</div>
 		</header>
 	)

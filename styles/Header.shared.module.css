@@ -36,7 +36,7 @@
 	flex-wrap: nowrap;
 }
 
-.headerNavContainer {
+.headerMainContent {
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
@@ -59,17 +59,17 @@
 	height: 70px;
 }
 
-.headerNavContainer nav {
+.headerMainContent nav {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 	flex-shrink: 0;
 }
 
-.headerNavContainer nav *:focus-visible {
+.headerMainContent nav *:focus-visible {
 	outline: 1px solid white;
 }
 
-.headerNavContainer ul {
+.headerMainContent ul {
 	display: flex;
 	flex-wrap: wrap;
 	list-style: none;
@@ -79,31 +79,31 @@
 	row-gap: 1em;
 }
 
-.headerNavContainer li {
+.headerMainContent li {
 	white-space: nowrap;
 }
 
-.headerNavContainer,
-.headerNavContainer a {
+.headerMainContent,
+.headerMainContent a {
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-.headerNavContainer a:hover {
+.headerMainContent a:hover {
 	color: rgb(194, 227, 238);
 }
 
-.headerNavContainer .currentPageStyle,
-.headerNavContainer a.currentPageStyle:hover {
+.headerMainContent .currentPageStyle,
+.headerMainContent a.currentPageStyle:hover {
 	color: lightblue;
 }
 
-.headerNavContainer nav.infoMenu {
+.headerMainContent nav.infoMenu {
 	margin: 0;
 }
 
-.headerNavContainer nav.infoMenu a {
+.headerMainContent nav.infoMenu a {
 	display: block;
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
@@ -111,7 +111,7 @@
 	padding-right: 0.2em;
 }
 
-.headerNavContainer nav button {
+.headerMainContent nav button {
 	padding-top: 0.5em;
 	padding-left: 0.2em;
 	padding-right: 0.2em;
