@@ -168,9 +168,10 @@
 	position: absolute;
 	top: 40%;
 	right: 50%;
-	width: 300px;
+	width: 600px;
 	height: 400px;
 	padding: 0.5em;
+	padding-top: 1.5em;
 	background-image: url('/images/textures/noisegs100.png');
 	background-color: #243059;
 	background-blend-mode: overlay;
@@ -191,6 +192,19 @@
 	color: white;
 	font-size: 24px;
 	cursor: pointer;
+}
+
+.closeButton:hover {
+	color: rgb(153, 116, 116);
+}
+
+.cart button {
+	background-color: white;
+	color: black;
+}
+
+.cart button:hover {
+	background-color: #ccc;
 }
 
 @media (min-width: 1800px) {

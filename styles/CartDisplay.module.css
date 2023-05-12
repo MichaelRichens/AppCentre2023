@@ -1,5 +1,23 @@
+.cartContainer h2 {
+	margin: 0;
+	padding: 0;
+}
+
 .cartContainer ul {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5em;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+}
+
+.cartItems {
+	font-size: 90%;
+}
+
+.cartContainer .cartItems button {
+	padding: 0.1em 0.3em;
+	height: initial;
+	color: red;
 }
