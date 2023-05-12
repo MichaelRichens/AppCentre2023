@@ -73,7 +73,6 @@ export default async function handler(req, res) {
 				} catch (err) {
 					if (err.type === 'StripeInvalidRequestError') {
 						// If the product already exists, retrieve the existing one
-						haveAddedProductOrPrice = false
 						// console.time('save-configuration await 4')
 						product = await stripe.products.retrieve(key)
 						// console.timeEnd('save-configuration await 4')
