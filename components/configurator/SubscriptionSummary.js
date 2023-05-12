@@ -1,4 +1,5 @@
 import React from 'react'
+import { RotatingLines } from 'react-loader-spinner'
 import ConfigurationSummary from '../../utils/types/ConfigurationSummary'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
@@ -9,9 +10,10 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {Object} props - The component props.
  * @param {ConfigurationSummary} props.configuration - Details of the configuration to summarise.
  * @param {boolean?} props.haveExtensionOptions - Are there any extensions available for this product?
+ * @param {boolean?} props.addToCartInProgress - Is there currently an add to cart operation in progress?
  */
 
-const SubscriptionSummary = ({ configuration, haveExtensionOptions }) => {
+const SubscriptionSummary = ({ configuration, haveExtensionOptions, addToCartInProgress }) => {
 	return (
 		<fieldset className={configuratorStyles.summary}>
 			<legend>Summary</legend>
@@ -21,7 +23,17 @@ const SubscriptionSummary = ({ configuration, haveExtensionOptions }) => {
 			) : null}
 
 			<p>{configuration.price}</p>
-			<button type='submit'>Save</button>
+			{addToCartInProgress ? (
+				<RotatingLines
+					width='32'
+					animationDuration='1.5'
+					strokeColor='#666'
+					color='#243059'
+					ariaLabel='Adding to Cart'
+				/>
+			) : (
+				<button type='submit'>Add to Cart</button>
+			)}
 		</fieldset>
 	)
 }

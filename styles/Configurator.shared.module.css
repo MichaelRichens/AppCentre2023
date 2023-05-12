@@ -72,6 +72,9 @@
 
 /* Button Styles */
 .configurator button {
+	height: 35px;
+	padding-left: 1em;
+	padding-right: 1em;
 	font-family: 'Lato', sans-serif;
 	font-size: 1em;
 	font-weight: 600;
@@ -79,7 +82,6 @@
 	background-color: #3a3a3a;
 	border: none;
 	border-radius: 3px;
-	padding: 10px 20px;
 	cursor: pointer;
 	transition: background-color 0.3s, transform 0.1s;
 }

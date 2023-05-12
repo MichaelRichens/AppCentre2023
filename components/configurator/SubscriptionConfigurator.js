@@ -80,6 +80,8 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 		setFormData(updatedData)
 	}
 
+	const [addingToCart, setAddingToCart] = useState(false)
+
 	useEffect(() => {
 		saveConfiguratorData(productFamily, formData)
 	}, [formData])
@@ -110,7 +112,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
-	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, unitName, formData, addItem)
+	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, unitName, formData, addItem, setAddingToCart)
 
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
@@ -128,6 +130,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 			<SubscriptionSummary
 				configuration={currentConfiguration.summary}
 				haveExtensionOptions={productData.availableExtensions.length > 0}
+				addToCartInProgress={addingToCart}
 			/>
 
 			<PurchaseUnitInput

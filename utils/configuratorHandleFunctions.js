@@ -149,37 +149,41 @@ export const createHandleMonthsRemainingChange = (updateFormData) => (event) => 
 	})
 }
 
-export const createAsyncHandleSubmit = (productFamily, unitName, formData, addItem) => async (event) => {
-	event.preventDefault()
+export const createAsyncHandleSubmit =
+	(productFamily, unitName, formData, addItem, setSubmitInProgress) => async (event) => {
+		event.preventDefault()
 
-	try {
-		const response = await fetch('/api/save-configuration', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				productFamily: productFamily,
-				unitName: unitName,
-				formData: formData,
-			}),
-		})
-
-		const result = await response.json()
-
-		if (!response.ok) {
-			throw new Error(`HTTP error! status: ${response.status}\nmessage: ${result.message}`)
-		} else {
-			// Add item to cart here
-			addItem({
-				id: result.key,
-				name: result.name,
-				price: result.price,
-				currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
-				quantity: 1,
+		setSubmitInProgress(true)
+		try {
+			const response = await fetch('/api/save-configuration', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					productFamily: productFamily,
+					unitName: unitName,
+					formData: formData,
+				}),
 			})
+
+			const result = await response.json()
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}\nmessage: ${result.message}`)
+			} else {
+				// Add item to cart here
+				addItem({
+					id: result.key,
+					name: result.name,
+					price: result.price,
+					currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
+					quantity: 1,
+				})
+			}
+		} catch (error) {
+			console.error('Error submitting form data:', error)
+		} finally {
+			setSubmitInProgress(false)
 		}
-	} catch (error) {
-		console.error('Error submitting form data:', error)
 	}
-}
