@@ -16,7 +16,7 @@ import styles from '../styles/ProductInfoPage.module.css'
  * @returns {JSX.Element} The ProductInfoPage component.
  */
 const ProductInfoPage = ({ title, productFamily, productData, unitName, children }) => {
-	const showTopConfigurator = useMediaQuery('(min-width: 800px)')
+	const showTopConfigurator = useMediaQuery('(min-width: 750px)')
 
 	return (
 		<Page title={title}>
