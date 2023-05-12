@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import Link from 'next/link'
+import Image from 'next/image'
 import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
 import NavLink from './NavLink'
 import headerStyles from '../styles/Header.shared.module.css'
@@ -58,6 +58,9 @@ const Header = () => {
 							</li>
 						</ul>
 					</nav>
+				</div>
+				<div id='headerCartContainer' className={headerStyles.headerCartContainer}>
+					<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='' />
 				</div>
 			</div>
 		</header>

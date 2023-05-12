@@ -31,9 +31,13 @@
 
 .headerInnerWrapper {
 	flex-grow: 1;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
 }
 
 .headerNavContainer {
+	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -111,6 +115,11 @@
 	padding-top: 0.5em;
 	padding-left: 0.2em;
 	padding-right: 0.2em;
+}
+
+.headerCartContainer {
+	flex-grow: 0;
+	padding-top: 0.5em;
 }
 
 @media (min-width: 1800px) {
