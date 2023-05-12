@@ -1,5 +1,6 @@
 import React from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
+import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
 	const { cartDetails, clearCart, formattedTotalPrice, removeItem } = useShoppingCart()
@@ -13,14 +14,16 @@ const CartDisplay = () => {
 	}
 
 	return (
-		<div>
+		<div className={styles.cartContainer}>
 			<h2>Your Cart</h2>
 			<ul>
 				{Object.keys(cartDetails).map((itemID) => {
 					const item = cartDetails[itemID]
 					return (
 						<li key={itemID}>
-							<button onClick={() => handleRemoveItem(itemID)}>Remove</button>
+							<button onClick={() => handleRemoveItem(itemID)} aria-label='Remove Item'>
+								X
+							</button>
 							{` ${item.quantity} x ${item.name}`}
 						</li>
 					)
