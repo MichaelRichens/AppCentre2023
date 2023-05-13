@@ -130,7 +130,20 @@ const processProducts = (products, extensions) => {
 		productData.maxYears = 0
 	} else {
 		const minUsersFrom = Math.min(...productData.products.map((product) => product.units_from))
-		const maxUsersTo = Math.max(...productData.products.map((product) => product.units_to))
+		let maxUsersTo
+
+		if (
+			productData.products.some(
+				(product) => product.units_to === null || product.units_to === undefined || product.units_to === ''
+			)
+		) {
+			maxUsersTo = process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS
+		} else {
+			maxUsersTo = Math.max(...productData.products.map((product) => product.units_to))
+		}
+
+		console.log(products.map((p) => p.units_to).join(', '))
+		console.log(maxUsersTo)
 
 		const minYears = Math.min(...productData.products.map((product) => product.years))
 		const maxYears = Math.max(...productData.products.map((product) => product.years))
