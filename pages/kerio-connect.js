@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import CartDisplay from '../components/CartDisplay'
 import Word from '../utils/types/Word'
@@ -197,6 +198,22 @@ const Connect = (props) => {
 						communication across all devices and platforms. Furthermore, its affordable licensing model and professional
 						support provide added value, making it an ideal solution for businesses of all sizes.
 					</p>
+				</section>
+				<section>
+					<h2>Try Kerio Connect Today</h2>
+					<p>Don't just take our word for it, try Kerio Connect free for 30 days and experience:</p>
+					<ul>
+						<li>Secure and easy-to-install email</li>
+						<li>Instant messaging and calendars</li>
+						<li>Making BYOD easy</li>
+					</ul>
+					<Link
+						href='https://www.gfi.com/products-and-solutions/email-and-messaging-solutions/kerioconnect/free-trial'
+						target='_blank'
+						rel='noopener'>
+						Download Kerio Control VPN free for 30 days
+					</Link>
+					.
 				</section>
 			</article>
 		</ProductInfoPage>
