@@ -21,7 +21,7 @@ const Connect = (props) => {
 			productFamily={'CONNECT'}
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
-			<article>
+			<>
 				<section>
 					<p>
 						Perfectly tailored for small to medium-sized businesses (SMBs), Kerio Connect is a trusted mail server and
@@ -215,7 +215,7 @@ const Connect = (props) => {
 					</Link>
 					.
 				</section>
-			</article>
+			</>
 		</ProductInfoPage>
 	)
 }

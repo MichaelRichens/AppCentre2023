@@ -30,16 +30,16 @@ const ProductInfoPage = ({ title, productFamily, productData, unitName, children
 					/>
 				</aside>
 			)}
-			{children}
+			<article>{children}</article>
 			{!showTopConfigurator && (
-				<section>
+				<aside>
 					<SubscriptionConfigurator
 						productName={title}
 						productFamily={productFamily}
 						productData={productData}
 						unitName={unitName}
 					/>
-				</section>
+				</aside>
 			)}
 		</Page>
 	)

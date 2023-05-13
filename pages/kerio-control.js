@@ -21,7 +21,7 @@ const Control = (props) => {
 			productFamily={'CONTROL'}
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
-			<article>
+			<>
 				<section>
 					<p>
 						Kerio Control is a next-generation firewall and unified threat management (UTM) product, developed
@@ -195,7 +195,7 @@ const Control = (props) => {
 					</Link>
 					.
 				</section>
-			</article>
+			</>
 		</ProductInfoPage>
 	)
 }
