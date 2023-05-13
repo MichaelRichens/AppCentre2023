@@ -43,7 +43,7 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 			wholeYears = Math.ceil(configuratorOptions.years)
 			break
 		case PurchaseType.ADD:
-			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true') {
+			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true') {
 				numUsersForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
 			} else {
 				numUsersForPriceBand = configuratorOptions.unitsChange

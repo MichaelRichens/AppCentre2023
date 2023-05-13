@@ -138,7 +138,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 					formData.type === PurchaseType.SUB ||
 					formData.type === PurchaseType.EXT ||
 					(formData.type === PurchaseType.ADD &&
-						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true')
+						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true')
 				}
 				legend={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${unitName.pluralC} on Subscription`}
 				min={productData.minUnits}

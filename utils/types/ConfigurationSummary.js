@@ -82,7 +82,7 @@ class ConfigurationSummary {
 				str += `Additional Users: ${unitsChange} additional ${productName} ${unitName.pluralLC}`
 				str += ` for the remaining ${this[durationString](years)} on the subscription`
 				str +=
-					process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true'
+					process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true'
 						? `, bringing the total to ${existingUnits + unitsChange} ${unitName.pluralLC}.`
 						: '.'
 				break
