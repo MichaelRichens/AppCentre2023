@@ -69,7 +69,7 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 		return result
 	}
 
-	result.users = numUnitsToPurchase
+	result.units = numUnitsToPurchase
 
 	if (configuratorOptions.type !== PurchaseType.EXT) {
 		const productsWithCorrectWholeYear = products.filter((sku) => sku.years === wholeYears)
