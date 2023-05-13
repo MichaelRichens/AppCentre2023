@@ -36,7 +36,7 @@ select,
 }
 
 header {
-	margin-bottom: 1.7em;
+	margin-block-end: 1.7em;
 }
 
 /* If these margins are adjusted, need to also change the styling that is applied above max width, since it takes margins into account in the media query */
@@ -93,11 +93,11 @@ li {
 }
 
 li {
-	margin-bottom: 0.2em;
+	margin-block-end: 0.2em;
 }
 
 li:last-child {
-	margin-bottom: 0;
+	margin-block-end: 0;
 }
 
 article > section {
@@ -114,11 +114,11 @@ article ul + h3 {
 }
 
 fieldset {
-	margin-bottom: 1em;
+	margin-block-end: 1em;
 }
 
 form > fieldset:last-child {
-	margin-bottom: 0;
+	margin-block-end: 0;
 }
 
 fieldset legend {
@@ -202,7 +202,7 @@ form button:active {
 
 @media (max-width: 750px) {
 	header {
-		margin-bottom: 1.4em;
+		margin-block-end: 1.4em;
 	}
 	h1 {
 		font-size: 3em;
@@ -240,7 +240,7 @@ form button:active {
 
 @media (max-width: 500px) {
 	header {
-		margin-bottom: 1em;
+		margin-block-end: 1em;
 	}
 	h1 {
 		font-size: 1.8em;
@@ -258,7 +258,7 @@ form button:active {
 
 @media (max-width: 400px) {
 	header {
-		margin-bottom: 0.5em;
+		margin-block-end: 0.5em;
 	}
 	h1 {
 		margin-block-start: 0.3em;
