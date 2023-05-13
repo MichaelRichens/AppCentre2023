@@ -86,7 +86,7 @@ const DropdownMenu = ({ title, linkData, className, navIsSingleRow }) => {
 				className={`${styles.menuTitle} ${isFixedOpen ? linkData[0].currentPageStyle : ''} ${
 					showDropdown ? styles.menuTitleOpen : ''
 				}`}>
-				<Image src='/images/icons/white-triangle-right100x100.png' height='10' width='10' alt='' unoptimized />
+				<Image src='/images/icons/white-triangle-right100x100.png' height='10' width='10' alt='' loading='eager' />
 				{title}
 			</button>
 			<div

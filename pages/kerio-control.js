@@ -36,6 +36,8 @@ const Control = (props) => {
 						<li>Web content and application filtering</li>
 						<li>Secure Virtual Private Network (VPN)</li>
 					</ul>
+				</section>
+				<section>
 					<h2>Why Is Security So Important for SMEs?</h2>
 					<p>
 						Security is a critical and often overlooked element for SMEs. A recent Verizon survey found that 43 percent
@@ -77,8 +79,6 @@ const Control = (props) => {
 						and applications with the optional Kerio Control Web Filter.
 					</p>
 				</section>
-
-				<Image src='/images/control-box-hardware409x240.png' height={240} width={409} />
 				<section>
 					<h2>Easy Deployment and Management</h2>
 					<p>
@@ -96,7 +96,12 @@ const Control = (props) => {
 						web interface.
 					</p>
 				</section>
-				<Image src='/images/control-traffic-rules722x606.png' height={606} width={722} />
+				<Image
+					src='/images/control-traffic-rules722x606.png'
+					height={606}
+					width={722}
+					alt='Traffic Rules control panel'
+				/>
 				<section>
 					<h2>Key Features</h2>
 					<ul>
@@ -163,6 +168,12 @@ const Control = (props) => {
 						</li>
 					</ul>
 				</section>
+				<Image
+					src='/images/control-box-hardware409x240.png'
+					height={240}
+					width={409}
+					alt='Kerio Control Box Group Shot'
+				/>
 				<section>
 					<h2>Flexible Deployment Options</h2>
 					<p>
