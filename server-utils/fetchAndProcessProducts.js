@@ -129,27 +129,24 @@ const processProducts = (products, extensions) => {
 		productData.minYears = 0
 		productData.maxYears = 0
 	} else {
-		const minUsersFrom = Math.min(...productData.products.map((product) => product.units_from))
-		let maxUsersTo
+		const minUnitsFrom = Math.min(...productData.products.map((product) => product.units_from))
+		let maxUnitsTo
 
 		if (
 			productData.products.some(
 				(product) => product.units_to === null || product.units_to === undefined || product.units_to === ''
 			)
 		) {
-			maxUsersTo = process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS
+			maxUnitsTo = process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS
 		} else {
-			maxUsersTo = Math.max(...productData.products.map((product) => product.units_to))
+			maxUnitsTo = Math.max(...productData.products.map((product) => product.units_to))
 		}
-
-		console.log(products.map((p) => p.units_to).join(', '))
-		console.log(maxUsersTo)
 
 		const minYears = Math.min(...productData.products.map((product) => product.years))
 		const maxYears = Math.max(...productData.products.map((product) => product.years))
 
-		productData.minUsers = minUsersFrom >= 1 ? minUsersFrom : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
-		productData.maxUsers = maxUsersTo >= 1 ? maxUsersTo : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
+		productData.minUsers = minUnitsFrom >= 1 ? minUnitsFrom : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
+		productData.maxUsers = maxUnitsTo >= 1 ? maxUnitsTo : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
 		productData.minYears = minYears
 		productData.maxYears = maxYears
 	}
