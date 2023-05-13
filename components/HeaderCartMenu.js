@@ -45,7 +45,7 @@ const HeaderCartMenu = () => {
 	}, [isCartVisible])
 
 	return (
-		<aside id='headerCartContainer' className={headerStyles.headerCartContainer}>
+		<aside id='headerCartContainer' className={`popupContainer ${headerStyles.headerCartContainer}`}>
 			<button
 				ref={cartButtonRef}
 				className={headerStyles.cartIcon}
@@ -64,8 +64,8 @@ const HeaderCartMenu = () => {
 			</button>
 			{!isCartVisible && cartCount > 0 && <Tooltip id='open-cart' />}
 			{isCartVisible && (
-				<div ref={cartRef} className={headerStyles.cartWrapper}>
-					<button onClick={handleCartClose} className={headerStyles.closeButton} aria-label='Close cart'>
+				<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
+					<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
 						X
 					</button>
 					<div className={headerStyles.cart}>

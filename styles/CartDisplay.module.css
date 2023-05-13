@@ -6,7 +6,7 @@
 .cartContainer ul {
 	display: flex;
 	flex-direction: column;
-	gap: 3em;
+
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -16,8 +16,20 @@
 	font-size: 90%;
 }
 
+.cartItems ul li {
+	padding: 2em 0.5em;
+}
+
+.cartItems ul li:nth-child(even) {
+	background-color: #ebf7ff;
+}
+
+.cartItems ul li:hover {
+	background-color: #d3ebfc;
+}
+
 .cartContainer .cartItems button {
 	padding: 0.1em 0.3em;
 	height: initial;
-	color: red;
+	color: rgb(172, 111, 111);
 }

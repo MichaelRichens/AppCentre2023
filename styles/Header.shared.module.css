@@ -123,7 +123,6 @@
 .headerCartContainer {
 	flex-grow: 0;
 	padding-top: 0.7em;
-	position: relative;
 }
 
 .cartIcon {
@@ -163,46 +162,11 @@
 }
 
 .cartWrapper {
-	position: absolute;
-	top: 40%;
-	right: 50%;
+	top: 60px;
+	right: 1em;
 	width: 600px;
 	height: 400px;
-	padding: 0.5em;
-	padding-top: 1.5em;
-	background-image: url('/images/textures/noisegs100.png');
-	background-color: #243059;
-	background-blend-mode: overlay;
-	background-repeat: repeat;
-	color: white;
-	border: 2px cyan solid;
-	border-radius: 0.25em;
-	overflow-y: auto;
-	z-index: 20;
-}
-
-.closeButton {
-	position: absolute;
-	top: 0;
-	right: 0;
-	background: none;
-	border: none;
-	color: white;
-	font-size: 24px;
-	cursor: pointer;
-}
-
-.closeButton:hover {
-	color: rgb(153, 116, 116);
-}
-
-.cart button {
-	background-color: white;
-	color: black;
-}
-
-.cart button:hover {
-	background-color: #ccc;
+	z-index: 30;
 }
 
 @media (min-width: 1800px) {
