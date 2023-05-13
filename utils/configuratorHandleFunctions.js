@@ -3,9 +3,12 @@ import PurchaseType from './types/enums/PurchaseType'
 export const createHandleTypeChange = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let unitsChange = formData.unitsChange
-	if ((value === PurchaseType.NEW || value === PurchaseType.ADD) && unitsChange < productData.minUnits) {
+	if (
+		(value === PurchaseType.NEW || value === PurchaseType.ADD || value === PurchaseType.ADD) &&
+		unitsChange < productData.minUnits
+	) {
 		unitsChange = productData.minUnits
-	} else if (value === PurchaseType.SUB && (formData.type === PurchaseType.NEW || formData.type === PurchaseType.ADD)) {
+	} else if (value === PurchaseType.SUB && formData.type === PurchaseType.NEW) {
 		unitsChange = 0
 	}
 
