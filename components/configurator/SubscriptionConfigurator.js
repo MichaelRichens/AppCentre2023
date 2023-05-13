@@ -53,6 +53,8 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 	}
 
 	const [formData, setFormData] = useState(savedData)
+
+	const [lastChangeWasType, setLastChangeWasType] = useState(true)
 	/**
 	 * Applies any fields in the passed object as changes to the formData object
 	 * Leaves other fields as they current are set.
@@ -66,6 +68,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 	const updateFormData = (newData) => {
 		const errorFields = ['existingUnitsError', 'unitsChangeError']
 
+		setLastChangeWasType(newData.type !== undefined && savedData.type !== newData.type)
 		const updatedData = {
 			...formData,
 			...newData,
@@ -131,6 +134,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 				configuration={currentConfiguration.summary}
 				haveExtensionOptions={productData.availableExtensions.length > 0}
 				addToCartInProgress={addingToCart}
+				haveJustChangedType={lastChangeWasType}
 			/>
 
 			<PurchaseUnitInput

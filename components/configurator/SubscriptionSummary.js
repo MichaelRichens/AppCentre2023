@@ -8,13 +8,20 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * that displays a summary of the current subscription configuration based on its formData.
  *
  * @param {Object} props - The component props.
- * @param {boolean?} props.allowAddToCart - Can be passed as false to disable add to cart button.
+ * @param {boolean?} props.allowAddToCart - Optionally can be passed as false to disable add to cart button.
  * @param {ConfigurationSummary} props.configuration - Details of the configuration to summarise.
- * @param {boolean?} props.haveExtensionOptions - Are there any extensions available for this product?
- * @param {boolean?} props.addToCartInProgress - Is there currently an add to cart operation in progress?
+ * @param {boolean?} props.haveExtensionOptions - Optional. Are there any extensions available for this product?
+ * @param {boolean?} props.addToCartInProgress - Optional. Is there currently an add to cart operation in progress?
+ * @param {boolean?} props.haveJustChangedType - Optionally can be passed as true to indicate the last change made to the configuration form was its type.
  */
 
-const SubscriptionSummary = ({ allowAddToCart, configuration, haveExtensionOptions, addToCartInProgress }) => {
+const SubscriptionSummary = ({
+	allowAddToCart,
+	configuration,
+	haveExtensionOptions,
+	addToCartInProgress,
+	haveJustChangedType,
+}) => {
 	console.log(configuration)
 	if (allowAddToCart === undefined) {
 		allowAddToCart = true
@@ -27,7 +34,7 @@ const SubscriptionSummary = ({ allowAddToCart, configuration, haveExtensionOptio
 				<p>{configuration.extensions.length > 0 ? configuration.extensions : 'With no extensions'}</p>
 			) : null}
 
-			<p aria-live='polite'>{configuration.price}</p>
+			<p aria-live={haveJustChangedType ? 'off' : 'polite'}>{configuration.price}</p>
 			{addToCartInProgress ? (
 				<RotatingLines
 					width='32'
