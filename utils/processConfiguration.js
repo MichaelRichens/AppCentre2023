@@ -19,12 +19,12 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 	 * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
 	 * This value is used for determining the price band based on the subscription type.
 	 */
-	let numUsersForPriceBand
+	let numUnitsForPriceBand
 	/**
 	 * @type {number} - Represents the total number of users being added to the description.
 	 * This value is used for determining the quantity to purchase.
 	 */
-	let numUsersToPurchase
+	let numUnitsToPurchase
 	/**
 	 * @type {number} - The number of complete years to purchase for.
 	 * If fractional years are not allowed for a type option, any part year will be rounded up to here (not that this should ever happen)
@@ -38,38 +38,38 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 
 	switch (configuratorOptions.type) {
 		case PurchaseType.NEW:
-			numUsersForPriceBand = configuratorOptions.unitsChange
-			numUsersToPurchase = configuratorOptions.unitsChange
+			numUnitsForPriceBand = configuratorOptions.unitsChange
+			numUnitsToPurchase = configuratorOptions.unitsChange
 			wholeYears = Math.ceil(configuratorOptions.years)
 			break
 		case PurchaseType.ADD:
 			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true') {
-				numUsersForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
+				numUnitsForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
 			} else {
-				numUsersForPriceBand = configuratorOptions.unitsChange
+				numUnitsForPriceBand = configuratorOptions.unitsChange
 			}
-			numUsersToPurchase = configuratorOptions.unitsChange
+			numUnitsToPurchase = configuratorOptions.unitsChange
 			wholeYears = Math.floor(configuratorOptions.years)
 			partYears = configuratorOptions.years - wholeYears
 			break
 		case PurchaseType.EXT:
-			numUsersToPurchase = configuratorOptions.existingUnits
-			numUsersForPriceBand = 0
+			numUnitsToPurchase = configuratorOptions.existingUnits
+			numUnitsForPriceBand = 0
 			wholeYears = Math.floor(configuratorOptions.years)
 			partYears = configuratorOptions.years - wholeYears
 			break
 		default:
-			numUsersForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
-			numUsersToPurchase = configuratorOptions.unitsChange + configuratorOptions.existingUnits
+			numUnitsForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
+			numUnitsToPurchase = configuratorOptions.unitsChange + configuratorOptions.existingUnits
 			wholeYears = Math.ceil(configuratorOptions.years)
 	}
 
-	if (numUsersToPurchase < 1) {
+	if (numUnitsToPurchase < 1) {
 		// No users, just exit early with default result.
 		return result
 	}
 
-	result.users = numUsersToPurchase
+	result.users = numUnitsToPurchase
 
 	if (configuratorOptions.type !== PurchaseType.EXT) {
 		const productsWithCorrectWholeYear = products.filter((sku) => sku.years === wholeYears)
@@ -77,7 +77,7 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 		const productsWithOneYear = products.filter((sku) => sku.years === 1)
 
 		if (wholeYears > 0) {
-			const wholeYearProduct = findProductWithCorrectUserBand(productsWithCorrectWholeYear, numUsersForPriceBand)
+			const wholeYearProduct = findProductWithCorrectUserBand(productsWithCorrectWholeYear, numUnitsForPriceBand)
 
 			if (wholeYearProduct === false) {
 				// If we haven't found it, it is probably a too high a unit number (above max limit).  Probably the user quantity is being edited, just return 0 price and no skus, and it will probably sort itself out when the user finishes editing the field.
@@ -86,11 +86,11 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 				return result
 			}
 
-			result.skus[wholeYearProduct.sku] = numUsersToPurchase
-			result.price += wholeYearProduct.price * numUsersToPurchase
+			result.skus[wholeYearProduct.sku] = numUnitsToPurchase
+			result.price += wholeYearProduct.price * numUnitsToPurchase
 		}
 		if (partYears > 0) {
-			const partYearProduct = findProductWithCorrectUserBand(productsWithOneYear, numUsersForPriceBand)
+			const partYearProduct = findProductWithCorrectUserBand(productsWithOneYear, numUnitsForPriceBand)
 			if (partYearProduct === false) {
 				if (wholeYears > 0) {
 					throw new Error('This really should never happen.  Missing 1 year part code for product?')
@@ -99,8 +99,8 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 				return result
 			}
 
-			result.skus[partYearProduct.sku] = numUsersToPurchase * partYears
-			result.price += partYearProduct.price * numUsersToPurchase * partYears
+			result.skus[partYearProduct.sku] = numUnitsToPurchase * partYears
+			result.price += partYearProduct.price * numUnitsToPurchase * partYears
 		}
 	}
 	/** @type {string[]|boolean} Needs to be populated with a list of extension names to generate the summary from. Or boolean false if there are none. */
@@ -110,8 +110,8 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 		const wholeYearExtensions = findExtensions(configuratorOptions.checkedExtensions, extensions, wholeYears)
 
 		wholeYearExtensions.forEach((extension) => {
-			result.skus[extension.sku] = numUsersToPurchase
-			result.price += extension.price * numUsersToPurchase
+			result.skus[extension.sku] = numUnitsToPurchase
+			result.price += extension.price * numUnitsToPurchase
 		})
 		extensionNames = wholeYearExtensions.map((extension) => extension.name)
 	}
@@ -122,8 +122,8 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 			if (!result.skus.hasOwnProperty(extension.sku)) {
 				result.skus[extension.sku] = 0
 			}
-			result.skus[extension.sku] += numUsersToPurchase * partYears
-			result.price += extension.price * numUsersToPurchase * partYears
+			result.skus[extension.sku] += numUnitsToPurchase * partYears
+			result.price += extension.price * numUnitsToPurchase * partYears
 		})
 		if (extensionNames === false) {
 			extensionNames = partYearExtensions.map((extension) => extension.name)
@@ -147,10 +147,10 @@ function processConfiguration(productName, products, extensions, configuratorOpt
  * Helper function.
  * Returns the sku of first product it encounters (searching from the end of the passed array) which has a user band that matches the passed number.
  * @param {object[]} sortedProductsOfCorrectYear - An array of products, where we want to find the one which is for the correct user band
- * @param {number} numUsersForPriceBand - The number of users, from which to find the user band.
+ * @param {number} numUnitsForPriceBand - The number of users, from which to find the user band.
  * @returns {object|boolean} - The found product, or false if none was found.
  */
-function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUsersForPriceBand) {
+function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsForPriceBand) {
 	// We are relying on sortedProducts being passed in already sorted by low to high user tiers.
 	for (let i = sortedProductsOfCorrectYear.length - 1; i >= 0; i--) {
 		const product = sortedProductsOfCorrectYear[i]
@@ -168,7 +168,7 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUsersFor
 		} else {
 			unitsTo = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
 		}
-		if (unitsFrom <= numUsersForPriceBand && numUsersForPriceBand <= unitsTo) {
+		if (unitsFrom <= numUnitsForPriceBand && numUnitsForPriceBand <= unitsTo) {
 			return product
 		}
 	}
