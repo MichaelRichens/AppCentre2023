@@ -6,6 +6,7 @@
 	],
 	"settings": {
 		"cSpell.words": [
+			"BYOD",
 			"configurator",
 			"crossorigin",
 			"describedby",
@@ -24,7 +25,8 @@
 			"rata",
 			"Referers",
 			"skus",
-			"truetype"
+			"truetype",
+			"XMPP"
 		],
 		"editor.formatOnSave": true,
 		"prettier.proseWrap": "always",
