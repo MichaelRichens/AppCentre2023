@@ -43,10 +43,10 @@ async function getConfiguration(uniqueKey) {
 		throw new Error('Configuration not found.')
 	}
 
-	const { type, users, years, price, skus, summary } = configurationData
-	const summaryInstance = ConfigurationSummary.fromProperties(configData.summary)
+	const { type, units, years, price, skus, summary } = configurationData
+	const summaryInstance = ConfigurationSummary.fromProperties(summary)
 
-	return new ProductConfiguration(type, users, years, price, skus, summaryInstance)
+	return new ProductConfiguration(type, units, years, price, skus, summaryInstance)
 }
 
 export { saveConfiguration, getConfiguration }
