@@ -16,8 +16,8 @@ const durationString = Symbol('durationString')
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
  * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
  * @param {number} price - The total price in GBP (or rather process.env.NEXT_PUBLIC_CURRENCY_UC / process.env.NEXT_PUBLIC_CURRENCY_LC).
- * @param {number} existingUsers - The existing unit on a subscription which is being modified.
- * @param {number} userChange - The change in units being made to the subscription (or total users for a new subscription).
+ * @param {number} existingUnits - The existing unit on a subscription which is being modified.
+ * @param {number} unitsChange - The change in units being made to the subscription (or total users for a new subscription).
  * @param {number} years - The duration in years that the subscription will run for (or is running for if that is not being modified).  Can be fractional for some `type` values.
  * @param {string[]} extensionNames - The names (as in user-appropriate descriptions) of the extensions on this configuration, may be existing or new depending on `type`
  * @param {Word} unitName - A Word type object holding the name for the unit that the subscription is measured in - eg 'User'
@@ -28,8 +28,8 @@ class ConfigurationSummary {
 		productName = null,
 		type = null,
 		price = null,
-		existingUsers = null,
-		userChange = null,
+		existingUnits = null,
+		unitsChange = null,
 		years = null,
 		extensionNames = null,
 		unitName = null
@@ -39,15 +39,15 @@ class ConfigurationSummary {
 			productName === null ||
 			type === null ||
 			price === null ||
-			existingUsers === null ||
-			userChange === null ||
+			existingUnits === null ||
+			unitsChange === null ||
 			years === null ||
 			extensionNames === null ||
 			unitName === null
 		) {
 			return
 		}
-		this.product = this[createProductDescription](productName, type, existingUsers, userChange, years, unitName)
+		this.product = this[createProductDescription](productName, type, existingUnits, unitsChange, years, unitName)
 		this.extensions = this[createExtensionsDescription](type, extensionNames)
 		this.price = formatPriceFromPounds(price)
 
@@ -67,27 +67,27 @@ class ConfigurationSummary {
 		return instance
 	}
 
-	[createProductDescription](productName, type, existingUsers, userChange, years, unitName) {
+	[createProductDescription](productName, type, existingUnits, unitsChange, years, unitName) {
 		let str = ''
 		switch (type) {
 			case PurchaseType.SUB:
-				str += `Subscription Renewal: ${productName} with ${existingUsers + userChange} ${unitName.pluralLC}`
+				str += `Subscription Renewal: ${productName} with ${existingUnits + unitsChange} ${unitName.pluralLC}`
 				str += ` for ${this[durationString](years)}.`
 				break
 			case PurchaseType.NEW:
-				str += `New Purchase: ${productName} with ${userChange} ${unitName.pluralLC}`
+				str += `New Purchase: ${productName} with ${unitsChange} ${unitName.pluralLC}`
 				str += ` for ${this[durationString](years)}.`
 				break
 			case PurchaseType.ADD:
-				str += `Additional Users: ${userChange} additional ${productName} ${unitName.pluralLC}`
+				str += `Additional Users: ${unitsChange} additional ${productName} ${unitName.pluralLC}`
 				str += ` for the remaining ${this[durationString](years)} on the subscription`
 				str +=
 					process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true'
-						? `, bringing the total to ${existingUsers + userChange} ${unitName.pluralLC}.`
+						? `, bringing the total to ${existingUnits + unitsChange} ${unitName.pluralLC}.`
 						: '.'
 				break
 			case PurchaseType.EXT:
-				str += `Existing ${productName} subscription of ${existingUsers} ${unitName.pluralLC} with ${this[
+				str += `Existing ${productName} subscription of ${existingUnits} ${unitName.pluralLC} with ${this[
 					durationString
 				](years)} remaining.`
 				break

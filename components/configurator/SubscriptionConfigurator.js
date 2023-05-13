@@ -11,10 +11,10 @@ import Word from '../../utils/types/Word'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleTypeChange,
-	createHandleExistingUsersBlur,
-	createHandleExistingUsersChange,
-	createHandleUserChangeChange,
-	createHandleUserChangeBlur,
+	createHandleExistingUnitsBlur,
+	createHandleExistingUnitsChange,
+	createHandleUnitsChangeChange,
+	createHandleUnitsChangeBlur,
 	createHandleExtensionCheckboxChange,
 	createHandleYearsChange,
 	createHandleMonthsRemainingChange,
@@ -44,12 +44,12 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const savedData = configuratorData[productFamily] || {
 		type: PurchaseType.SUB,
-		existingUsers: productData.minUnits,
-		userChange: 0,
+		existingUnits: productData.minUnits,
+		unitsChange: 0,
 		checkedExtensions: [],
 		years: productData.minYears,
-		userChangeError: false,
-		existingUsersError: false,
+		unitsChangeError: false,
+		existingUnitsError: false,
 	}
 
 	const [formData, setFormData] = useState(savedData)
@@ -64,7 +64,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 	 */
 
 	const updateFormData = (newData) => {
-		const errorFields = ['existingUsersError', 'userChangeError']
+		const errorFields = ['existingUnitsError', 'unitsChangeError']
 
 		const updatedData = {
 			...formData,
@@ -98,13 +98,13 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const handleTypeChange = createHandleTypeChange(updateFormData, formData, productData)
 
-	const handleExistingUsersChange = createHandleExistingUsersChange(updateFormData)
+	const handleExistingUnitsChange = createHandleExistingUnitsChange(updateFormData)
 
-	const handleExistingUsersBlur = createHandleExistingUsersBlur(updateFormData, formData, productData)
+	const handleExistingUnitsBlur = createHandleExistingUnitsBlur(updateFormData, formData, productData)
 
-	const handleUserChangeChange = createHandleUserChangeChange(updateFormData, formData)
+	const handleUnitsChangeChange = createHandleUnitsChangeChange(updateFormData, formData)
 
-	const handleUserChangeBlur = createHandleUserChangeBlur(updateFormData, formData, productData)
+	const handleUnitsChangeBlur = createHandleUnitsChangeBlur(updateFormData, formData, productData)
 
 	const handleExtensionCheckboxChange = createHandleExtensionCheckboxChange(updateFormData, formData)
 
@@ -119,7 +119,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 			<TypeChangeSelect
 				type={formData.type}
 				addUserOption={
-					productData.maxUnits - productData.minUnits > formData.existingUsers
+					productData.maxUnits - productData.minUnits > formData.existingUnits
 						? `Add ${unitName.pluralC} To Subscription`
 						: false
 				}
@@ -144,11 +144,11 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 				min={productData.minUnits}
 				max={productData.maxUnits}
 				step={productData.minUnits}
-				name='existingUsers'
-				value={formData.existingUsers}
-				onChange={handleExistingUsersChange}
-				onBlur={handleExistingUsersBlur}
-				error={formData.existingUsersError}
+				name='existingUnits'
+				value={formData.existingUnits}
+				onChange={handleExistingUnitsChange}
+				onBlur={handleExistingUnitsBlur}
+				error={formData.existingUnitsError}
 			/>
 
 			<PurchaseUnitInput
@@ -160,14 +160,14 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 						? `${unitName.pluralC} to Add`
 						: `Adjust Number of ${unitName.pluralC} by`
 				}
-				min={formData.type === PurchaseType.SUB ? productData.minUnits - formData.existingUsers : productData.minUnits}
-				max={productData.maxUnits - formData.existingUsers}
+				min={formData.type === PurchaseType.SUB ? productData.minUnits - formData.existingUnits : productData.minUnits}
+				max={productData.maxUnits - formData.existingUnits}
 				step={productData.minUnits}
-				name='userChange'
-				value={formData.userChange}
-				onChange={handleUserChangeChange}
-				onBlur={handleUserChangeBlur}
-				error={formData.userChangeError}
+				name='unitsChange'
+				value={formData.unitsChange}
+				onChange={handleUnitsChangeChange}
+				onBlur={handleUnitsChangeBlur}
+				error={formData.unitsChangeError}
 			/>
 
 			<ExtensionCheckboxes

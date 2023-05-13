@@ -38,29 +38,29 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 
 	switch (configuratorOptions.type) {
 		case PurchaseType.NEW:
-			numUsersForPriceBand = configuratorOptions.userChange
-			numUsersToPurchase = configuratorOptions.userChange
+			numUsersForPriceBand = configuratorOptions.unitsChange
+			numUsersToPurchase = configuratorOptions.unitsChange
 			wholeYears = Math.ceil(configuratorOptions.years)
 			break
 		case PurchaseType.ADD:
 			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true') {
-				numUsersForPriceBand = configuratorOptions.userChange + configuratorOptions.existingUsers
+				numUsersForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
 			} else {
-				numUsersForPriceBand = configuratorOptions.userChange
+				numUsersForPriceBand = configuratorOptions.unitsChange
 			}
-			numUsersToPurchase = configuratorOptions.userChange
+			numUsersToPurchase = configuratorOptions.unitsChange
 			wholeYears = Math.floor(configuratorOptions.years)
 			partYears = configuratorOptions.years - wholeYears
 			break
 		case PurchaseType.EXT:
-			numUsersToPurchase = configuratorOptions.existingUsers
+			numUsersToPurchase = configuratorOptions.existingUnits
 			numUsersForPriceBand = 0
 			wholeYears = Math.floor(configuratorOptions.years)
 			partYears = configuratorOptions.years - wholeYears
 			break
 		default:
-			numUsersForPriceBand = configuratorOptions.userChange + configuratorOptions.existingUsers
-			numUsersToPurchase = configuratorOptions.userChange + configuratorOptions.existingUsers
+			numUsersForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
+			numUsersToPurchase = configuratorOptions.unitsChange + configuratorOptions.existingUnits
 			wholeYears = Math.ceil(configuratorOptions.years)
 	}
 
@@ -133,8 +133,8 @@ function processConfiguration(productName, products, extensions, configuratorOpt
 		productName,
 		result.type,
 		result.price,
-		configuratorOptions.existingUsers,
-		configuratorOptions.userChange,
+		configuratorOptions.existingUnits,
+		configuratorOptions.unitsChange,
 		wholeYears + partYears,
 		extensionNames,
 		unitName
