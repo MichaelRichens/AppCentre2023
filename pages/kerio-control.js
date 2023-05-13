@@ -1,8 +1,10 @@
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
+import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	const productData = await fetchAndProcessProducts('CONTROL')
@@ -93,6 +95,7 @@ const Control = (props) => {
 					</p>
 				</section>
 				<section>
+					<Image src='/images/control-traffic-rules722x606.jpg' height={606} width={722} />
 					<h2>Key Features</h2>
 					<ul>
 						<li>
