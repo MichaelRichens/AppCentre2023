@@ -44,7 +44,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const savedData = configuratorData[productFamily] || {
 		type: PurchaseType.SUB,
-		existingUsers: productData.minUsers,
+		existingUsers: productData.minUnits,
 		userChange: 0,
 		checkedExtensions: [],
 		years: productData.minYears,
@@ -119,7 +119,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 			<TypeChangeSelect
 				type={formData.type}
 				addUserOption={
-					productData.maxUsers - productData.minUsers > formData.existingUsers
+					productData.maxUnits - productData.minUnits > formData.existingUsers
 						? `Add ${unitName.pluralC} To Subscription`
 						: false
 				}
@@ -141,9 +141,9 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_USERS === 'true')
 				}
 				legend={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${unitName.pluralC} on Subscription`}
-				min={productData.minUsers}
-				max={productData.maxUsers}
-				step={productData.minUsers}
+				min={productData.minUnits}
+				max={productData.maxUnits}
+				step={productData.minUnits}
 				name='existingUsers'
 				value={formData.existingUsers}
 				onChange={handleExistingUsersChange}
@@ -160,9 +160,9 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 						? `${unitName.pluralC} to Add`
 						: `Adjust Number of ${unitName.pluralC} by`
 				}
-				min={formData.type === PurchaseType.SUB ? productData.minUsers - formData.existingUsers : productData.minUsers}
-				max={productData.maxUsers - formData.existingUsers}
-				step={productData.minUsers}
+				min={formData.type === PurchaseType.SUB ? productData.minUnits - formData.existingUsers : productData.minUnits}
+				max={productData.maxUnits - formData.existingUsers}
+				step={productData.minUnits}
 				name='userChange'
 				value={formData.userChange}
 				onChange={handleUserChangeChange}

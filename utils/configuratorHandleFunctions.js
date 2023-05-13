@@ -3,8 +3,8 @@ import PurchaseType from './types/enums/PurchaseType'
 export const createHandleTypeChange = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let userChange = formData.userChange
-	if ((value === PurchaseType.NEW || value === PurchaseType.ADD) && userChange < productData.minUsers) {
-		userChange = productData.minUsers
+	if ((value === PurchaseType.NEW || value === PurchaseType.ADD) && userChange < productData.minUnits) {
+		userChange = productData.minUnits
 	} else if (value === PurchaseType.SUB && (formData.type === PurchaseType.NEW || formData.type === PurchaseType.ADD)) {
 		userChange = 0
 	}
@@ -27,16 +27,16 @@ export const createHandleExistingUsersBlur = (updateFormData, formData, productD
 	let existingUsersError = false
 	if (isNaN(value) || value == '') {
 		updateFormData({
-			existingUsers: productData.minUsers,
+			existingUsers: productData.minUnits,
 		})
 		return
 	} else {
-		let existingUsers = Math.min(Math.max(parseInt(event.target.value), 1), productData.maxUsers)
+		let existingUsers = Math.min(Math.max(parseInt(event.target.value), 1), productData.maxUnits)
 		if (formData.type === PurchaseType.SUB) {
-			const remainder = existingUsers % productData.minUsers
+			const remainder = existingUsers % productData.minUnits
 			if (remainder !== 0) {
-				existingUsers += productData.minUsers - remainder
-				existingUsersError = `Must be renewed in blocks of ${productData.minUsers}.`
+				existingUsers += productData.minUnits - remainder
+				existingUsersError = `Must be renewed in blocks of ${productData.minUnits}.`
 			}
 		}
 		updateFormData({
@@ -87,9 +87,9 @@ export const createHandleUserChangeBlur = (updateFormData, formData, productData
 	// Calculate the minimum and maximum user change values based on the type of subscription.
 	const minUserChange =
 		formData.type === PurchaseType.NEW || formData.type === PurchaseType.ADD
-			? productData.minUsers
-			: productData.minUsers - formData.existingUsers
-	const maxUserChange = productData.maxUsers - formData.existingUsers
+			? productData.minUnits
+			: productData.minUnits - formData.existingUsers
+	const maxUserChange = productData.maxUnits - formData.existingUsers
 	const userChangeBeforeClamp = userChange
 	// Clamp the userChange value to be between minUserChange and maxUserChange.
 	userChange = Math.min(Math.max(userChange, minUserChange), maxUserChange)
@@ -101,17 +101,17 @@ export const createHandleUserChangeBlur = (updateFormData, formData, productData
 		}
 	}
 
-	// Calculate the remainder of userChange when divided by productData.minUsers.
-	const remainder = userChange % productData.minUsers
+	// Calculate the remainder of userChange when divided by productData.minUnits.
+	const remainder = userChange % productData.minUnits
 
-	// If the remainder is not 0, it means the userChange value is not divisible by productData.minUsers.
+	// If the remainder is not 0, it means the userChange value is not divisible by productData.minUnits.
 	// Positive remainder means positive number (adding users), negative remainder is removing users.
 	if (remainder > 0) {
-		userChange += productData.minUsers - remainder
-		userChangeError = `Must be changed in steps of ${productData.minUsers}`
+		userChange += productData.minUnits - remainder
+		userChangeError = `Must be changed in steps of ${productData.minUnits}`
 	} else if (remainder < 0) {
 		userChange -= remainder
-		userChangeError = `Must be changed in steps of ${productData.minUsers}`
+		userChangeError = `Must be changed in steps of ${productData.minUnits}`
 	}
 	updateFormData({
 		userChange: userChange,

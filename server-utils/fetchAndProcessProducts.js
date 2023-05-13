@@ -53,8 +53,8 @@ async function fetchProducts(productFamily) {
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
- *   @property {number} minUsers - The minimum number of users supported by the products.
- *   @property {number} maxUsers - The maximum number of users supported by the products.
+ *   @property {number} minUnits - The minimum number of users supported by the products.
+ *   @property {number} maxUnits - The maximum number of users supported by the products.
  *   @property {number} minYears - The minimum number of years a subscription is available for.
  *   @property {number} maxYears - The maximum number of years a subscription is available for.
  */
@@ -124,8 +124,8 @@ const processProducts = (products, extensions) => {
 	}
 
 	if (productData.products.length === 0) {
-		productData.minUsers = 0
-		productData.maxUsers = 0
+		productData.minUnits = 0
+		productData.maxUnits = 0
 		productData.minYears = 0
 		productData.maxYears = 0
 	} else {
@@ -145,8 +145,8 @@ const processProducts = (products, extensions) => {
 		const minYears = Math.min(...productData.products.map((product) => product.years))
 		const maxYears = Math.max(...productData.products.map((product) => product.years))
 
-		productData.minUsers = minUnitsFrom >= 1 ? minUnitsFrom : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
-		productData.maxUsers = maxUnitsTo >= 1 ? maxUnitsTo : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
+		productData.minUnits = minUnitsFrom >= 1 ? minUnitsFrom : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
+		productData.maxUnits = maxUnitsTo >= 1 ? maxUnitsTo : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
 		productData.minYears = minYears
 		productData.maxYears = maxYears
 	}
@@ -164,8 +164,8 @@ const processProducts = (products, extensions) => {
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
- *   @property {number} minUsers - The minimum number of users supported by the products.
- *   @property {number} maxUsers - The maximum number of users supported by the products.
+ *   @property {number} minUnits - The minimum number of users supported by the products.
+ *   @property {number} maxUnits - The maximum number of users supported by the products.
  *   @property {number} minYears - The minimum number of years a subscription is available for.
  *   @property {number} maxYears - The maximum number of years a subscription is available for.
  *
