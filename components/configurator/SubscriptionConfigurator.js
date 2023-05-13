@@ -113,7 +113,6 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
 	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, unitName, formData, addItem, setAddingToCart)
-
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
 			<TypeChangeSelect
@@ -128,6 +127,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 			/>
 
 			<SubscriptionSummary
+				allowAddToCart={!(formData.type === PurchaseType.EXT && formData.checkedExtensions.length === 0)}
 				configuration={currentConfiguration.summary}
 				haveExtensionOptions={productData.availableExtensions.length > 0}
 				addToCartInProgress={addingToCart}

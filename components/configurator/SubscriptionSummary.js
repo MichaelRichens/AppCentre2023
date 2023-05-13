@@ -8,12 +8,17 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * that displays a summary of the current subscription configuration based on its formData.
  *
  * @param {Object} props - The component props.
+ * @param {boolean?} props.allowAddToCart - Can be passed as false to disable add to cart button.
  * @param {ConfigurationSummary} props.configuration - Details of the configuration to summarise.
  * @param {boolean?} props.haveExtensionOptions - Are there any extensions available for this product?
  * @param {boolean?} props.addToCartInProgress - Is there currently an add to cart operation in progress?
  */
 
-const SubscriptionSummary = ({ configuration, haveExtensionOptions, addToCartInProgress }) => {
+const SubscriptionSummary = ({ allowAddToCart, configuration, haveExtensionOptions, addToCartInProgress }) => {
+	console.log(configuration)
+	if (allowAddToCart === undefined) {
+		allowAddToCart = true
+	}
 	return (
 		<fieldset className={configuratorStyles.summary}>
 			<legend>Summary</legend>
@@ -22,7 +27,7 @@ const SubscriptionSummary = ({ configuration, haveExtensionOptions, addToCartInP
 				<p>{configuration.extensions.length > 0 ? configuration.extensions : 'With no extensions'}</p>
 			) : null}
 
-			<p>{configuration.price}</p>
+			<p aria-live='polite'>{configuration.price}</p>
 			{addToCartInProgress ? (
 				<RotatingLines
 					width='32'
@@ -32,7 +37,9 @@ const SubscriptionSummary = ({ configuration, haveExtensionOptions, addToCartInP
 					ariaLabel='Adding to Cart'
 				/>
 			) : (
-				<button type='submit'>Add to Cart</button>
+				<button type='submit' disabled={!allowAddToCart}>
+					Add to Cart
+				</button>
 			)}
 		</fieldset>
 	)
