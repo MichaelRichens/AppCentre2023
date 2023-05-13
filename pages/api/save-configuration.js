@@ -159,15 +159,15 @@ export default async function handler(req, res) {
 					.json({ message: 'An error occurred when fetching or processing data.', error: error.message })
 			}
 			// console.timeEnd('save-configuration TOTAL')
-			res.status(200).json({
+			return res.status(200).json({
 				key: key,
 				name: name,
 				price: priceInPennies,
 			})
 		} else {
-			res.status(400).json({ message: 'Required data not received.' })
+			return res.status(400).json({ message: 'Required data not received.' })
 		}
 	} else {
-		res.status(405).json({ message: 'Method not allowed, must be POST.' })
+		return res.status(405).json({ message: 'Method not allowed, must be POST.' })
 	}
 }
