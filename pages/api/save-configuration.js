@@ -30,6 +30,11 @@ export default async function handler(req, res) {
 					unitName
 				)
 				priceInPennies = Math.round(configuration.price * 100) // Stripe works with the smallest currency unit
+				if (priceInPennies <= 0) {
+					return res
+						.status(422)
+						.json({ message: 'The passed configuration options do not create a product with a price greater than 0.' })
+				}
 				// console.time('save-configuration await 2')
 				key = await saveConfiguration(configuration)
 				// console.timeEnd('save-configuration await 2')
