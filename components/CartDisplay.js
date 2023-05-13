@@ -41,6 +41,7 @@ const CartDisplay = () => {
 				</ul>
 			</fieldset>
 			<fieldset>
+				<legend>Total</legend>
 				<p>Total: {formatPriceFromPennies(totalPrice)}</p>
 			</fieldset>
 		</form>

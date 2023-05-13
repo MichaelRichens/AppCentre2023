@@ -165,7 +165,8 @@ form button:active {
 .popupWrapper {
 	position: absolute;
 	width: 200px;
-	height: 200px;
+	height: auto;
+	max-height: 50vh;
 	padding: 0.5em;
 	padding-top: 1.7em;
 	border: 5px #666 solid;
