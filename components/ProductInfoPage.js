@@ -21,14 +21,14 @@ const ProductInfoPage = ({ title, productFamily, productData, unitName, children
 	return (
 		<Page title={title}>
 			{showTopConfigurator && (
-				<section className={styles.topConfigurator}>
+				<aside className={styles.topConfigurator}>
 					<SubscriptionConfigurator
 						productName={title}
 						productFamily={productFamily}
 						productData={productData}
 						unitName={unitName}
 					/>
-				</section>
+				</aside>
 			)}
 			{children}
 			{!showTopConfigurator && (
