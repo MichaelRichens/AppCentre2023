@@ -7,7 +7,7 @@
 }
 
 .article > img {
-	max-width: 50vw;
+	max-width: 40vw;
 	height: auto;
 	margin-right: 0.8em;
 }
@@ -28,5 +28,22 @@
 @media (max-width: 850px) {
 	.topConfigurator {
 		width: 30em;
+	}
+}
+
+@media (max-width: 600px) {
+	.article > img:nth-of-type(odd) {
+		float: none;
+	}
+
+	.article > img:nth-of-type(even) {
+		float: none;
+	}
+
+	.article > img {
+		display: block;
+		max-width: 80vw;
+		margin-left: auto;
+		margin-right: auto;
 	}
 }
