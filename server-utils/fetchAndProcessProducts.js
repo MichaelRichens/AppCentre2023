@@ -53,13 +53,13 @@ async function fetchProducts(productFamily) {
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
- *   @property {number} minUnits - The minimum number of users supported by the products.
- *   @property {number} maxUnits - The maximum number of users supported by the products.
+ *   @property {number} minUnits - The minimum number of units (eg users) supported by the products.
+ *   @property {number} maxUnits - The maximum number of units (eg users) supported by the products.
  *   @property {number} minYears - The minimum number of years a subscription is available for.
  *   @property {number} maxYears - The maximum number of years a subscription is available for.
  */
 const processProducts = (products, extensions) => {
-	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of users for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
+	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of units for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
 	//This sorting is important, it being done is relied on elsewhere
 
 	// Clean up price data so that all prices are rounded to 2 decimal places - its a problem with some of the price data that gets missed on import
@@ -164,8 +164,8 @@ const processProducts = (products, extensions) => {
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
- *   @property {number} minUnits - The minimum number of users supported by the products.
- *   @property {number} maxUnits - The maximum number of users supported by the products.
+ *   @property {number} minUnits - The minimum number of units (eg users) supported by the products.
+ *   @property {number} maxUnits - The maximum number of units (eg users) supported by the products.
  *   @property {number} minYears - The minimum number of years a subscription is available for.
  *   @property {number} maxYears - The maximum number of years a subscription is available for.
  *
