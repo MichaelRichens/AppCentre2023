@@ -38,7 +38,7 @@ const PurchaseUnitInput = ({ allowDisplay, legend, min, max, step, name, value, 
 				onBlur={onBlur}
 				aria-label={legend}
 			/>
-			{error !== false && <span className={configuratorStyles.formError}>{error}</span>}
+			{error !== false && <span className={configuratorStyles.formError}> {error}</span>}
 		</fieldset>
 	)
 }

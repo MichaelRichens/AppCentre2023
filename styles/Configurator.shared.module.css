@@ -65,3 +65,7 @@
 	color: #666;
 	margin-bottom: 8px;
 }
+
+.formError {
+	color: rgb(194, 147, 59);
+}
