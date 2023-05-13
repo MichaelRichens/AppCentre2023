@@ -77,6 +77,8 @@ const Control = (props) => {
 						and applications with the optional Kerio Control Web Filter.
 					</p>
 				</section>
+
+				<Image src='/images/control-box-hardware409x240.png' height={240} width={409} />
 				<section>
 					<h2>Easy Deployment and Management</h2>
 					<p>
@@ -94,8 +96,8 @@ const Control = (props) => {
 						web interface.
 					</p>
 				</section>
+				<Image src='/images/control-traffic-rules722x606.png' height={606} width={722} />
 				<section>
-					<Image src='/images/control-traffic-rules722x606.jpg' height={606} width={722} />
 					<h2>Key Features</h2>
 					<ul>
 						<li>

@@ -54,7 +54,7 @@ main,
 	margin-right: 2em;
 }
 
-article {
+article > section {
 	max-width: 60em;
 	margin-left: auto;
 	margin-right: auto;
