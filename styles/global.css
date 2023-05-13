@@ -16,6 +16,11 @@ legend {
 	font-family: 'Roboto', sans-serif;
 }
 
+caption,
+legend {
+	font-weight: 600;
+}
+
 header,
 form button {
 	font-family: 'Lato', sans-serif;
