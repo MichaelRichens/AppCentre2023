@@ -3,15 +3,12 @@ import PurchaseType from './types/enums/PurchaseType'
 export const createHandleTypeChange = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let unitsChange = formData.unitsChange
-	if (
-		(value === PurchaseType.NEW || value === PurchaseType.ADD || value === PurchaseType.ADD) &&
-		unitsChange < productData.minUnits
-	) {
+	if ((value === PurchaseType.NEW || value === PurchaseType.ADD) && unitsChange < productData.minUnits) {
 		unitsChange = productData.minUnits
-	} else if (value === PurchaseType.SUB && formData.type === PurchaseType.NEW) {
+	} else if (value === PurchaseType.SUB) {
 		unitsChange = 0
 	}
-
+	console.log(value, unitsChange)
 	let years = formData.years
 	if (value === PurchaseType.SUB || value === PurchaseType.NEW) {
 		// make sure we have a whole number for years
@@ -21,32 +18,9 @@ export const createHandleTypeChange = (updateFormData, formData, productData) =>
 	updateFormData({
 		type: value,
 		unitsChange: unitsChange,
+		unitsChangeLiveUpdate: unitsChange,
 		years: years,
 	})
-}
-
-export const createHandleExistingUnitsBlur = (updateFormData, formData, productData) => (event) => {
-	const { value } = event.target
-	let existingUnitsError = false
-	if (isNaN(value) || value == '') {
-		updateFormData({
-			existingUnits: productData.minUnits,
-		})
-		return
-	} else {
-		let existingUnits = Math.min(Math.max(parseInt(event.target.value), 1), productData.maxUnits)
-		if (formData.type === PurchaseType.SUB) {
-			const remainder = existingUnits % productData.minUnits
-			if (remainder !== 0) {
-				existingUnits += productData.minUnits - remainder
-				existingUnitsError = `Must be renewed in blocks of ${productData.minUnits}.`
-			}
-		}
-		updateFormData({
-			existingUnits: existingUnits,
-			existingUnitsError: existingUnitsError,
-		})
-	}
 }
 
 export const createHandleExistingUnitsChange = (updateFormData) => (event) => {
@@ -61,7 +35,7 @@ export const createHandleExistingUnitsChange = (updateFormData) => (event) => {
 		existingUnits = parseInt(value)
 	}
 	updateFormData({
-		existingUnits: existingUnits,
+		existingUnitsLiveUpdate: existingUnits,
 	})
 }
 
@@ -77,16 +51,44 @@ export const createHandleUnitsChangeChange = (updateFormData, formData) => (even
 		unitsChange = parseInt(value)
 	}
 	updateFormData({
-		unitsChange: unitsChange,
+		unitsChangeLiveUpdate: unitsChange,
 	})
+}
+
+export const createHandleExistingUnitsBlur = (updateFormData, formData, productData) => (event) => {
+	const { value } = event.target
+	let existingUnitsError = false
+	if (isNaN(value) || value == '') {
+		updateFormData({
+			existingUnitsLiveUpdate: productData.minUnits,
+			existingUnits: productData.minUnits,
+		})
+		return
+	} else {
+		let existingUnits = Math.min(Math.max(parseInt(event.target.value), 1), productData.maxUnits)
+		if (formData.type === PurchaseType.SUB) {
+			const remainder = existingUnits % productData.minUnits
+			if (remainder !== 0) {
+				existingUnits += productData.minUnits - remainder
+				existingUnitsError = `Must be renewed in blocks of ${productData.minUnits}.`
+			}
+		}
+		updateFormData({
+			existingUnits: existingUnits,
+			existingUnitsLiveUpdate: existingUnits,
+			existingUnitsError: existingUnitsError,
+		})
+	}
 }
 
 export const createHandleUnitsChangeBlur = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	// early exit if NaN entered - not an error, since its probably been left blank, just set to default minimum.
 	if (isNaN(value)) {
+		const newValue = formData.type == PurchaseType.ADD ? productData.minUnitsChange : 0
 		updateFormData({
-			unitsChange: formData.type == PurchaseType.ADD ? productData.minUnitsChange : 0,
+			unitsChangeLiveUpdate: newValue,
+			unitsChange: newValue,
 		})
 		return
 	}
@@ -124,6 +126,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	}
 	updateFormData({
 		unitsChange: unitsChange,
+		unitsChangeLiveUpdate: unitsChange,
 		unitsChangeError: unitsChangeError,
 	})
 }

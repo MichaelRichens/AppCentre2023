@@ -44,7 +44,9 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 
 	const savedData = configuratorData[productFamily] || {
 		type: PurchaseType.SUB,
+		existingUnitsLiveUpdate: productData.minUnits,
 		existingUnits: productData.minUnits,
+		unitsChangeLiveUpdate: 0,
 		unitsChange: 0,
 		checkedExtensions: [],
 		years: productData.minYears,
@@ -165,7 +167,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 					max={productData.maxUnits}
 					step={productData.minUnits}
 					name='existingUnits'
-					value={formData.existingUnits}
+					value={formData.existingUnitsLiveUpdate}
 					onChange={handleExistingUnitsChange}
 					onBlur={handleExistingUnitsBlur}
 					error={formData.existingUnitsError}
@@ -185,7 +187,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 					max={productData.maxUnits - formData.existingUnits}
 					step={productData.minUnits}
 					name='unitsChange'
-					value={formData.unitsChange}
+					value={formData.unitsChangeLiveUpdate}
 					onChange={handleUnitsChangeChange}
 					onBlur={handleUnitsChangeBlur}
 					error={formData.unitsChangeError}
