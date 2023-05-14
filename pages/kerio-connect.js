@@ -17,8 +17,10 @@ export async function getStaticProps() {
 const Connect = (props) => {
 	return (
 		<ProductInfoPage
-			title='Kerio Connect: The Ultimate Mailserver Solution for SMBs'
-			productFamily={'CONNECT'}
+			title='Kerio Connect'
+			subHeading='The Ultimate Mailserver Solution for SMBs'
+			productName='Kerio Connect'
+			productFamily='CONNECT'
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
 			<>

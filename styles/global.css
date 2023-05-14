@@ -11,6 +11,7 @@ h3,
 h4,
 h5,
 h6,
+p.subHeading,
 caption,
 legend {
 	font-family: 'Roboto', sans-serif;
@@ -66,6 +67,7 @@ h3,
 h4,
 h5,
 h6,
+p.subHeading,
 legend,
 strong {
 	text-align: center;
@@ -73,7 +75,8 @@ strong {
 
 h1,
 h2,
-h3 {
+h3,
+p.subHeading {
 	font-weight: 500;
 }
 
@@ -89,10 +92,19 @@ h2 {
 	margin-block-end: 0.3em;
 }
 
-h3 {
+h3,
+p.subHeading {
 	font-size: 1.4em;
 	margin-block-start: 0.5em;
 	margin-block-end: 0.3em;
+}
+
+p.subHeading {
+	line-height: 1.1;
+}
+
+h1 + p.subHeading {
+	margin-block-start: -0.7em;
 }
 
 caption,
@@ -235,25 +247,27 @@ form button:disabled:active {
 	h1 {
 		font-size: 2.4em;
 	}
+	h1 + p.subHeading {
+		margin-block-start: -0.5em;
+	}
 
 	h2 {
 		font-size: 1.7em;
 	}
-}
 
-@media (max-width: 1100px) {
-	body {
-		font-size: 14px;
+	h3,
+	p.subHeading {
+		font-size: 1.3em;
 	}
 }
 
 @media (max-width: 1000px) {
-	h1 {
-		font-size: 2.2em;
+	body {
+		font-size: 14px;
 	}
 
-	h2 {
-		font-size: 1.7em;
+	h1 {
+		font-size: 2.2em;
 	}
 }
 
@@ -290,6 +304,9 @@ form button:disabled:active {
 		margin-block-start: 0.4em;
 		margin-block-end: 0.3em;
 	}
+	p.subHeading {
+		font-size: 1.2em;
+	}
 }
 
 @media (max-width: 400px) {
@@ -299,6 +316,10 @@ form button:disabled:active {
 	h1 {
 		margin-block-start: 0.3em;
 		margin-block-end: 0.2em;
+	}
+
+	h1 + p.subHeading {
+		margin-block-start: -0.2em;
 	}
 
 	h2 {

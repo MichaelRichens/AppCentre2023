@@ -18,7 +18,9 @@ const Archiver = (props) => {
 	return (
 		<ProductInfoPage
 			title='GFI Archiver'
-			productFamily={'ARCHIVER'}
+			subHeading='Archive your emails, calendar, faxes and files with tamper-proof security'
+			productName='GFI Archiver'
+			productFamily='ARCHIVER'
 			productData={props.productData}
 			unitName={new Word('mailbox', 'mailboxes')}>
 			<article>
