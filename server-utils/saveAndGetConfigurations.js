@@ -8,22 +8,27 @@ import { connectToDatabase } from './mongodb'
  * @param {ProductConfiguration} configuration - The product configuration object to save.
  * @returns {Promise<string>} The unique key of the saved configuration.
  */
-async function saveConfiguration(configuration) {
-	const client = await connectToDatabase()
-	const db = client.db()
-	const collection = db.collection('configurations')
+async function asyncSaveConfiguration(configuration) {
+	try {
+		const client = await connectToDatabase()
+		const db = client.db()
+		const collection = db.collection('configurations')
 
-	let uniqueKey = generateKey(6)
-	let existingConfig = await collection.findOne({ _id: uniqueKey })
+		let uniqueKey = generateKey(6)
+		let existingConfig = await collection.findOne({ _id: uniqueKey })
 
-	while (existingConfig) {
-		uniqueKey = generateKey(6)
-		existingConfig = await collection.findOne({ _id: uniqueKey })
+		while (existingConfig) {
+			uniqueKey = generateKey(6)
+			existingConfig = await collection.findOne({ _id: uniqueKey })
+		}
+
+		await collection.insertOne({ ...configuration, _id: uniqueKey })
+
+		return uniqueKey
+	} catch (error) {
+		console.error('Unable to save configuration', error)
+		throw error
 	}
-
-	await collection.insertOne({ ...configuration, _id: uniqueKey })
-
-	return uniqueKey
 }
 
 /**
@@ -32,21 +37,26 @@ async function saveConfiguration(configuration) {
  * @returns {Promise<ProductConfiguration>} The retrieved product configuration object.
  * @throws {Error} If a configuration with the provided key is not found.
  */
-async function getConfiguration(uniqueKey) {
-	const client = await connectToDatabase()
-	const db = client.db()
-	const collection = db.collection('configurations')
+async function asyncGetConfiguration(uniqueKey) {
+	try {
+		const client = await connectToDatabase()
+		const db = client.db()
+		const collection = db.collection('configurations')
 
-	const configurationData = await collection.findOne({ _id: uniqueKey })
+		const configurationData = await collection.findOne({ _id: uniqueKey })
 
-	if (!configurationData) {
-		throw new Error('Configuration not found.')
+		if (!configurationData) {
+			throw new Error('Configuration not found.')
+		}
+
+		const { type, units, years, price, skus, summary } = configurationData
+		const summaryInstance = ConfigurationSummary.fromProperties(summary)
+
+		return new ProductConfiguration(type, units, years, price, skus, summaryInstance)
+	} catch (error) {
+		console.error('Unable to get configuration', error)
+		throw error
 	}
-
-	const { type, units, years, price, skus, summary } = configurationData
-	const summaryInstance = ConfigurationSummary.fromProperties(summary)
-
-	return new ProductConfiguration(type, units, years, price, skus, summaryInstance)
 }
 
-export { saveConfiguration, getConfiguration }
+export { asyncSaveConfiguration, asyncGetConfiguration }

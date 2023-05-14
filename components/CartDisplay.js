@@ -1,6 +1,7 @@
 import React from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { Tooltip } from 'react-tooltip'
+import CheckoutButton from './CheckoutButton'
 import { formatPriceFromPennies } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
@@ -43,6 +44,7 @@ const CartDisplay = () => {
 			<fieldset>
 				<legend>Total</legend>
 				<p>Total: {formatPriceFromPennies(totalPrice)}</p>
+				<CheckoutButton />
 			</fieldset>
 		</form>
 	)

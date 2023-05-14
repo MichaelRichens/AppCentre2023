@@ -2,7 +2,7 @@ import getHardcodedProductData from '../../utils/getHardcodedProductData'
 import processConfiguration from '../../utils/processConfiguration'
 import flattenObject from '../../utils/flattenObject'
 import asyncFetchAndProcessProducts from '../../server-utils/fetchAndProcessProducts'
-import { saveConfiguration } from '../../server-utils/saveAndGetConfigurations'
+import { asyncSaveConfiguration } from '../../server-utils/saveAndGetConfigurations'
 import { stripe } from '../../server-utils/initStripe'
 
 export default async function handler(req, res) {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 						.json({ message: 'The passed configuration options do not create a product with a price greater than 0.' })
 				}
 				// console.time('save-configuration await 2')
-				key = await saveConfiguration(configuration)
+				key = await asyncSaveConfiguration(configuration)
 				// console.timeEnd('save-configuration await 2')
 				name = `${configuration.summary.product}${
 					configuration.summary.extensions.length > 0 ? ' ' + configuration.summary.extensions : ''

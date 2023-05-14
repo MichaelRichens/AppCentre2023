@@ -1,23 +1,46 @@
-// Import the Stripe library
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
+import flattenObject from '../../utils/flattenObject'
 
 export default async (req, res) => {
 	if (req.method === 'POST') {
 		try {
-			const cart = req.body // This should be the cart information sent from the client
+			const cartFromClientSide = req.body
+
+			const trustedProductData = Object.fromEntries(
+				await Promise.all(cartFromClientSide.items.map(async (item) => [item.id, await asyncGetConfiguration(item.id)]))
+			)
 
 			// Create an array of line items for the Stripe checkout session
-			const line_items = cart.items.map((item) => ({
-				price_data: {
-					currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
-					product_data: {
-						name: item.name,
-						images: [item.image],
+			const line_items = Object.keys(trustedProductData).map((id) => {
+				const item = trustedProductData[id]
+
+				const itemName = `${item.summary.product}${item.summary.extensions ? ' ' + item.summary.extensions : ''}`
+				const priceInPence = Math.round(item.price * 100)
+				// Find the matching cart item - note untrusted data from the client, just using it for the cart quantity
+				const cartItem = cartFromClientSide.items.find((item) => item.id === id)
+				const quantity = cartItem ? cartItem.quantity : 0
+
+				return {
+					price_data: {
+						currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
+						product_data: {
+							name: itemName,
+							metadata: {
+								internalId: id,
+								type: item.type,
+								units: item.units,
+								years: item.years,
+								skus: item.skus,
+							},
+						},
+						unit_amount: priceInPence,
 					},
-					unit_amount: item.price,
-				},
-				quantity: item.quantity,
-			}))
+					quantity,
+				}
+			})
+
+			/*
 
 			// Create a Stripe checkout session
 			const session = await stripe.checkout.sessions.create({
@@ -27,14 +50,16 @@ export default async (req, res) => {
 				success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
 				cancel_url: `${req.headers.origin}/cancel`,
 			})
-
+			res.status(200).json({ sessionId: session.id })			
+			*/
 			// Return the session ID
-			res.status(200).json({ sessionId: session.id })
+			res.status(200).json({ message: 'This api is under development.', sessionId: 'Not implemented' })
 		} catch (error) {
+			console.error(error)
 			res.status(500).json({ statusCode: 500, message: error.message })
 		}
 	} else {
 		res.setHeader('Allow', 'POST')
-		res.status(405).end('Method Not Allowed')
+		res.status(405).end('Method Not Allowed - must be POST')
 	}
 }
