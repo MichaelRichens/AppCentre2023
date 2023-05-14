@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import styles from '../../styles/MonthsRemainingSelect.module.css'
+import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
-const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
+const MonthsRemainingSelect = ({ value, onChange, maxYears }) => {
 	const [renewalDate, setRenewalDate] = useState('')
 	const currentDate = new Date()
 	const minDate = new Date(currentDate.getTime() + 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
@@ -30,10 +30,9 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
 	}, [renewalDate])
 
 	return (
-		<fieldset className={styles.monthsRemaining}>
-			<legend>{legend}</legend>
-			<label>
-				<span>Select Remaining Time:</span>
+		<>
+			<label className={configuratorStyles.monthsRemaining}>
+				<span>Remaining Time: </span>
 				<select
 					value={value}
 					onChange={(event) => {
@@ -52,8 +51,8 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
 					})}
 				</select>
 			</label>
-			<label>
-				<span>Or Choose Renewal Date:</span>
+			<label className={configuratorStyles.monthsRemaining}>
+				<span>Or Choose Renewal Date: </span>
 				<input
 					type='date'
 					value={renewalDate}
@@ -64,7 +63,7 @@ const MonthsRemainingSelect = ({ legend, value, onChange, maxYears }) => {
 					}}
 				/>
 			</label>
-		</fieldset>
+		</>
 	)
 }
 

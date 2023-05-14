@@ -9,7 +9,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  *
  * @param {boolean?} props.allowDisplay - Optional parameter.  If false, component will not be rendered.
  * @param {Object} props - The component's props.
- * @param {string} props.legend - The legend text for the fieldset.
+ * @param {string} props.label - The label text for the field.
  * @param {number} props.min - The minimum value for the input field.
  * @param {number} props.max - The maximum value for the input field.
  * @param {number} props.step - The step value for the input field.
@@ -19,13 +19,13 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {Function} props.onBlur - The onBlur event handler for the input field.
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
-const PurchaseUnitInput = ({ allowDisplay, legend, min, max, step, name, value, onChange, onBlur, error }) => {
+const PurchaseUnitInput = ({ allowDisplay, label, min, max, step, name, value, onChange, onBlur, error }) => {
 	if (allowDisplay === false) {
 		return null
 	}
 	return (
-		<fieldset>
-			<legend>{legend}</legend>
+		<label>
+			{label}
 			<input
 				type='number'
 				min={min}
@@ -36,10 +36,10 @@ const PurchaseUnitInput = ({ allowDisplay, legend, min, max, step, name, value, 
 				value={value}
 				onChange={onChange}
 				onBlur={onBlur}
-				aria-label={legend}
+				aria-label={label}
 			/>
 			{error !== false && <span className={configuratorStyles.formError}> {error}</span>}
-		</fieldset>
+		</label>
 	)
 }
 

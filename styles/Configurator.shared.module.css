@@ -1,11 +1,13 @@
-/* General Form Styles */
 .configurator {
 	max-width: 50em;
 	margin: 0 auto;
 	padding: 2em;
 }
 
-/* Fieldset Styles */
+.formError {
+	color: rgb(194, 147, 59);
+}
+
 .configurator fieldset {
 	border: 5px solid #ccc;
 	border-right-color: #aaa;
@@ -15,7 +17,6 @@
 	font-weight: 600;
 }
 
-/* Legend Styles */
 .configurator fieldset legend {
 	color: #333;
 	padding: 0.1em 1em;
@@ -24,12 +25,6 @@
 	border: 1px #999 solid;
 	border-radius: 3px;
 	display: block;
-}
-
-/* Input, Select and Textarea Styles */
-.configurator .input-wrapper {
-	margin-left: 20%;
-	margin-bottom: 10px;
 }
 
 .configurator input,
@@ -43,14 +38,12 @@
 	border-radius: 3px;
 }
 
-/* Checkbox and Radio Button Styles */
 .configurator input[type='checkbox'],
 .configurator input[type='radio'] {
 	width: auto;
 	margin-right: 5px;
 }
 
-/* Label Styles */
 .configurator label {
 	display: block;
 	font-weight: 600;
@@ -60,12 +53,17 @@
 	width: 100%;
 }
 
-/* Summary Styles */
 .configurator .summary {
 	color: #666;
 	margin-bottom: 8px;
 }
 
-.formError {
-	color: rgb(194, 147, 59);
+label.monthsRemaining {
+	display: block;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+label.monthsRemaining > span {
+	margin-right: 1em;
 }

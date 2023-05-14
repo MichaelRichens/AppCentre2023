@@ -27,8 +27,7 @@ const SubscriptionSummary = ({
 		allowAddToCart = true
 	}
 	return (
-		<fieldset className={configuratorStyles.summary}>
-			<legend>Summary</legend>
+		<>
 			<p>{configuration.product}</p>
 			{haveExtensionOptions ? (
 				<p>{configuration.extensions.length > 0 ? configuration.extensions : 'With no extensions'}</p>
@@ -48,7 +47,7 @@ const SubscriptionSummary = ({
 					Add to Cart
 				</button>
 			)}
-		</fieldset>
+		</>
 	)
 }
 

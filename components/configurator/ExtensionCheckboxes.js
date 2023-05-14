@@ -1,13 +1,12 @@
 import React from 'react'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
-const ExtensionCheckboxes = ({ legend, availableExtensions, selectedExtensions, onChange }) => {
+const ExtensionCheckboxes = ({ availableExtensions, selectedExtensions, onChange }) => {
 	if (availableExtensions.length === 0) {
 		return null
 	}
 	return (
-		<fieldset className={configuratorStyles.checkbox}>
-			<legend>{legend}</legend>
+		<>
 			{availableExtensions.map((extension) => (
 				<label key={extension.key} className={configuratorStyles.checkbox}>
 					<input
@@ -21,7 +20,7 @@ const ExtensionCheckboxes = ({ legend, availableExtensions, selectedExtensions, 
 					{extension.name}
 				</label>
 			))}
-		</fieldset>
+		</>
 	)
 }
 
