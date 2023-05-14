@@ -80,7 +80,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	// early exit if NaN entered - not an error, since its probably been left blank, just set to default minimum.
 	if (isNaN(value)) {
 		updateFormData({
-			unitsChange: formData.type == PurchaseType.ADD ? productData.minunitsChange : 0,
+			unitsChange: formData.type == PurchaseType.ADD ? productData.minUnitsChange : 0,
 		})
 		return
 	}
@@ -88,19 +88,19 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	// Parse the user input as an integer.
 	let unitsChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
 	// Calculate the minimum and maximum user change values based on the type of subscription.
-	const minunitsChange =
+	const minUnitsChange =
 		formData.type === PurchaseType.NEW || formData.type === PurchaseType.ADD
 			? productData.minUnits
 			: productData.minUnits - formData.existingUnits
-	const maxunitsChange = productData.maxUnits - formData.existingUnits
+	const maxUnitsChange = productData.maxUnits - formData.existingUnits
 	const unitsChangeBeforeClamp = unitsChange
-	// Clamp the unitsChange value to be between minunitsChange and maxunitsChange.
-	unitsChange = Math.min(Math.max(unitsChange, minunitsChange), maxunitsChange)
+	// Clamp the unitsChange value to be between minUnitsChange and maxUnitsChange.
+	unitsChange = Math.min(Math.max(unitsChange, minUnitsChange), maxUnitsChange)
 	if (unitsChange !== unitsChangeBeforeClamp) {
-		if (unitsChange === minunitsChange) {
-			unitsChangeError = `Minimum Allowed Value: ${minunitsChange}`
-		} else if (unitsChange == maxunitsChange) {
-			unitsChangeError = `Maximum Allowed Value ${maxunitsChange}`
+		if (unitsChange === minUnitsChange) {
+			unitsChangeError = `Minimum Allowed Value: ${minUnitsChange}`
+		} else if (unitsChange == maxUnitsChange) {
+			unitsChangeError = `Maximum Allowed Value ${maxUnitsChange}`
 		}
 	}
 
