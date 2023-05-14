@@ -177,8 +177,8 @@
 .gfiPartnerLogoContainer img {
 	position: absolute;
 	top: 2em;
-	right: 0;
-	height: 80px;
+	right: -1em;
+	height: 50%;
 	max-width: 25vw;
 }
 
@@ -186,12 +186,17 @@
 	.mainLogo {
 		height: 100px;
 	}
+
+	.gfiPartnerLogoContainer img {
+		right: -100px;
+	}
 }
 @media (max-width: 850px) {
 	.gfiPartnerLogoContainer img {
 		max-width: 20vw;
 	}
 }
+
 @media (max-width: 750px) {
 	.headerMainContent .productMenu {
 		font-size: 14px;
