@@ -59,7 +59,12 @@ const Header = () => {
 						</ul>
 					</nav>
 				</div>
-				<HeaderCartMenu />
+				<aside id='headerRightSide'>
+					<HeaderCartMenu />
+					<div className={headerStyles.gfiPartnerLogoContainer}>
+						<img src='images/logos/gfi-gold-partner.svg' alt='GFI Gold Partner' />
+					</div>
+				</aside>
 			</div>
 		</header>
 	)

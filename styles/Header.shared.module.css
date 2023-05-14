@@ -169,12 +169,29 @@
 	z-index: 30;
 }
 
+.gfiPartnerLogoContainer {
+	position: relative;
+	height: 100%;
+}
+
+.gfiPartnerLogoContainer img {
+	position: absolute;
+	top: 2em;
+	right: 0;
+	height: 80px;
+	max-width: 25vw;
+}
+
 @media (min-width: 1800px) {
 	.mainLogo {
 		height: 100px;
 	}
 }
-
+@media (max-width: 850px) {
+	.gfiPartnerLogoContainer img {
+		max-width: 20vw;
+	}
+}
 @media (max-width: 750px) {
 	.headerMainContent .productMenu {
 		font-size: 14px;
@@ -187,6 +204,12 @@
 @media (max-width: 600px) {
 	.cartWrapper {
 		width: 400px;
+	}
+}
+
+@media (max-width: 550px) {
+	.gfiPartnerLogoContainer {
+		display: none;
 	}
 }
 

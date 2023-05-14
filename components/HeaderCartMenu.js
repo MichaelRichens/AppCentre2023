@@ -45,7 +45,7 @@ const HeaderCartMenu = () => {
 	}, [isCartVisible])
 
 	return (
-		<aside id='headerCartContainer' className={`popupContainer ${headerStyles.headerCartContainer}`}>
+		<div className={`popupContainer ${headerStyles.headerCartContainer}`}>
 			<button
 				ref={cartButtonRef}
 				className={headerStyles.cartIcon}
@@ -73,7 +73,7 @@ const HeaderCartMenu = () => {
 					</div>
 				</div>
 			)}
-		</aside>
+		</div>
 	)
 }
 
