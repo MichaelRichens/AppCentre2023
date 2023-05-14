@@ -25,6 +25,7 @@ const SubscriptionSummary = ({
 	if (allowAddToCart === undefined) {
 		allowAddToCart = true
 	}
+
 	return (
 		<>
 			<p>{configuration.product}</p>
