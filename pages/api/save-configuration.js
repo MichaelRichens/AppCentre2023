@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 					configuration.summary.extensions.length > 0 ? ' ' + configuration.summary.extensions : ''
 				}`
 
-				//Stripe
+				//Stripe - old create product code, commented out as completely unfucking needed
 				/*
 					This code accomplishes the following:
 
@@ -53,7 +53,7 @@ export default async function handler(req, res) {
 					If active prices exist, it checks if they have changed or if they are not the default price. If so, it sets them to inactive and creates a new price if the default price has changed.
 					If a new product or price was created, it updates the default price of the product to the new active price.
 				*/
-
+				/*
 				// Define product and price configuration
 				const productConfig = {
 					id: key,
@@ -154,6 +154,7 @@ export default async function handler(req, res) {
 					product = await stripe.products.update(product.id, { default_price: newDefaultPrice.id })
 					// console.timeEnd('save-configuration await 9')
 				}
+				*/
 			} catch (error) {
 				console.error(error)
 				return res
