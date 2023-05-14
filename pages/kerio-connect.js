@@ -185,22 +185,20 @@ const Connect = (props) => {
 					</p>
 				</section>
 				<section>
-					<h2>Conclusion</h2>
+					<h2>Key Takeaways</h2>
 					<p>
-						In conclusion, Kerio Connect is an efficient and comprehensive mail server solution designed to meet the
-						specific needs of small and medium-sized businesses. Its array of features, including robust email services,
-						instant messaging, shared calendars, tasks, and contacts, streamlined team communication tools, and
-						integrated security measures, make it an optimal choice for organisations looking for a reliable, secure,
-						and user-friendly communication and collaboration platform.
+						Kerio Connect is an efficient and comprehensive mail server solution designed to meet the specific needs of
+						small and medium-sized businesses. Its array of features, including robust email services, instant
+						messaging, shared calendars, tasks, and contacts, streamlined team communication tools, and integrated
+						security measures, make it an optimal choice for organisations looking for a reliable, secure, and
+						user-friendly communication and collaboration platform.
 					</p>
 					<p>
 						With Kerio Connect, you can enhance your business's productivity and efficiency, ensuring smooth and secure
 						communication across all devices and platforms. Furthermore, its affordable licensing model and professional
 						support provide added value, making it an ideal solution for businesses of all sizes.
 					</p>
-				</section>
-				<section>
-					<h2>Try Kerio Connect Today</h2>
+					<h3>Try Kerio Connect Today</h3>
 					<p>Don't just take our word for it, try Kerio Connect free for 30 days and experience:</p>
 					<ul>
 						<li>Secure and easy-to-install email</li>
@@ -211,7 +209,7 @@ const Connect = (props) => {
 						href='https://www.gfi.com/products-and-solutions/email-and-messaging-solutions/kerioconnect/free-trial'
 						target='_blank'
 						rel='noopener'>
-						Download Kerio Control VPN free for 30 days
+						Download Kerio Connect free for 30 days
 					</Link>
 					.
 				</section>
