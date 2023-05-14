@@ -194,6 +194,7 @@
 @media (max-width: 850px) {
 	.gfiPartnerLogoContainer img {
 		max-width: 20vw;
+		right: 0;
 	}
 }
 
