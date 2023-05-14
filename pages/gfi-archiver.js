@@ -3,7 +3,7 @@ import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
-import styles from '../styles/ProductInfo.shared.module.css'
+import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	const productData = await fetchAndProcessProducts('ARCHIVER')
@@ -166,12 +166,12 @@ const Archiver = (props) => {
 					</ul>
 					<p>
 						<Link
+							className={productInfoStyles.trialLink}
 							href='https://www.gfi.com/products-and-solutions/network-security-solutions/archiver/free-trial'
 							target='_blank'
 							rel='noopener'>
 							Download GFI Archiver free for 30 days
 						</Link>
-						.
 					</p>
 				</section>
 			</article>

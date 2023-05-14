@@ -206,12 +206,12 @@ const Control = (props) => {
 						Control.
 					</p>
 					<Link
+						className={productInfoStyles.trialLink}
 						href='https://www.gfi.com/products-and-solutions/network-security-solutions/keriocontrol/free-trial'
 						target='_blank'
 						rel='noopener'>
 						Download Kerio Control free for 30 days
 					</Link>
-					.
 				</section>
 			</>
 		</ProductInfoPage>

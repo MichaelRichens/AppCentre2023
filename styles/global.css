@@ -129,6 +129,10 @@ ul {
 	padding-inline-start: 2em;
 }
 
+main a:active {
+	transform: scale(0.99);
+}
+
 article > section {
 	margin-block-end: 3em;
 }

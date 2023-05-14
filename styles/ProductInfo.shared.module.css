@@ -68,6 +68,26 @@
 	margin-left: -1em;
 }
 
+.trialLink {
+	font-weight: 600;
+	font-size: 1.2em;
+	display: block;
+	text-align: center;
+}
+
+.trialLink:link,
+.trialLink:visited {
+	color: blue;
+}
+
+.trialLink:hover {
+	color: rgb(145, 145, 255);
+}
+
+.trialLink:active {
+	color: blue;
+}
+
 @media (max-width: 1000px) {
 	.topConfigurator {
 		font-size: 80%;

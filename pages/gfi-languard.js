@@ -3,6 +3,7 @@ import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
+import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	const productData = await fetchAndProcessProducts('LANGUARD')
@@ -164,12 +165,12 @@ const LanGuard = (props) => {
 					</p>
 					<p>
 						<Link
+							className={productInfoStyles.trialLink}
 							href='https://www.gfi.com/products-and-solutions/network-security-solutions/languard/request-a-demo'
 							target='_blank'
 							rel='noopener'>
 							Request a Demo today
 						</Link>
-						.
 					</p>
 				</section>
 			</article>

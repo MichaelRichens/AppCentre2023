@@ -1,9 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
-import CartDisplay from '../components/CartDisplay'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
+import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	const productData = await fetchAndProcessProducts('CONNECT')
@@ -208,12 +208,12 @@ const Connect = (props) => {
 						<li>Making BYOD easy</li>
 					</ul>
 					<Link
+						className={productInfoStyles.trialLink}
 						href='https://www.gfi.com/products-and-solutions/email-and-messaging-solutions/kerioconnect/free-trial'
 						target='_blank'
 						rel='noopener'>
 						Download Kerio Connect free for 30 days
 					</Link>
-					.
 				</section>
 			</>
 		</ProductInfoPage>
