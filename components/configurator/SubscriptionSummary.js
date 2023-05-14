@@ -22,7 +22,6 @@ const SubscriptionSummary = ({
 	addToCartInProgress,
 	haveJustChangedType,
 }) => {
-	console.log(configuration)
 	if (allowAddToCart === undefined) {
 		allowAddToCart = true
 	}
