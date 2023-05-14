@@ -30,7 +30,7 @@ body {
 	padding-block-end: 0;
 	padding-inline-start: 0;
 	padding-inline-start: 0;
-	font-size: 14px;
+	font-size: 16px;
 }
 
 body,
@@ -66,8 +66,15 @@ h3,
 h4,
 h5,
 h6,
-legend {
+legend,
+strong {
 	text-align: center;
+}
+
+h1,
+h2,
+h3 {
+	font-weight: 500;
 }
 
 h1 {
@@ -104,6 +111,10 @@ li {
 
 li:last-child {
 	margin-block-end: 0;
+}
+
+ul {
+	padding-inline-start: 2em;
 }
 
 article > section {
@@ -230,6 +241,12 @@ form button:disabled:active {
 	}
 }
 
+@media (max-width: 1100px) {
+	body {
+		font-size: 14px;
+	}
+}
+
 @media (max-width: 1000px) {
 	h1 {
 		font-size: 2.2em;
@@ -250,6 +267,10 @@ form button:disabled:active {
 
 	h2 {
 		font-size: 1.5em;
+	}
+
+	ul {
+		padding-inline-start: 1.5em;
 	}
 }
 
@@ -287,5 +308,9 @@ form button:disabled:active {
 	h3 {
 		margin-block-start: 0.2em;
 		margin-block-end: 0.2em;
+	}
+
+	ul {
+		padding-inline-start: 1em;
 	}
 }

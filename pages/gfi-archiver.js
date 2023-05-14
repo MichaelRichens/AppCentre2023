@@ -3,6 +3,7 @@ import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
+import styles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	const productData = await fetchAndProcessProducts('ARCHIVER')

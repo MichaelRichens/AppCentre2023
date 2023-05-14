@@ -6,6 +6,10 @@
 	width: 35em;
 }
 
+.article strong {
+	font-weight: 600;
+}
+
 .article > img {
 	max-width: 60vw;
 	height: auto;
@@ -18,6 +22,45 @@
 
 .article > img:nth-of-type(even) {
 	float: right;
+}
+
+.article blockquote {
+	position: relative;
+	font-style: italic;
+	font-weight: 500;
+	font-size: 1.2em;
+	max-width: 35em;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+.article blockquote::before {
+	font-family: 'Times New Roman', Times, serif;
+	content: open-quote;
+	font-size: 2em;
+	position: absolute;
+	left: -0.35em;
+	top: -0.2em;
+}
+
+.article blockquote::after {
+	font-family: 'Times New Roman', Times, serif;
+	content: close-quote;
+	font-size: 2em;
+	position: absolute;
+	right: -0.2em;
+	bottom: -0.2em;
+}
+
+.article blockquote > cite {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 0.83333em;
+	display: block;
+	margin-top: 0.3em;
+	margin-left: -1em;
 }
 
 @media (max-width: 1000px) {
