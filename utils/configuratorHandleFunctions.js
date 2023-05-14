@@ -54,8 +54,14 @@ export const createHandleExistingUnitsChange = (updateFormData) => (event) => {
 	if (isNaN(value)) {
 		return
 	}
+	let existingUnits
+	if (value == '' || value == '-') {
+		existingUnits = value
+	} else {
+		existingUnits = parseInt(value)
+	}
 	updateFormData({
-		existingUnits: value == '' ? '' : parseInt(value),
+		existingUnits: existingUnits,
 	})
 }
 

@@ -154,9 +154,6 @@ export default async function handler(req, res) {
 					product = await stripe.products.update(product.id, { default_price: newDefaultPrice.id })
 					// console.timeEnd('save-configuration await 9')
 				}
-
-				//console.log(product)
-				//console.log(prices.data)
 			} catch (error) {
 				console.error(error)
 				return res
