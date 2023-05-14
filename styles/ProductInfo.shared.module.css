@@ -10,6 +10,11 @@
 	font-weight: 600;
 }
 
+.article h2,
+.article h3 {
+	color: #444;
+}
+
 .article > img {
 	max-width: 60vw;
 	height: auto;

@@ -87,14 +87,14 @@ h1 {
 }
 
 h2 {
-	font-size: 2.2em;
+	font-size: 1.8em;
 	margin-block-start: 0.5em;
 	margin-block-end: 0.3em;
 }
 
 h3,
 p.subHeading {
-	font-size: 1.4em;
+	font-size: 1.3em;
 	margin-block-start: 0.5em;
 	margin-block-end: 0.3em;
 }
@@ -252,12 +252,12 @@ form button:disabled:active {
 	}
 
 	h2 {
-		font-size: 1.7em;
+		font-size: 1.5em;
 	}
 
 	h3,
 	p.subHeading {
-		font-size: 1.3em;
+		font-size: 1.2em;
 	}
 }
 
@@ -277,10 +277,6 @@ form button:disabled:active {
 	#footerInnerWrapper {
 		margin-left: 0.5em;
 		margin-right: 0.5em;
-	}
-
-	h2 {
-		font-size: 1.5em;
 	}
 
 	ul {

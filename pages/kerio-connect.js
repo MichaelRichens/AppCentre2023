@@ -28,7 +28,7 @@ const Connect = (props) => {
 					<p>
 						Perfectly tailored for small to medium-sized businesses (SMBs), Kerio Connect is a trusted mail server and
 						all-in-one collaboration tool. With its deployment in over 30,000 companies globally, it is compatible with
-						a diverse range of operating systems, including Windows, Mac OS, and Linux.
+						a diverse range of operating systems, including Windows, macOS, and Linux.
 					</p>
 					<p>
 						Kerio Connect stands out as an affordable yet robust solution for SMBs. Its easy-to-manage and
@@ -88,7 +88,7 @@ const Connect = (props) => {
 					<h3>Full-featured, Business-class Email</h3>
 					<p>
 						Kerio Connect provides comprehensive support for various email clients, including Outlook (Windows and Mac),
-						native apps for Mac OS, and any other IMAP or POP compliant email client. Its email service is integrated
+						native apps for macOS, and any other IMAP or POP compliant email client. Its email service is integrated
 						with shared calendars, scheduling, contacts management, tasks, notes, shared and public folders, and instant
 						messaging, providing a holistic communication solution.
 					</p>
