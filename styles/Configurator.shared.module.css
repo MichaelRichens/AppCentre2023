@@ -19,7 +19,7 @@
 
 .configurator fieldset legend {
 	color: #333;
-	padding: 0.1em 1em;
+	padding: 0.3em 1em;
 	width: 90%;
 	background-color: #ddd;
 	border: 1px #999 solid;
@@ -66,4 +66,26 @@ label.monthsRemaining {
 
 label.monthsRemaining > span {
 	margin-right: 1em;
+}
+
+@media (max-width: 500px) {
+	.configurator {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.configurator fieldset legend {
+		padding-left: 0.2em;
+		padding-right: 0.2em;
+	}
+}
+
+@media (max-width: 350px) {
+	.configurator input,
+	.configurator select,
+	.configurator textarea {
+		font-size: 0.85em;
+		padding-left: 0;
+		padding-right: 0;
+	}
 }
