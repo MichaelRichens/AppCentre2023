@@ -6,7 +6,7 @@ import { loadStripe } from '@stripe/stripe-js'
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
 const CheckoutButton = () => {
-	const { redirectToCheckout, cartDetails, cartCount, clearCart } = useShoppingCart()
+	const { cartDetails, cartCount, setCartSessionId } = useShoppingCart()
 
 	// This function will handle the process of creating a checkout session
 	// by making a request to your server-side route
@@ -35,7 +35,7 @@ const CheckoutButton = () => {
 	// When the button is clicked, it will trigger the checkout process
 	async function handleCheckout() {
 		const sessionId = await handleCreateCheckoutSession()
-		console.log(sessionId)
+		sessionStorage.setItem('checkoutSessionId', sessionId)
 
 		const stripe = await stripePromise
 		const { error } = await stripe.redirectToCheckout({ sessionId })

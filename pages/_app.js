@@ -16,7 +16,7 @@ function App({ Component, pageProps }) {
 			cancelUrl={`${process.env.NEXT_PUBLIC_DEPLOY_URL}/cancelled`}
 			allowedCountries={['GB']}
 			billingAddressCollection={true}
-			persistKey='cart'>
+			shouldPersist={true}>
 			<ConfiguratorProvider>
 				<Component {...pageProps} />
 			</ConfiguratorProvider>
