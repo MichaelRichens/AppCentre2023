@@ -1,8 +1,5 @@
 import { MongoClient } from 'mongodb'
 
-const uri = process.env.MONGODB_URI
-const dbName = process.env.DB_NAME
-
 let cachedDb
 let client
 
@@ -17,17 +14,11 @@ async function connectToDatabase() {
 				// In development mode, use a global variable so that the value
 				// is preserved across module reloads caused by HMR (Hot Module Replacement).
 				if (!global._mongoClient) {
-					global._mongoClient = await MongoClient.connect(uri, {
-						useNewUrlParser: true,
-						useUnifiedTopology: true,
-					})
+					global._mongoClient = await getClient()
 				}
 				client = global._mongoClient
 			} else {
-				client = await MongoClient.connect(uri, {
-					useNewUrlParser: true,
-					useUnifiedTopology: true,
-				})
+				client = await getClient()
 			}
 
 			process.once('SIGINT', closeClient)
@@ -35,7 +26,7 @@ async function connectToDatabase() {
 			process.once('SIGQUIT', closeClient)
 		}
 
-		const db = client.db(dbName)
+		const db = client.db(process.env.DB_NAME)
 		cachedDb = db
 
 		return db
@@ -43,6 +34,13 @@ async function connectToDatabase() {
 		console.error('Error acquiring database connection:', error)
 		throw new Error('Failed to connect to the database.')
 	}
+}
+
+async function getClient() {
+	return await MongoClient.connect(process.env.MONGODB_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
 }
 
 function closeClient() {
