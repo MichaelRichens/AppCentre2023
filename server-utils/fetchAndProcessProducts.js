@@ -3,10 +3,9 @@ import { connectToDatabase } from './mongodb'
 async function fetchExtensions(productFamily) {
 	try {
 		// console.time('fetchExtensions await 1')
-		const client = await connectToDatabase()
-
+		const db = await connectToDatabase()
 		// console.timeEnd('fetchExtensions await 1')
-		const db = client.db()
+
 		const collection = db.collection('extensions')
 		const query = productFamily ? { product_family: productFamily } : {}
 		const extensions = await collection.find(query).toArray()
@@ -25,9 +24,8 @@ async function fetchExtensions(productFamily) {
 async function fetchProducts(productFamily) {
 	try {
 		// console.time('fetchProducts await 1')
-		const client = await connectToDatabase()
+		const db = await connectToDatabase()
 		// console.timeEnd('fetchProducts await 1')
-		const db = client.db()
 		const collection = db.collection('products')
 		const query = productFamily ? { product_family: productFamily } : {}
 		// console.time('fetchProducts await 2')

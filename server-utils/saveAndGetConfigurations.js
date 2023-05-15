@@ -10,8 +10,7 @@ import { connectToDatabase } from './mongodb'
  */
 async function asyncSaveConfiguration(configuration) {
 	try {
-		const client = await connectToDatabase()
-		const db = client.db()
+		const db = await connectToDatabase()
 		const collection = db.collection('configurations')
 
 		let uniqueKey = generateKey(6)
@@ -39,8 +38,7 @@ async function asyncSaveConfiguration(configuration) {
  */
 async function asyncGetConfiguration(uniqueKey) {
 	try {
-		const client = await connectToDatabase()
-		const db = client.db()
+		const db = await connectToDatabase()
 		const collection = db.collection('configurations')
 
 		const configurationData = await collection.findOne({ _id: uniqueKey })
