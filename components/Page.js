@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
+import Head from 'next/head'
 import smartquotes from 'smartquotes'
 import Header from './Header'
 import Footer from './Footer'
@@ -19,6 +20,17 @@ const Page = ({ title, subHeading, children }) => {
 	}, [])
 	return (
 		<>
+			<Head>
+				<link rel='apple-touch-icon' sizes='180x180' href='/images/icons/favicons/apple-touch-icon.png' />
+				<link rel='icon' type='image/png' sizes='32x32' href='/images/icons/favicons/favicon-32x32.png' />
+				<link rel='icon' type='image/png' sizes='16x16' href='/images/icons/favicons/favicon-16x16.png' />
+				<link rel='manifest' href='/images/icons/favicons/site.webmanifest' />
+				<link rel='mask-icon' href='/images/icons/favicons/safari-pinned-tab.svg' color='#5bbad5' />
+				<link rel='shortcut icon' href='/images/icons/favicons/favicon.ico' />
+				<meta name='msapplication-TileColor' content='#da532c' />
+				<meta name='msapplication-config' content='/images/icons/favicons/browserconfig.xml' />
+				<meta name='theme-color' content='#ffffff' />
+			</Head>
 			<Header />
 			<main>
 				<h1>{title}</h1>
