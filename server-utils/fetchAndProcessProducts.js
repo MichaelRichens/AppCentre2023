@@ -175,10 +175,15 @@ const processProducts = (products, extensions) => {
  * console.log(processedProducts);
  */
 const asyncFetchAndProcessProducts = async (productFamily) => {
-	// console.time('asyncFetchAndProcessProducts await 1')
-	const [products, extensions] = await Promise.all([fetchProducts(productFamily), fetchExtensions(productFamily)])
-	// console.timeEnd('asyncFetchAndProcessProducts await 1')
-	return processProducts(products, extensions)
+	try {
+		// console.time('asyncFetchAndProcessProducts await 1')
+		const [products, extensions] = await Promise.all([fetchProducts(productFamily), fetchExtensions(productFamily)])
+		// console.timeEnd('asyncFetchAndProcessProducts await 1')
+		return processProducts(products, extensions)
+	} catch (error) {
+		console.error('There was an error fetching or processing the products:', error)
+		throw error
+	}
 }
 
 export default asyncFetchAndProcessProducts

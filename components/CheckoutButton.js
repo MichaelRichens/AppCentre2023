@@ -36,6 +36,7 @@ const CheckoutButton = () => {
 	async function handleCheckout() {
 		const sessionId = await handleCreateCheckoutSession()
 		console.log(sessionId)
+
 		//const stripe = await stripePromise
 		//const { error } = await stripe.redirectToCheckout({ sessionId })
 
