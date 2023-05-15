@@ -4,3 +4,4 @@ dist/
 *.log
 .env.local
 .next/
+.DS_Store
