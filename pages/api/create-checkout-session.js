@@ -7,6 +7,7 @@ export default async (req, res) => {
 			const cartFromClientSide = req.body
 
 			if (!cartFromClientSide || !Array.isArray(cartFromClientSide.items)) {
+				console.error('Invalid request body. Expected "items" array.')
 				return res.status(400).json({ message: "Invalid request body. Expected 'items' array." })
 			}
 
@@ -18,7 +19,7 @@ export default async (req, res) => {
 					)
 				)
 			} catch (error) {
-				console.log('Failed to fetch fresh product data from the database.', error)
+				console.error('Failed to fetch fresh product data from the database.', error)
 				throw error
 			}
 
@@ -33,6 +34,7 @@ export default async (req, res) => {
 					!('extensions' in item.summary) ||
 					typeof item.price !== 'number'
 				) {
+					console.error(`Invalid product data for ID ${id}`)
 					throw new Error(`Invalid product data for ID ${id}`)
 				}
 

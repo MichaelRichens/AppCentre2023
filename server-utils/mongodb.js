@@ -6,20 +6,34 @@ const dbName = process.env.DB_NAME
 let cachedDb
 let client
 
-let conCount = 0
-let conNewCount = 0
-
 async function connectToDatabase() {
 	if (cachedDb) {
-		console.log('conCount:', ++conCount)
 		return cachedDb
 	}
-	console.log('conNewCount:', ++conNewCount)
+
 	try {
-		client = await MongoClient.connect(uri, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-		})
+		if (!client) {
+			if (process.env.NODE_ENV === 'development') {
+				// In development mode, use a global variable so that the value
+				// is preserved across module reloads caused by HMR (Hot Module Replacement).
+				if (!global._mongoClient) {
+					global._mongoClient = await MongoClient.connect(uri, {
+						useNewUrlParser: true,
+						useUnifiedTopology: true,
+					})
+				}
+				client = global._mongoClient
+			} else {
+				client = await MongoClient.connect(uri, {
+					useNewUrlParser: true,
+					useUnifiedTopology: true,
+				})
+			}
+
+			process.once('SIGINT', closeClient)
+			process.once('SIGTERM', closeClient)
+			process.once('SIGQUIT', closeClient)
+		}
 
 		const db = client.db(dbName)
 		cachedDb = db
@@ -30,11 +44,6 @@ async function connectToDatabase() {
 		throw new Error('Failed to connect to the database.')
 	}
 }
-
-// Close the connection when the application shuts down
-process.once('SIGINT', closeClient)
-process.once('SIGTERM', closeClient)
-process.once('SIGQUIT', closeClient)
 
 function closeClient() {
 	if (client) client.close()

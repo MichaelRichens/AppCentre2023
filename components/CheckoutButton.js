@@ -47,7 +47,7 @@ const CheckoutButton = () => {
 	}
 
 	return (
-		<button disabled={!cartCount} onClick={handleCheckout}>
+		<button type='button' disabled={!cartCount} onClick={handleCheckout}>
 			Checkout
 		</button>
 	)
