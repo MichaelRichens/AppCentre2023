@@ -7,32 +7,67 @@ export default async (req, res) => {
 		try {
 			const cartFromClientSide = req.body
 
-			const trustedProductData = Object.fromEntries(
-				await Promise.all(cartFromClientSide.items.map(async (item) => [item.id, await asyncGetConfiguration(item.id)]))
-			)
+			if (!cartFromClientSide || !Array.isArray(cartFromClientSide.items)) {
+				return res.status(400).json({ message: "Invalid request body. Expected 'items' array." })
+			}
+
+			let trustedProductData
+			try {
+				trustedProductData = Object.fromEntries(
+					await Promise.all(
+						cartFromClientSide.items.map(async (item) => [item.id, await asyncGetConfiguration(item.id)])
+					)
+				)
+			} catch (error) {
+				console.log('Failed to fetch fresh product data from the database.', error)
+				throw error
+			}
 
 			// Create an array of line items for the Stripe checkout session
 			const line_items = Object.keys(trustedProductData).map((id) => {
 				const item = trustedProductData[id]
 
+				if (
+					!item ||
+					!item.summary ||
+					!('product' in item.summary) ||
+					!('extensions' in item.summary) ||
+					typeof item.price !== 'number'
+				) {
+					throw new Error(`Invalid product data for ID ${id}`)
+				}
+
 				const itemName = `${item.summary.product}${item.summary.extensions ? ' ' + item.summary.extensions : ''}`
 				const priceInPence = Math.round(item.price * 100)
+
 				// untrusted data from the client, just using it for the cart quantity
 				const cartItem = cartFromClientSide.items.find((item) => item.id === id)
-				const quantity = cartItem ? cartItem.quantity : 0
+				if (!cartItem || typeof cartItem.quantity !== 'number' || cartItem.quantity < 1) {
+					throw new Error(`Invalid quantity for cart item with ID ${id}`)
+				}
+				const quantity = cartItem.quantity
+
+				const metadata = {
+					internalId: id,
+					configuration: item.type,
+					units: item.units,
+					years: item.years,
+				}
+				console.log(item.skus)
+				item.skus.forEach((skuObject) => {
+					Object.entries(skuObject).forEach(([key, value]) => {
+						metadata[`sku-${key}`] = value
+					})
+				})
+
+				console.log(metadata)
 
 				return {
 					price_data: {
 						currency: process.env.NEXT_PUBLIC_CURRENCY_LC,
 						product_data: {
 							name: itemName,
-							metadata: {
-								internalId: id,
-								type: item.type,
-								units: item.units,
-								years: item.years,
-								skus: item.skus,
-							},
+							metadata,
 						},
 						unit_amount: priceInPence,
 					},
@@ -40,14 +75,21 @@ export default async (req, res) => {
 				}
 			})
 
-			// Create a Stripe checkout session
-			const session = await stripe.checkout.sessions.create({
-				payment_method_types: ['card'],
-				line_items,
-				mode: 'payment',
-				success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-				cancel_url: `${req.headers.origin}/cancel`,
-			})
+			let session
+			try {
+				// Create a Stripe checkout session
+				session = await stripe.checkout.sessions.create({
+					payment_method_types: ['card'],
+					line_items,
+					mode: 'payment',
+					success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+					cancel_url: `${req.headers.origin}/cancel`,
+				})
+			} catch (stripeError) {
+				// Handle errors from the Stripe API separately
+				console.error(stripeError)
+				return res.status(500).json({ message: `Stripe API error: ${stripeError.message}` })
+			}
 
 			// Return the session ID
 			res.status(200).json({ sessionId: session.id })
