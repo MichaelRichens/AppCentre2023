@@ -52,13 +52,8 @@ export default async (req, res) => {
 					configuration: item.type,
 					units: item.units,
 					years: item.years,
+					skus: JSON.stringify(item.skus),
 				}
-				console.log(item.skus)
-				item.skus.forEach((skuObject) => {
-					Object.entries(skuObject).forEach(([key, value]) => {
-						metadata[`sku-${key}`] = value
-					})
-				})
 
 				console.log(metadata)
 

@@ -4,11 +4,12 @@ async function fetchExtensions(productFamily) {
 	try {
 		// console.time('fetchExtensions await 1')
 		const client = await connectToDatabase()
+
 		// console.timeEnd('fetchExtensions await 1')
-		const db = client.db(process.env.DB_NAME)
-		const productsCollection = db.collection('extensions')
+		const db = client.db()
+		const collection = db.collection('extensions')
 		const query = productFamily ? { product_family: productFamily } : {}
-		const extensions = await productsCollection.find(query).toArray()
+		const extensions = await collection.find(query).toArray()
 
 		// Convert _id to string
 		const ext = extensions.map((ext) => {
@@ -26,11 +27,11 @@ async function fetchProducts(productFamily) {
 		// console.time('fetchProducts await 1')
 		const client = await connectToDatabase()
 		// console.timeEnd('fetchProducts await 1')
-		const db = client.db(process.env.DB_NAME)
-		const productsCollection = db.collection('products')
+		const db = client.db()
+		const collection = db.collection('products')
 		const query = productFamily ? { product_family: productFamily } : {}
 		// console.time('fetchProducts await 2')
-		const products = await productsCollection.find(query).toArray()
+		const products = await collection.find(query).toArray()
 		// console.timeEnd('fetchProducts await 2')
 
 		// Convert _id to string
