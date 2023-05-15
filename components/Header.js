@@ -30,7 +30,7 @@ const Header = () => {
 
 					<div className={headerStyles.logoContainer}>
 						<NavLink href='/' currentPageStyle={headerStyles.mainLogoLinkCurrent}>
-							<img className={headerStyles.mainLogo} src='images/logos/appcentre-logo-raleway.svg' alt='AppCentre' />
+							<img className={headerStyles.mainLogo} src='images/logos/appcentre-logo.svg' alt='AppCentre' />
 						</NavLink>
 					</div>
 

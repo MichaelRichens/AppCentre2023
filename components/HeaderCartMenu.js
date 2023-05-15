@@ -54,7 +54,13 @@ const HeaderCartMenu = () => {
 				disabled={cartCount === 0}
 				data-tooltip-id='open-cart'
 				data-tooltip-content='Click to Open Cart'>
-				<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='Shopping Cart' />
+				<Image
+					loading='eager'
+					src='/images/icons/shopping_cart_icon100x100.png'
+					height='30'
+					width='30'
+					alt='Shopping Cart'
+				/>
 				<div
 					aria-live='polite'
 					className={`${headerStyles.cartCount} ${cartCount > 0 ? headerStyles.cartFull : headerStyles.cartEmpty}`}>
