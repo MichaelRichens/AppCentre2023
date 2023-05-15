@@ -15,7 +15,7 @@ export async function getStaticProps() {
 		}
 	} catch (error) {
 		console.error('Failed to fetch static props', error)
-		return { notFound: true }
+		throw error
 	}
 }
 
