@@ -4,7 +4,7 @@ import Page from '../components/Page'
 const Home = () => {
 	return (
 		<Page title='Home'>
-			<p>Welcome to our home page!</p>
+			<p>Welcome to our home page! Testing, testing...</p>
 		</Page>
 	)
 }
