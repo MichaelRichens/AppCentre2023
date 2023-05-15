@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { Tooltip } from 'react-tooltip'
 import { useShoppingCart } from 'use-shopping-cart'
 import CartDisplay from './CartDisplay'
@@ -11,12 +10,6 @@ const HeaderCartMenu = () => {
 	const [isCartVisible, setCartVisible] = useState(false)
 	const cartRef = useRef(null)
 	const cartButtonRef = useRef(null)
-
-	// Nasty hack for screwy use-shopping-cart behaviour with clearing the cart after checkout
-	// Manage to hack around the thing to actually clear it, but can't get it to update visually.
-	// So just not showing the cart of the success page
-	const router = useRouter()
-	const showCartWidget = router.pathname !== '/success'
 
 	const handleCartClick = () => {
 		if (cartCount > 0) {
@@ -53,42 +46,38 @@ const HeaderCartMenu = () => {
 
 	return (
 		<div className={`popupContainer ${headerStyles.headerCartContainer}`}>
-			{showCartWidget && (
-				<>
-					<button
-						ref={cartButtonRef}
-						className={headerStyles.cartIcon}
-						onClick={handleCartClick}
-						aria-label='Open Cart'
-						disabled={cartCount === 0}
-						data-tooltip-id='open-cart'
-						data-tooltip-content='Click to Open Cart'>
-						<Image
-							loading='eager'
-							src='/images/icons/shopping_cart_icon100x100.png'
-							height='30'
-							width='30'
-							alt='Shopping Cart'
-						/>
-						<div
-							aria-live='polite'
-							className={`${headerStyles.cartCount} ${cartCount > 0 ? headerStyles.cartFull : headerStyles.cartEmpty}`}>
-							<span className='sr-only'>Quantity in Cart: </span>
-							{cartCount}
-						</div>
+			<button
+				ref={cartButtonRef}
+				className={headerStyles.cartIcon}
+				onClick={handleCartClick}
+				aria-label='Open Cart'
+				disabled={cartCount === 0}
+				data-tooltip-id='open-cart'
+				data-tooltip-content='Click to Open Cart'>
+				<Image
+					loading='eager'
+					src='/images/icons/shopping_cart_icon100x100.png'
+					height='30'
+					width='30'
+					alt='Shopping Cart'
+				/>
+				<div
+					aria-live='polite'
+					className={`${headerStyles.cartCount} ${cartCount > 0 ? headerStyles.cartFull : headerStyles.cartEmpty}`}>
+					<span className='sr-only'>Quantity in Cart: </span>
+					{cartCount}
+				</div>
+			</button>
+			{!isCartVisible && cartCount > 0 && <Tooltip id='open-cart' />}
+			{isCartVisible && (
+				<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
+					<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
+						X
 					</button>
-					{!isCartVisible && cartCount > 0 && <Tooltip id='open-cart' />}
-					{isCartVisible && (
-						<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
-							<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
-								X
-							</button>
-							<div className={headerStyles.cart}>
-								<CartDisplay />
-							</div>
-						</div>
-					)}
-				</>
+					<div className={headerStyles.cart}>
+						<CartDisplay />
+					</div>
+				</div>
 			)}
 		</div>
 	)

@@ -15,12 +15,9 @@ const OrderSuccess = () => {
 		let timeoutId
 		if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
 			//  HACKY WORKAROUND
-			// clearCart isn't working on page load for some unknown reason, using a timeout to call it back makes it work
-			// even with this, it still needs another hack - clearing the cart here doesn't force a rerender of the cart total
-			// so it just sits there showing items in the cart even though it is empty.  'Fix' for this is just to hide the cart entirely on this page... (done in Header component)
-			timeoutId = setTimeout(() => {
-				clearCart()
-			}, 200)
+			// clearCart isn't working on page load for some unknown reason, so removing cart from localStorage directly
+			// suspect this may be related to use-shopping-cart wanting React 17, but having React 18 installed
+			localStorage.setItem(process.env.NEXT_PUBLIC_CART_PERSIST_KEY, JSON.stringify({}))
 			sessionStorage.removeItem('checkoutSessionId')
 		}
 		return () => {
