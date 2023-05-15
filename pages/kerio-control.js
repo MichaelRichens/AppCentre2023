@@ -7,11 +7,16 @@ import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts('CONTROL')
+	try {
+		const productData = await fetchAndProcessProducts('CONTROL')
 
-	return {
-		props: { productData },
-		revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
+		return {
+			props: { productData },
+			revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
+		}
+	} catch (error) {
+		console.error('Failed to fetch static props', error)
+		return { notFound: true }
 	}
 }
 
