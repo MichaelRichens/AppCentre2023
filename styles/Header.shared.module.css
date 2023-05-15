@@ -123,6 +123,7 @@
 .headerCartContainer {
 	flex-grow: 0;
 	padding-top: 0.7em;
+	min-height: 35px; /* Needed for when HeaderCart is not rendered */
 }
 
 .cartIcon {
