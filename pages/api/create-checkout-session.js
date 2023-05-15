@@ -1,6 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
-import flattenObject from '../../utils/flattenObject'
 
 export default async (req, res) => {
 	if (req.method === 'POST') {
@@ -54,8 +53,6 @@ export default async (req, res) => {
 					years: item.years,
 					skus: JSON.stringify(item.skus),
 				}
-
-				console.log(metadata)
 
 				return {
 					price_data: {
