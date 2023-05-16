@@ -25,7 +25,7 @@ const PurchaseUnitInput = ({ allowDisplay, label, min, max, step, name, value, o
 	}
 	return (
 		<label>
-			{label}
+			{`${label}: `}
 			<input
 				type='number'
 				min={min}
