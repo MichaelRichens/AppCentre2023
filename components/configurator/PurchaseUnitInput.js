@@ -1,4 +1,5 @@
 import React from 'react'
+import generateUniqueId from '../../utils/generateUniqueId'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 /**
@@ -23,10 +24,14 @@ const PurchaseUnitInput = ({ allowDisplay, label, min, max, step, name, value, o
 	if (allowDisplay === false) {
 		return null
 	}
+
+	const inputId = `unit${generateUniqueId()}`
+
 	return (
-		<label>
-			{`${label}: `}
+		<div className={configuratorStyles.unitsInputContainer}>
+			<label htmlFor={inputId}>{`${label}: `}</label>
 			<input
+				id={inputId}
 				type='number'
 				min={min}
 				max={max}
@@ -39,7 +44,7 @@ const PurchaseUnitInput = ({ allowDisplay, label, min, max, step, name, value, o
 				aria-label={label}
 			/>
 			{error !== false && <span className={configuratorStyles.formError}> {error}</span>}
-		</label>
+		</div>
 	)
 }
 

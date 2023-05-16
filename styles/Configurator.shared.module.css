@@ -59,13 +59,28 @@
 }
 
 label.monthsRemaining {
-	display: block;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: nowrap;
+	align-items: center;
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
 }
 
 label.monthsRemaining > span {
+	white-space: break-spaces;
 	margin-right: 1em;
+	width: 40%;
+	flex-grow: 1;
+}
+
+.unitsInputContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
 }
 
 @media (max-width: 500px) {
@@ -77,6 +92,23 @@ label.monthsRemaining > span {
 	.configurator fieldset legend {
 		padding-left: 0.2em;
 		padding-right: 0.2em;
+	}
+}
+
+@media (max-width: 400px) {
+	label.monthsRemaining {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.3em;
+		margin-bottom: 1.5em;
+	}
+
+	label.monthsRemaining:last-child {
+		margin-bottom: 0;
+	}
+
+	label.monthsRemaining > span {
+		width: 100%;
 	}
 }
 
