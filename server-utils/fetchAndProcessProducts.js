@@ -231,6 +231,8 @@ const asyncFetchAndProcessProducts = async (productFamily, productOption = null)
 		const { options, ...hcFamilyExceptOptions } = hcFamily
 		const hcData = { ...hcFamilyExceptOptions, ...hcOption } // the hardcoded values for this productData and productOption combo
 
+		//TODO NEXT the min units step property
+
 		return processProducts(products, extensions)
 	} catch (error) {
 		console.error('There was an error fetching or processing the products:', error)
