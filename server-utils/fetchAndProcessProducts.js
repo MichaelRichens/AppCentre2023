@@ -1,45 +1,79 @@
 import { connectToDatabase } from './mongodb'
+import getHardcodedProductData from '../utils/getHardcodedProductData'
 
-async function fetchExtensions(productFamily) {
-	try {
-		// console.time('fetchExtensions await 1')
-		const db = await connectToDatabase()
-		// console.timeEnd('fetchExtensions await 1')
-
-		const collection = db.collection('extensions')
-		const query = productFamily ? { product_family: productFamily } : {}
-		const extensions = await collection.find(query).toArray()
-
-		// Convert _id to string
-		const ext = extensions.map((ext) => {
-			return { ...ext, _id: ext._id.toString() }
-		})
-		return ext
-	} catch (error) {
-		console.error('Error fetching extensions:', error)
-		throw new Error('Failed to fetch extensions from database')
-	}
+/**
+ * Checks if a collection exists in the database.
+ * @param {object} db - The MongoDB database object.
+ * @param {string} collectionName - The name of the collection to check.
+ * @returns {boolean} Returns true if the collection exists, false otherwise.
+ */
+async function collectionExists(db, collectionName) {
+	const collections = await db.listCollections().toArray()
+	return collections.some((collection) => collection.name === collectionName)
 }
 
-async function fetchProducts(productFamily) {
+/**
+ * Fetches data from one of the product data collections, querying based on the passed productFamily and productOption values
+ * @param {string} collectionName - The collection to fetch, required.
+ * @param {string|null} productFamily - If null, will return entire collection, otherwise only products which match this in their product_family field
+ * @param {string|null} productOption - If null will just match on productFamily.  If set, will also match productOption on product_option BUT WILL ALSO return records without a product_option set.
+ * @returns {Promise<Array<{_id: string, product_family: string, product_option?: string}>>} A promise that resolves to an array of objects each representing a document from the MongoDB collection with `_id` converted to a string.
+ */
+async function fetchFromProductDataCollection(collectionName, productFamily, productOption = null) {
 	try {
-		// console.time('fetchProducts await 1')
-		const db = await connectToDatabase()
-		// console.timeEnd('fetchProducts await 1')
-		const collection = db.collection('products')
-		const query = productFamily ? { product_family: productFamily } : {}
-		// console.time('fetchProducts await 2')
-		const products = await collection.find(query).toArray()
-		// console.timeEnd('fetchProducts await 2')
+		let db
+		if (!collectionName) {
+			throw new Error('No collection specified.')
+		}
+		try {
+			// console.time('fetchCollection await 1')
+			db = await connectToDatabase()
+			// console.timeEnd('fetchCollection await 1')
+		} catch (error) {
+			console.error('Unable to connect to the database.', error)
+			throw error
+		}
 
-		// Convert _id to string
-		const productsWithIdAsString = products.map((product) => {
-			return { ...product, _id: product._id.toString() }
-		})
-		return productsWithIdAsString
+		try {
+			// console.time('fetchCollection await 2')
+			const exists = await collectionExists(db, collectionName)
+			// console.timeEnd('fetchCollection await 2')
+			if (!exists) {
+				throw new Error(`Collection ${collectionName} does not exist.`)
+			}
+		} catch (error) {
+			console.error(error)
+			throw error
+		}
+
+		try {
+			const collection = db.collection(collectionName)
+
+			let query
+			if (productFamily === null) {
+				query = {}
+			} else if (productOption === null) {
+				query = { product_family: productFamily }
+			} else {
+				query = {
+					product_family: productFamily,
+					$or: [{ product_option: productOption }, { product_option: { $exists: false } }, { product_option: '' }],
+				}
+			}
+			const data = await collection.find(query).toArray()
+
+			// Convert _id to string
+			const dataWithStringIds = data.map((item) => {
+				return { ...item, _id: item._id.toString() }
+			})
+			return dataWithStringIds
+		} catch (error) {
+			console.error('Error fetching data:', error)
+			throw error
+		}
 	} catch (error) {
-		console.error('Error fetching products:', error)
-		throw new Error('Failed to fetch products from database')
+		console.error('fetchFromProductDataCollection failed with an error:', error)
+		throw error
 	}
 }
 
@@ -125,6 +159,7 @@ const processProducts = (products, extensions) => {
 	if (productData.products.length === 0) {
 		productData.minUnits = 0
 		productData.maxUnits = 0
+		productData.minUnitsStep = 0
 		productData.minYears = 0
 		productData.maxYears = 0
 	} else {
@@ -146,25 +181,27 @@ const processProducts = (products, extensions) => {
 
 		productData.minUnits = minUnitsFrom >= 1 ? minUnitsFrom : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
 		productData.maxUnits = maxUnitsTo >= 1 ? maxUnitsTo : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
-		productData.minYears = minYears
+		productData.minUnitsStep = productData.minYears = minYears
 		productData.maxYears = maxYears
 	}
 	return productData
 }
 
 /**
- * Fetches products and extensions for a given product family and returns the pre-processed results.
+ * Fetches products and extensions for a given productFamily, and if productFamily uses them, a productOption, and returns the pre-processed results.
  *
  * @async
  * @function fetchAndProcessProducts
  * Fetches and processes products and extensions for a given product family.
- * @param {string} productFamily - The product family for which to fetch and process products and extensions.
+ * @param {string} productFamily - The product family for which to fetch and process product data.
+ * @param {string?} productOption -The product option value within a product family for which to fetch and process product data. Optional since not all productFamilies have it, but required for those that do.
  * @returns {Promise<Object>} A promise that resolves to an object with the following properties:
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
  *   @property {number} minUnits - The minimum number of units (eg users) supported by the products.
  *   @property {number} maxUnits - The maximum number of units (eg users) supported by the products.
+ * 	 @property {number} minUnitsStep - The minimum number of units by which a subscription may be changed - ie 10 if you have to increase by 10s (would mean any value not ending in 0 is invalid)
  *   @property {number} minYears - The minimum number of years a subscription is available for.
  *   @property {number} maxYears - The maximum number of years a subscription is available for.
  *
@@ -173,11 +210,26 @@ const processProducts = (products, extensions) => {
  * const processedProducts = await fetchAndProcessProducts(productFamily);
  * console.log(processedProducts);
  */
-const asyncFetchAndProcessProducts = async (productFamily) => {
+const asyncFetchAndProcessProducts = async (productFamily, productOption = null) => {
 	try {
+		// Fetch from db
 		// console.time('asyncFetchAndProcessProducts await 1')
-		const [products, extensions] = await Promise.all([fetchProducts(productFamily), fetchExtensions(productFamily)])
+		const [products, extensions, hardware] = await Promise.all([
+			fetchFromProductDataCollection('products', productFamily, productOption),
+			fetchFromProductDataCollection('extensions', productFamily, productOption),
+			fetchFromProductDataCollection('hardware', productFamily, productOption),
+		])
 		// console.timeEnd('asyncFetchAndProcessProducts await 1')
+
+		// Create a hardcoded data object hcData, which takes data from the getHardcodedProductData function.
+		// It will return all fields in the object at the productFamily property, unless they are overridden by those at that object's `options` object's productOption property
+		const allHardcoded = getHardcodedProductData()
+		const hcFamily = allHardcoded?.[productFamily] || {}
+		const hcOption = productOption ? hcFamily?.options?.[productOption] : {}
+
+		const { options, ...hcFamilyExceptOptions } = hcFamily
+		const hcData = { ...hcFamilyExceptOptions, ...hcOption } // the hardcoded values for this productData and productOption combo
+
 		return processProducts(products, extensions)
 	} catch (error) {
 		console.error('There was an error fetching or processing the products:', error)
