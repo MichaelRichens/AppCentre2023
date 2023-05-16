@@ -8,7 +8,9 @@ import getHardcodedProductData from '../utils/getHardcodedProductData'
  * @returns {boolean} Returns true if the collection exists, false otherwise.
  */
 async function collectionExists(db, collectionName) {
+	// console.time('collectionExists await 1')
 	const collections = await db.listCollections().toArray()
+	// console.timeEnd('collectionExists await 1')
 	return collections.some((collection) => collection.name === collectionName)
 }
 
@@ -226,7 +228,6 @@ const asyncFetchAndProcessProducts = async (productFamily, productOption = null)
 		const allHardcoded = getHardcodedProductData()
 		const hcFamily = allHardcoded?.[productFamily] || {}
 		const hcOption = productOption ? hcFamily?.options?.[productOption] : {}
-
 		const { options, ...hcFamilyExceptOptions } = hcFamily
 		const hcData = { ...hcFamilyExceptOptions, ...hcOption } // the hardcoded values for this productData and productOption combo
 
