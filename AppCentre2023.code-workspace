@@ -30,6 +30,7 @@
 			"Referers",
 			"skus",
 			"truetype",
+			"usehooks",
 			"XMPP"
 		],
 		"editor.formatOnSave": true,
