@@ -12,7 +12,7 @@ const OrderSuccess = () => {
 		let timeoutId
 
 		const hackyClearCart = () => {
-			localStorage.setItem(process.env.NEXT_PUBLIC_CART_PERSIST_KEY, JSON.stringify({}))
+			localStorage.removeItem(process.env.NEXT_PUBLIC_CART_PERSIST_KEY)
 		}
 
 		if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
