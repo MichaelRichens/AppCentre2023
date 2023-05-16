@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { Tooltip } from 'react-tooltip'
 import { useShoppingCart } from 'use-shopping-cart'
+import useAllowCartStatus from './hooks/useAllowCartStatus'
 import CartDisplay from './CartDisplay'
 import headerStyles from '../styles/Header.shared.module.css'
 
@@ -12,11 +12,7 @@ const HeaderCartMenu = () => {
 	const cartRef = useRef(null)
 	const cartButtonRef = useRef(null)
 
-	// Nasty hack for screwy use-shopping-cart behaviour with clearing the cart after checkout
-	// Manage to hack around the thing to actually clear it, but Chrome on Android will not update the damn cart.
-	// So just not showing the cart on the success page
-	const router = useRouter()
-	const showCartWidget = router.pathname !== '/success'
+	const showCartWidget = useAllowCartStatus()
 
 	const handleCartClick = () => {
 		if (cartCount > 0) {

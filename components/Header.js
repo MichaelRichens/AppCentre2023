@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
+import useAllowCartStatus from './hooks/useAllowCartStatus'
 import HeaderCartMenu from './HeaderCartMenu'
 import NavLink from './NavLink'
 import ProductDropdown from './ProductDropdown'
@@ -11,6 +12,7 @@ const Header = () => {
 	const productUlRef = useRef(null)
 	const productNavIsMultiRow = useIsAtLeastTwiceChildHeight(productUlRef)
 	const { cartCount } = useShoppingCart()
+	const showCartWidget = useAllowCartStatus()
 
 	return (
 		<header className={headerStyles.header}>
@@ -28,7 +30,7 @@ const Header = () => {
 									About Us
 								</NavLink>
 							</li>
-							{cartCount > 0 && (
+							{showCartWidget && cartCount > 0 && (
 								<li className={headerStyles.pushRight}>
 									<CheckoutButton />
 								</li>
