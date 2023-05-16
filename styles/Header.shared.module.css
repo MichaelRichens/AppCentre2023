@@ -102,12 +102,30 @@
 	margin: 0;
 }
 
-.headerMainContent nav.infoMenu a {
+.headerMainContent nav.infoMenu a,
+.headerMainContent nav.infoMenu button {
 	display: block;
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
 	padding-left: 0.2em;
 	padding-right: 0.2em;
+}
+
+.headerMainContent nav.infoMenu a:active,
+.headerMainContent nav.infoMenu button:active {
+	transform: scale(0.99);
+}
+
+.headerMainContent nav.infoMenu button {
+	background: none;
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: bold;
+	text-align: left;
+	line-height: inherit;
+	color: inherit;
+	cursor: pointer;
 }
 
 .headerMainContent .multiRowProductNav li {
