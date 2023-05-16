@@ -142,17 +142,6 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 				/>
 			</fieldset>
 
-			<fieldset className={configuratorStyles.summary}>
-				<legend>Summary</legend>
-				<SubscriptionSummary
-					allowAddToCart={!(formData.type === PurchaseType.EXT && formData.checkedExtensions.length === 0)}
-					configuration={currentConfiguration.summary}
-					haveExtensionOptions={productData.availableExtensions.length > 0}
-					addToCartInProgress={addingToCart}
-					haveJustChangedType={lastChangeWasType}
-				/>
-			</fieldset>
-
 			<fieldset>
 				<legend>{unitName.pluralC}</legend>
 				<PurchaseUnitInput
@@ -232,6 +221,17 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 						/>
 					</>
 				)}
+			</fieldset>
+
+			<fieldset className={configuratorStyles.summary}>
+				<legend>Summary</legend>
+				<SubscriptionSummary
+					allowAddToCart={!(formData.type === PurchaseType.EXT && formData.checkedExtensions.length === 0)}
+					configuration={currentConfiguration.summary}
+					haveExtensionOptions={productData.availableExtensions.length > 0}
+					addToCartInProgress={addingToCart}
+					haveJustChangedType={lastChangeWasType}
+				/>
 			</fieldset>
 		</form>
 	)
