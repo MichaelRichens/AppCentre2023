@@ -29,7 +29,7 @@ const Header = () => {
 								</NavLink>
 							</li>
 							{cartCount > 0 && (
-								<li>
+								<li className={headerStyles.pushRight}>
 									<CheckoutButton />
 								</li>
 							)}

@@ -70,12 +70,19 @@
 
 .headerMainContent ul {
 	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
 	flex-wrap: wrap;
 	list-style: none;
 	padding: 0;
 	margin: 0;
 	column-gap: 2em;
 	row-gap: 1em;
+	width: 90%;
+}
+
+.headerMainContent li.pushRight {
+	margin-left: auto;
 }
 
 .headerMainContent li {
@@ -89,7 +96,8 @@
 	font-weight: bold;
 }
 
-.headerMainContent a:hover {
+.headerMainContent a:hover,
+.headerMainContent .infoMenu button:hover {
 	color: rgb(194, 227, 238);
 }
 
