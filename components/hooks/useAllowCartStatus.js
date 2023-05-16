@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-// Nasty hack for screwy use-shopping-cart behaviour with clearing the cart after checkout
-// Manage to hack around the thing to actually clear it, but Chrome on Android will not update the damn cart.
-// This hook can be used to tell if we are on the success page and should block it
 /**
  * Custom hook that checks whether we are allowed to show indications of whether there are items in the cart or not.
  * So the cart widget, the checkout link, that kind of thing.
