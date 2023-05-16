@@ -2,9 +2,6 @@ import React from 'react'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 const ExtensionCheckboxes = ({ availableExtensions, selectedExtensions, onChange }) => {
-	if (availableExtensions.length === 0) {
-		return null
-	}
 	return (
 		<>
 			{availableExtensions.map((extension) => (

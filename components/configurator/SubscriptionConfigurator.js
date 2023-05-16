@@ -194,20 +194,22 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 				/>
 			</fieldset>
 
-			<fieldset className={configuratorStyles.checkbox}>
-				<legend>
-					{formData.type === PurchaseType.EXT
-						? 'New Extensions to Add'
-						: formData.type === PurchaseType.ADD
-						? 'Extensions You Currently Have'
-						: 'Select Extensions'}
-				</legend>
-				<ExtensionCheckboxes
-					availableExtensions={productData.availableExtensions}
-					selectedExtensions={formData.checkedExtensions}
-					onChange={handleExtensionCheckboxChange}
-				/>
-			</fieldset>
+			{productData.availableExtensions && productData.availableExtensions.length > 0 && (
+				<fieldset className={configuratorStyles.checkbox}>
+					<legend>
+						{formData.type === PurchaseType.EXT
+							? 'New Extensions to Add'
+							: formData.type === PurchaseType.ADD
+							? 'Extensions You Currently Have'
+							: 'Select Extensions'}
+					</legend>
+					<ExtensionCheckboxes
+						availableExtensions={productData.availableExtensions}
+						selectedExtensions={formData.checkedExtensions}
+						onChange={handleExtensionCheckboxChange}
+					/>
+				</fieldset>
+			)}
 
 			<fieldset className={durationClass}>
 				{durationType === 'years' ? (
