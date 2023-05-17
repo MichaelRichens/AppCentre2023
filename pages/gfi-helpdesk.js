@@ -27,71 +27,73 @@ const HelpDesk = (props) => {
 			productFamily='HELPDESK'
 			productDataArray={productDataArray}
 			unitName={new Word('user', 'users')}>
-			{' '}
 			<section>
 				<p>
-					GFI HelpDesk revolutionises the way companies manage customer support. As businesses expand, relying on shared
-					mailboxes like support@company.co.uk for customer support can become a burden, often negatively impacting team
-					responsiveness, productivity, and turn-around time for support requests. This is where GFI HelpDesk comes into
-					play, offering a comprehensive, self-hosted service desk solution that consolidates and integrates support
-					functionality.
+					GFI HelpDesk is a game-changer in the realm of customer support management. As businesses grow, the management
+					of customer support can become a complex task. The use of shared mailboxes like support@company.co.uk may not
+					be efficient, possibly affecting team responsiveness, productivity, and the time it takes to handle support
+					requests. Enter GFI HelpDesk, a robust, self-hosted service desk solution that consolidates and streamlines
+					support functionality.
 				</p>
 			</section>
+
 			<section>
-				<h2>Manage Customer Questions and Support More Easily</h2>
+				<h2>Streamlined Management of Customer Queries and Support</h2>
 
 				<p>
-					With GFI HelpDesk, customers can easily log tickets through email, chat, or other applications, with the
-					ability to track them to ensure they're being addressed. Staff members can see, create, assign, and close
-					support tickets, and people inside your company can collaborate through helpdesk notes to solve issues. Teams
-					can also create rules for automatic responses or routing based on ticket properties, ticket content, the type
-					of customer, and more.
+					GFI HelpDesk enables customers to easily log tickets via email or other integrated applications, providing a
+					system that tracks these tickets to ensure they're being addressed. Staff members can view, create, assign,
+					and resolve support tickets, facilitating better collaboration within your team through helpdesk notes to
+					address issues. Furthermore, GFI HelpDesk's email parser rules automate the routing of emails and tickets,
+					creating a seamless flow of communication and resolution.
 				</p>
 			</section>
+
 			<section>
-				<h2>See the Full Picture of Your Customer's Activity At-A-Glance</h2>
+				<h2>An All-encompassing View of Your Customer's Activity</h2>
 
 				<p>
-					GFI HelpDesk offers a comprehensive view of every interaction your customer has with your business, in
-					real-time. You can log page views, orders, shipping history, help desk searches, or capture events from your
-					own product, app, or service. This gives support teams a wealth of information about the customers they help,
-					enriching the support experience for the customer and making it easier for your team.
+					With GFI HelpDesk, you can offer real-time, enriched support experiences to your customers. As your customers
+					type out their enquiry, GFI HelpDesk's dynamic system automatically searches for and suggests answers from
+					your knowledge base. This reduces the number of incoming support requests and increases customer satisfaction
+					by providing timely and relevant responses.
 				</p>
 			</section>
+
 			<section>
-				<h2>Go Beyond the Typical Helpdesk</h2>
+				<h2>Expanding the Boundaries of Traditional Helpdesks</h2>
 
 				<p>
-					GFI HelpDesk is far more than your standard helpdesk solution. It offers a range of features that take your
-					customer support to the next level:
+					GFI HelpDesk is not just another helpdesk solution. It comes packed with features that elevate your customer
+					support experience:
 				</p>
 
 				<ul>
 					<li>
-						<strong>Standard and Customizable Reporting:</strong> GFI HelpDesk comes with comprehensive standard reports
-						and customizable report functionality, delivering insights on your customers, products and services, and
-						support response.
+						<strong>Effective Team Collaboration:</strong> With GFI HelpDesk, your team can collaborate on tickets in
+						one place. This eliminates the need for managing separate mailboxes and email addresses, enhancing
+						productivity and efficiency.
 					</li>
 					<li>
-						<strong>Multi-Language Support:</strong> GFI HelpDesk allows you to support your customers in multiple
-						languages, including English (GB), English (US), Italian, Spanish, French, German, Portuguese, Russian, and
-						Dutch.
+						<strong>Customer Self-service:</strong> GFI HelpDesk allows your customers to access a knowledge base, which
+						you can populate with standard information, how-to's, and instructions. This empowers your customers to find
+						answers to their questions independently, freeing up your team to focus on more complex issues.
 					</li>
 					<li>
-						<strong>Knowledge Base Creation:</strong> You can generate and add to a library to help your customers
-						answer their own questions, with standard information, how-to's, and instructions.
+						<strong>Dynamic Customisation:</strong> As an admin, you can customise the support centre, create new
+						departments, manage rules, workflow, and automation. You can also add custom statuses, priorities and types,
+						setting up a system that aligns with your business needs.
 					</li>
 					<li>
-						<strong>SLAs:</strong> Build Service Level Agreements (SLAs) for response or resolution times, and track
-						tickets and customers who most need attention.
+						<strong>Multi-language:</strong> Support your customers in multiple languages.
 					</li>
 					<li>
-						<strong>Powerful Theme Engine:</strong> GFI HelpDesk features a powerful theme engine that lets you fully
-						customise the look and feel of your helpdesk, so it can match the look and feel of your front-facing sites,
-						providing a unified experience for your customers.
+						<strong>SLAs:</strong> Build SLAs for response or resolution times to track tickets and customers who most
+						need attention.
 					</li>
 				</ul>
 			</section>
+
 			<section>
 				<p>
 					<Link
