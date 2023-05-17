@@ -23,6 +23,9 @@ const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, 
 	}
 	if (productDataArray.length === 1) {
 		productData = productDataArray[0]
+	} else {
+		console.log(productDataArray)
+		throw new Error('multi options not implemented yet')
 	}
 
 	const haveExtensions = productData.availableExtensions && productData.availableExtensions.length > 0
