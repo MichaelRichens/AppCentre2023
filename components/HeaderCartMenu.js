@@ -60,7 +60,7 @@ const HeaderCartMenu = () => {
 						data-tooltip-id='open-cart'
 						data-tooltip-content='Click to Open Cart'>
 						<Image
-							loading='eager'
+							priority={true}
 							src='/images/icons/shopping_cart_icon100x100.png'
 							height='30'
 							width='30'
