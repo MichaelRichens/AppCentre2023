@@ -3,8 +3,10 @@ import PurchaseType from './types/enums/PurchaseType'
 export const createHandleTypeChange = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let unitsChange = formData.unitsChange
-	if ((value === PurchaseType.NEW || value === PurchaseType.ADD) && unitsChange < productData.minUnits) {
+	if (value === PurchaseType.NEW && unitsChange < productData.minUnits) {
 		unitsChange = productData.minUnits
+	} else if (value === PurchaseType.ADD && unitsChange < productData.minUnitsStep) {
+		unitsChange = productData.minUnitsStep
 	} else if (value === PurchaseType.SUB) {
 		unitsChange = 0
 	}
@@ -65,12 +67,12 @@ export const createHandleExistingUnitsBlur = (updateFormData, formData, productD
 		})
 		return
 	} else {
-		let existingUnits = Math.min(Math.max(parseInt(event.target.value), 1), productData.maxUnits)
-		if (formData.type === PurchaseType.SUB) {
-			const remainder = existingUnits % productData.minUnits
+		let existingUnits = Math.min(Math.max(parseInt(value), productData.minUnits), productData.maxUnits)
+		if (formData.type === PurchaseType.SUB || formData.type === PurchaseType.ADD) {
+			const remainder = existingUnits % productData.minUnitsStep
 			if (remainder !== 0) {
-				existingUnits += productData.minUnits - remainder
-				existingUnitsError = `Must be renewed in blocks of ${productData.minUnits}.`
+				existingUnits += productData.minUnitsStep - remainder
+				existingUnitsError = `Must be renewed in blocks of ${productData.minUnitsStep}.`
 			}
 		}
 		updateFormData({
@@ -85,7 +87,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	const { value } = event.target
 	// early exit if NaN entered - not an error, since its probably been left blank, just set to default minimum.
 	if (isNaN(value)) {
-		const newValue = formData.type == PurchaseType.ADD ? productData.minUnitsChange : 0
+		const newValue = formData.type == PurchaseType.ADD ? productData.minUnitsStep : 0
 		updateFormData({
 			unitsChangeLiveUpdate: newValue,
 			unitsChange: newValue,
@@ -96,10 +98,14 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	// Parse the user input as an integer.
 	let unitsChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
 	// Calculate the minimum and maximum user change values based on the type of subscription.
-	const minUnitsChange =
-		formData.type === PurchaseType.NEW || formData.type === PurchaseType.ADD
-			? productData.minUnits
-			: productData.minUnits - formData.existingUnits
+	let minUnitsChange
+	if (formData.type === PurchaseType.New) {
+		minUnitsChange = productData.minUnits
+	} else if (formData.type === PurchaseType.ADD) {
+		minUnitsChange = productData.minUnitsStep
+	} else {
+		minUnitsChange = productData.minUnitsStep - formData.existingUnits
+	}
 	const maxUnitsChange = productData.maxUnits - formData.existingUnits
 	const unitsChangeBeforeClamp = unitsChange
 	// Clamp the unitsChange value to be between minUnitsChange and maxUnitsChange.
@@ -112,17 +118,17 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 		}
 	}
 
-	// Calculate the remainder of unitsChange when divided by productData.minUnits.
-	const remainder = unitsChange % productData.minUnits
+	// Calculate the remainder of unitsChange when divided by productData.minUnitsStep.
+	const remainder = unitsChange % productData.minUnitsStep
 
-	// If the remainder is not 0, it means the unitsChange value is not divisible by productData.minUnits.
+	// If the remainder is not 0, it means the unitsChange value is not divisible by productData.minUnitsStep.
 	// Positive remainder means positive number (adding users), negative remainder is removing users.
 	if (remainder > 0) {
-		unitsChange += productData.minUnits - remainder
-		unitsChangeError = `Must be changed in steps of ${productData.minUnits}`
+		unitsChange += productData.minUnitsStep - remainder
+		unitsChangeError = `Must be changed in steps of ${productData.minUnitsStep}`
 	} else if (remainder < 0) {
 		unitsChange -= remainder
-		unitsChangeError = `Must be changed in steps of ${productData.minUnits}`
+		unitsChangeError = `Must be changed in steps of ${productData.minUnitsStep}`
 	}
 	updateFormData({
 		unitsChange: unitsChange,

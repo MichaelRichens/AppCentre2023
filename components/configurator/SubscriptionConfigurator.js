@@ -153,7 +153,7 @@ const SubscriptionConfigurator = ({ productFamily, productData, unitName }) => {
 					label={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${unitName.pluralC} on Subscription`}
 					min={productData.minUnits}
 					max={productData.maxUnits}
-					step={productData.minUnits}
+					step={productData.minUnitsStep}
 					name='existingUnits'
 					value={formData.existingUnitsLiveUpdate}
 					onChange={handleExistingUnitsChange}
@@ -173,7 +173,7 @@ const SubscriptionConfigurator = ({ productFamily, productData, unitName }) => {
 						formData.type === PurchaseType.SUB ? productData.minUnits - formData.existingUnits : productData.minUnits
 					}
 					max={productData.maxUnits - formData.existingUnits}
-					step={productData.minUnits}
+					step={productData.minUnitsStep}
 					name='unitsChange'
 					value={formData.unitsChangeLiveUpdate}
 					onChange={handleUnitsChangeChange}
