@@ -67,23 +67,6 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 		})
 	}
 
-	let configuratorOptionSelect = null
-
-	if (productDataArray.length > 1) {
-		configuratorOptionSelect = (
-			<fieldset>
-				<legend>{`${productDataArray[0].familyName} Option`}</legend>
-				<select onChange={handleOptionChange}>
-					{productDataArray.map((productData, index) => (
-						<option key={index} value={index}>
-							{productData.name}
-						</option>
-					))}
-				</select>
-			</fieldset>
-		)
-	}
-
 	let subConfigurator
 
 	switch (productDataArray[formData.optionIndex].pricingType) {
@@ -107,7 +90,18 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
-			{configuratorOptionSelect}
+			{productDataArray.length > 1 && (
+				<fieldset>
+					<legend>{`${productDataArray[0].familyName} Options`}</legend>
+					<select onChange={handleOptionChange}>
+						{productDataArray.map((productData, index) => (
+							<option key={index} value={index}>
+								{productData.name}
+							</option>
+						))}
+					</select>
+				</fieldset>
+			)}
 			{subConfigurator}
 		</form>
 	)

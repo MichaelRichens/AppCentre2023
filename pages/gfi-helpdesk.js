@@ -1,7 +1,9 @@
 import React from 'react'
-import PricingPage from '../components/PricingPage'
+import Link from 'next/link'
+import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
 import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
+import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	const productDataArray = await Promise.all([
@@ -15,16 +17,19 @@ export async function getStaticProps() {
 	}
 }
 
-const HelpDeskPricing = (props) => {
+const HelpDesk = (props) => {
 	const { productDataArray } = props
 
 	return (
-		<PricingPage
-			productIntro={<p>GFI HelpDesk is licenced on a per-user yearly subscription basis.</p>}
-			productFamily={'HELPDESK'}
+		<ProductInfoPage
+			title='GFI HelpDesk'
+			subHeading=''
+			productFamily='HELPDESK'
 			productDataArray={productDataArray}
-			unitName={new Word('user', 'users')}></PricingPage>
+			unitName={new Word('user', 'users')}>
+			<p>text</p>{' '}
+		</ProductInfoPage>
 	)
 }
 
-export default HelpDeskPricing
+export default HelpDesk
