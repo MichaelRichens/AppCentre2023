@@ -60,16 +60,24 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 		setAddingToCart
 	)
 
-	console.log(productDataArray)
+	const handleOptionChange = (event) => {
+		const { value } = event.target
+		updateFormData({
+			optionIndex: value,
+		})
+	}
+
 	let configuratorOptionSelect = null
 
 	if (productDataArray.length > 1) {
 		configuratorOptionSelect = (
 			<fieldset>
 				<legend>{`${productDataArray[0].familyName} Option`}</legend>
-				<select>
+				<select onChange={handleOptionChange}>
 					{productDataArray.map((productData, index) => (
-						<option key={index}>{productData.name}</option>
+						<option key={index} value={index}>
+							{productData.name}
+						</option>
 					))}
 				</select>
 			</fieldset>
