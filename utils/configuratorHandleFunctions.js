@@ -10,7 +10,7 @@ export const createHandleTypeChange = (updateFormData, formData, productData) =>
 	} else if (value === PurchaseType.SUB) {
 		unitsChange = 0
 	}
-	console.log(value, unitsChange)
+
 	let years = formData.years
 	if (value === PurchaseType.SUB || value === PurchaseType.NEW) {
 		// make sure we have a whole number for years
