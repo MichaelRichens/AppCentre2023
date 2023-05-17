@@ -113,7 +113,11 @@ const ConfiguratorWithUnits = ({
 							: `Adjust Number of ${unitName.pluralC} by`
 					}
 					min={
-						formData.type === PurchaseType.SUB ? productData.minUnits - formData.existingUnits : productData.minUnits
+						formData.type === PurchaseType.SUB
+							? productData.minUnits - formData.existingUnits
+							: PurchaseType.ADD
+							? productData.minUnitsStep
+							: productData.minUnits
 					}
 					max={productData.maxUnits - formData.existingUnits}
 					step={productData.minUnitsStep}

@@ -1,3 +1,4 @@
+import PurchaseType from '../../utils/types/enums/PurchaseType'
 import processConfiguration from '../../utils/processConfiguration'
 import flattenObject from '../../utils/flattenObject'
 import asyncFetchAndProcessProducts from '../../server-utils/asyncFetchAndProcessProducts'
@@ -21,12 +22,14 @@ export default async function handler(req, res) {
 				// console.timeEnd('save-configuration await 1')
 
 				configuration = processConfiguration(
-					productFamily,
 					freshProductData.name,
 					freshProductData.products,
 					freshProductData.extensions,
 					formData,
-					unitName
+					unitName,
+					formData.type === PurchaseType.ADD && freshProductData.minUnitsStep < freshProductData.minUnits
+						? freshProductData.minUnitsStep
+						: null
 				)
 				priceInPennies = Math.round(configuration.price * 100) // Stripe works with the smallest currency unit
 				if (priceInPennies <= 0) {

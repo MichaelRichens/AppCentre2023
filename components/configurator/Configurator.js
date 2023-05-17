@@ -45,16 +45,18 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 	const currentConfiguration = useMemo(
 		() =>
 			processConfiguration(
-				productFamily,
 				productDataArray[formData.optionIndex].name,
 				productDataArray[formData.optionIndex].products,
 				productDataArray[formData.optionIndex].extensions,
 				formData,
-				unitName
+				unitName,
+				formData.type === PurchaseType.ADD &&
+					productDataArray[formData.optionIndex].minUnitsStep < productDataArray[formData.optionIndex].minUnits
+					? productDataArray[formData.optionIndex].minUnitsStep
+					: null
 			),
 		[productFamily, productDataArray, formData, unitName]
 	)
-	console.log(savedData, currentConfiguration)
 
 	const productOption = productDataArray[formData.optionIndex].products[0].family_option
 

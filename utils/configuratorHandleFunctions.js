@@ -106,7 +106,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	let unitsChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
 	// Calculate the minimum and maximum user change values based on the type of subscription.
 	let minUnitsChange
-	if (formData.type === PurchaseType.New) {
+	if (formData.type === PurchaseType.NEW) {
 		minUnitsChange = productData.minUnits
 	} else if (formData.type === PurchaseType.ADD) {
 		minUnitsChange = productData.minUnitsStep

@@ -1,7 +1,6 @@
 import ProductConfiguration from './types/ProductConfiguration'
 import ConfigurationSummary from './types/ConfigurationSummary'
 import PurchaseType from './types/enums/PurchaseType'
-import { getHardcodedDataObject } from './getHardcodedProductData'
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
@@ -10,9 +9,17 @@ import { getHardcodedDataObject } from './getHardcodedProductData'
  * @param {Object[]} extensions - The individual extensions skus data to calculate price from.
  * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
  * @param {Word} unitName - The type of units that are being used (users or whatever)
+ * @param {Number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
  * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
-function processConfiguration(productFamily, productName, products, extensions, configuratorOptions, unitName) {
+function processConfiguration(
+	productName,
+	products,
+	extensions,
+	configuratorOptions,
+	unitName,
+	minUnitsOverride = null
+) {
 	/** The return object */
 	const result = new ProductConfiguration(configuratorOptions.type, 0, configuratorOptions.years)
 
@@ -78,7 +85,11 @@ function processConfiguration(productFamily, productName, products, extensions, 
 		const productsWithOneYear = products.filter((sku) => sku.years === 1)
 
 		if (wholeYears > 0) {
-			const wholeYearProduct = findProductWithCorrectUserBand(productsWithCorrectWholeYear, numUnitsForPriceBand)
+			const wholeYearProduct = findProductWithCorrectUserBand(
+				productsWithCorrectWholeYear,
+				numUnitsForPriceBand,
+				minUnitsOverride
+			)
 
 			if (wholeYearProduct === false) {
 				throw new Error('This should never happen.  Unable to find product with correct duration.')
@@ -88,7 +99,11 @@ function processConfiguration(productFamily, productName, products, extensions, 
 			result.price += wholeYearProduct.price * numUnitsToPurchase
 		}
 		if (partYears > 0) {
-			const partYearProduct = findProductWithCorrectUserBand(productsWithOneYear, numUnitsForPriceBand)
+			const partYearProduct = findProductWithCorrectUserBand(
+				productsWithOneYear,
+				numUnitsForPriceBand,
+				minUnitsOverride
+			)
 			if (partYearProduct === false) {
 				throw new Error('This should never happen.  Missing 1 year part code for product.')
 			}
@@ -142,12 +157,22 @@ function processConfiguration(productFamily, productName, products, extensions, 
  * Returns the sku of first product it encounters (searching from the end of the passed array) which has a user band that matches the passed number.
  * @param {object[]} sortedProductsOfCorrectYear - An array of products, where we want to find the one which is for the correct user band
  * @param {number} numUnitsForPriceBand - The number of users, from which to find the user band.
+ * @param {Number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more. (Used when you can add a lower number of users than the min amount)
  * @returns {object|boolean} - The found product, or false if none was found.
  */
-function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsForPriceBand) {
+function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsForPriceBand, minUnitsOverride) {
 	// We are relying on sortedProducts being passed in already sorted by low to high user tiers.
+
+	let fallbackLowUserTier = null
+
 	for (let i = sortedProductsOfCorrectYear.length - 1; i >= 0; i--) {
 		const product = sortedProductsOfCorrectYear[i]
+		if (
+			minUnitsOverride !== null &&
+			(fallbackLowUserTier === null || product.units_from < fallbackLowUserTier.units_from)
+		) {
+			fallbackLowUserTier = product
+		}
 
 		let unitsFrom
 		if (Number.isInteger(product.units_from) && product.units_from > 0) {
@@ -164,6 +189,10 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
 		}
 		if (unitsFrom <= numUnitsForPriceBand && numUnitsForPriceBand <= unitsTo) {
 			return product
+		}
+
+		if (fallbackLowUserTier !== null) {
+			return fallbackLowUserTier
 		}
 	}
 	return false
