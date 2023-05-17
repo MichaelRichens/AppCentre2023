@@ -11,12 +11,19 @@ import productInfoStyles from '../styles/ProductInfo.shared.module.css'
  * @param {string} props.title - The title to display on the page.
  * @param {string?} props.subHeading - Optional. A supplement to the main title.
  * @param {string} props.productFamily - The product family code.
- * @param {Object[]} props.productData - The product data pulled from the database.
+ * @param {Object[]} props.productDataArray - The product data pulled from the database, one object for each option (or just one element if there are no options).
  * @param {Word} props.unitName - A Word object representing the units the product is sold in.
  * @param {JSX.Element} props.children - The child components to render within the page.
  * @returns {JSX.Element} The ProductInfoPage component.
  */
-const ProductInfoPage = ({ title, subHeading, productFamily, productData, unitName, children }) => {
+const ProductInfoPage = ({ title, subHeading, productFamily, productDataArray, unitName, children }) => {
+	let productData
+	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
+		throw new Error('Invalid productDataArray')
+	}
+	if (productDataArray.length === 1) {
+		productData = productDataArray[0]
+	}
 	const showTopConfigurator = useMediaQuery('(min-width: 750px)')
 
 	return (

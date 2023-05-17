@@ -18,7 +18,7 @@ const LanGuardPricing = (props) => {
 		<PricingPage
 			productIntro={<p>GFI Languard is licenced on a per-node yearly subscription basis.</p>}
 			productFamily={'LANGUARD'}
-			productData={productData}
+			productDataArray={[productData]}
 			unitName={new Word('node', 'nodes')}></PricingPage>
 	)
 }

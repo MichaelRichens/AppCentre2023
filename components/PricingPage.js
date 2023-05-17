@@ -11,12 +11,20 @@ import styles from '../styles/PricingPage.module.css'
  * @param {Object} props - The component properties.
  * @param {JSX.Element} props.productIntro - A short intro to the product to be displayed at the top of the page, before the product configurator. HTML allowed, and should be included (will render inside a &lt;section&gt;).
  * @param {string} props.productFamily - The product family identifier.
- * @param {Object} props.productData - Products data from the database - pricing, skus etc.
+ * @param {Object[]} props.productDataArray - The product data pulled from the database, one object for each option (or just one element if there are no options).
  * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
  * @param {React.ReactNode} props.children - The child components to render within the page.*
  * @returns {JSX.Element} The PricingPage component.
  */
-const PricingPage = ({ productIntro, productFamily, productData, unitName, children }) => {
+const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, children }) => {
+	let productData
+	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
+		throw new Error('Invalid productDataArray')
+	}
+	if (productDataArray.length === 1) {
+		productData = productDataArray[0]
+	}
+
 	const haveExtensions = productData.availableExtensions && productData.availableExtensions.length > 0
 
 	return (

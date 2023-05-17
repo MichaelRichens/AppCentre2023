@@ -18,7 +18,7 @@ const ConnectPricing = (props) => {
 		<PricingPage
 			productIntro={<p>Kerio Connect is licenced on a per-user yearly subscription basis.</p>}
 			productFamily={'CONNECT'}
-			productData={productData}
+			productDataArray={[productData]}
 			unitName={new Word('user', 'users')}></PricingPage>
 	)
 }

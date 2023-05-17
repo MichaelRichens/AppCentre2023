@@ -18,7 +18,7 @@ const ArchiverPricing = (props) => {
 		<PricingPage
 			productIntro={<p>GFI Archiver is licenced on a per-mailbox yearly subscription basis.</p>}
 			productFamily={'ARCHIVER'}
-			productData={productData}
+			productDataArray={[productData]}
 			unitName={new Word('mailbox', 'mailboxes')}></PricingPage>
 	)
 }

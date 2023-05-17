@@ -21,13 +21,14 @@ export async function getStaticProps() {
 }
 
 const Control = (props) => {
-	const productData = props.productData
+	const { productData } = props
+
 	return (
 		<ProductInfoPage
 			title='Kerio Control'
 			subHeading='Your Comprehensive Security Solution'
 			productFamily='CONTROL'
-			productData={props.productData}
+			productDataArray={[productData]}
 			unitName={new Word('user', 'users')}>
 			<>
 				<section>

@@ -20,12 +20,14 @@ export async function getStaticProps() {
 }
 
 const LanGuard = (props) => {
+	const { productData } = props
+
 	return (
 		<ProductInfoPage
 			title='GFI LanGuard'
 			subHeading='Comprehensive Network Security and Patch Management'
 			productFamily='LANGUARD'
-			productData={props.productData}
+			productDataArray={[productData]}
 			unitName={new Word('node', 'nodes')}>
 			<article>
 				<section>

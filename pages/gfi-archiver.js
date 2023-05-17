@@ -20,12 +20,14 @@ export async function getStaticProps() {
 }
 
 const Archiver = (props) => {
+	const { productData } = props
+
 	return (
 		<ProductInfoPage
 			title='GFI Archiver'
 			subHeading='Archive your emails, calendar, faxes and files with tamper-proof security'
 			productFamily='ARCHIVER'
-			productData={props.productData}
+			productDataArray={[productData]}
 			unitName={new Word('mailbox', 'mailboxes')}>
 			<article>
 				<section>
