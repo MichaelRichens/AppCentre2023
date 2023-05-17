@@ -1,4 +1,4 @@
-function getHardcodedProductData() {
+export function getHardcodedProductData() {
 	if (!process.env.NEXT_PUBLIC_HARDCODED_PRODUCT_DATA) {
 		throw new Error('Environment variable NEXT_PUBLIC_HARDCODED_PRODUCT_DATA is not defined.')
 	}
@@ -17,4 +17,14 @@ function getHardcodedProductData() {
 	}
 }
 
-export default getHardcodedProductData
+// Create a hardcoded data object hcData, which takes data from the getHardcodedProductData function.
+// It will return all fields in the object at the productFamily property, unless they are overridden by those at that object's `options` object's productOption property
+export function getHardcodedDataObject(productFamily, productOption) {
+	const allHardcoded = getHardcodedProductData()
+	const hcFamily = allHardcoded?.[productFamily] || {}
+	const hcOption = productOption ? hcFamily?.options?.[productOption] : {}
+	const { options, ...hcFamilyExceptOptions } = hcFamily
+	const hcData = { ...hcFamilyExceptOptions, ...hcOption } // the hardcoded values for this productData and productOption combo
+
+	return hcData
+}

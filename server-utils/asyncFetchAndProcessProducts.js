@@ -1,5 +1,5 @@
 import { connectToDatabase } from './mongodb'
-import getHardcodedProductData from '../utils/getHardcodedProductData'
+import { getHardcodedDataObject } from '../utils/getHardcodedProductData'
 
 /**
  * Checks if a collection exists in the database.
@@ -235,15 +235,7 @@ const asyncFetchAndProcessProducts = async (productFamily, productOption = null)
 		])
 		// console.timeEnd('asyncFetchAndProcessProducts await 1')
 
-		// Create a hardcoded data object hcData, which takes data from the getHardcodedProductData function.
-		// It will return all fields in the object at the productFamily property, unless they are overridden by those at that object's `options` object's productOption property
-		const allHardcoded = getHardcodedProductData()
-		const hcFamily = allHardcoded?.[productFamily] || {}
-		const hcOption = productOption ? hcFamily?.options?.[productOption] : {}
-		const { options, ...hcFamilyExceptOptions } = hcFamily
-		const hcData = { ...hcFamilyExceptOptions, ...hcOption } // the hardcoded values for this productData and productOption combo
-
-		//TODO NEXT the min units step property
+		const hcData = getHardcodedDataObject(productFamily, productOption)
 
 		return processProducts(hcData, products, extensions)
 	} catch (error) {

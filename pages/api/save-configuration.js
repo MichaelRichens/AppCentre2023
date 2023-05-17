@@ -1,4 +1,3 @@
-import getHardcodedProductData from '../../utils/getHardcodedProductData'
 import processConfiguration from '../../utils/processConfiguration'
 import flattenObject from '../../utils/flattenObject'
 import asyncFetchAndProcessProducts from '../../server-utils/asyncFetchAndProcessProducts'
@@ -22,6 +21,7 @@ export default async function handler(req, res) {
 				// console.timeEnd('save-configuration await 1')
 
 				configuration = processConfiguration(
+					productFamily,
 					freshProductData.name,
 					freshProductData.products,
 					freshProductData.extensions,
