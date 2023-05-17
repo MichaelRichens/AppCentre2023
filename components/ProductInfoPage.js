@@ -1,7 +1,7 @@
 import React from 'react'
 import useMediaQuery from './hooks/useMediaQuery'
 import Page from './Page'
-import SubscriptionConfigurator from './configurator/SubscriptionConfigurator'
+import ConfiguratorWithUnits from './configurator/ConfiguratorWithUnits'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 /**
@@ -23,13 +23,13 @@ const ProductInfoPage = ({ title, subHeading, productFamily, productData, unitNa
 		<Page title={title} subHeading={subHeading}>
 			{showTopConfigurator && (
 				<aside className={productInfoStyles.topConfigurator}>
-					<SubscriptionConfigurator productFamily={productFamily} productData={productData} unitName={unitName} />
+					<ConfiguratorWithUnits productFamily={productFamily} productData={productData} unitName={unitName} />
 				</aside>
 			)}
 			<article className={productInfoStyles.article}>{children}</article>
 			{!showTopConfigurator && (
 				<aside>
-					<SubscriptionConfigurator productFamily={productFamily} productData={productData} unitName={unitName} />
+					<ConfiguratorWithUnits productFamily={productFamily} productData={productData} unitName={unitName} />
 				</aside>
 			)}
 		</Page>

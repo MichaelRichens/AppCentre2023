@@ -38,7 +38,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @returns {JSX.Element} The rendered component.
  */
 
-const SubscriptionConfigurator = ({ productFamily, productData, unitName }) => {
+const ConfiguratorWithUnits = ({ productFamily, productData, unitName }) => {
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
 
 	const savedData = configuratorData[productFamily] || {
@@ -236,4 +236,4 @@ const SubscriptionConfigurator = ({ productFamily, productData, unitName }) => {
 	)
 }
 
-export default SubscriptionConfigurator
+export default ConfiguratorWithUnits

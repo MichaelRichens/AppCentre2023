@@ -2,7 +2,7 @@ import React from 'react'
 import Page from './Page'
 import PriceTableWithUnits from './PriceTableWithUnits'
 import PriceTableExtensions from './PriceTableExtensions'
-import SubscriptionConfigurator from './configurator/SubscriptionConfigurator'
+import ConfiguratorWithUnits from './configurator/ConfiguratorWithUnits'
 import PricingType from '../utils/types/enums/PricingType'
 import styles from '../styles/SubscriptionPage.module.css'
 
@@ -41,7 +41,7 @@ const SubscriptionPage = ({ productIntro, productFamily, productData, pricingTyp
 			</section>
 			<section className={styles.Configurator}>
 				<h2>{productData.name} Configurator</h2>
-				<SubscriptionConfigurator
+				<ConfiguratorWithUnits
 					productName={productData.name}
 					productFamily={productFamily}
 					productData={productData}
