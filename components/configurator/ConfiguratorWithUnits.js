@@ -132,11 +132,17 @@ const ConfiguratorWithUnits = ({
 			{productData.availableExtensions && productData.availableExtensions.length > 0 && (
 				<fieldset className={configuratorStyles.checkbox}>
 					<legend>
-						{formData.type === PurchaseType.EXT
-							? 'New Extensions to Add'
-							: formData.type === PurchaseType.ADD
-							? 'Extensions You Currently Have'
-							: 'Select Extensions'}
+						{formData.type === PurchaseType.EXT ? (
+							'New Extensions to Add'
+						) : formData.type === PurchaseType.ADD ? (
+							'Extensions You Currently Have'
+						) : formData.type === PurchaseType.SUB ? (
+							<>
+								Select Extensions <small>You can add/remove them as desired</small>
+							</>
+						) : (
+							'Select Extensions'
+						)}
 					</legend>
 					<ExtensionCheckboxes
 						availableExtensions={productData.availableExtensions}

@@ -112,6 +112,10 @@ legend {
 	font-weight: 600;
 }
 
+legend > small {
+	display: block;
+}
+
 p,
 li {
 	line-height: 1.5;

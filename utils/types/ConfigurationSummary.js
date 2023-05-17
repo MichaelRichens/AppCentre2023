@@ -72,6 +72,9 @@ class ConfigurationSummary {
 		switch (type) {
 			case PurchaseType.SUB:
 				str += `Subscription Renewal: ${productName} with ${existingUnits + unitsChange} ${unitName.pluralLC}`
+				if (unitsChange > 0) {
+					str += ` (increased from ${existingUnits})`
+				}
 				str += ` for ${this[durationString](years)}.`
 				break
 			case PurchaseType.NEW:
