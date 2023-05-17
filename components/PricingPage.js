@@ -30,7 +30,6 @@ const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, 
 				<h2 id='pricingHeading'>{familyName} Pricing</h2>
 				{productDataArray.map((productData, index) => (
 					<section key={index}>
-						<h3>{productData.name}</h3>
 						{productData.pricingType === PricingType.UNIT ? (
 							<PriceTableWithUnits productName={productData.name} products={productData.products} unitName={unitName} />
 						) : null}
