@@ -31,7 +31,7 @@ const HelpDesk = (props) => {
 			<section>
 				<p>
 					GFI HelpDesk revolutionises the way companies manage customer support. As businesses expand, relying on shared
-					mailboxes like support@company.com for customer support can become a burden, often negatively impacting team
+					mailboxes like support@company.co.uk for customer support can become a burden, often negatively impacting team
 					responsiveness, productivity, and turn-around time for support requests. This is where GFI HelpDesk comes into
 					play, offering a comprehensive, self-hosted service desk solution that consolidates and integrates support
 					functionality.
