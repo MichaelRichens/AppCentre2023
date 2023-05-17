@@ -3,6 +3,7 @@ import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
 import { useShoppingCart } from 'use-shopping-cart'
 import useFormData from '../hooks/useFormData'
 import ConfiguratorWithUnits from './ConfiguratorWithUnits'
+import ProductOptionSelect from './ProductOptionSelect'
 
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import { createAsyncHandleSubmit } from '../../utils/configuratorHandleFunctions'
@@ -60,13 +61,6 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 		setAddingToCart
 	)
 
-	const handleOptionChange = (event) => {
-		const { value } = event.target
-		updateFormData({
-			optionIndex: value,
-		})
-	}
-
 	let subConfigurator
 
 	switch (productDataArray[formData.optionIndex].pricingType) {
@@ -93,13 +87,11 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 			{productDataArray.length > 1 && (
 				<fieldset>
 					<legend>{`${productDataArray[0].familyName} Options`}</legend>
-					<select onChange={handleOptionChange}>
-						{productDataArray.map((productData, index) => (
-							<option key={index} value={index}>
-								{productData.name}
-							</option>
-						))}
-					</select>
+					<ProductOptionSelect
+						productDataArray={productDataArray}
+						currentOptionIndex={formData.optionIndex}
+						updateFormData={updateFormData}
+					/>
 				</fieldset>
 			)}
 			{subConfigurator}

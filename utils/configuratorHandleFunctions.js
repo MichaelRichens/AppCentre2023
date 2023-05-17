@@ -1,5 +1,12 @@
 import PurchaseType from './types/enums/PurchaseType'
 
+export const createHandleOptionChange = (updateFormData) => (event) => {
+	const { value } = event.target
+	updateFormData({
+		optionIndex: value,
+	})
+}
+
 export const createHandleTypeChange = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let unitsChange = formData.unitsChange
