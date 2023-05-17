@@ -1,6 +1,5 @@
 import React from 'react'
 import SubscriptionPage from '../components/SubscriptionPage'
-import PricingType from '../utils/types/enums/PricingType'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -20,7 +19,6 @@ const ConnectPricing = (props) => {
 			productIntro={<p>Kerio Connect is licenced on a per-user yearly subscription basis.</p>}
 			productFamily={'CONNECT'}
 			productData={productData}
-			pricingType={PricingType.UNIT}
 			unitName={new Word('user', 'users')}></SubscriptionPage>
 	)
 }

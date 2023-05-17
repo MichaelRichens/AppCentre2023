@@ -86,6 +86,7 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
  * @param {Array} products - The array of product SKUs to process.
  * @param {Array} extensions - The array of extension SKUs to process.
  * @returns {Object} The processed products object with the following properties:
+ * 	 @property {PricingType} pricingType - The type of pricing used for this product (ie does it have units)
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
@@ -156,6 +157,7 @@ const processProducts = (data, products, extensions) => {
 
 	const productData = {
 		name: data.name,
+		pricingType: data.pricingType,
 		products: sortedProducts,
 		extensions: sortedExtensions,
 		availableExtensions: uniqueExtensionsArray,
@@ -203,6 +205,7 @@ const processProducts = (data, products, extensions) => {
  * @param {string} productFamily - The product family for which to fetch and process product data.
  * @param {string?} productOption -The product option value within a product family for which to fetch and process product data. Optional since not all productFamilies have it, but required for those that do.
  * @returns {Promise<Object>} A promise that resolves to an object with the following properties:
+ * 	 @property {PricingType} pricingType - The type of pricing used for this product (ie does it have units)
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).

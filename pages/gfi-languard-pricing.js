@@ -1,6 +1,5 @@
 import React from 'react'
 import SubscriptionPage from '../components/SubscriptionPage'
-import PricingType from '../utils/types/enums/PricingType'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -20,7 +19,6 @@ const LanGuardPricing = (props) => {
 			productIntro={<p>GFI Languard is licenced on a per-node yearly subscription basis.</p>}
 			productFamily={'LANGUARD'}
 			productData={productData}
-			pricingType={PricingType.UNIT}
 			unitName={new Word('node', 'nodes')}></SubscriptionPage>
 	)
 }
