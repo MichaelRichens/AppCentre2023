@@ -82,6 +82,7 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
 /**
  * Processes all the skus for a gfi product and its extensions for use by the rest of the application
  * @function processProducts
+ * @param {Object} data - An object with certain required and optional data about this gfi product, which supplements and/or overrides data in the other arrays
  * @param {Array} products - The array of product SKUs to process.
  * @param {Array} extensions - The array of extension SKUs to process.
  * @returns {Object} The processed products object with the following properties:
@@ -90,10 +91,11 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
  *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
  *   @property {number} minUnits - The minimum number of units (eg users) supported by the products.
  *   @property {number} maxUnits - The maximum number of units (eg users) supported by the products.
+ * 	 @property {number} minUnitsStep - The minimum number of units by which a subscription may be changed - ie 10 if you have to increase by 10s (would mean any value not ending in 0 is invalid)
  *   @property {number} minYears - The minimum number of years a subscription is available for.
  *   @property {number} maxYears - The maximum number of years a subscription is available for.
  */
-const processProducts = (products, extensions) => {
+const processProducts = (data, products, extensions) => {
 	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of units for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
 	//This sorting is important, it being done is relied on elsewhere
 
@@ -153,6 +155,7 @@ const processProducts = (products, extensions) => {
 	const uniqueExtensionsArray = Object.values(uniqueExtensions)
 
 	const productData = {
+		name: data.name,
 		products: sortedProducts,
 		extensions: sortedExtensions,
 		availableExtensions: uniqueExtensionsArray,
@@ -183,9 +186,11 @@ const processProducts = (products, extensions) => {
 
 		productData.minUnits = minUnitsFrom >= 1 ? minUnitsFrom : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
 		productData.maxUnits = maxUnitsTo >= 1 ? maxUnitsTo : parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
-		productData.minUnitsStep = productData.minYears = minYears
+		productData.minUnitsStep = data?.minUnitsStep || productData.minUnits
+		productData.minYears = minYears
 		productData.maxYears = maxYears
 	}
+
 	return productData
 }
 
@@ -233,7 +238,7 @@ const asyncFetchAndProcessProducts = async (productFamily, productOption = null)
 
 		//TODO NEXT the min units step property
 
-		return processProducts(products, extensions)
+		return processProducts(hcData, products, extensions)
 	} catch (error) {
 		console.error('There was an error fetching or processing the products:', error)
 		throw error
