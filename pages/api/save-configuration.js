@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
 				// console.time('save-configuration await 1')
 				const freshProductData = await asyncFetchAndProcessProducts(productFamily, productOption)
-				console.log(freshProductData)
+
 				// console.timeEnd('save-configuration await 1')
 
 				configuration = processConfiguration(
