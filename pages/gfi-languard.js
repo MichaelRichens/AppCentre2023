@@ -24,7 +24,6 @@ const LanGuard = (props) => {
 		<ProductInfoPage
 			title='GFI LanGuard'
 			subHeading='Comprehensive Network Security and Patch Management'
-			productName='GFI LanGuard'
 			productFamily='LANGUARD'
 			productData={props.productData}
 			unitName={new Word('node', 'nodes')}>

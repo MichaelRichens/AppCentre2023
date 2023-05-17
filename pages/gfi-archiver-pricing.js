@@ -17,7 +17,6 @@ const ArchiverPricing = (props) => {
 	const { productData } = props
 	return (
 		<SubscriptionPage
-			productName='GFI Archiver'
 			productIntro={<p>GFI Archiver is licenced on a per-mailbox yearly subscription basis.</p>}
 			productFamily={'ARCHIVER'}
 			productData={productData}

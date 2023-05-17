@@ -10,37 +10,26 @@ import productInfoStyles from '../styles/ProductInfo.shared.module.css'
  * @param {Object} props - The component props.
  * @param {string} props.title - The title to display on the page.
  * @param {string?} props.subHeading - Optional. A supplement to the main title.
- * @param {string} props.productName - The product name - used by the configurator component to make actual names for products.
  * @param {string} props.productFamily - The product family code.
  * @param {Object[]} props.productData - The product data pulled from the database.
  * @param {Word} props.unitName - A Word object representing the units the product is sold in.
  * @param {JSX.Element} props.children - The child components to render within the page.
  * @returns {JSX.Element} The ProductInfoPage component.
  */
-const ProductInfoPage = ({ productName, title, subHeading, productFamily, productData, unitName, children }) => {
+const ProductInfoPage = ({ title, subHeading, productFamily, productData, unitName, children }) => {
 	const showTopConfigurator = useMediaQuery('(min-width: 750px)')
 
 	return (
 		<Page title={title} subHeading={subHeading}>
 			{showTopConfigurator && (
 				<aside className={productInfoStyles.topConfigurator}>
-					<SubscriptionConfigurator
-						productName={productName}
-						productFamily={productFamily}
-						productData={productData}
-						unitName={unitName}
-					/>
+					<SubscriptionConfigurator productFamily={productFamily} productData={productData} unitName={unitName} />
 				</aside>
 			)}
 			<article className={productInfoStyles.article}>{children}</article>
 			{!showTopConfigurator && (
 				<aside>
-					<SubscriptionConfigurator
-						productName={productName}
-						productFamily={productFamily}
-						productData={productData}
-						unitName={unitName}
-					/>
+					<SubscriptionConfigurator productFamily={productFamily} productData={productData} unitName={unitName} />
 				</aside>
 			)}
 		</Page>

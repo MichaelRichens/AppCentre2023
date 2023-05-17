@@ -29,17 +29,16 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * SubscriptionConfigurator is a component that allows users to configure a their subscription
  * It generates a subscription for the software product with the passed productFamily
  * Form data is stored in the app level ConfiguratorContext, keyed by productFamily
- * It is customised with the passed productName.
+ * It is customised with the passed productData.
  *
  * @param {Object} props - The properties passed to the component.
- * @param {string} props.productName - The name of the product to be configured.
  * @param {string} props.productFamily - The identifier for the product family.
  * @param {Object} props.productData - Products data from the database - pricing, skus etc.
  * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
  * @returns {JSX.Element} The rendered component.
  */
 
-const SubscriptionConfigurator = ({ productName, productFamily, productData, unitName }) => {
+const SubscriptionConfigurator = ({ productFamily, productData, unitName }) => {
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
 
 	const savedData = configuratorData[productFamily] || {
@@ -94,7 +93,7 @@ const SubscriptionConfigurator = ({ productName, productFamily, productData, uni
 	const { addItem } = useShoppingCart()
 
 	const currentConfiguration = processConfiguration(
-		productName,
+		productData.name,
 		productData.products,
 		productData.extensions,
 		formData,

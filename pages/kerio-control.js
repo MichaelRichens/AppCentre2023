@@ -26,7 +26,6 @@ const Control = (props) => {
 		<ProductInfoPage
 			title='Kerio Control'
 			subHeading='Your Comprehensive Security Solution'
-			productName='Kerio Control'
 			productFamily='CONTROL'
 			productData={props.productData}
 			unitName={new Word('user', 'users')}>
