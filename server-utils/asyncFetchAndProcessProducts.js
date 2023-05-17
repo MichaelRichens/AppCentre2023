@@ -223,7 +223,6 @@ const processProducts = (data, products, extensions) => {
  * @example
  * const productFamily = 'CONNECT';
  * const processedProducts = await asyncFetchAndProcessProducts(productFamily);
- * console.log(processedProducts);
  */
 const asyncFetchAndProcessProducts = async (productFamily, productOption = null) => {
 	try {
