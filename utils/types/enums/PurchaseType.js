@@ -1,7 +1,7 @@
 // Define the base Enum-like object.
 // This is a simple JavaScript object that maps your purchase types to their string representations.
 const PurchaseTypeEnum = {
-	SUB: 'sub', // An extension of an existing subscription
+	SUB: 'sub', // A renewal of an existing subscription
 	NEW: 'new', // A new subscription
 	ADD: 'add', // Additional units/users to an existing subscription
 	EXT: 'ext', // Additional extension(s) to an existing subscription
