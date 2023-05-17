@@ -18,7 +18,6 @@ import styles from '../styles/SubscriptionPage.module.css'
  */
 const SubscriptionPage = ({ productIntro, productFamily, productData, unitName, children }) => {
 	const haveExtensions = productData.availableExtensions && productData.availableExtensions.length > 0
-	let extensionsTable = false
 
 	return (
 		<Page title={productData.name}>
