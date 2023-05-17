@@ -136,8 +136,12 @@
 	cursor: pointer;
 }
 
+.headerMainContent .multiRowProductNav {
+	row-gap: 0.2em;
+}
+
 .headerMainContent .multiRowProductNav li {
-	width: 8em;
+	width: 6.5em;
 }
 
 .headerMainContent nav button {
@@ -237,6 +241,10 @@
 @media (max-width: 600px) {
 	.cartWrapper {
 		width: 400px;
+	}
+
+	.productMenu {
+		margin-right: -20%;
 	}
 
 	.gfiPartnerLogoContainer {
