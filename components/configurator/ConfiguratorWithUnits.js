@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
-import { useShoppingCart } from 'use-shopping-cart'
 import SubscriptionSummary from './SubscriptionSummary'
 import TypeChangeSelect from './TypeChangeSelect'
 import PurchaseUnitInput from './PurchaseUnitInput'
@@ -18,9 +17,8 @@ import {
 	createHandleExtensionCheckboxChange,
 	createHandleYearsChange,
 	createHandleMonthsRemainingChange,
-	createAsyncHandleSubmit,
 } from '../../utils/configuratorHandleFunctions'
-import processConfiguration from '../../utils/processConfiguration'
+
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 /**
@@ -38,68 +36,15 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @returns {JSX.Element} The rendered component.
  */
 
-const ConfiguratorWithUnits = ({ productFamily, productData, unitName }) => {
-	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
-
-	const savedData = configuratorData[productFamily] || {
-		type: PurchaseType.SUB,
-		existingUnitsLiveUpdate: productData.minUnits,
-		existingUnits: productData.minUnits,
-		unitsChangeLiveUpdate: 0,
-		unitsChange: 0,
-		checkedExtensions: [],
-		years: productData.minYears,
-		unitsChangeError: false,
-		existingUnitsError: false,
-	}
-
-	const [formData, setFormData] = useState(savedData)
-
-	const [lastChangeWasType, setLastChangeWasType] = useState(true)
-	/**
-	 * Applies any fields in the passed object as changes to the formData object
-	 * Leaves other fields as they current are set.
-	 * Except: It automatically sets error fields to `false` if they are not explicitly
-	 * provided in the newData object.
-	 *
-	 * @param {Object} newData - An object containing the new form data
-	 *      properties to be merged with the current formData state.
-	 */
-
-	const updateFormData = (newData) => {
-		const errorFields = ['existingUnitsError', 'unitsChangeError']
-
-		setLastChangeWasType(newData.type !== undefined && savedData.type !== newData.type)
-		const updatedData = {
-			...formData,
-			...newData,
-		}
-
-		errorFields.forEach((field) => {
-			if (!newData.hasOwnProperty(field)) {
-				updatedData[field] = false
-			}
-		})
-
-		setFormData(updatedData)
-	}
-
-	const [addingToCart, setAddingToCart] = useState(false)
-
-	useEffect(() => {
-		saveConfiguratorData(productFamily, formData)
-	}, [formData])
-
-	const { addItem } = useShoppingCart()
-
-	const currentConfiguration = processConfiguration(
-		productData.name,
-		productData.products,
-		productData.extensions,
-		formData,
-		unitName
-	)
-
+const ConfiguratorWithUnits = ({
+	productData,
+	unitName,
+	formData,
+	updateFormData,
+	lastChangeWasType,
+	addingToCart,
+	currentConfiguration,
+}) => {
 	const handleTypeChange = createHandleTypeChange(updateFormData, formData, productData)
 
 	const handleExistingUnitsChange = createHandleExistingUnitsChange(updateFormData)
@@ -116,8 +61,6 @@ const ConfiguratorWithUnits = ({ productFamily, productData, unitName }) => {
 
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
-	const asyncHandleSubmit = createAsyncHandleSubmit(productFamily, unitName, formData, addItem, setAddingToCart)
-
 	let durationType = 'years'
 	let durationClass = null
 	if (formData.type === PurchaseType.ADD || formData.type === PurchaseType.EXT) {
@@ -126,7 +69,7 @@ const ConfiguratorWithUnits = ({ productFamily, productData, unitName }) => {
 	}
 
 	return (
-		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
+		<>
 			<fieldset>
 				<legend>Type of Purchase</legend>
 				<TypeChangeSelect
@@ -232,7 +175,7 @@ const ConfiguratorWithUnits = ({ productFamily, productData, unitName }) => {
 					haveJustChangedType={lastChangeWasType}
 				/>
 			</fieldset>
-		</form>
+		</>
 	)
 }
 

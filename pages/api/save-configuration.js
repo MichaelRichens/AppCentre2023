@@ -7,7 +7,7 @@ import { stripe } from '../../server-utils/initStripe'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
-		const { productFamily, unitName, formData } = req.body
+		const { productFamily, productOption, unitName, formData } = req.body
 		if (productFamily && productFamily.length > 0 && unitName && formData) {
 			let key
 			let configuration
@@ -17,13 +17,12 @@ export default async function handler(req, res) {
 				// console.time('save-configuration TOTAL')
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
 				// console.time('save-configuration await 1')
-				const freshProductData = await asyncFetchAndProcessProducts(productFamily)
+				const freshProductData = await asyncFetchAndProcessProducts(productFamily, productOption)
+				console.log(freshProductData)
 				// console.timeEnd('save-configuration await 1')
-				// getHardcodedProductData pulls from an env variable to translate productFamily to the product display name - do this to ensure that the name we display for a purchase line item matches the skus that are part of it
-				// Can't prevent someone from passing junk into this api, but at least anything that comes out of it should have a price and skus which match its name.
-				const hardcodedProductData = getHardcodedProductData()
+
 				configuration = processConfiguration(
-					hardcodedProductData[productFamily].name,
+					freshProductData.name,
 					freshProductData.products,
 					freshProductData.extensions,
 					formData,

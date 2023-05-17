@@ -2,7 +2,7 @@ import React from 'react'
 import Page from './Page'
 import PriceTableWithUnits from './PriceTableWithUnits'
 import PriceTableExtensions from './PriceTableExtensions'
-import ConfiguratorWithUnits from './configurator/ConfiguratorWithUnits'
+import Configurator from './configurator/Configurator'
 import PricingType from '../utils/types/enums/PricingType'
 import styles from '../styles/PricingPage.module.css'
 
@@ -43,24 +43,13 @@ const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, 
 					</section>
 				))}
 			</section>
-
+			<section className={styles.Configurator}>
+				<h2>{familyName} Configurator</h2>
+				<Configurator productFamily={productFamily} productDataArray={productDataArray} unitName={unitName} />
+			</section>
 			{children}
 		</Page>
 	)
 }
 
 export default PricingPage
-
-/*
-
-<section className={styles.Configurator}>
-				<h2>{productData.name} Configurator</h2>
-				<ConfiguratorWithUnits
-					productName={productData.name}
-					productFamily={productFamily}
-					productData={productData}
-					unitName={unitName}
-				/>
-			</section>
-
-*/
