@@ -1,10 +1,10 @@
 import React from 'react'
 import PricingPage from '../components/PricingPage'
 import Word from '../utils/types/Word'
-import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
+import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productData = await fetchAndProcessProducts('ARCHIVER')
+	const productData = await asyncFetchAndProcessProducts('ARCHIVER')
 
 	return {
 		props: { productData },

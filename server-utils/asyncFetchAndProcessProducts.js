@@ -59,7 +59,7 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
 			} else {
 				query = {
 					product_family: productFamily,
-					$or: [{ product_option: productOption }, { product_option: { $exists: false } }, { product_option: '' }],
+					$or: [{ family_option: productOption }, { family_option: { $exists: false } }, { family_option: '' }],
 				}
 			}
 			const data = await collection.find(query).toArray()
@@ -86,6 +86,8 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
  * @param {Array} products - The array of product SKUs to process.
  * @param {Array} extensions - The array of extension SKUs to process.
  * @returns {Object} The processed products object with the following properties:
+ * 	 @property {string} name - The name of this product, specific to the particular option if there is one
+ * 	 @property {string} familyName - The general name of the product that covers all options
  * 	 @property {PricingType} pricingType - The type of pricing used for this product (ie does it have units)
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
@@ -157,6 +159,7 @@ const processProducts = (data, products, extensions) => {
 
 	const productData = {
 		name: data.name,
+		familyName: data.familyName,
 		pricingType: data.pricingType,
 		products: sortedProducts,
 		extensions: sortedExtensions,
@@ -200,11 +203,13 @@ const processProducts = (data, products, extensions) => {
  * Fetches products and extensions for a given productFamily, and if productFamily uses them, a productOption, and returns the pre-processed results.
  *
  * @async
- * @function fetchAndProcessProducts
+ * @function asyncFetchAndProcessProducts
  * Fetches and processes products and extensions for a given product family.
  * @param {string} productFamily - The product family for which to fetch and process product data.
  * @param {string?} productOption -The product option value within a product family for which to fetch and process product data. Optional since not all productFamilies have it, but required for those that do.
  * @returns {Promise<Object>} A promise that resolves to an object with the following properties:
+ * 	 @property {string} name - The name of this product, specific to the particular option if there is one
+ * 	 @property {string} familyName - The general name of the product that covers all options
  * 	 @property {PricingType} pricingType - The type of pricing used for this product (ie does it have units)
  *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
  *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
@@ -217,7 +222,7 @@ const processProducts = (data, products, extensions) => {
  *
  * @example
  * const productFamily = 'CONNECT';
- * const processedProducts = await fetchAndProcessProducts(productFamily);
+ * const processedProducts = await asyncFetchAndProcessProducts(productFamily);
  * console.log(processedProducts);
  */
 const asyncFetchAndProcessProducts = async (productFamily, productOption = null) => {

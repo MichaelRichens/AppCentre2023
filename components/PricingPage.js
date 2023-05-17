@@ -17,38 +17,44 @@ import styles from '../styles/PricingPage.module.css'
  * @returns {JSX.Element} The PricingPage component.
  */
 const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, children }) => {
-	let productData
 	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
 		throw new Error('Invalid productDataArray')
 	}
-	if (productDataArray.length === 1) {
-		productData = productDataArray[0]
-	} else {
-		console.log(productDataArray)
-		throw new Error('multi options not implemented yet')
-	}
 
-	const haveExtensions = productData.availableExtensions && productData.availableExtensions.length > 0
+	const familyName = productDataArray[0].familyName // familyName is the same across all options
 
 	return (
-		<Page title={productData.name}>
+		<Page title={familyName}>
 			<section>{productIntro}</section>
 			<section className={styles.priceTables}>
-				<h2 id='pricingHeading'>{productData.name} Pricing</h2>
-				<div>
-					{productData.pricingType === PricingType.UNIT ? (
-						<PriceTableWithUnits productName={productData.name} products={productData.products} unitName={unitName} />
-					) : null}
-					{haveExtensions ? (
-						<PriceTableExtensions
-							productName={productData.name}
-							extensionsData={productData.extensions}
-							unitName={unitName}
-						/>
-					) : null}
-				</div>
+				<h2 id='pricingHeading'>{familyName} Pricing</h2>
+				{productDataArray.map((productData, index) => (
+					<section key={index}>
+						<h3>{productData.name}</h3>
+						{productData.pricingType === PricingType.UNIT ? (
+							<PriceTableWithUnits productName={productData.name} products={productData.products} unitName={unitName} />
+						) : null}
+						{productData.availableExtensions && productData.availableExtensions.length > 0 ? (
+							<PriceTableExtensions
+								productName={productData.name}
+								extensionsData={productData.extensions}
+								unitName={unitName}
+							/>
+						) : null}
+					</section>
+				))}
 			</section>
-			<section className={styles.Configurator}>
+
+			{children}
+		</Page>
+	)
+}
+
+export default PricingPage
+
+/*
+
+<section className={styles.Configurator}>
 				<h2>{productData.name} Configurator</h2>
 				<ConfiguratorWithUnits
 					productName={productData.name}
@@ -57,9 +63,5 @@ const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, 
 					unitName={unitName}
 				/>
 			</section>
-			{children}
-		</Page>
-	)
-}
 
-export default PricingPage
+*/

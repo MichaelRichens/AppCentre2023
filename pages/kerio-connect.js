@@ -2,12 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
-import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
+import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	try {
-		const productData = await fetchAndProcessProducts('CONNECT')
+		const productData = await asyncFetchAndProcessProducts('CONNECT')
 
 		return {
 			props: { productData },

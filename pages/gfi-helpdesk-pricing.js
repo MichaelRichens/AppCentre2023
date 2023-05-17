@@ -1,7 +1,7 @@
 import React from 'react'
 import PricingPage from '../components/PricingPage'
 import Word from '../utils/types/Word'
-import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
+import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
 
 /*
 const [products, extensions, hardware] = await Promise.all([
@@ -13,8 +13,8 @@ const [products, extensions, hardware] = await Promise.all([
 
 export async function getStaticProps() {
 	const productDataArray = await Promise.all([
-		fetchAndProcessProducts('HELPDESK', 'CASE'),
-		fetchAndProcessProducts('HELPDESK', 'FUSION'),
+		asyncFetchAndProcessProducts('HELPDESK', 'CASE'),
+		asyncFetchAndProcessProducts('HELPDESK', 'FUSION'),
 	])
 
 	return {
@@ -25,6 +25,7 @@ export async function getStaticProps() {
 
 const HelpDeskPricing = (props) => {
 	const { productDataArray } = props
+
 	return (
 		<PricingPage
 			productIntro={<p>GFI HelpDesk is licenced on a per-user yearly subscription basis.</p>}
