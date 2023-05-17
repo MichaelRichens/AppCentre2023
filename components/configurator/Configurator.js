@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
 import { useShoppingCart } from 'use-shopping-cart'
+import useFormData from '../hooks/useFormData'
 import ConfiguratorWithUnits from './ConfiguratorWithUnits'
 
 import PurchaseType from '../../utils/types/enums/PurchaseType'
@@ -30,38 +31,9 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 		existingUnitsError: false,
 	}
 
+	const [formData, updateFormData, suppressAriaLivePriceUpdate] = useFormData(savedData)
+
 	const { addItem } = useShoppingCart()
-
-	const [formData, setFormData] = useState(savedData)
-
-	const [lastChangeWasType, setLastChangeWasType] = useState(true)
-	/**
-	 * Applies any fields in the passed object as changes to the formData object
-	 * Leaves other fields as they current are set.
-	 * Except: It automatically sets error fields to `false` if they are not explicitly
-	 * provided in the newData object.
-	 *
-	 * @param {Object} newData - An object containing the new form data
-	 *      properties to be merged with the current formData state.
-	 */
-
-	const updateFormData = (newData) => {
-		const errorFields = ['existingUnitsError', 'unitsChangeError']
-
-		setLastChangeWasType(newData.type !== undefined && savedData.type !== newData.type)
-		const updatedData = {
-			...formData,
-			...newData,
-		}
-
-		errorFields.forEach((field) => {
-			if (!newData.hasOwnProperty(field)) {
-				updatedData[field] = false
-			}
-		})
-
-		setFormData(updatedData)
-	}
 
 	const [addingToCart, setAddingToCart] = useState(false)
 
@@ -88,6 +60,22 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 		setAddingToCart
 	)
 
+	console.log(productDataArray)
+	let configuratorOptionSelect = null
+
+	if (productDataArray.length > 1) {
+		configuratorOptionSelect = (
+			<fieldset>
+				<legend>{`${productDataArray[0].familyName} Option`}</legend>
+				<select>
+					{productDataArray.map((productData, index) => (
+						<option key={index}>{productData.name}</option>
+					))}
+				</select>
+			</fieldset>
+		)
+	}
+
 	let subConfigurator
 
 	switch (productDataArray[formData.optionIndex].pricingType) {
@@ -99,7 +87,7 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 					unitName={unitName}
 					formData={formData}
 					updateFormData={updateFormData}
-					lastChangeWasType={lastChangeWasType}
+					suppressAriaLivePriceUpdate={suppressAriaLivePriceUpdate}
 					addingToCart={addingToCart}
 					currentConfiguration={currentConfiguration}
 				/>
@@ -109,9 +97,9 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 			throw new Error(`Unknown PricingType: ${productDataArray[formData.optionIndex].pricingType}`)
 	}
 
-	console.log(productDataArray)
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
+			{configuratorOptionSelect}
 			{subConfigurator}
 		</form>
 	)

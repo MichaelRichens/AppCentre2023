@@ -41,7 +41,7 @@ const ConfiguratorWithUnits = ({
 	unitName,
 	formData,
 	updateFormData,
-	lastChangeWasType,
+	suppressAriaLivePriceUpdate,
 	addingToCart,
 	currentConfiguration,
 }) => {
@@ -172,7 +172,7 @@ const ConfiguratorWithUnits = ({
 					configuration={currentConfiguration.summary}
 					haveExtensionOptions={productData.availableExtensions.length > 0}
 					addToCartInProgress={addingToCart}
-					haveJustChangedType={lastChangeWasType}
+					haveJustChangedType={suppressAriaLivePriceUpdate}
 				/>
 			</fieldset>
 		</>

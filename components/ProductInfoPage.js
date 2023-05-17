@@ -1,7 +1,7 @@
 import React from 'react'
 import useMediaQuery from './hooks/useMediaQuery'
 import Page from './Page'
-import ConfiguratorWithUnits from './configurator/ConfiguratorWithUnits'
+import Configurator from './configurator/Configurator'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 /**
@@ -30,13 +30,13 @@ const ProductInfoPage = ({ title, subHeading, productFamily, productDataArray, u
 		<Page title={title} subHeading={subHeading}>
 			{showTopConfigurator && (
 				<aside className={productInfoStyles.topConfigurator}>
-					<ConfiguratorWithUnits productFamily={productFamily} productData={productData} unitName={unitName} />
+					<Configurator productFamily={productFamily} productDataArray={productDataArray} unitName={unitName} />
 				</aside>
 			)}
 			<article className={productInfoStyles.article}>{children}</article>
 			{!showTopConfigurator && (
 				<aside>
-					<ConfiguratorWithUnits productFamily={productFamily} productData={productData} unitName={unitName} />
+					<Configurator productFamily={productFamily} productDataArray={productDataArray} unitName={unitName} />
 				</aside>
 			)}
 		</Page>
