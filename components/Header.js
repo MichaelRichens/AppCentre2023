@@ -62,6 +62,11 @@ const Header = () => {
 								</ProductDropdown>
 							</li>
 							<li>
+								<ProductDropdown hrefStart='/gfi-helpdesk' navIsSingleRow={!productNavIsMultiRow}>
+									GFI HelpDesk
+								</ProductDropdown>
+							</li>
+							<li>
 								<ProductDropdown hrefStart='/gfi-languard' navIsSingleRow={!productNavIsMultiRow}>
 									GFI LanGuard
 								</ProductDropdown>
