@@ -1,5 +1,5 @@
 import React from 'react'
-import SubscriptionPage from '../components/SubscriptionPage'
+import PricingPage from '../components/PricingPage'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -15,11 +15,11 @@ export async function getStaticProps() {
 const LanGuardPricing = (props) => {
 	const { productData } = props
 	return (
-		<SubscriptionPage
+		<PricingPage
 			productIntro={<p>GFI Languard is licenced on a per-node yearly subscription basis.</p>}
 			productFamily={'LANGUARD'}
 			productData={productData}
-			unitName={new Word('node', 'nodes')}></SubscriptionPage>
+			unitName={new Word('node', 'nodes')}></PricingPage>
 	)
 }
 

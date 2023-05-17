@@ -1,5 +1,5 @@
 import React from 'react'
-import SubscriptionPage from '../components/SubscriptionPage'
+import PricingPage from '../components/PricingPage'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -15,11 +15,11 @@ export async function getStaticProps() {
 const ControlPricing = (props) => {
 	const { productData } = props
 	return (
-		<SubscriptionPage
+		<PricingPage
 			productIntro={<p>Kerio Control is licenced on a per-user yearly subscription basis.</p>}
 			productFamily={'CONTROL'}
 			productData={productData}
-			unitName={new Word('user', 'users')}></SubscriptionPage>
+			unitName={new Word('user', 'users')}></PricingPage>
 	)
 }
 

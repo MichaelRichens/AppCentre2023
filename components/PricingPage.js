@@ -4,19 +4,19 @@ import PriceTableWithUnits from './PriceTableWithUnits'
 import PriceTableExtensions from './PriceTableExtensions'
 import ConfiguratorWithUnits from './configurator/ConfiguratorWithUnits'
 import PricingType from '../utils/types/enums/PricingType'
-import styles from '../styles/SubscriptionPage.module.css'
+import styles from '../styles/PricingPage.module.css'
 
 /**
- * ProductPage is a wrapper component that renders the Page component with a product configurator generated from the productFamily prop.
+ * PricingPage is a wrapper component that renders the Page component with price table and product configurator generated from its props.
  * @param {Object} props - The component properties.
  * @param {JSX.Element} props.productIntro - A short intro to the product to be displayed at the top of the page, before the product configurator. HTML allowed, and should be included (will render inside a &lt;section&gt;).
  * @param {string} props.productFamily - The product family identifier.
  * @param {Object} props.productData - Products data from the database - pricing, skus etc.
  * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
  * @param {React.ReactNode} props.children - The child components to render within the page.*
- * @returns {JSX.Element} The ProductPage component.
+ * @returns {JSX.Element} The PricingPage component.
  */
-const SubscriptionPage = ({ productIntro, productFamily, productData, unitName, children }) => {
+const PricingPage = ({ productIntro, productFamily, productData, unitName, children }) => {
 	const haveExtensions = productData.availableExtensions && productData.availableExtensions.length > 0
 
 	return (
@@ -51,4 +51,4 @@ const SubscriptionPage = ({ productIntro, productFamily, productData, unitName, 
 	)
 }
 
-export default SubscriptionPage
+export default PricingPage

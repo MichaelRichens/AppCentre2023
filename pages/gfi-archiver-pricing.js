@@ -1,5 +1,5 @@
 import React from 'react'
-import SubscriptionPage from '../components/SubscriptionPage'
+import PricingPage from '../components/PricingPage'
 import Word from '../utils/types/Word'
 import fetchAndProcessProducts from '../server-utils/fetchAndProcessProducts'
 
@@ -15,11 +15,11 @@ export async function getStaticProps() {
 const ArchiverPricing = (props) => {
 	const { productData } = props
 	return (
-		<SubscriptionPage
+		<PricingPage
 			productIntro={<p>GFI Archiver is licenced on a per-mailbox yearly subscription basis.</p>}
 			productFamily={'ARCHIVER'}
 			productData={productData}
-			unitName={new Word('mailbox', 'mailboxes')}></SubscriptionPage>
+			unitName={new Word('mailbox', 'mailboxes')}></PricingPage>
 	)
 }
 
