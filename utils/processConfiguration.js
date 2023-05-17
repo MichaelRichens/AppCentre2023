@@ -1,6 +1,7 @@
 import ProductConfiguration from './types/ProductConfiguration'
 import ConfigurationSummary from './types/ConfigurationSummary'
 import PurchaseType from './types/enums/PurchaseType'
+import { getHardcodedDataObject } from './getHardcodedProductData'
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  *
@@ -11,7 +12,7 @@ import PurchaseType from './types/enums/PurchaseType'
  * @param {Word} unitName - The type of units that are being used (users or whatever)
  * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
-function processConfiguration(productName, products, extensions, configuratorOptions, unitName) {
+function processConfiguration(productFamily, productName, products, extensions, configuratorOptions, unitName) {
 	/** The return object */
 	const result = new ProductConfiguration(configuratorOptions.type, 0, configuratorOptions.years)
 

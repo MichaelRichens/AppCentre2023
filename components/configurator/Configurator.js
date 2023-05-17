@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
 import { useShoppingCart } from 'use-shopping-cart'
 import useFormData from '../hooks/useFormData'
@@ -42,13 +42,19 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 		saveConfiguratorData(productFamily, formData)
 	}, [formData])
 
-	const currentConfiguration = processConfiguration(
-		productDataArray[formData.optionIndex].name,
-		productDataArray[formData.optionIndex].products,
-		productDataArray[formData.optionIndex].extensions,
-		formData,
-		unitName
+	const currentConfiguration = useMemo(
+		() =>
+			processConfiguration(
+				productFamily,
+				productDataArray[formData.optionIndex].name,
+				productDataArray[formData.optionIndex].products,
+				productDataArray[formData.optionIndex].extensions,
+				formData,
+				unitName
+			),
+		[productFamily, productDataArray, formData, unitName]
 	)
+	console.log(savedData, currentConfiguration)
 
 	const productOption = productDataArray[formData.optionIndex].products[0].family_option
 
