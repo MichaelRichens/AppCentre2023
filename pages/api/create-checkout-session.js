@@ -78,15 +78,28 @@ export default async (req, res) => {
 					mode: 'payment',
 					success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
 					cancel_url: `${req.headers.origin}/cancel`,
+					billing_address_collection: 'required',
+					invoice_creation: {
+						enabled: true,
+						invoice_data: {
+							/*account_tax_ids: [process.env.NEXT_PUBLIC_VAT_NUMBER],*/
+							footer: `AppCentre is a trading name of Second Chance PC Ltd.  Company Number: ${process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT: ${process.env.NEXT_PUBLIC_VAT_NUMBER}. E&OE.`,
+							rendering_options: {
+								amount_tax_display: 'exclude_tax',
+							},
+						},
+					},
+					submit_type: 'pay',
 				})
 			} catch (stripeError) {
 				// Handle errors from the Stripe API separately
 				console.error(stripeError)
 				return res.status(500).json({ message: `Stripe API error: ${stripeError.message}` })
 			}
-
+			const { id, invoice } = session
+			console.log(invoice)
 			// Return the session ID
-			res.status(200).json({ sessionId: session.id })
+			res.status(200).json({ sessionId: id })
 		} catch (error) {
 			console.error(error)
 			return res.status(500).json({ statusCode: 500, message: error.message })
