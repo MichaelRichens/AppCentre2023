@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
+import React from 'react'
 import SubscriptionSummary from './SubscriptionSummary'
 import TypeChangeSelect from './TypeChangeSelect'
 import PurchaseUnitInput from './PurchaseUnitInput'
