@@ -4,6 +4,7 @@ import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
 
 /**
+ * @function
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  * Main logic function for processConfiguration - handles PricingType.SUB
  *
@@ -231,7 +232,15 @@ function findExtensions(searchKeys, extensions, years) {
 	return uniqueExtensions
 }
 
-function processConfiguration(productData, formData, unitName) {
+/**
+ * @function
+ * Calculates the price and generates the skus needed for a given set of configurator options, based on passed in productData and formData.
+ *
+ * @param {Object} productData - The product data object which contains pricing, skus etc. - its shape will depend on its pricing type property (which must be present and of type PricingType)
+ * @param {Object} formData - The form data object, which contains the user's choices - shape will depend on productData.pricingType
+ * @param {Word?} unitName - Optional (depends on productData.pricingType) The Word object for the name of the type of units, if any.
+ */
+function processConfiguration(productData, formData, unitName = null) {
 	switch (productData.pricingType) {
 		case PricingType.UNIT: {
 			return processConfigurationSub(
