@@ -7,7 +7,16 @@ export const createHandleOptionChange = (updateFormData) => (event) => {
 	})
 }
 
-export const createHandleTypeChange = (updateFormData, formData, productData) => (event) => {
+/** @function
+ * Handles a generic change in formData, with no validation
+ */
+export const createUpdateFormValue = (updateFormData, key) => (event) => updateFormData({ [key]: event.target.value })
+
+/**
+ * @function
+ * Handles the change of type option for the ConfiguratorUnit form, awith specific logic for updating dependent values
+ */
+export const createHandleUnitTypeChange = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let unitsChange = formData.unitsChange
 	if (value === PurchaseType.NEW && unitsChange < productData.minUnits) {

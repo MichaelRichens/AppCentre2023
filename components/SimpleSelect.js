@@ -9,9 +9,9 @@ import React from 'react'
  * @param {function} props.onChange - The onChange handler function.
  * @returns {ReactElement} The rendered  component.
  */
-const SimpleSelect = ({ name, options, value, onChange, ariaLabel }) => {
+const SimpleSelect = ({ name, options, value, onChange, ariaLabel, ariaLabeledBy }) => {
 	return (
-		<select name={name} value={value} onChange={onChange} aria-label={ariaLabel}>
+		<select name={name} value={value} onChange={onChange} aria-label={ariaLabel} aria-labelledby={ariaLabeledBy}>
 			{options.map(({ value, text }, index) => (
 				<option value={value} key={index}>
 					{text}

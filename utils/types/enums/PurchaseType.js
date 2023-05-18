@@ -2,9 +2,12 @@
 // This is a simple JavaScript object that maps your purchase types to their string representations.
 const PurchaseTypeEnum = {
 	SUB: 'sub', // A renewal of an existing subscription
-	NEW: 'new', // A new subscription
+	NEW: 'new', // A new purchase
 	ADD: 'add', // Additional units/users to an existing subscription
 	EXT: 'ext', // Additional extension(s) to an existing subscription
+	SPARE: 'spare', // Spare hardware (for a customer who has a subscription to the service that uses the hardware)
+	WAREX: 'warex', // A warranty extension
+	ACC: 'acc', // Accessories
 }
 
 // Depending on the environment, we define PurchaseType in different ways.

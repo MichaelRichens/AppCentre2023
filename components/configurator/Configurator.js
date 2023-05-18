@@ -4,6 +4,7 @@ import { useShoppingCart } from 'use-shopping-cart'
 import useFormData from '../hooks/useFormData'
 import ConfiguratorHardSub from './ConfiguratorHardSub'
 import ConfiguratorUnit from './ConfiguratorUnit'
+import SubscriptionSummary from './SubscriptionSummary'
 import ProductOptionSelect from './ProductOptionSelect'
 
 import PurchaseType from '../../utils/types/enums/PurchaseType'
@@ -27,7 +28,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
-		type: PurchaseType.SUB,
+		type: undefined,
 		existingUnitsLiveUpdate: productDataArray[0].minUnits,
 		existingUnits: productDataArray[0].minUnits,
 		unitsChangeLiveUpdate: 0,
@@ -73,20 +74,25 @@ const Configurator = ({ productDataArray, unitName }) => {
 					unitName={unitName}
 					formData={formData}
 					updateFormData={updateFormData}
-					suppressAriaLivePriceUpdate={suppressAriaLivePriceUpdate}
-					addingToCart={addingToCart}
-					currentConfiguration={currentConfiguration}
 				/>
 			)
 			break
 		case PricingType.HARDSUB:
-			subConfigurator = <ConfiguratorHardSub />
+			subConfigurator = (
+				<ConfiguratorHardSub
+					productData={productDataArray[formData.optionIndex]}
+					formData={formData}
+					updateFormData={updateFormData}
+				/>
+			)
 			break
 		default:
 			throw new Error(`Unknown PricingType: ${productDataArray[formData.optionIndex].pricingType}`)
 	}
 
-	console.log(productDataArray)
+	console.log('formData', formData)
+	console.log('currentConfiguration', currentConfiguration)
+	console.log('productDataArray', productDataArray)
 
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
@@ -101,6 +107,18 @@ const Configurator = ({ productDataArray, unitName }) => {
 				</fieldset>
 			)}
 			{subConfigurator}
+			{formData.type !== undefined && (
+				<fieldset className={configuratorStyles.summary}>
+					<legend>Summary</legend>
+					<SubscriptionSummary
+						allowAddToCart={!(formData.type === PurchaseType.EXT && formData?.checkedExtensions?.length === 0)}
+						configuration={currentConfiguration.summary}
+						haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
+						addToCartInProgress={addingToCart}
+						haveJustChangedType={suppressAriaLivePriceUpdate}
+					/>
+				</fieldset>
+			)}
 		</form>
 	)
 }

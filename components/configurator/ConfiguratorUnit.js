@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SimpleSelect from '../SimpleSelect'
 import SubscriptionSummary from './SubscriptionSummary'
 import PurchaseUnitInput from './PurchaseUnitInput'
@@ -6,7 +6,7 @@ import ExtensionCheckboxes from './ExtensionCheckboxes'
 import MonthsRemainingSelect from './MonthsRemainingSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
-	createHandleTypeChange,
+	createHandleUnitTypeChange,
 	createHandleExistingUnitsBlur,
 	createHandleExistingUnitsChange,
 	createHandleUnitsChangeChange,
@@ -27,21 +27,15 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {Object} props.productData - Products data from the database for a single productFamily+productOption combination
  * @param {Object} props.formData - The object from which to read current form state
  * @param {updateFormDataCallback} props.updateFormData - The function to update form state, passed an object with fields to update (will wipe all errors that are not passed)
- * @param {boolean} props.suppressAriaLivePriceUpdate - State indicating whether aria-live announcements of price changes should be prevented
- * @param {boolean} props.addingToCart - State indicating whether an add to cart operation has been started but not yet completed.
- * @param {ProductConfiguration} props.currentConfiguration - A ProductConfiguration instance holding data on the current configuration
  * @returns {JSX.Element} The rendered component.
  */
 
-const ConfiguratorUnit = ({
-	productData,
-	formData,
-	updateFormData,
-	suppressAriaLivePriceUpdate,
-	addingToCart,
-	currentConfiguration,
-}) => {
-	const handleTypeChange = createHandleTypeChange(updateFormData, formData, productData)
+const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
+	if (formData.type === undefined) {
+		updateFormData({ type: PurchaseType.SUB })
+	}
+
+	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
 	const handleExistingUnitsChange = createHandleExistingUnitsChange(updateFormData)
 
@@ -190,17 +184,6 @@ const ConfiguratorUnit = ({
 						/>
 					</>
 				)}
-			</fieldset>
-
-			<fieldset className={configuratorStyles.summary}>
-				<legend>Summary</legend>
-				<SubscriptionSummary
-					allowAddToCart={!(formData.type === PurchaseType.EXT && formData.checkedExtensions.length === 0)}
-					configuration={currentConfiguration.summary}
-					haveExtensionOptions={productData.availableExtensions.length > 0}
-					addToCartInProgress={addingToCart}
-					haveJustChangedType={suppressAriaLivePriceUpdate}
-				/>
 			</fieldset>
 		</>
 	)
