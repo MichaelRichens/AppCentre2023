@@ -17,12 +17,12 @@ import PricingType from '../../utils/types/enums/PricingType'
  * @component
  * The top level configurator form component that handles an entire product family with multiple options, which can be of different PricingType
  * @param {Object} props - The component props.
- * @param {string} props.productFamily - The code for the product family to create a configurator for
  * @param {Object[]} props.productDataArray - An array of product data object, one for each product option to be displayed, and chosen from in the options control.
  * @param {Object} props.unitName - If units are used, the Word instance which is used to represent them.  TODO don't pass this in at this level, since it prevents multiple types of units being used within a productFamily.  Should be part of the productDataArray objects, but *shrug*, isn't an issue at present.
  * @returns The Configurator form element.
  */
-const Configurator = ({ productFamily, productDataArray, unitName }) => {
+const Configurator = ({ productDataArray, unitName }) => {
+	const productFamily = productDataArray[0].productFamily // by definition, all elements of productDataArray have the same productFamily value
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
 
 	const savedData = configuratorData[productFamily] || {
@@ -53,11 +53,9 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 		[productFamily, productDataArray, formData, unitName]
 	)
 
-	const productOption = productDataArray[formData.optionIndex].products[0].family_option
-
 	const asyncHandleSubmit = createAsyncHandleSubmit(
 		productFamily,
-		productOption,
+		productDataArray[formData.optionIndex].productOption,
 		unitName,
 		formData,
 		addItem,

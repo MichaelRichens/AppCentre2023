@@ -27,7 +27,6 @@ const Connect = (props) => {
 			title='Kerio Connect'
 			subHeading='The Ultimate Mailserver Solution for SMBs'
 			productName='Kerio Connect'
-			productFamily='CONNECT'
 			productDataArray={productDataArray}>
 			<section>
 				<p>

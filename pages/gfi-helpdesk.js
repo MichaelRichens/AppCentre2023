@@ -21,7 +21,6 @@ const HelpDesk = (props) => {
 		<ProductInfoPage
 			title='GFI HelpDesk'
 			subHeading='A Comprehensive, Integrated Helpdesk Solution'
-			productFamily='HELPDESK'
 			productDataArray={productDataArray}>
 			<section>
 				<p>

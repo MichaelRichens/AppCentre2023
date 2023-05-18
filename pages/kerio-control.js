@@ -27,7 +27,6 @@ const Control = (props) => {
 		<ProductInfoPage
 			title='Kerio Control'
 			subHeading='Your Comprehensive Security Solution'
-			productFamily='CONTROL'
 			productDataArray={productDataArray}>
 			<section>
 				<p>

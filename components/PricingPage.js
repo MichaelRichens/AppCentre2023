@@ -10,13 +10,12 @@ import styles from '../styles/PricingPage.module.css'
  * PricingPage is a wrapper component that renders the Page component with price table and product configurator generated from its props.
  * @param {Object} props - The component properties.
  * @param {JSX.Element} props.productIntro - A short intro to the product to be displayed at the top of the page, before the product configurator. HTML allowed, and should be included (will render inside a &lt;section&gt;).
- * @param {string} props.productFamily - The product family identifier.
  * @param {Object[]} props.productDataArray - The product data pulled from the database, one object for each option (or just one element if there are no options).
  * @param {Object} props.unitName - A createUnitName object representing the unit name in singular and plural forms.
  * @param {React.ReactNode} props.children - The child components to render within the page.*
  * @returns {JSX.Element} The PricingPage component.
  */
-const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, children }) => {
+const PricingPage = ({ productIntro, productDataArray, unitName, children }) => {
 	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
 		throw new Error('Invalid productDataArray')
 	}
@@ -49,7 +48,7 @@ const PricingPage = ({ productIntro, productFamily, productDataArray, unitName, 
 			</section>
 			<section className={styles.Configurator}>
 				<h2>{familyName} Configurator</h2>
-				<Configurator productFamily={productFamily} productDataArray={productDataArray} unitName={unitName} />
+				<Configurator productDataArray={productDataArray} unitName={unitName} />
 			</section>
 			{children}
 		</Page>

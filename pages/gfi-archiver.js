@@ -26,7 +26,6 @@ const Archiver = (props) => {
 		<ProductInfoPage
 			title='GFI Archiver'
 			subHeading='Archive your emails, calendar, faxes and files with tamper-proof security'
-			productFamily='ARCHIVER'
 			productDataArray={productDataArray}>
 			<section>
 				<p>

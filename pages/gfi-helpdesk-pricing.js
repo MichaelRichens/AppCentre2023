@@ -18,7 +18,6 @@ const HelpDeskPricing = (props) => {
 	return (
 		<PricingPage
 			productIntro={<p>GFI HelpDesk is licenced on a per-user yearly subscription basis.</p>}
-			productFamily={'HELPDESK'}
 			productDataArray={productDataArray}></PricingPage>
 	)
 }

@@ -26,7 +26,6 @@ const LanGuard = (props) => {
 		<ProductInfoPage
 			title='GFI LanGuard'
 			subHeading='Comprehensive Network Security and Patch Management'
-			productFamily='LANGUARD'
 			productDataArray={productDataArray}>
 			<section>
 				<p>
