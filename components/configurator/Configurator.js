@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
 import { useShoppingCart } from 'use-shopping-cart'
 import useFormData from '../hooks/useFormData'
-import ConfiguratorWithUnits from './ConfiguratorWithUnits'
+import ConfiguratorUnit from './ConfiguratorUnit'
 import ProductOptionSelect from './ProductOptionSelect'
 
 import PurchaseType from '../../utils/types/enums/PurchaseType'
@@ -79,7 +79,7 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 	switch (productDataArray[formData.optionIndex].pricingType) {
 		case PricingType.UNIT:
 			subConfigurator = (
-				<ConfiguratorWithUnits
+				<ConfiguratorUnit
 					productFamily={productFamily}
 					productData={productDataArray[formData.optionIndex]}
 					unitName={unitName}

@@ -23,7 +23,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 /**
  * @component
- * ConfiguratorWithUnits is a component that sits within a Configurator component (which manages its state)
+ * ConfiguratorUnit is a component that sits within a Configurator component (which manages its state)
  * It handles configuration of the PricingType.UNIT type of product
  *
  * @param {Object} props - The properties passed to the component.
@@ -37,7 +37,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @returns {JSX.Element} The rendered component.
  */
 
-const ConfiguratorWithUnits = ({
+const ConfiguratorUnit = ({
 	productData,
 	unitName,
 	formData,
@@ -193,4 +193,4 @@ const ConfiguratorWithUnits = ({
 	)
 }
 
-export default ConfiguratorWithUnits
+export default ConfiguratorUnit
