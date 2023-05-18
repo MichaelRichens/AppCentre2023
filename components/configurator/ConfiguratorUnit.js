@@ -32,7 +32,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 	if (formData.type === undefined) {
-		updateFormData({ type: PurchaseType.SUB })
+		updateFormData({ validState: true, type: PurchaseType.SUB })
 	}
 
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)

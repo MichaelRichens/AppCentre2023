@@ -27,8 +27,8 @@ const Configurator = ({ productDataArray, unitName }) => {
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
 
 	const savedData = configuratorData[productFamily] || {
+		validState: false, // sub components set this to true when they have made the state suitable ofr their needs
 		optionIndex: 0,
-		type: undefined,
 		existingUnitsLiveUpdate: productDataArray[0].minUnits,
 		existingUnits: productDataArray[0].minUnits,
 		unitsChangeLiveUpdate: 0,
@@ -107,7 +107,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 				</fieldset>
 			)}
 			{subConfigurator}
-			{formData.type !== undefined && (
+			{formData.validState && (
 				<fieldset className={configuratorStyles.summary}>
 					<legend>Summary</legend>
 					<SubscriptionSummary
