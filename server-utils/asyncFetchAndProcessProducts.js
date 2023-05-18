@@ -225,6 +225,7 @@ const processProductsUnit = (data, products, extensions) => {
  * Processes all the skus for a gfi product that uses PricingType.HARDSUB, and creates a productData object for use by the rest of the app
  * @param {Object} data - An object with certain required and optional data about this gfi product, which supplements and/or overrides data in the other arrays
  * @param {Array} hardware - The array of hardware SKUs to process - includes subscriptions as well as physical hardware.
+ * @returns {Object} - The productData object for a hardware with subscription product family/option - documented at the end of the function body
  */
 const processProductsHardSub = (data, hardware) => {
 	const productData = createBaseProductDataObject(data)
