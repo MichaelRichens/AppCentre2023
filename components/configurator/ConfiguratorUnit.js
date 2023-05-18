@@ -1,11 +1,9 @@
 import React from 'react'
+import SimpleSelect from '../SimpleSelect'
 import SubscriptionSummary from './SubscriptionSummary'
-import TypeChangeSelect from './TypeChangeSelect'
 import PurchaseUnitInput from './PurchaseUnitInput'
 import ExtensionCheckboxes from './ExtensionCheckboxes'
-import YearsSelect from './YearsSelect'
 import MonthsRemainingSelect from './MonthsRemainingSelect'
-import createUnitName from '../../utils/createUnitName'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleTypeChange,
@@ -66,23 +64,38 @@ const ConfiguratorUnit = ({
 		durationClass = configuratorStyles.monthsRemaining
 	}
 
-	const typeOptions = { [PurchaseType.SUB]: 'Existing Subscription Renewal' }
+	const typeOptions = [{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' }]
+
 	if (true) {
 		// Will need to make this optional for GFI Unlimited - not implemented this yet
-		typeOptions[PurchaseType.NEW] = 'New Subscription'
+		typeOptions.push({ value: PurchaseType.NEW, text: 'New Subscription' })
 	}
 	if (productData.maxUnits - productData.minUnits > formData.existingUnits) {
-		typeOptions[PurchaseType.ADD] = `Add ${productData.unitName.pluralC} To Subscription`
+		typeOptions.push({ value: PurchaseType.ADD, text: `Add ${productData.unitName.pluralC} To Subscription` })
 	}
 	if (productData.availableExtensions.length > 0) {
-		typeOptions[PurchaseType.EXT] = 'Add Extensions to Subscription'
+		typeOptions.push({ value: PurchaseType.EXT, text: 'Add Extensions to Subscription' })
 	}
+
+	const yearsOptions = Array.from({ length: productData.maxYears - productData.minYears + 1 }, (_, index) => {
+		const year = productData.minYears + index
+		return {
+			value: year,
+			text: `${year} Year${year > 1 ? 's' : ''}`,
+		}
+	})
 
 	return (
 		<>
 			<fieldset>
 				<legend>Type of Purchase</legend>
-				<TypeChangeSelect type={formData.type} typeOptions={typeOptions} onTypeChange={handleTypeChange} />
+				<SimpleSelect
+					name='type'
+					options={typeOptions}
+					value={formData.type}
+					onChange={handleTypeChange}
+					ariaLabel='Type of Purchase'
+				/>
 			</fieldset>
 
 			<fieldset>
@@ -159,11 +172,12 @@ const ConfiguratorUnit = ({
 				{durationType === 'years' ? (
 					<>
 						<legend>Subscription Length</legend>
-						<YearsSelect
+						<SimpleSelect
+							name='years'
+							options={yearsOptions}
 							value={formData.years}
 							onChange={handleYearsChange}
-							from={productData.minYears}
-							to={productData.maxYears}
+							ariaLabel='Subscription Length'
 						/>
 					</>
 				) : (
