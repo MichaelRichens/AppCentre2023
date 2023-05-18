@@ -2,6 +2,7 @@
 // This is a simple JavaScript object that maps your pricing types to their string representations.
 const PricingTypeEnum = {
 	UNIT: 'unit', // Pricing is done on a per unit (eg user) basis
+	HARDSUB: 'hardsub', // Hardware with a subscription (per appliance, not per user or whatever)
 }
 
 // Depending on the environment, we define PricingType in different ways.

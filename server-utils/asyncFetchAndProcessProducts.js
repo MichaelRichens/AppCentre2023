@@ -1,5 +1,6 @@
 import { connectToDatabase } from './mongodb'
 import { getHardcodedDataObject } from '../utils/getHardcodedProductData'
+import PricingType from '../utils/types/enums/PricingType'
 
 /**
  * Checks if a collection exists in the database.
@@ -98,7 +99,7 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
  *   @property {number} minYears - The minimum number of years a subscription is available for.
  *   @property {number} maxYears - The maximum number of years a subscription is available for.
  */
-const processProducts = (data, products, extensions) => {
+const processProductsUnit = (data, products, extensions) => {
 	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of units for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
 	//This sorting is important, it being done is relied on elsewhere
 
@@ -237,8 +238,12 @@ export const asyncFetchAndProcessProducts = async (productFamily, productOption 
 		// console.timeEnd('asyncFetchAndProcessProducts await 1')
 
 		const hcData = getHardcodedDataObject(productFamily, productOption)
-
-		return processProducts(hcData, products, extensions)
+		switch (hcData.pricingType) {
+			case PricingType.UNIT:
+				return processProductsUnit(hcData, products, extensions)
+			default:
+				throw new Error(`Unknown PricingType: ${hcData.pricingType}`)
+		}
 	} catch (error) {
 		console.error('There was an error fetching or processing the products:', error)
 		throw error
