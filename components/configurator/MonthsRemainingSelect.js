@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import SimpleSelect from '../SimpleSelect'
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 const MonthsRemainingSelect = ({ value, onChange, maxYears }) => {
@@ -29,27 +30,25 @@ const MonthsRemainingSelect = ({ value, onChange, maxYears }) => {
 		}
 	}, [renewalDate])
 
+	const monthsOptions = Array.from({ length: Math.ceil(maxYears * 4) }, (_, index) => {
+		const monthEnd = (index + 1) * 3
+		const optionValue = (index + 1) * 0.25
+
+		return { value: optionValue, text: `Less Than ${monthEnd} Months Remaining` }
+	})
+
 	return (
 		<>
 			<label className={configuratorStyles.monthsRemaining}>
 				<span>Remaining Time: </span>
-				<select
+				<SimpleSelect
+					options={monthsOptions}
 					value={value}
 					onChange={(event) => {
 						setRenewalDate('')
 						onChange(event)
-					}}>
-					{Array.from({ length: Math.ceil(maxYears * 4) }, (_, index) => {
-						const monthEnd = (index + 1) * 3
-						const optionValue = (index + 1) * 0.25
-
-						return (
-							<option key={index} value={optionValue}>
-								{`Less Than ${monthEnd} Months Remaining`}
-							</option>
-						)
-					})}
-				</select>
+					}}
+				/>
 			</label>
 			<label className={configuratorStyles.monthsRemaining}>
 				<span>Or Choose Renewal Date: </span>
