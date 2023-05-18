@@ -2,15 +2,15 @@ import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
-import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
+import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	try {
-		const productData = await asyncFetchAndProcessProducts('ARCHIVER')
+		const productDataArray = await asyncFetchAndProcessMultipleOptions('ARCHIVER')
 
 		return {
-			props: { productData },
+			props: { productDataArray },
 			revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
 		}
 	} catch (error) {
@@ -20,14 +20,14 @@ export async function getStaticProps() {
 }
 
 const Archiver = (props) => {
-	const { productData } = props
+	const { productDataArray } = props
 
 	return (
 		<ProductInfoPage
 			title='GFI Archiver'
 			subHeading='Archive your emails, calendar, faxes and files with tamper-proof security'
 			productFamily='ARCHIVER'
-			productDataArray={[productData]}
+			productDataArray={productDataArray}
 			unitName={new Word('mailbox', 'mailboxes')}>
 			<section>
 				<p>

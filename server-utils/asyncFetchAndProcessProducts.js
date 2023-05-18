@@ -164,6 +164,7 @@ const processProducts = (data, products, extensions) => {
 		products: sortedProducts,
 		extensions: sortedExtensions,
 		availableExtensions: uniqueExtensionsArray,
+		optionSortOrder: Number(data.optionSortOrder) || 1000,
 	}
 
 	if (productData.products.length === 0) {
@@ -224,7 +225,7 @@ const processProducts = (data, products, extensions) => {
  * const productFamily = 'CONNECT';
  * const processedProducts = await asyncFetchAndProcessProducts(productFamily);
  */
-const asyncFetchAndProcessProducts = async (productFamily, productOption = null) => {
+export const asyncFetchAndProcessProducts = async (productFamily, productOption = null) => {
 	try {
 		// Fetch from db
 		// console.time('asyncFetchAndProcessProducts await 1')
@@ -244,4 +245,34 @@ const asyncFetchAndProcessProducts = async (productFamily, productOption = null)
 	}
 }
 
-export default asyncFetchAndProcessProducts
+/**
+ * @function asyncFetchAndProcessMultipleOptions
+ * Returns all the productData objects with the passed productFamily and any of the options in the productOptionsArray, sorted by optionsSortOrder
+ * @param {string} productFamily - The product family for which to fetch and process product data.
+ * @param {(string|string[])=} productOption - Optional. The product option values.  Note: empty or null elements in this array will cause the whole productFamily to be returned for that object.  Can just be a string if you only want 1 option. If not passed, or is empty array, will return an array with 1 element - the entire productFamily in a single object
+ * @returns {Promise<Object[]>} - All the productData objects, sorted by optionsSortOrder
+ *
+ */
+export const asyncFetchAndProcessMultipleOptions = async (productFamily, productOptionsArray = []) => {
+	if (!productOptionsArray || productOptionsArray.length === 0) {
+		productOptionsArray = ['']
+	} else if (!Array.isArray(productOptionsArray)) {
+		productOptionsArray = [productOptionsArray]
+	}
+	try {
+		const promises = productOptionsArray.map((productOption) =>
+			asyncFetchAndProcessProducts(productFamily, productOption)
+		)
+
+		const results = await Promise.all(promises)
+
+		// Sort the results array by optionSortOrder
+		const sortedResults = results.sort((a, b) => a.optionSortOrder - b.optionSortOrder)
+
+		// Return the sorted array
+		return sortedResults
+	} catch (error) {
+		console.error('There was an error: ', error)
+		throw error
+	}
+}

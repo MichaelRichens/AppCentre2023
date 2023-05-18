@@ -2,15 +2,15 @@ import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
-import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
+import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	try {
-		const productData = await asyncFetchAndProcessProducts('CONNECT')
+		const productDataArray = await asyncFetchAndProcessMultipleOptions('CONNECT')
 
 		return {
-			props: { productData },
+			props: { productDataArray },
 			revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
 		}
 	} catch (error) {
@@ -20,7 +20,7 @@ export async function getStaticProps() {
 }
 
 const Connect = (props) => {
-	const { productData } = props
+	const { productDataArray } = props
 
 	return (
 		<ProductInfoPage
@@ -28,7 +28,7 @@ const Connect = (props) => {
 			subHeading='The Ultimate Mailserver Solution for SMBs'
 			productName='Kerio Connect'
 			productFamily='CONNECT'
-			productDataArray={[productData]}
+			productDataArray={productDataArray}
 			unitName={new Word('user', 'users')}>
 			<section>
 				<p>

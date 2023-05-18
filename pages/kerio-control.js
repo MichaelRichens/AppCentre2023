@@ -3,15 +3,15 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
-import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
+import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	try {
-		const productData = await asyncFetchAndProcessProducts('CONTROL')
+		const productDataArray = await asyncFetchAndProcessMultipleOptions('CONTROL')
 
 		return {
-			props: { productData },
+			props: { productDataArray },
 			revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
 		}
 	} catch (error) {
@@ -21,14 +21,14 @@ export async function getStaticProps() {
 }
 
 const Control = (props) => {
-	const { productData } = props
+	const { productDataArray } = props
 
 	return (
 		<ProductInfoPage
 			title='Kerio Control'
 			subHeading='Your Comprehensive Security Solution'
 			productFamily='CONTROL'
-			productDataArray={[productData]}
+			productDataArray={productDataArray}
 			unitName={new Word('user', 'users')}>
 			<section>
 				<p>

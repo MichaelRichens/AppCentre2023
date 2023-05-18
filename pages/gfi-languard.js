@@ -2,15 +2,15 @@ import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import Word from '../utils/types/Word'
-import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
+import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	try {
-		const productData = await asyncFetchAndProcessProducts('LANGUARD')
+		const productDataArray = await asyncFetchAndProcessMultipleOptions('LANGUARD')
 
 		return {
-			props: { productData },
+			props: { productDataArray },
 			revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
 		}
 	} catch (error) {
@@ -20,14 +20,14 @@ export async function getStaticProps() {
 }
 
 const LanGuard = (props) => {
-	const { productData } = props
+	const { productDataArray } = props
 
 	return (
 		<ProductInfoPage
 			title='GFI LanGuard'
 			subHeading='Comprehensive Network Security and Patch Management'
 			productFamily='LANGUARD'
-			productDataArray={[productData]}
+			productDataArray={productDataArray}
 			unitName={new Word('node', 'nodes')}>
 			<section>
 				<p>

@@ -1,13 +1,10 @@
 import React from 'react'
 import PricingPage from '../components/PricingPage'
 import Word from '../utils/types/Word'
-import asyncFetchAndProcessProducts from '../server-utils/asyncFetchAndProcessProducts'
+import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productDataArray = await Promise.all([
-		asyncFetchAndProcessProducts('HELPDESK', 'CASE'),
-		asyncFetchAndProcessProducts('HELPDESK', 'FUSION'),
-	])
+	const productDataArray = await asyncFetchAndProcessMultipleOptions('HELPDESK', ['CASE', 'FUSION'])
 
 	return {
 		props: { productDataArray },
