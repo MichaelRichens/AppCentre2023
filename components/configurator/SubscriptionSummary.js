@@ -1,7 +1,6 @@
 import React from 'react'
 import { RotatingLines } from 'react-loader-spinner'
 import ConfigurationSummary from '../../utils/types/ConfigurationSummary'
-import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 /**
  * SubscriptionSummary is a tightly coupled subcomponent of the SubscriptionConfigurator form
