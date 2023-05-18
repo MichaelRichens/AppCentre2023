@@ -21,16 +21,7 @@ export default async function handler(req, res) {
 
 				// console.timeEnd('save-configuration await 1')
 
-				configuration = processConfiguration(
-					freshProductData.name,
-					freshProductData.products,
-					freshProductData.extensions,
-					formData,
-					unitName,
-					formData.type === PurchaseType.ADD && freshProductData.minUnitsStep < freshProductData.minUnits
-						? freshProductData.minUnitsStep
-						: null
-				)
+				configuration = processConfiguration(freshProductData, formData, unitName)
 				priceInPennies = Math.round(configuration.price * 100) // Stripe works with the smallest currency unit
 				if (priceInPennies <= 0) {
 					return res

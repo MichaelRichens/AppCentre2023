@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
 import { useShoppingCart } from 'use-shopping-cart'
 import useFormData from '../hooks/useFormData'
+import ConfiguratorHardSub from './ConfiguratorHardSub'
 import ConfiguratorUnit from './ConfiguratorUnit'
 import ProductOptionSelect from './ProductOptionSelect'
 
@@ -48,18 +49,7 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 	}, [formData])
 
 	const currentConfiguration = useMemo(
-		() =>
-			processConfiguration(
-				productDataArray[formData.optionIndex].name,
-				productDataArray[formData.optionIndex].products,
-				productDataArray[formData.optionIndex].extensions,
-				formData,
-				unitName,
-				formData.type === PurchaseType.ADD &&
-					productDataArray[formData.optionIndex].minUnitsStep < productDataArray[formData.optionIndex].minUnits
-					? productDataArray[formData.optionIndex].minUnitsStep
-					: null
-			),
+		() => processConfiguration(productDataArray[formData.optionIndex], formData, unitName),
 		[productFamily, productDataArray, formData, unitName]
 	)
 
@@ -90,6 +80,9 @@ const Configurator = ({ productFamily, productDataArray, unitName }) => {
 					currentConfiguration={currentConfiguration}
 				/>
 			)
+			break
+		case PricingType.HARDSUB:
+			subConfigurator = <ConfiguratorHardSub />
 			break
 		default:
 			throw new Error(`Unknown PricingType: ${productDataArray[formData.optionIndex].pricingType}`)

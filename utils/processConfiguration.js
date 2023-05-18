@@ -1,8 +1,11 @@
 import ProductConfiguration from './types/ProductConfiguration'
 import ConfigurationSummary from './types/ConfigurationSummary'
+import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
+
 /**
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
+ * Main logic function for processConfiguration - handles PricingType.SUB
  *
  * @param {string} ProductName - The text name of the product.
  * @param {Object[]} products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
@@ -12,7 +15,7 @@ import PurchaseType from './types/enums/PurchaseType'
  * @param {Number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
  * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
-function processConfiguration(
+function processConfigurationSub(
 	productName,
 	products,
 	extensions,
@@ -226,6 +229,25 @@ function findExtensions(searchKeys, extensions, years) {
 		throw new Error(errorMessage)
 	}
 	return uniqueExtensions
+}
+
+function processConfiguration(productData, formData, unitName) {
+	switch (productData.pricingType) {
+		case PricingType.UNIT: {
+			return processConfigurationSub(
+				productData.name,
+				productData.products,
+				productData.extensions,
+				formData,
+				unitName,
+				formData.type === PurchaseType.ADD && productData.minUnitsStep < productData.minUnits
+					? productData.minUnitsStep
+					: null
+			)
+		}
+		default:
+			throw new Error(`Unknown pricingType: ${pricingType}`)
+	}
 }
 
 export default processConfiguration

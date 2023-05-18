@@ -22,7 +22,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 /**
  * @component
- * ConfiguratorUnit is a component that sits within a Configurator component (which manages its state)
+ * Component that sits within a Configurator component (which manages its state)
  * It handles configuration of the PricingType.UNIT type of product
  *
  * @param {Object} props - The properties passed to the component.
