@@ -69,7 +69,22 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
 			const dataWithStringIds = data.map((item) => {
 				return { ...item, _id: item._id.toString() }
 			})
-			return dataWithStringIds
+
+			// Clean up items that may have prices that aren't properly rounded to 2 decimal places (they keep sneaking in)
+			const dataWithRoundedPrices = dataWithStringIds.map((item) => {
+				if (item.price !== undefined && item.price !== null) {
+					return {
+						...item,
+						price: parseFloat(item.price.toFixed(2)),
+					}
+				} else {
+					return {
+						...item,
+					}
+				}
+			})
+
+			return dataWithRoundedPrices
 		} catch (error) {
 			console.error('Error fetching data:', error)
 			throw error
@@ -81,8 +96,8 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
 }
 
 /**
- * Processes all the skus for a gfi product and its extensions for use by the rest of the application
- * @function processProducts
+ * @function
+ * Processes all the skus for a gfi product that uses PricingType.UNIT, and creates a productData object for use by the rest of the app
  * @param {Object} data - An object with certain required and optional data about this gfi product, which supplements and/or overrides data in the other arrays
  * @param {Array} products - The array of product SKUs to process.
  * @param {Array} extensions - The array of extension SKUs to process.
@@ -103,20 +118,6 @@ const processProductsUnit = (data, products, extensions) => {
 	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of units for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
 	//This sorting is important, it being done is relied on elsewhere
 
-	// Clean up price data so that all prices are rounded to 2 decimal places - its a problem with some of the price data that gets missed on import
-	products = products.map((product) => {
-		return {
-			...product,
-			price: parseFloat(product.price.toFixed(2)),
-		}
-	})
-
-	extensions = extensions.map((extension) => {
-		return {
-			...extension,
-			price: parseFloat(extension.price.toFixed(2)),
-		}
-	})
 	const sortedProducts = products.sort((a, b) => {
 		if (a.product_family !== b.product_family) {
 			return a.product_family.localeCompare(b.product_family)
@@ -202,11 +203,19 @@ const processProductsUnit = (data, products, extensions) => {
 }
 
 /**
- * Fetches products and extensions for a given productFamily, and if productFamily uses them, a productOption, and returns the pre-processed results.
- *
+ * @function
+ * Processes all the skus for a gfi product that uses PricingType.HARDSUB, and creates a productData object for use by the rest of the app
+ * @param {Object} data - An object with certain required and optional data about this gfi product, which supplements and/or overrides data in the other arrays
+ * @param {Array} hardware - The array of hardware SKUs to process - includes subscriptions as well as physical hardware.
+ */
+const processProductsHardSub = (data, hardware) => {
+	return {}
+}
+
+/**
  * @async
- * @function asyncFetchAndProcessProducts
- * Fetches and processes products and extensions for a given product family.
+ * @function
+ * Fetches products and extensions for a given productFamily, and if productFamily uses them, a productOption, and returns the pre-processed results.
  * @param {string} productFamily - The product family for which to fetch and process product data.
  * @param {string?} productOption -The product option value within a product family for which to fetch and process product data. Optional since not all productFamilies have it, but required for those that do.
  * @returns {Promise<Object>} A promise that resolves to an object with the following properties:
@@ -230,7 +239,7 @@ export const asyncFetchAndProcessProducts = async (productFamily, productOption 
 	try {
 		// Fetch from db
 		// console.time('asyncFetchAndProcessProducts await 1')
-		const [products, extensions, hardware] = await Promise.all([
+		let [products, extensions, hardware] = await Promise.all([
 			fetchFromProductDataCollection('products', productFamily, productOption),
 			fetchFromProductDataCollection('extensions', productFamily, productOption),
 			fetchFromProductDataCollection('hardware', productFamily, productOption),
@@ -238,9 +247,12 @@ export const asyncFetchAndProcessProducts = async (productFamily, productOption 
 		// console.timeEnd('asyncFetchAndProcessProducts await 1')
 
 		const hcData = getHardcodedDataObject(productFamily, productOption)
+
 		switch (hcData.pricingType) {
 			case PricingType.UNIT:
 				return processProductsUnit(hcData, products, extensions)
+			case PricingType.HARDSUB:
+				return processProductsHardSub(hcData, products, hardware)
 			default:
 				throw new Error(`Unknown PricingType: ${hcData.pricingType}`)
 		}
