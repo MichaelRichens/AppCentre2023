@@ -96,8 +96,7 @@ export default async (req, res) => {
 				console.error(stripeError)
 				return res.status(500).json({ message: `Stripe API error: ${stripeError.message}` })
 			}
-			const { id, invoice } = session
-			console.log(invoice)
+
 			// Return the session ID
 			res.status(200).json({ sessionId: id })
 		} catch (error) {
