@@ -102,8 +102,10 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
  * @param {Object} - The hardcoded data object
  * @returns {Object} - The product data object with its base fields populated
  */
-const createBaseProductDataObject = (hcData) => {
+const createBaseProductDataObject = (hcData, productFamily, productOption) => {
 	const productData = {
+		productFamily: hcData.productFamily,
+		productOption: hcData.productOption,
 		name: hcData.name,
 		familyName: hcData.familyName,
 		pricingType: hcData.pricingType,

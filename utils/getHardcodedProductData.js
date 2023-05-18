@@ -26,5 +26,8 @@ export function getHardcodedDataObject(productFamily, productOption) {
 	const { options, ...hcFamilyExceptOptions } = hcFamily
 	const hcData = { ...hcFamilyExceptOptions, ...hcOption } // the hardcoded values for this productData and productOption combo
 
+	hcData.productFamily = productFamily
+	hcData.productOption = productOption
+
 	return hcData
 }

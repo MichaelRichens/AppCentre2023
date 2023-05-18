@@ -35,160 +35,7 @@ function findExtensions(searchKeys, extensions, years) {
 }
 
 /**
- * @function
- * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
- * Main logic function for processConfiguration - handles PricingType.SUB
- *
- * @param {string} ProductName - The text name of the product.
- * @param {Object[]} products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
- * @param {Object[]} extensions - The individual extensions skus data to calculate price from.
- * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
- * @param {Object} unitName - The type of units that are being used (users or whatever)
- * @param {number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
- * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
- */
-function processConfigurationSub(
-	productName,
-	products,
-	extensions,
-	configuratorOptions,
-	unitName,
-	minUnitsOverride = null
-) {
-	/** The return object */
-	const result = new ProductConfiguration(configuratorOptions.type, 0, configuratorOptions.years)
-
-	/**
-	 * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
-	 * This value is used for determining the price band based on the subscription type.
-	 */
-	let numUnitsForPriceBand
-	/**
-	 * @type {number} - Represents the total number of users being added to the description.
-	 * This value is used for determining the quantity to purchase.
-	 */
-	let numUnitsToPurchase
-	/**
-	 * @type {number} - The number of complete years to purchase for.
-	 * If fractional years are not allowed for a type option, any part year will be rounded up to here (not that this should ever happen)
-	 */
-	let wholeYears
-	/**
-	 * @type {number} - The fractional part of a year that is allowed with some types (eg PurchaseType.ADD - adding new users).
-	 * Price will be calculated pro-rata from the 1 year sku
-	 */
-	let partYears = 0
-
-	switch (configuratorOptions.type) {
-		case PurchaseType.NEW:
-			numUnitsForPriceBand = configuratorOptions.unitsChange
-			numUnitsToPurchase = configuratorOptions.unitsChange
-			wholeYears = Math.ceil(configuratorOptions.years)
-			break
-		case PurchaseType.ADD:
-			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true') {
-				numUnitsForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
-			} else {
-				numUnitsForPriceBand = configuratorOptions.unitsChange
-			}
-			numUnitsToPurchase = configuratorOptions.unitsChange
-			wholeYears = Math.floor(configuratorOptions.years)
-			partYears = configuratorOptions.years - wholeYears
-			break
-		case PurchaseType.EXT:
-			numUnitsToPurchase = configuratorOptions.existingUnits
-			numUnitsForPriceBand = 0
-			wholeYears = Math.floor(configuratorOptions.years)
-			partYears = configuratorOptions.years - wholeYears
-			break
-		default:
-			numUnitsForPriceBand = configuratorOptions.unitsChange + configuratorOptions.existingUnits
-			numUnitsToPurchase = configuratorOptions.unitsChange + configuratorOptions.existingUnits
-			wholeYears = Math.ceil(configuratorOptions.years)
-	}
-
-	if (numUnitsToPurchase < 1) {
-		// No users, just exit early with default result.
-		return result
-	}
-
-	result.units = numUnitsToPurchase
-
-	if (configuratorOptions.type !== PurchaseType.EXT) {
-		const productsWithCorrectWholeYear = products.filter((sku) => sku.years === wholeYears)
-		/** @var Array - Holds part codes for products with a 1 year subscription, used for pro-rata of part year items */
-		const productsWithOneYear = products.filter((sku) => sku.years === 1)
-
-		if (wholeYears > 0) {
-			const wholeYearProduct = findProductWithCorrectUserBand(
-				productsWithCorrectWholeYear,
-				numUnitsForPriceBand,
-				minUnitsOverride
-			)
-
-			if (wholeYearProduct === false) {
-				throw new Error('This should never happen.  Unable to find product with correct duration.')
-			}
-
-			result.skus[wholeYearProduct.sku] = numUnitsToPurchase
-			result.price += wholeYearProduct.price * numUnitsToPurchase
-		}
-		if (partYears > 0) {
-			const partYearProduct = findProductWithCorrectUserBand(
-				productsWithOneYear,
-				numUnitsForPriceBand,
-				minUnitsOverride
-			)
-			if (partYearProduct === false) {
-				throw new Error('This should never happen.  Missing 1 year part code for product.')
-			}
-
-			result.skus[partYearProduct.sku] = numUnitsToPurchase * partYears
-			result.price += partYearProduct.price * numUnitsToPurchase * partYears
-		}
-	}
-	/** @type {string[]|boolean} Needs to be populated with a list of extension names to generate the summary from. Or boolean false if there are none. */
-	let extensionNames = false
-
-	if (wholeYears > 0) {
-		const wholeYearExtensions = findExtensions(configuratorOptions.checkedExtensions, extensions, wholeYears)
-
-		wholeYearExtensions.forEach((extension) => {
-			result.skus[extension.sku] = numUnitsToPurchase
-			result.price += extension.price * numUnitsToPurchase
-		})
-		extensionNames = wholeYearExtensions.map((extension) => extension.name)
-	}
-	if (partYears > 0) {
-		const partYearExtensions = findExtensions(configuratorOptions.checkedExtensions, extensions, 1)
-
-		partYearExtensions.forEach((extension) => {
-			if (!result.skus.hasOwnProperty(extension.sku)) {
-				result.skus[extension.sku] = 0
-			}
-			result.skus[extension.sku] += numUnitsToPurchase * partYears
-			result.price += extension.price * numUnitsToPurchase * partYears
-		})
-		if (extensionNames === false) {
-			extensionNames = partYearExtensions.map((extension) => extension.name)
-		}
-	}
-	result.summary = new ConfigurationSummary(
-		productName,
-		result.type,
-		result.price,
-		configuratorOptions.existingUnits,
-		configuratorOptions.unitsChange,
-		wholeYears + partYears,
-		extensionNames,
-		unitName
-	)
-
-	return result
-}
-
-/**
- * Helper function.
+ * Helper function for processConfigurationUnit.
  * Returns the sku of first product it encounters (searching from the end of the passed array) which has a user band that matches the passed number.
  * @param {object[]} sortedProductsOfCorrectYear - An array of products, where we want to find the one which is for the correct user band
  * @param {number} numUnitsForPriceBand - The number of users, from which to find the user band.
@@ -235,12 +82,169 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
 
 /**
  * @function
+ * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
+ * Main logic function for processConfiguration - handles PricingType.SUB
+ *
+ * @param {string} ProductName - The text name of the product.
+ * @param {Object[]} products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
+ * @param {Object[]} extensions - The individual extensions skus data to calculate price from.
+ * @param {Object} formData - The configurator options, such as type, users, and years.
+ * @param {Object} unitName - The type of units that are being used (users or whatever)
+ * @param {number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
+ * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
+ */
+function processConfigurationSub(productName, products, extensions, formData, unitName, minUnitsOverride = null) {
+	/** The return object */
+	const result = new ProductConfiguration(formData.type, 0, formData.years)
+
+	/**
+	 * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
+	 * This value is used for determining the price band based on the subscription type.
+	 */
+	let numUnitsForPriceBand
+	/**
+	 * @type {number} - Represents the total number of users being added to the description.
+	 * This value is used for determining the quantity to purchase.
+	 */
+	let numUnitsToPurchase
+	/**
+	 * @type {number} - The number of complete years to purchase for.
+	 * If fractional years are not allowed for a type option, any part year will be rounded up to here (not that this should ever happen)
+	 */
+	let wholeYears
+	/**
+	 * @type {number} - The fractional part of a year that is allowed with some types (eg PurchaseType.ADD - adding new users).
+	 * Price will be calculated pro-rata from the 1 year sku
+	 */
+	let partYears = 0
+
+	switch (formData.type) {
+		case PurchaseType.NEW:
+			numUnitsForPriceBand = formData.unitsChange
+			numUnitsToPurchase = formData.unitsChange
+			wholeYears = Math.ceil(formData.years)
+			break
+		case PurchaseType.ADD:
+			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true') {
+				numUnitsForPriceBand = formData.unitsChange + formData.existingUnits
+			} else {
+				numUnitsForPriceBand = formData.unitsChange
+			}
+			numUnitsToPurchase = formData.unitsChange
+			wholeYears = Math.floor(formData.years)
+			partYears = formData.years - wholeYears
+			break
+		case PurchaseType.EXT:
+			numUnitsToPurchase = formData.existingUnits
+			numUnitsForPriceBand = 0
+			wholeYears = Math.floor(formData.years)
+			partYears = formData.years - wholeYears
+			break
+		default:
+			numUnitsForPriceBand = formData.unitsChange + formData.existingUnits
+			numUnitsToPurchase = formData.unitsChange + formData.existingUnits
+			wholeYears = Math.ceil(formData.years)
+	}
+
+	if (numUnitsToPurchase < 1) {
+		// No users, just exit early with default result.
+		return result
+	}
+
+	result.units = numUnitsToPurchase
+
+	if (formData.type !== PurchaseType.EXT) {
+		const productsWithCorrectWholeYear = products.filter((sku) => sku.years === wholeYears)
+		/** @var Array - Holds part codes for products with a 1 year subscription, used for pro-rata of part year items */
+		const productsWithOneYear = products.filter((sku) => sku.years === 1)
+
+		if (wholeYears > 0) {
+			const wholeYearProduct = findProductWithCorrectUserBand(
+				productsWithCorrectWholeYear,
+				numUnitsForPriceBand,
+				minUnitsOverride
+			)
+
+			if (wholeYearProduct === false) {
+				throw new Error('This should never happen.  Unable to find product with correct duration.')
+			}
+
+			result.skus[wholeYearProduct.sku] = numUnitsToPurchase
+			result.price += wholeYearProduct.price * numUnitsToPurchase
+		}
+		if (partYears > 0) {
+			const partYearProduct = findProductWithCorrectUserBand(
+				productsWithOneYear,
+				numUnitsForPriceBand,
+				minUnitsOverride
+			)
+			if (partYearProduct === false) {
+				throw new Error('This should never happen.  Missing 1 year part code for product.')
+			}
+
+			result.skus[partYearProduct.sku] = numUnitsToPurchase * partYears
+			result.price += partYearProduct.price * numUnitsToPurchase * partYears
+		}
+	}
+	/** @type {string[]|boolean} Needs to be populated with a list of extension names to generate the summary from. Or boolean false if there are none. */
+	let extensionNames = false
+
+	if (wholeYears > 0) {
+		const wholeYearExtensions = findExtensions(formData.checkedExtensions, extensions, wholeYears)
+
+		wholeYearExtensions.forEach((extension) => {
+			result.skus[extension.sku] = numUnitsToPurchase
+			result.price += extension.price * numUnitsToPurchase
+		})
+		extensionNames = wholeYearExtensions.map((extension) => extension.name)
+	}
+	if (partYears > 0) {
+		const partYearExtensions = findExtensions(formData.checkedExtensions, extensions, 1)
+
+		partYearExtensions.forEach((extension) => {
+			if (!result.skus.hasOwnProperty(extension.sku)) {
+				result.skus[extension.sku] = 0
+			}
+			result.skus[extension.sku] += numUnitsToPurchase * partYears
+			result.price += extension.price * numUnitsToPurchase * partYears
+		})
+		if (extensionNames === false) {
+			extensionNames = partYearExtensions.map((extension) => extension.name)
+		}
+	}
+	result.summary = new ConfigurationSummary(
+		productName,
+		result.type,
+		result.price,
+		formData.existingUnits,
+		formData.unitsChange,
+		wholeYears + partYears,
+		extensionNames,
+		unitName
+	)
+
+	return result
+}
+
+/**
+ * @function
+ * STUB
+ */
+function processConfigurationHardSub(productName, hardware, formData, unitName) {
+	const result = new ProductConfiguration(formData.type, 0, formData.years)
+
+	return result
+}
+
+/**
+ * @function
  * Calculates the price and generates the skus needed for a given set of configurator options, based on passed in productData and formData.
  *
  * @param {Object} productData - The product data object which contains pricing, skus etc. - its shape will depend on its pricing type property (which must be present and of type PricingType)
  * @param {Object} formData - The form data object, which contains the user's choices - shape will depend on productData.pricingType
  */
 function processConfiguration(productData, formData) {
+	console.log(productData)
 	switch (productData.pricingType) {
 		case PricingType.UNIT: {
 			return processConfigurationSub(
@@ -254,8 +258,11 @@ function processConfiguration(productData, formData) {
 					: null
 			)
 		}
+		case PricingType.HARDSUB: {
+			return processConfigurationHardSub(productData.name, productData.hardware, formData, productData.unitName)
+		}
 		default:
-			throw new Error(`Unknown pricingType: ${pricingType}`)
+			throw new Error(`Unknown pricingType: ${productData.pricingType}`)
 	}
 }
 
