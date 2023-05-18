@@ -69,20 +69,23 @@ const ConfiguratorWithUnits = ({
 		durationClass = configuratorStyles.monthsRemaining
 	}
 
+	const typeOptions = { [PurchaseType.SUB]: 'Existing Subscription Renewal' }
+	if (true) {
+		// Will need to make this optional for GFI Unlimited - not implemented this yet
+		typeOptions[PurchaseType.NEW] = 'New Subscription'
+	}
+	if (productData.maxUnits - productData.minUnits > formData.existingUnits) {
+		typeOptions[PurchaseType.ADD] = `Add ${unitName.pluralC} To Subscription`
+	}
+	if (productData.availableExtensions.length > 0) {
+		typeOptions[PurchaseType.EXT] = 'Add Extensions to Subscription'
+	}
+
 	return (
 		<>
 			<fieldset>
 				<legend>Type of Purchase</legend>
-				<TypeChangeSelect
-					type={formData.type}
-					addUserOption={
-						productData.maxUnits - productData.minUnits > formData.existingUnits
-							? `Add ${unitName.pluralC} To Subscription`
-							: false
-					}
-					addExtOption={productData.availableExtensions.length > 0 ? 'Add Extensions to Subscription' : false}
-					onTypeChange={handleTypeChange}
-				/>
+				<TypeChangeSelect type={formData.type} typeOptions={typeOptions} onTypeChange={handleTypeChange} />
 			</fieldset>
 
 			<fieldset>
