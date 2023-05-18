@@ -8,7 +8,7 @@ import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	try {
-		const productDataArray = await asyncFetchAndProcessMultipleOptions('CONTROL')
+		const productDataArray = await asyncFetchAndProcessMultipleOptions('CONTROL', ['CONTROL', 'CONTROLBOX'])
 
 		return {
 			props: { productDataArray },
@@ -22,7 +22,7 @@ export async function getStaticProps() {
 
 const Control = (props) => {
 	const { productDataArray } = props
-
+	console.log(productDataArray)
 	return (
 		<ProductInfoPage
 			title='Kerio Control'
