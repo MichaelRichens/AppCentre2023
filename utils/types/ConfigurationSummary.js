@@ -1,5 +1,4 @@
 import PurchaseType from './enums/PurchaseType'
-import Word from './Word'
 import { formatPriceFromPounds } from '../formatPrice'
 
 const createProductDescription = Symbol('privateMethod')
@@ -20,7 +19,7 @@ const durationString = Symbol('durationString')
  * @param {number} unitsChange - The change in units being made to the subscription (or total users for a new subscription).
  * @param {number} years - The duration in years that the subscription will run for (or is running for if that is not being modified).  Can be fractional for some `type` values.
  * @param {string[]} extensionNames - The names (as in user-appropriate descriptions) of the extensions on this configuration, may be existing or new depending on `type`
- * @param {Word} unitName - A Word type object holding the name for the unit that the subscription is measured in - eg 'User'
+ * @param {Object} unitName - A createUnitName object holding the name for the unit that the subscription is measured in - eg 'User'
  * @static fromProperties(properties: Object) - Creates a new ConfigurationSummary instance from an object with property values that match the properties of the ConfigurationSummary class.
  */
 class ConfigurationSummary {

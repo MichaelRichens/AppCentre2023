@@ -19,7 +19,7 @@ import PricingType from '../../utils/types/enums/PricingType'
  * @param {Object} props - The component props.
  * @param {string} props.productFamily - The code for the product family to create a configurator for
  * @param {Object[]} props.productDataArray - An array of product data object, one for each product option to be displayed, and chosen from in the options control.
- * @param {Word} props.unitName - If units are used, the Word instance which is used to represent them.  TODO don't pass this in at this level, since it prevents multiple types of units being used within a productFamily.  Should be part of the productDataArray objects, but *shrug*, isn't an issue at present.
+ * @param {Object} props.unitName - If units are used, the Word instance which is used to represent them.  TODO don't pass this in at this level, since it prevents multiple types of units being used within a productFamily.  Should be part of the productDataArray objects, but *shrug*, isn't an issue at present.
  * @returns The Configurator form element.
  */
 const Configurator = ({ productFamily, productDataArray, unitName }) => {

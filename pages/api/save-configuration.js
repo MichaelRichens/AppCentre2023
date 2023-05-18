@@ -7,8 +7,8 @@ import { stripe } from '../../server-utils/initStripe'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
-		const { productFamily, productOption, unitName, formData } = req.body
-		if (productFamily && productFamily.length > 0 && unitName && formData) {
+		const { productFamily, productOption, formData } = req.body
+		if (productFamily && productFamily.length > 0 && formData) {
 			let key
 			let configuration
 			let priceInPennies
@@ -21,7 +21,7 @@ export default async function handler(req, res) {
 
 				// console.timeEnd('save-configuration await 1')
 
-				configuration = processConfiguration(freshProductData, formData, unitName)
+				configuration = processConfiguration(freshProductData, formData)
 				priceInPennies = Math.round(configuration.price * 100) // Stripe works with the smallest currency unit
 				if (priceInPennies <= 0) {
 					return res

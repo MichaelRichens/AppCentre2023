@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
-import Word from '../utils/types/Word'
+import createUnitName from '../utils/createUnitName'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
@@ -27,8 +27,7 @@ const LanGuard = (props) => {
 			title='GFI LanGuard'
 			subHeading='Comprehensive Network Security and Patch Management'
 			productFamily='LANGUARD'
-			productDataArray={productDataArray}
-			unitName={new Word('node', 'nodes')}>
+			productDataArray={productDataArray}>
 			<section>
 				<p>
 					Introducing GFI LanGuard, a powerful network security and vulnerability management solution. GFI LanGuard

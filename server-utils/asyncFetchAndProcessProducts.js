@@ -1,6 +1,7 @@
 import { connectToDatabase } from './mongodb'
 import { getHardcodedDataObject } from '../utils/getHardcodedProductData'
 import PricingType from '../utils/types/enums/PricingType'
+import createUnitName from '../utils/createUnitName'
 
 /**
  * Checks if a collection exists in the database.
@@ -107,6 +108,7 @@ const createBaseProductDataObject = (hcData) => {
 		familyName: hcData.familyName,
 		pricingType: hcData.pricingType,
 		optionSortOrder: Number(hcData.optionSortOrder) || 1000,
+		unitName: hcData.unitName ? createUnitName(hcData.unitName.singular, hcData.unitName.plural) : null,
 	}
 	return productData
 }
@@ -263,15 +265,19 @@ export const asyncFetchAndProcessProducts = async (productFamily, productOption 
 		// console.timeEnd('asyncFetchAndProcessProducts await 1')
 
 		const hcData = getHardcodedDataObject(productFamily, productOption)
-
+		let results
 		switch (hcData.pricingType) {
 			case PricingType.UNIT:
-				return processProductsUnit(hcData, products, extensions)
+				results = processProductsUnit(hcData, products, extensions)
+				break
 			case PricingType.HARDSUB:
-				return processProductsHardSub(hcData, products, hardware)
+				results = processProductsHardSub(hcData, products, hardware)
+				break
 			default:
 				throw new Error(`Unknown PricingType: ${hcData.pricingType}`)
 		}
+
+		return results
 	} catch (error) {
 		console.error('There was an error fetching or processing the products:', error)
 		throw error
@@ -301,7 +307,6 @@ export const asyncFetchAndProcessMultipleOptions = async (productFamily, product
 
 		// Sort the results array by optionSortOrder
 		const sortedResults = results.sort((a, b) => a.optionSortOrder - b.optionSortOrder)
-
 		// Return the sorted array
 		return sortedResults
 	} catch (error) {

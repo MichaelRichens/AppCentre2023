@@ -1,6 +1,6 @@
 import React from 'react'
 import PricingPage from '../components/PricingPage'
-import Word from '../utils/types/Word'
+import createUnitName from '../utils/createUnitName'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 
 export async function getStaticProps() {
@@ -18,8 +18,7 @@ const ArchiverPricing = (props) => {
 		<PricingPage
 			productIntro={<p>GFI Archiver is licenced on a per-mailbox yearly subscription basis.</p>}
 			productFamily={'ARCHIVER'}
-			productDataArray={productDataArray}
-			unitName={new Word('mailbox', 'mailboxes')}></PricingPage>
+			productDataArray={productDataArray}></PricingPage>
 	)
 }
 

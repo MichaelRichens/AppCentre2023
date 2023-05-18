@@ -5,7 +5,7 @@ import PurchaseUnitInput from './PurchaseUnitInput'
 import ExtensionCheckboxes from './ExtensionCheckboxes'
 import YearsSelect from './YearsSelect'
 import MonthsRemainingSelect from './MonthsRemainingSelect'
-import Word from '../../utils/types/Word'
+import createUnitName from '../../utils/createUnitName'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleTypeChange,
@@ -27,7 +27,6 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  *
  * @param {Object} props - The properties passed to the component.
  * @param {Object} props.productData - Products data from the database for a single productFamily+productOption combination
- * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
  * @param {Object} props.formData - The object from which to read current form state
  * @param {updateFormDataCallback} props.updateFormData - The function to update form state, passed an object with fields to update (will wipe all errors that are not passed)
  * @param {boolean} props.suppressAriaLivePriceUpdate - State indicating whether aria-live announcements of price changes should be prevented
@@ -38,7 +37,6 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 const ConfiguratorUnit = ({
 	productData,
-	unitName,
 	formData,
 	updateFormData,
 	suppressAriaLivePriceUpdate,
@@ -74,7 +72,7 @@ const ConfiguratorUnit = ({
 		typeOptions[PurchaseType.NEW] = 'New Subscription'
 	}
 	if (productData.maxUnits - productData.minUnits > formData.existingUnits) {
-		typeOptions[PurchaseType.ADD] = `Add ${unitName.pluralC} To Subscription`
+		typeOptions[PurchaseType.ADD] = `Add ${productData.unitName.pluralC} To Subscription`
 	}
 	if (productData.availableExtensions.length > 0) {
 		typeOptions[PurchaseType.EXT] = 'Add Extensions to Subscription'
@@ -88,7 +86,7 @@ const ConfiguratorUnit = ({
 			</fieldset>
 
 			<fieldset>
-				<legend>{unitName.pluralC}</legend>
+				<legend>{productData.unitName.pluralC}</legend>
 				<PurchaseUnitInput
 					allowDisplay={
 						formData.type === PurchaseType.SUB ||
@@ -96,7 +94,9 @@ const ConfiguratorUnit = ({
 						(formData.type === PurchaseType.ADD &&
 							process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true')
 					}
-					label={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${unitName.pluralC} on Subscription`}
+					label={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${
+						productData.unitName.pluralC
+					} on Subscription`}
 					min={productData.minUnits}
 					max={productData.maxUnits}
 					step={productData.minUnitsStep}
@@ -110,10 +110,10 @@ const ConfiguratorUnit = ({
 					allowDisplay={formData.type !== PurchaseType.EXT}
 					label={
 						formData.type === PurchaseType.NEW
-							? `Number of ${unitName.pluralC}`
+							? `Number of ${productData.unitName.pluralC}`
 							: formData.type === PurchaseType.ADD
-							? `${unitName.pluralC} to Add`
-							: `Adjust Number of ${unitName.pluralC} by`
+							? `${productData.unitName.pluralC} to Add`
+							: `Adjust Number of ${productData.unitName.pluralC} by`
 					}
 					min={
 						formData.type === PurchaseType.SUB

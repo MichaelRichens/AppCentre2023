@@ -1,7 +1,6 @@
 import React from 'react'
 import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
-import Word from '../utils/types/Word'
 import { formatPriceFromPounds } from '../utils/formatPrice'
 import priceTableStyles from '../styles/Table.shared.module.css'
 
@@ -11,7 +10,7 @@ import priceTableStyles from '../styles/Table.shared.module.css'
  * @param {Object} props The component properties.
  * @param {string} props.productName - The display name of the product
  * @param {Object} props.products - An array of product objects, assumed to be sorted first by subscription length, then by unit band.  Assume unit bands will be identical for different subscription lengths.
- * @param {Word} unitName - A Word object for the name of the units that are used for price bands (eg Users)
+ * @param {Object} unitName - A createUnitName object for the name of the units that are used for price bands (eg Users)
  * @returns {JSX.Element} The pricing element.
  */
 const PriceTableWithUnits = ({ productName, products, unitName }) => {

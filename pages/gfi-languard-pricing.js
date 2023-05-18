@@ -1,6 +1,6 @@
 import React from 'react'
 import PricingPage from '../components/PricingPage'
-import Word from '../utils/types/Word'
+import createUnitName from '../utils/createUnitName'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 
 export async function getStaticProps() {
@@ -18,8 +18,7 @@ const LanGuardPricing = (props) => {
 		<PricingPage
 			productIntro={<p>GFI Languard is licenced on a per-node yearly subscription basis.</p>}
 			productFamily={'LANGUARD'}
-			productDataArray={productDataArray}
-			unitName={new Word('node', 'nodes')}></PricingPage>
+			productDataArray={productDataArray}></PricingPage>
 	)
 }
 

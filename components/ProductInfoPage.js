@@ -12,11 +12,10 @@ import productInfoStyles from '../styles/ProductInfo.shared.module.css'
  * @param {string?} props.subHeading - Optional. A supplement to the main title.
  * @param {string} props.productFamily - The product family code.
  * @param {Object[]} props.productDataArray - The product data pulled from the database, one object for each option (or just one element if there are no options).
- * @param {Word} props.unitName - A Word object representing the units the product is sold in.
  * @param {JSX.Element} props.children - The child components to render within the page.
  * @returns {JSX.Element} The ProductInfoPage component.
  */
-const ProductInfoPage = ({ title, subHeading, productFamily, productDataArray, unitName, children }) => {
+const ProductInfoPage = ({ title, subHeading, productFamily, productDataArray, children }) => {
 	let productData
 	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
 		throw new Error('Invalid productDataArray')
@@ -30,13 +29,13 @@ const ProductInfoPage = ({ title, subHeading, productFamily, productDataArray, u
 		<Page title={title} subHeading={subHeading}>
 			{showTopConfigurator && (
 				<aside className={productInfoStyles.topConfigurator}>
-					<Configurator productFamily={productFamily} productDataArray={productDataArray} unitName={unitName} />
+					<Configurator productFamily={productFamily} productDataArray={productDataArray} />
 				</aside>
 			)}
 			<article className={productInfoStyles.article}>{children}</article>
 			{!showTopConfigurator && (
 				<aside>
-					<Configurator productFamily={productFamily} productDataArray={productDataArray} unitName={unitName} />
+					<Configurator productFamily={productFamily} productDataArray={productDataArray} />
 				</aside>
 			)}
 		</Page>

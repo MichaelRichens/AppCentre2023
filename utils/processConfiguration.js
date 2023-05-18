@@ -43,7 +43,7 @@ function findExtensions(searchKeys, extensions, years) {
  * @param {Object[]} products - The individual product skus data to calculate price from, these must be already sorted from low to high user tiers.
  * @param {Object[]} extensions - The individual extensions skus data to calculate price from.
  * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
- * @param {Word} unitName - The type of units that are being used (users or whatever)
+ * @param {Object} unitName - The type of units that are being used (users or whatever)
  * @param {number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
  * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
@@ -239,9 +239,8 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
  *
  * @param {Object} productData - The product data object which contains pricing, skus etc. - its shape will depend on its pricing type property (which must be present and of type PricingType)
  * @param {Object} formData - The form data object, which contains the user's choices - shape will depend on productData.pricingType
- * @param {Word?} unitName - Optional (depends on productData.pricingType) The Word object for the name of the type of units, if any.
  */
-function processConfiguration(productData, formData, unitName = null) {
+function processConfiguration(productData, formData) {
 	switch (productData.pricingType) {
 		case PricingType.UNIT: {
 			return processConfigurationSub(
@@ -249,7 +248,7 @@ function processConfiguration(productData, formData, unitName = null) {
 				productData.products,
 				productData.extensions,
 				formData,
-				unitName,
+				productData.unitName,
 				formData.type === PurchaseType.ADD && productData.minUnitsStep < productData.minUnits
 					? productData.minUnitsStep
 					: null

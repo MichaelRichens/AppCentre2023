@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
-import Word from '../utils/types/Word'
+import createUnitName from '../utils/createUnitName'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
@@ -22,8 +22,7 @@ const HelpDesk = (props) => {
 			title='GFI HelpDesk'
 			subHeading='A Comprehensive, Integrated Helpdesk Solution'
 			productFamily='HELPDESK'
-			productDataArray={productDataArray}
-			unitName={new Word('user', 'users')}>
+			productDataArray={productDataArray}>
 			<section>
 				<p>
 					GFI HelpDesk is a game-changer in the realm of customer support management. As businesses grow, the management

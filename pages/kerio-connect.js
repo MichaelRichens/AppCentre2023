@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
-import Word from '../utils/types/Word'
+import createUnitName from '../utils/createUnitName'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
@@ -28,8 +28,7 @@ const Connect = (props) => {
 			subHeading='The Ultimate Mailserver Solution for SMBs'
 			productName='Kerio Connect'
 			productFamily='CONNECT'
-			productDataArray={productDataArray}
-			unitName={new Word('user', 'users')}>
+			productDataArray={productDataArray}>
 			<section>
 				<p>
 					Perfectly tailored for small to medium-sized businesses (SMBs), Kerio Connect is a trusted mail server and

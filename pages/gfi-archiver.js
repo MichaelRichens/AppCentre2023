@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
-import Word from '../utils/types/Word'
+import createUnitName from '../utils/createUnitName'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
 
@@ -27,8 +27,7 @@ const Archiver = (props) => {
 			title='GFI Archiver'
 			subHeading='Archive your emails, calendar, faxes and files with tamper-proof security'
 			productFamily='ARCHIVER'
-			productDataArray={productDataArray}
-			unitName={new Word('mailbox', 'mailboxes')}>
+			productDataArray={productDataArray}>
 			<section>
 				<p>
 					GFI Archiver is a robust and comprehensive software solution designed to securely store and manage your
