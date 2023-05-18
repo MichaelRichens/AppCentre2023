@@ -1,4 +1,4 @@
-import Stripe from 'stripe'
+import { stripe } from '../../server-utils/initStripe'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
@@ -7,7 +7,6 @@ export default async function handler(req, res) {
 			if (!sessionId) {
 				return res.status(400).json({ error: 'Incomplete request' })
 			}
-			const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 			try {
 				const session = await stripe.checkout.sessions.retrieve(sessionId)

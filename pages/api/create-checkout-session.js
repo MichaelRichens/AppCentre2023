@@ -1,4 +1,4 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+import { stripe } from '../../server-utils/initStripe'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 
 export default async (req, res) => {

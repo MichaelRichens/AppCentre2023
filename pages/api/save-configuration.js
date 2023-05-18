@@ -3,7 +3,6 @@ import processConfiguration from '../../utils/processConfiguration'
 import flattenObject from '../../utils/flattenObject'
 import { asyncFetchAndProcessProducts } from '../../server-utils/asyncFetchAndProcessProducts'
 import { asyncSaveConfiguration } from '../../server-utils/saveAndGetConfigurations'
-import { stripe } from '../../server-utils/initStripe'
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
