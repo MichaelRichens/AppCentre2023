@@ -5,6 +5,37 @@ import PurchaseType from './types/enums/PurchaseType'
 
 /**
  * @function
+ * Helper function for processConfigurationSub.
+ * Returns the correct extensions that match a passed array of extension keys and a value for the years property.
+ * Will throw if it can't find everything, since the alternative is likely to be a wrong purchase (it also normally indicates a coding or db screw up we want to be aware of quickly).
+ * @param {string[]} searchKeys - The extension keys that must all be found.
+ * @param {Object[]} extensions - The collection of extensions to search in.
+ * @param {number} years - The years value that the found extension keys need to have.
+ * @returns {Object[]} - The passed in extensions that matched the passed keys and the passed years value
+ * @throws {Error} If the function is unable to find all the extensions it is looking for with the data it has to search in, it will throw.
+ */
+function findExtensions(searchKeys, extensions, years) {
+	const yearMatches = extensions.filter((extension) => {
+		return extension.years === years && searchKeys.some((key) => key === extension.key)
+	})
+
+	// checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
+	const uniqueExtensions = Array.from(new Set(yearMatches.map((extension) => extension.key))).map((key) =>
+		yearMatches.find((extension) => extension.key === key)
+	)
+
+	if (uniqueExtensions.length !== searchKeys.length) {
+		// This is probably bad data in the database, though could be a user screwing with the data being fed into the function. If its a bad db entry, look for things like a bad figure in years - we don't really check for problems when importing this data
+		const uKeys = uniqueExtensions.map((extension) => extension.key).join(', ')
+		const sKeys = searchKeys.join(', ')
+		const errorMessage = `Extension mismatch, unable to proceed. This probably indicates an error in the database. Looking for year duration: ${years}.\nUnique Extensions: ${uKeys} != Checked Extensions: ${sKeys}`
+		throw new Error(errorMessage)
+	}
+	return uniqueExtensions
+}
+
+/**
+ * @function
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  * Main logic function for processConfiguration - handles PricingType.SUB
  *
@@ -13,7 +44,7 @@ import PurchaseType from './types/enums/PurchaseType'
  * @param {Object[]} extensions - The individual extensions skus data to calculate price from.
  * @param {Object} configuratorOptions - The configurator options, such as type, users, and years.
  * @param {Word} unitName - The type of units that are being used (users or whatever)
- * @param {Number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
+ * @param {number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
  * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
 function processConfigurationSub(
@@ -200,36 +231,6 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
 		}
 	}
 	return false
-}
-
-/**
- * Helper function.
- * Returns the correct extensions that match a passed array of extension keys and a value for the years property.
- * Will throw if it can't find everything, since the alternative is likely to be a wrong purchase (it also normally indicates a coding or db screw up we want to be aware of quickly).
- * @param {string[]} searchKeys - The extension keys that must all be found.
- * @param {Object[]} extensions - The collection of extensions to search in.
- * @param {number} years - The years value that the found extension keys need to have.
- * @returns {Object[]} - The passed in extensions that matched the passed keys and the passed years value
- * @throws {Error} If the function is unable to find all the extensions it is looking for with the data it has to search in, it will throw.
- */
-function findExtensions(searchKeys, extensions, years) {
-	const yearMatches = extensions.filter((extension) => {
-		return extension.years === years && searchKeys.some((key) => key === extension.key)
-	})
-
-	// checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
-	const uniqueExtensions = Array.from(new Set(yearMatches.map((extension) => extension.key))).map((key) =>
-		yearMatches.find((extension) => extension.key === key)
-	)
-
-	if (uniqueExtensions.length !== searchKeys.length) {
-		// This is probably bad data in the database, though could be a user screwing with the data being fed into the function. If its a bad db entry, look for things like a bad figure in years - we don't really check for problems when importing this data
-		const uKeys = uniqueExtensions.map((extension) => extension.key).join(', ')
-		const sKeys = searchKeys.join(', ')
-		const errorMessage = `Extension mismatch, unable to proceed. This probably indicates an error in the database. Looking for year duration: ${years}.\nUnique Extensions: ${uKeys} != Checked Extensions: ${sKeys}`
-		throw new Error(errorMessage)
-	}
-	return uniqueExtensions
 }
 
 /**
