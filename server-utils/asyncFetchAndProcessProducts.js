@@ -236,22 +236,11 @@ const processProductsHardSub = (data, hardware) => {
  * Fetches products and extensions for a given productFamily, and if productFamily uses them, a productOption, and returns the pre-processed results.
  * @param {string} productFamily - The product family for which to fetch and process product data.
  * @param {string?} productOption -The product option value within a product family for which to fetch and process product data. Optional since not all productFamilies have it, but required for those that do.
- * @returns {Promise<Object>} A promise that resolves to an object with the following properties:
+ * @returns {Promise<Object>} A promise that resolves to an object whose shape varies, but will include these properties:
  * 	 @property {string} name - The name of this product, specific to the particular option if there is one
  * 	 @property {string} familyName - The general name of the product that covers all options
  * 	 @property {PricingType} pricingType - The type of pricing used for this product (ie does it have units)
- *   @property {Array} products - The individual product SKUs sorted by years (low to high) and then by user tier (low to high).
- *   @property {Array} extensions - The individual extension SKUs sorted by years (low to high) and then by name.
- *   @property {Array} availableExtensions - An array of unique extensions with a key generated from the extension name (spaces removed).
- *   @property {number} minUnits - The minimum number of units (eg users) supported by the products.
- *   @property {number} maxUnits - The maximum number of units (eg users) supported by the products.
- * 	 @property {number} minUnitsStep - The minimum number of units by which a subscription may be changed - ie 10 if you have to increase by 10s (would mean any value not ending in 0 is invalid)
- *   @property {number} minYears - The minimum number of years a subscription is available for.
- *   @property {number} maxYears - The maximum number of years a subscription is available for.
  *
- * @example
- * const productFamily = 'CONNECT';
- * const processedProducts = await asyncFetchAndProcessProducts(productFamily);
  */
 export const asyncFetchAndProcessProducts = async (productFamily, productOption = null) => {
 	try {
