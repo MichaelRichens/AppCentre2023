@@ -97,6 +97,22 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
 
 /**
  * @function
+ * Helper function to create a productData object and populate it with properties from the hardcoded data object that are common to all PricingTypes
+ * @param {Object} - The hardcoded data object
+ * @returns {Object} - The product data object with its base fields populated
+ */
+const createBaseProductDataObject = (hcData) => {
+	const productData = {
+		name: hcData.name,
+		familyName: hcData.familyName,
+		pricingType: hcData.pricingType,
+		optionSortOrder: Number(hcData.optionSortOrder) || 1000,
+	}
+	return productData
+}
+
+/**
+ * @function
  * Processes all the skus for a gfi product that uses PricingType.UNIT, and creates a productData object for use by the rest of the app
  * @param {Object} data - An object with certain required and optional data about this gfi product, which supplements and/or overrides data in the other arrays
  * @param {Array} products - The array of product SKUs to process.
@@ -118,6 +134,8 @@ const processProductsUnit = (data, products, extensions) => {
 	// We are working on the assumption that the data that comes from the database is valid - if there are things like a missing range of units for which a product that doesn't exist, or an extension that doesn't have skus that match all the years that there are product skus for, these cases have not been accounted for and results will mess up in interesting ways
 	//This sorting is important, it being done is relied on elsewhere
 
+	const productData = createBaseProductDataObject(data)
+
 	const sortedProducts = products.sort((a, b) => {
 		if (a.product_family !== b.product_family) {
 			return a.product_family.localeCompare(b.product_family)
@@ -127,6 +145,8 @@ const processProductsUnit = (data, products, extensions) => {
 		}
 		return a.units_from - b.units_from
 	})
+
+	productData.products = sortedProducts
 
 	const extensionsWithKey = extensions.map((extension) => {
 		return {
@@ -147,6 +167,8 @@ const processProductsUnit = (data, products, extensions) => {
 		}
 	})
 
+	productData.extensions = sortedExtensions
+
 	const uniqueExtensions = sortedExtensions.reduce((acc, extension) => {
 		if (!acc[extension.key]) {
 			acc[extension.key] = {
@@ -159,15 +181,7 @@ const processProductsUnit = (data, products, extensions) => {
 
 	const uniqueExtensionsArray = Object.values(uniqueExtensions)
 
-	const productData = {
-		name: data.name,
-		familyName: data.familyName,
-		pricingType: data.pricingType,
-		products: sortedProducts,
-		extensions: sortedExtensions,
-		availableExtensions: uniqueExtensionsArray,
-		optionSortOrder: Number(data.optionSortOrder) || 1000,
-	}
+	productData.availableExtensions = uniqueExtensionsArray
 
 	if (productData.products.length === 0) {
 		productData.minUnits = 0
@@ -209,7 +223,9 @@ const processProductsUnit = (data, products, extensions) => {
  * @param {Array} hardware - The array of hardware SKUs to process - includes subscriptions as well as physical hardware.
  */
 const processProductsHardSub = (data, hardware) => {
-	return {}
+	const productData = createBaseProductDataObject(data)
+
+	return productData
 }
 
 /**
