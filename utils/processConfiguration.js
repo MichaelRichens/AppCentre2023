@@ -244,7 +244,7 @@ function processConfigurationHardSub(productName, hardware, formData, unitName) 
  * @param {Object} formData - The form data object, which contains the user's choices - shape will depend on productData.pricingType
  */
 function processConfiguration(productData, formData) {
-	console.log(productData)
+	//console.log(productData)
 	switch (productData.pricingType) {
 		case PricingType.UNIT: {
 			return processConfigurationSub(

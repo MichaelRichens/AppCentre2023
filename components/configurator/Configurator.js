@@ -86,6 +86,8 @@ const Configurator = ({ productDataArray, unitName }) => {
 			throw new Error(`Unknown PricingType: ${productDataArray[formData.optionIndex].pricingType}`)
 	}
 
+	console.log(productDataArray)
+
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
 			{productDataArray.length > 1 && (

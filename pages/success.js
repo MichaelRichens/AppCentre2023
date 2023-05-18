@@ -58,7 +58,7 @@ const OrderSuccess = () => {
 							sessionId: sessionIdState,
 						}),
 					})
-					console.log(response)
+					//console.log(response)
 				} catch (error) {
 					console.error('There was an error handing sessionIdState: ', error)
 				}
