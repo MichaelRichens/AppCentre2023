@@ -34,7 +34,9 @@
 			"Referers",
 			"skus",
 			"truetype",
+			"UNLIMU",
 			"usehooks",
+			"WAREX",
 			"XMPP"
 		],
 		"editor.formatOnSave": true,

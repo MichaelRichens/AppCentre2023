@@ -229,6 +229,116 @@ const processProductsUnit = (data, products, extensions) => {
 const processProductsHardSub = (data, hardware) => {
 	const productData = createBaseProductDataObject(data)
 
+	// Assumptions
+	// All sub_families (eg different types of control boxes) have the same years (subscription length) options, so just have single min and max figures
+
+	let minYears = null
+	let maxYears = null
+	let subFamilies = []
+
+	hardware.forEach((item) => {
+		if (minYears === null || minYears > item.Years) {
+			minYears = item.years
+		}
+
+		if (maxYears === null || maxYears < item.years) {
+			maxYears = item.years
+		}
+
+		if (!subFamilies.includes(item.sub_family)) {
+			subFamilies.push(item.sub_family)
+		}
+	})
+
+	if (minYears === null) {
+		throw new Error('Bad duration information.')
+	}
+
+	// This is an array of strings, sorted alphabetically (so NG100 at the top NG500 at the bottom)
+	subFamilies = subFamilies.sort((a, b) => a.localeCompare(b))
+
+	const appliances = {}
+	const accessories = {}
+	const shipping = {}
+	const unlimitedUsers = {}
+
+	subFamilies.forEach((subFamily) => {
+		appliances[subFamily] = []
+		accessories[subFamily] = []
+		shipping[subFamily] = []
+		unlimitedUsers[subFamily] = {}
+	})
+
+	hardware.forEach((item) => {
+		switch (item.type) {
+			case 'HARD':
+				appliances[item.sub_family].push({
+					sku: item.sku,
+					price: item.price,
+					name: item.name,
+				})
+				break
+			case 'ACC':
+				accessories[item.sub_family].push({
+					sku: item.sku,
+					price: item.price,
+					name: item.name,
+				})
+				break
+			case 'SHIP': {
+				shipping[item.sub_family] = {
+					sku: item.sku,
+					price: item.price,
+				}
+				break
+			}
+			case 'UNLIMU': {
+				unlimitedUsers[item.sub_family][item.years] = {
+					sku: item.sku,
+					price: item.price,
+				}
+			}
+		}
+	})
+
+	hardware.forEach((item) => {
+		switch (item.type) {
+			case 'WAREX': {
+				const index = appliances[item.sub_family].findIndex((appliance) => appliance.sku === item.for_sku)
+				if (index !== -1) {
+					appliances[item.sub_family][index].extendedWarranty = {
+						sku: item.sku,
+						years: 2,
+						price: item.price,
+					}
+				} else {
+					console.error(`Extended warranty sku: ${item.sku} cannot find for_sku: ${item.sku_for} `)
+				}
+				break
+			}
+		}
+	})
+
+	// These are integers
+	productData.minYears = minYears
+	productData.maxYears = maxYears
+
+	// This is an array of strings, sorted alphabetically (so NG100 at the top NG500 at the bottom)
+	productData.subFamilies = subFamilies
+
+	// Object, with properties that match sub-family strings, each of which will be an array of objects with name, sku, price, extendedWarranty and shipping properties.
+	// extendedWarranty is another object with sku, years and price properties.  shipping is another object with sku and price properties
+	productData.appliances = appliances
+
+	// Object, with properties that match sub-family strings, each of which will be an array of objects with name, sku and price properties
+	productData.accessories = accessories
+
+	// Object, with properties that match sub-family strings, each of which is an object with sku and price properties
+	productData.shipping = shipping
+
+	// Object, with properties that match sub-family strings, each of which is an object with properties that match how many years the subscription is for, which are objects with sku and price properties
+	productData.unlimitedUsers = unlimitedUsers
+
 	return productData
 }
 
@@ -262,7 +372,7 @@ export const asyncFetchAndProcessProducts = async (productFamily, productOption 
 				results = processProductsUnit(hcData, products, extensions)
 				break
 			case PricingType.HARDSUB:
-				results = processProductsHardSub(hcData, products, hardware)
+				results = processProductsHardSub(hcData, hardware)
 				break
 			default:
 				throw new Error(`Unknown PricingType: ${hcData.pricingType}`)
