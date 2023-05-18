@@ -22,17 +22,18 @@ import {
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 /**
- * @warning Do not have more than 1 of these components rendered with the same productFamily at the same time, they will not share data properly since they only read from ConfiguratorContext on rerender.
  * @component
- * SubscriptionConfigurator is a component that allows users to configure a their subscription
- * It generates a subscription for the software product with the passed productFamily
- * Form data is stored in the app level ConfiguratorContext, keyed by productFamily
- * It is customised with the passed productData.
+ * ConfiguratorWithUnits is a component that sits within a Configurator component (which manages its state)
+ * It handles configuration of the PricingType.UNIT type of product
  *
  * @param {Object} props - The properties passed to the component.
- * @param {string} props.productFamily - The identifier for the product family.
- * @param {Object} props.productData - Products data from the database - pricing, skus etc.
+ * @param {Object} props.productData - Products data from the database for a single productFamily+productOption combination
  * @param {Word} props.unitName - An instance of the Word class representing the unit name in singular and plural forms.
+ * @param {Object} props.formData - The object from which to read current form state
+ * @param {updateFormDataCallback} props.updateFormData - The function to update form state, passed an object with fields to update (will wipe all errors that are not passed)
+ * @param {boolean} props.suppressAriaLivePriceUpdate - State indicating whether aria-live announcements of price changes should be prevented
+ * @param {boolean} props.addingToCart - State indicating whether an add to cart operation has been started but not yet completed.
+ * @param {ProductConfiguration} props.currentConfiguration - A ProductConfiguration instance holding data on the current configuration
  * @returns {JSX.Element} The rendered component.
  */
 

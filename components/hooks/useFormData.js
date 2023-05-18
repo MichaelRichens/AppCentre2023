@@ -5,6 +5,10 @@ function useFormData(initialState) {
 	//suppressAriaLivePriceUpdate is used to suppress aria-live reading out the price after a type change
 	const [suppressAriaLivePriceUpdate, setSuppressAriaLivePriceUpdate] = useState(true)
 
+	/**
+	 * @callback updateFormDataCallback
+	 * @param {Object} newData - An object containing updated form data.
+	 */
 	const updateFormData = (newData) => {
 		const errorFields = ['existingUnitsError', 'unitsChangeError']
 
