@@ -20,9 +20,17 @@ class ProductConfiguration {
 		this.unType = unType
 		this.units = units
 		this.years = unYears
-		this.price = price
+		this._price = parseFloat(price.toFixed(2)) // Store the price in a private variable
 		this.skus = skus
 		this.summary = summary
+	}
+
+	get price() {
+		return this._price
+	}
+
+	set price(value) {
+		this._price = parseFloat(value.toFixed(2)) // Round to 2 decimal places when setting the price
 	}
 }
 

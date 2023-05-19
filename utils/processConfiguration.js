@@ -212,6 +212,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 			extensionNames = partYearExtensions.map((extension) => extension.name)
 		}
 	}
+
 	result.summary = new ConfigurationSummary(
 		productName,
 		result.unType,
