@@ -36,7 +36,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 		existingUnits: productDataArray[0].minUnits,
 		unitsChangeLiveUpdate: 0,
 		unitsChange: 0,
-		checkedExtensions: [],
+		unitCheckedExtensions: [],
 		years: productDataArray[0].minYears,
 		unitsChangeError: false,
 		existingUnitsError: false,
@@ -114,7 +114,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 				<fieldset className={configuratorStyles.summary}>
 					<legend>Summary</legend>
 					<SubscriptionSummary
-						allowAddToCart={!(formData.unType === PurchaseType.EXT && formData?.checkedExtensions?.length === 0)}
+						allowAddToCart={!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)}
 						configuration={currentConfiguration.summary}
 						haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
 						addToCartInProgress={addingToCart}

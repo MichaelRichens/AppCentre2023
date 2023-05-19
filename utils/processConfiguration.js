@@ -190,7 +190,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 	let extensionNames = false
 
 	if (wholeYears > 0) {
-		const wholeYearExtensions = findExtensions(formData.checkedExtensions, extensions, wholeYears)
+		const wholeYearExtensions = findExtensions(formData.unitCheckedExtensions, extensions, wholeYears)
 
 		wholeYearExtensions.forEach((extension) => {
 			result.skus[extension.sku] = numUnitsToPurchase
@@ -199,7 +199,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 		extensionNames = wholeYearExtensions.map((extension) => extension.name)
 	}
 	if (partYears > 0) {
-		const partYearExtensions = findExtensions(formData.checkedExtensions, extensions, 1)
+		const partYearExtensions = findExtensions(formData.unitCheckedExtensions, extensions, 1)
 
 		partYearExtensions.forEach((extension) => {
 			if (!result.skus.hasOwnProperty(extension.sku)) {

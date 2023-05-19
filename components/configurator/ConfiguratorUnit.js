@@ -172,7 +172,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					</legend>
 					<ExtensionCheckboxes
 						availableExtensions={productData.availableExtensions}
-						selectedExtensions={formData.checkedExtensions}
+						selectedExtensions={formData.unitCheckedExtensions}
 						onChange={handleExtensionCheckboxChange}
 					/>
 				</fieldset>

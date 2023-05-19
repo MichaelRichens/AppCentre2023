@@ -155,13 +155,13 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 
 export const createHandleExtensionCheckboxChange = (updateFormData, formData) => (event) => {
 	const { value, checked } = event.target
-	let newCheckedExtensions = [...(formData?.checkedExtensions || [])]
+	let newCheckedExtensions = [...(formData?.unitCheckedExtensions || [])]
 	if (checked) {
 		newCheckedExtensions.push(value)
 	} else {
 		newCheckedExtensions = newCheckedExtensions.filter((extensionKey) => extensionKey !== value)
 	}
-	updateFormData({ checkedExtensions: newCheckedExtensions })
+	updateFormData({ unitCheckedExtensions: newCheckedExtensions })
 }
 
 export const createHandleYearsChange = (updateFormData) => (event) => {
