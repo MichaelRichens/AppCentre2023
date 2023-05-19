@@ -29,20 +29,31 @@ const Configurator = ({ productDataArray, unitName }) => {
 	// Basic state shared by any possible combination of options
 	// sub components (ie different productOptions) share a single state.
 	//  However different types (ie PricingType) of subunits use different property names, so they don't interfere with each other.  They just share a ,optionsIndex (which says which one is active) + maybe configuration
+	const unitIndex = productDataArray.findIndex((item) => item.pricingType === PricingType.UNIT)
+	const minUnits = unitIndex !== -1 ? productDataArray[unitIndex].minUnits : undefined
+	const minUnitYears = unitIndex !== -1 ? productDataArray[unitIndex].minYears : undefined
+
+	const hsIndex = productDataArray.findIndex((item) => item.pricingType === PricingType.HARDSUB)
+	const hsDefaultSubFamily = hsIndex !== -1 ? productDataArray[hsIndex].subFamilies[0] : undefined
+	const hsDefaultAppliance =
+		hsIndex !== -1 ? productDataArray[hsIndex].appliances[hsDefaultSubFamily][0].sku : undefined
+
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
 		// PricingType.UNIT
 		unType: PurchaseType.SUB,
-		unitsExistingLiveUpdate: productDataArray[0].minUnits,
-		unitsExisting: productDataArray[0].minUnits,
+		unitsExistingLiveUpdate: minUnits,
+		unitsExisting: minUnits,
 		unitsChangeLiveUpdate: 0,
 		unitsChange: 0,
 		unitCheckedExtensions: [],
-		unYears: productDataArray[0].minYears,
+		unYears: minUnitYears,
 		unitsChangeError: false,
 		unitsExistingError: false,
 		// PricingType.HARDSUB
 		hsType: PurchaseType.SUB,
+		hsSubFamily: hsDefaultSubFamily,
+		hsAppliance: hsDefaultAppliance,
 	}
 
 	const [formData, updateFormData, suppressAriaLivePriceUpdate] = useFormData(savedData)

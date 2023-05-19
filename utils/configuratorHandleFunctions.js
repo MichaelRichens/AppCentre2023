@@ -222,3 +222,28 @@ export const createAsyncHandleSubmit =
 			setSubmitInProgress(false)
 		}
 	}
+
+export const createHandleHSApplianceChange = (updateFormData, productData) => (event) => {
+	const value = event.target.value
+	let subFamily
+
+	for (let [subFamilyCode, applianceArray] of Object.entries(productData.appliances)) {
+		if (applianceArray.find((item) => item.sku === value)) {
+			subFamily = subFamilyCode
+			break
+		}
+	}
+
+	if (!subFamily) {
+		console.error('Could not find subFamily')
+	}
+
+	updateFormData({ hsSubFamily: subFamily, hsAppliance: value })
+}
+
+export const createHandleHSSubFamilyChange = (updateFormData, productData) => (event) => {
+	const value = event.target.value
+	let defaultAppliance = productData.appliances[value][0].sku
+
+	updateFormData({ hsSubFamily: value, hsAppliance: defaultAppliance })
+}

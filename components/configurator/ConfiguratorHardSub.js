@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react'
 import SimpleSelect from '../SimpleSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
-import { createUpdateFormValue } from '../../utils/configuratorHandleFunctions'
+import {
+	createUpdateFormValue,
+	createHandleHSApplianceChange,
+	createHandleHSSubFamilyChange,
+} from '../../utils/configuratorHandleFunctions'
 
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
@@ -13,6 +17,8 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	const handleHsTypeChange = createUpdateFormValue(updateFormData, 'hsType')
+	const handleHsSubFamilyChange = createHandleHSSubFamilyChange(updateFormData, productData)
+	const handleApplianceTypeChange = createHandleHSApplianceChange(updateFormData, productData)
 
 	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },
@@ -27,7 +33,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	)
 
 	const subFamilyOptions = productData.subFamilies.map((code) => ({ value: code, text: `${code} Series` }))
-	console.log('subFamilyOptions', subFamilyOptions)
+
 	return (
 		<>
 			<fieldset>
@@ -40,7 +46,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 				formData.hsType === PurchaseType.WAREX ? (
 					<>
 						<legend>Appliance Model</legend>
-						<SimpleSelect options={appliances} />
+						<SimpleSelect options={appliances} value={formData.hsAppliance} onChange={handleApplianceTypeChange} />
 					</>
 				) : (
 					<>
@@ -50,6 +56,8 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 								(subFamily) =>
 									formData.hsType === PurchaseType.SUB || productData.accessories[subFamily.value].length > 0
 							)}
+							value={formData.hsSubFamily}
+							onChange={handleHsSubFamilyChange}
 						/>
 					</>
 				)}

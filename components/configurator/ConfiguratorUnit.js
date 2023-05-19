@@ -31,31 +31,11 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 
 const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
-	useEffect(() => {
-		const unitState = {}
-		if (
-			formData.unType !== PurchaseType.SUB &&
-			formData.unType !== PurchaseType.NEW &&
-			formData.unType !== PurchaseType.ADD &&
-			formData.unType !== PurchaseType.EXT
-		) {
-			unitState.unType = PurchaseType.SUB
-			if (formData.unitsExisting < productData.minUnits || formData.unitsExisting > formData.maxUnits) {
-				unitState.unitsExisting = productData.minUnits
-				unitState.unitsExistingLiveUpdate = productData.minUnits
-			}
-		}
-
-		unitState.validState = true
-
-		updateFormData(unitState)
-	}, [])
-
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
-	const handleunitsExistingChange = createHandleUnitsExistingChange(updateFormData)
+	const handleUnitsExistingChange = createHandleUnitsExistingChange(updateFormData)
 
-	const handleunitsExistingBlur = createHandleUnitsExistingBlur(updateFormData, formData, productData)
+	const handleUnitsExistingBlur = createHandleUnitsExistingBlur(updateFormData, formData, productData)
 
 	const handleUnitsChangeChange = createHandleUnitsChangeChange(updateFormData, formData)
 
@@ -125,8 +105,8 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					step={productData.minUnitsStep}
 					name='unitsExisting'
 					value={formData.unitsExistingLiveUpdate}
-					onChange={handleunitsExistingChange}
-					onBlur={handleunitsExistingBlur}
+					onChange={handleUnitsExistingChange}
+					onBlur={handleUnitsExistingBlur}
 					error={formData.unitsExistingError}
 				/>
 				<PurchaseUnitInput
