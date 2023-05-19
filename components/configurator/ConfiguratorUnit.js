@@ -31,9 +31,25 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 
 const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
-	if (formData.type === undefined) {
-		updateFormData({ validState: true, type: PurchaseType.SUB })
-	}
+	useEffect(() => {
+		const unitState = {}
+		if (
+			formData.type !== PurchaseType.SUB &&
+			formData.type !== PurchaseType.NEW &&
+			formData.type !== PurchaseType.ADD &&
+			formData.type !== PurchaseType.EXT
+		) {
+			unitState.type = PurchaseType.SUB
+			if (formData.existingUnits < productData.minUnits || formData.existingUnits > formData.maxUnits) {
+				unitState.existingUnits = productData.minUnits
+				unitState.existingUnitsLiveUpdate = productData.minUnits
+			}
+		}
+
+		unitState.validState = true
+
+		updateFormData(unitState)
+	}, [])
 
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 

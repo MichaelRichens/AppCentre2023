@@ -13,9 +13,20 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	useEffect(() => {
-		if (formData.type === undefined) {
-			updateFormData({ validState: true, type: PurchaseType.SUB })
+		const hardSubState = {}
+		if (
+			formData.type !== PurchaseType.SUB &&
+			formData.type !== PurchaseType.NEW &&
+			formData.type !== PurchaseType.SPARE &&
+			formData.type !== PurchaseType.WAREX &&
+			formData.type !== PurchaseType.ACC
+		) {
+			hardSubState.type = PurchaseType.SUB
 		}
+
+		hardSubState.valid = true
+
+		updateFormData(hardSubState)
 	}, [])
 
 	const handleTypeChange = createUpdateFormValue(updateFormData, 'type')

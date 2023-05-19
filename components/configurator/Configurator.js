@@ -108,7 +108,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 				</fieldset>
 			)}
 			{subConfigurator}
-			{formData.validState && (
+			{formData.validState && currentConfiguration.summary && (
 				<fieldset className={configuratorStyles.summary}>
 					<legend>Summary</legend>
 					<SubscriptionSummary

@@ -3,7 +3,7 @@ import { RotatingLines } from 'react-loader-spinner'
 import ConfigurationSummary from '../../utils/types/ConfigurationSummary'
 
 /**
- * SubscriptionSummary is a tightly coupled subcomponent of the SubscriptionConfigurator form
+ * SubscriptionSummary is a tightly coupled subcomponent of the Configurator form
  * that displays a summary of the current subscription configuration based on its formData.
  *
  * @param {Object} props - The component props.
