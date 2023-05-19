@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import SimpleSelect from '../SimpleSelect'
-import SubscriptionSummary from './SubscriptionSummary'
+import SimpleCheckboxes from '../SimpleCheckboxes'
 import PurchaseUnitInput from './PurchaseUnitInput'
-import ExtensionCheckboxes from './ExtensionCheckboxes'
 import MonthsRemainingSelect from './MonthsRemainingSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
@@ -145,9 +144,9 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 							'Select Extensions'
 						)}
 					</legend>
-					<ExtensionCheckboxes
-						availableExtensions={productData.availableExtensions}
-						selectedExtensions={formData.unitCheckedExtensions}
+					<SimpleCheckboxes
+						options={productData.availableExtensions.map((obj) => ({ value: obj.key, text: obj.name }))}
+						selected={formData.unitCheckedExtensions}
 						onChange={handleExtensionCheckboxChange}
 					/>
 				</fieldset>
