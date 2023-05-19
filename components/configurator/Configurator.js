@@ -32,14 +32,14 @@ const Configurator = ({ productDataArray, unitName }) => {
 		optionIndex: 0,
 		unType: PurchaseType.SUB,
 		hsType: PurchaseType.SUB,
-		existingUnitsLiveUpdate: productDataArray[0].minUnits,
-		existingUnits: productDataArray[0].minUnits,
+		unitsExistingLiveUpdate: productDataArray[0].minUnits,
+		unitsExisting: productDataArray[0].minUnits,
 		unitsChangeLiveUpdate: 0,
 		unitsChange: 0,
 		unitCheckedExtensions: [],
 		years: productDataArray[0].minYears,
 		unitsChangeError: false,
-		existingUnitsError: false,
+		unitsExistingError: false,
 	}
 
 	const [formData, updateFormData, suppressAriaLivePriceUpdate] = useFormData(savedData)

@@ -13,7 +13,7 @@ function useFormData(initialState) {
 	const updateFormData = (newData) => {
 		setSuppressAriaLivePriceUpdate(newData.unType !== undefined && formData.unType !== newData.unType)
 
-		const errorFields = ['existingUnitsError', 'unitsChangeError']
+		const errorFields = ['unitsExistingError', 'unitsChangeError']
 
 		const updatedData = {
 			...formData,

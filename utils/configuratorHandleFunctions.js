@@ -41,19 +41,19 @@ export const createHandleUnitTypeChange = (updateFormData, formData, productData
 	})
 }
 
-export const createHandleExistingUnitsChange = (updateFormData) => (event) => {
+export const createHandleunitsExistingChange = (updateFormData) => (event) => {
 	const { value } = event.target
 	if (isNaN(value)) {
 		return
 	}
-	let existingUnits
+	let unitsExisting
 	if (value == '' || value == '-') {
-		existingUnits = value
+		unitsExisting = value
 	} else {
-		existingUnits = parseInt(value)
+		unitsExisting = parseInt(value)
 	}
 	updateFormData({
-		existingUnitsLiveUpdate: existingUnits,
+		unitsExistingLiveUpdate: unitsExisting,
 	})
 }
 
@@ -73,28 +73,28 @@ export const createHandleUnitsChangeChange = (updateFormData, formData) => (even
 	})
 }
 
-export const createHandleExistingUnitsBlur = (updateFormData, formData, productData) => (event) => {
+export const createHandleunitsExistingBlur = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
-	let existingUnitsError = false
+	let unitsExistingError = false
 	if (isNaN(value) || value == '') {
 		updateFormData({
-			existingUnitsLiveUpdate: productData.minUnits,
-			existingUnits: productData.minUnits,
+			unitsExistingLiveUpdate: productData.minUnits,
+			unitsExisting: productData.minUnits,
 		})
 		return
 	} else {
-		let existingUnits = Math.min(Math.max(parseInt(value), productData.minUnits), productData.maxUnits)
+		let unitsExisting = Math.min(Math.max(parseInt(value), productData.minUnits), productData.maxUnits)
 		if (formData.unType === PurchaseType.SUB || formData.unType === PurchaseType.ADD) {
-			const remainder = existingUnits % productData.minUnitsStep
+			const remainder = unitsExisting % productData.minUnitsStep
 			if (remainder !== 0) {
-				existingUnits += productData.minUnitsStep - remainder
-				existingUnitsError = `Must be renewed in blocks of ${productData.minUnitsStep}.`
+				unitsExisting += productData.minUnitsStep - remainder
+				unitsExistingError = `Must be renewed in blocks of ${productData.minUnitsStep}.`
 			}
 		}
 		updateFormData({
-			existingUnits: existingUnits,
-			existingUnitsLiveUpdate: existingUnits,
-			existingUnitsError: existingUnitsError,
+			unitsExisting: unitsExisting,
+			unitsExistingLiveUpdate: unitsExisting,
+			unitsExistingError: unitsExistingError,
 		})
 	}
 }
@@ -120,9 +120,9 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	} else if (formData.unType === PurchaseType.ADD) {
 		minUnitsChange = productData.minUnitsStep
 	} else {
-		minUnitsChange = productData.minUnitsStep - (formData?.existingUnits || 0)
+		minUnitsChange = productData.minUnitsStep - (formData?.unitsExisting || 0)
 	}
-	const maxUnitsChange = productData.maxUnits - (formData?.existingUnits || 0)
+	const maxUnitsChange = productData.maxUnits - (formData?.unitsExisting || 0)
 	const unitsChangeBeforeClamp = unitsChange
 	// Clamp the unitsChange value to be between minUnitsChange and maxUnitsChange.
 	unitsChange = Math.min(Math.max(unitsChange, minUnitsChange), maxUnitsChange)

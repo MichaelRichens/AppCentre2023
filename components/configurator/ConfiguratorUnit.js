@@ -7,8 +7,8 @@ import MonthsRemainingSelect from './MonthsRemainingSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleUnitTypeChange,
-	createHandleExistingUnitsBlur,
-	createHandleExistingUnitsChange,
+	createHandleunitsExistingBlur,
+	createHandleunitsExistingChange,
 	createHandleUnitsChangeChange,
 	createHandleUnitsChangeBlur,
 	createHandleExtensionCheckboxChange,
@@ -40,9 +40,9 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 			formData.unType !== PurchaseType.EXT
 		) {
 			unitState.unType = PurchaseType.SUB
-			if (formData.existingUnits < productData.minUnits || formData.existingUnits > formData.maxUnits) {
-				unitState.existingUnits = productData.minUnits
-				unitState.existingUnitsLiveUpdate = productData.minUnits
+			if (formData.unitsExisting < productData.minUnits || formData.unitsExisting > formData.maxUnits) {
+				unitState.unitsExisting = productData.minUnits
+				unitState.unitsExistingLiveUpdate = productData.minUnits
 			}
 		}
 
@@ -53,9 +53,9 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
-	const handleExistingUnitsChange = createHandleExistingUnitsChange(updateFormData)
+	const handleunitsExistingChange = createHandleunitsExistingChange(updateFormData)
 
-	const handleExistingUnitsBlur = createHandleExistingUnitsBlur(updateFormData, formData, productData)
+	const handleunitsExistingBlur = createHandleunitsExistingBlur(updateFormData, formData, productData)
 
 	const handleUnitsChangeChange = createHandleUnitsChangeChange(updateFormData, formData)
 
@@ -80,7 +80,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 		// Will need to make this optional for GFI Unlimited - not implemented this yet
 		typeOptions.push({ value: PurchaseType.NEW, text: 'New Subscription' })
 	}
-	if (productData.maxUnits - productData.minUnits > formData.existingUnits) {
+	if (productData.maxUnits - productData.minUnits > formData.unitsExisting) {
 		typeOptions.push({ value: PurchaseType.ADD, text: `Add ${productData.unitName.pluralC} To Subscription` })
 	}
 	if (productData.availableExtensions.length > 0) {
@@ -123,11 +123,11 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					min={productData.minUnits}
 					max={productData.maxUnits}
 					step={productData.minUnitsStep}
-					name='existingUnits'
-					value={formData.existingUnitsLiveUpdate}
-					onChange={handleExistingUnitsChange}
-					onBlur={handleExistingUnitsBlur}
-					error={formData.existingUnitsError}
+					name='unitsExisting'
+					value={formData.unitsExistingLiveUpdate}
+					onChange={handleunitsExistingChange}
+					onBlur={handleunitsExistingBlur}
+					error={formData.unitsExistingError}
 				/>
 				<PurchaseUnitInput
 					allowDisplay={formData.unType !== PurchaseType.EXT}
@@ -140,12 +140,12 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					}
 					min={
 						formData.unType === PurchaseType.SUB
-							? productData.minUnits - formData.existingUnits
+							? productData.minUnits - formData.unitsExisting
 							: PurchaseType.ADD
 							? productData.minUnitsStep
 							: productData.minUnits
 					}
-					max={productData.maxUnits - formData.existingUnits}
+					max={productData.maxUnits - formData.unitsExisting}
 					step={productData.minUnitsStep}
 					name='unitsChange'
 					value={formData.unitsChangeLiveUpdate}

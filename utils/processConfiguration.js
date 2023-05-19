@@ -126,7 +126,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 			break
 		case PurchaseType.ADD:
 			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true') {
-				numUnitsForPriceBand = formData.unitsChange + formData.existingUnits
+				numUnitsForPriceBand = formData.unitsChange + formData.unitsExisting
 			} else {
 				numUnitsForPriceBand = formData.unitsChange
 			}
@@ -135,14 +135,14 @@ function processConfigurationSub(productName, products, extensions, formData, un
 			partYears = formData.years - wholeYears
 			break
 		case PurchaseType.EXT:
-			numUnitsToPurchase = formData.existingUnits
+			numUnitsToPurchase = formData.unitsExisting
 			numUnitsForPriceBand = 0
 			wholeYears = Math.floor(formData.years)
 			partYears = formData.years - wholeYears
 			break
 		default:
-			numUnitsForPriceBand = formData.unitsChange + formData.existingUnits
-			numUnitsToPurchase = formData.unitsChange + formData.existingUnits
+			numUnitsForPriceBand = formData.unitsChange + formData.unitsExisting
+			numUnitsToPurchase = formData.unitsChange + formData.unitsExisting
 			wholeYears = Math.ceil(formData.years)
 	}
 
@@ -216,7 +216,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 		productName,
 		result.unType,
 		result.price,
-		formData.existingUnits,
+		formData.unitsExisting,
 		formData.unitsChange,
 		wholeYears + partYears,
 		extensionNames,
