@@ -11,6 +11,7 @@ function useFormData(initialState) {
 	 * @param {Object} newData - An object containing updated form data.
 	 * @param {PurchaseType} purchaseType - The type of purchase being made, required to coerce formData into the correct shape
 	 */
+	TODO NEXT implemetn purchasetype
 	const updateFormData = (newData, purchaseType) => {
 		setSuppressAriaLivePriceUpdate(newData.type !== undefined && formData.type !== newData.type)
 
