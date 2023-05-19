@@ -47,13 +47,6 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 
-	let durationType = 'years'
-	let durationClass = null
-	if (formData.unType === PurchaseType.ADD || formData.unType === PurchaseType.EXT) {
-		durationType = 'months'
-		durationClass = configuratorStyles.monthsRemaining
-	}
-
 	const typeOptions = [{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' }]
 
 	if (true) {
@@ -66,6 +59,8 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 	if (productData.availableExtensions.length > 0) {
 		typeOptions.push({ value: PurchaseType.EXT, text: 'Add Extensions to Subscription' })
 	}
+
+	let durationInMonths = formData.unType === PurchaseType.ADD || formData.unType === PurchaseType.EXT
 
 	const yearsOptions = Array.from({ length: productData.maxYears - productData.minYears + 1 }, (_, index) => {
 		const year = productData.minYears + index
@@ -158,8 +153,17 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 				</fieldset>
 			)}
 
-			<fieldset className={durationClass}>
-				{durationType === 'years' ? (
+			<fieldset className={durationInMonths && configuratorStyles.monthsRemaining}>
+				{durationInMonths ? (
+					<>
+						<legend>Time Remaining Until Renewal Date</legend>
+						<MonthsRemainingSelect
+							value={formData.unYears}
+							onChange={handleMonthsRemainingChange}
+							maxYears={productData.maxYears}
+						/>
+					</>
+				) : (
 					<>
 						<legend>Subscription Length</legend>
 						<SimpleSelect
@@ -168,15 +172,6 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 							value={formData.unYears}
 							onChange={handleYearsChange}
 							ariaLabel='Subscription Length'
-						/>
-					</>
-				) : (
-					<>
-						<legend>Time Remaining Until Renewal Date</legend>
-						<MonthsRemainingSelect
-							value={formData.unYears}
-							onChange={handleMonthsRemainingChange}
-							maxYears={productData.maxYears}
 						/>
 					</>
 				)}
