@@ -153,29 +153,27 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 				</fieldset>
 			)}
 
-			<fieldset className={durationInMonths && configuratorStyles.monthsRemaining}>
-				{durationInMonths ? (
-					<>
-						<legend>Time Remaining Until Renewal Date</legend>
-						<MonthsRemainingSelect
-							value={formData.unYears}
-							onChange={handleMonthsRemainingChange}
-							maxYears={productData.maxYears}
-						/>
-					</>
-				) : (
-					<>
-						<legend>Subscription Length</legend>
-						<SimpleSelect
-							name='years'
-							options={yearsOptions}
-							value={formData.unYears}
-							onChange={handleYearsChange}
-							ariaLabel='Subscription Length'
-						/>
-					</>
-				)}
-			</fieldset>
+			{durationInMonths ? (
+				<fieldset className={configuratorStyles.monthsRemaining}>
+					<legend>Time Remaining Until Renewal Date</legend>
+					<MonthsRemainingSelect
+						value={formData.unYears}
+						onChange={handleMonthsRemainingChange}
+						maxYears={productData.maxYears}
+					/>
+				</fieldset>
+			) : (
+				<fieldset>
+					<legend>Subscription Length</legend>
+					<SimpleSelect
+						name='years'
+						options={yearsOptions}
+						value={formData.unYears}
+						onChange={handleYearsChange}
+						ariaLabel='Subscription Length'
+					/>
+				</fieldset>
+			)}
 		</>
 	)
 }
