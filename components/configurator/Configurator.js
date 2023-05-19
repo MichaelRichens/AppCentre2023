@@ -28,6 +28,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 
 	// Basic state shared by any possible combination of options
 	// sub components (ie different productOptions) share a single state.
+	//  However different types of subunits use different property names, so they don't interfere with each other.  They just share a ,optionsIndex (which says which one is active) + maybe configuration
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
 		unType: PurchaseType.SUB,
