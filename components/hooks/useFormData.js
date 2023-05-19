@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PurchaseType from '../../utils/types/enums/PurchaseType'
 
 function useFormData(initialState) {
 	const [formData, setFormData] = useState(initialState)
@@ -8,11 +9,12 @@ function useFormData(initialState) {
 	/**
 	 * @callback updateFormDataCallback
 	 * @param {Object} newData - An object containing updated form data.
+	 * @param {PurchaseType} purchaseType - The type of purchase being made, required to coerce formData into the correct shape
 	 */
-	const updateFormData = (newData) => {
-		const errorFields = ['existingUnitsError', 'unitsChangeError']
-
+	const updateFormData = (newData, purchaseType) => {
 		setSuppressAriaLivePriceUpdate(newData.type !== undefined && formData.type !== newData.type)
+
+		const errorFields = ['existingUnitsError', 'unitsChangeError']
 
 		const updatedData = {
 			...formData,
