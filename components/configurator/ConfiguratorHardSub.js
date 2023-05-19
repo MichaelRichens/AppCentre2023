@@ -12,24 +12,7 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @returns {JSX.Element} The rendered component.
  */
 const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
-	useEffect(() => {
-		const hardSubState = {}
-		if (
-			formData.type !== PurchaseType.SUB &&
-			formData.type !== PurchaseType.NEW &&
-			formData.type !== PurchaseType.SPARE &&
-			formData.type !== PurchaseType.WAREX &&
-			formData.type !== PurchaseType.ACC
-		) {
-			hardSubState.type = PurchaseType.SUB
-		}
-
-		hardSubState.valid = true
-
-		updateFormData(hardSubState)
-	}, [])
-
-	const handleTypeChange = createUpdateFormValue(updateFormData, 'type')
+	const handleHsTypeChange = createUpdateFormValue(updateFormData, 'hsType')
 
 	/*
 		SUB: 'sub', // A renewal of an existing subscription
@@ -39,7 +22,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	SPARE: 'spare', // Spare hardware (for a customer who has a subscription to the service that uses the hardware)
 	WAREX: 'warex', // A warranty extension
 	ACC: 'acc', // Accessories*/
-	const typeOptions = [
+	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },
 		{ value: PurchaseType.NEW, text: 'New Control Box & Subscription' },
 		{ value: PurchaseType.SPARE, text: 'Spare/Replacement Hardware' },
@@ -53,7 +36,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		<>
 			<fieldset>
 				<legend id='typeLegend'>Type of Purchase</legend>
-				<SimpleSelect options={typeOptions} value={formData.type} onChange={handleTypeChange} />
+				<SimpleSelect options={hsTypeOptions} value={formData.hsType} onChange={handleHsTypeChange} />
 			</fieldset>
 			<fieldset>
 				{formData.type === PurchaseType.NEW || formData.type === PurchaseType.SPARE || PurchaseType.WAREX ? (

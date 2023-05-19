@@ -26,10 +26,12 @@ const Configurator = ({ productDataArray, unitName }) => {
 	const productFamily = productDataArray[0].productFamily // by definition, all elements of productDataArray have the same productFamily value
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
 
-	// Basic state shared by any possible combination of options - sub components will need to update this when they render in
+	// Basic state shared by any possible combination of options
+	// sub components (ie different productOptions) share a single state.
 	const savedData = configuratorData[productFamily] || {
-		validState: false, // sub components set this to true when they have made the state suitable for their needs
 		optionIndex: 0,
+		type: PurchaseType.SUB,
+		hsType: PurchaseType.SUB,
 		existingUnitsLiveUpdate: productDataArray[0].minUnits,
 		existingUnits: productDataArray[0].minUnits,
 		unitsChangeLiveUpdate: 0,
