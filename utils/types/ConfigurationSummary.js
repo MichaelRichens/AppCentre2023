@@ -82,14 +82,14 @@ class ConfigurationSummary {
 				break
 			case PurchaseType.ADD:
 				str += `Additional Users: ${unitsChange} additional ${productName} ${unitName.pluralLC}`
-				str += ` for the remaining ${this[durationString](years)} on the subscription`
+				str += ` for the less than ${this[durationString](years)} remaining on the subscription`
 				str +=
 					process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true'
 						? `, bringing the total to ${unitsExisting + unitsChange} ${unitName.pluralLC}.`
 						: '.'
 				break
 			case PurchaseType.EXT:
-				str += `Existing ${productName} subscription of ${unitsExisting} ${unitName.pluralLC} with ${this[
+				str += `Existing ${productName} subscription of ${unitsExisting} ${unitName.pluralLC} with up to ${this[
 					durationString
 				](years)} remaining.`
 				break

@@ -41,6 +41,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
+		currentlyEditingField: false,
 
 		// PricingType.UNIT
 		unType: PurchaseType.SUB,
@@ -130,16 +131,24 @@ const Configurator = ({ productDataArray, unitName }) => {
 				</fieldset>
 			)}
 			{subConfigurator}
-			{formData.validState && currentConfiguration.summary && (
-				<fieldset className={configuratorStyles.summary}>
+			{currentConfiguration.summary && (
+				<fieldset
+					className={`${configuratorStyles.summary} ${
+						formData.currentlyEditingField ? configuratorStyles.summaryOutOfDate : ''
+					}`}>
 					<legend>Summary</legend>
-					<SubscriptionSummary
-						allowAddToCart={!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)}
-						configuration={currentConfiguration.summary}
-						haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
-						addToCartInProgress={addingToCart}
-						haveJustChangedType={suppressAriaLivePriceUpdate}
-					/>
+					<div className={configuratorStyles.summaryText}>
+						<SubscriptionSummary
+							allowAddToCart={
+								!formData.currentlyEditingField &&
+								!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)
+							}
+							configuration={currentConfiguration.summary}
+							haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
+							addToCartInProgress={addingToCart}
+							haveJustChangedType={suppressAriaLivePriceUpdate}
+						/>
+					</div>
 				</fieldset>
 			)}
 		</form>

@@ -133,12 +133,16 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 				<fieldset className={configuratorStyles.checkbox}>
 					<legend>
 						{formData.unType === PurchaseType.EXT ? (
-							'New Extensions to Add'
+							<>
+								New Extensions to Add<small>Do not include your existing set</small>
+							</>
 						) : formData.unType === PurchaseType.ADD ? (
-							'Extensions You Currently Have'
+							<>
+								Extensions on Subscription<small>Must match your current set</small>
+							</>
 						) : formData.unType === PurchaseType.SUB ? (
 							<>
-								Select Extensions <small>You can add/remove them as desired</small>
+								Select Extensions <small>You can add or remove from your current set</small>
 							</>
 						) : (
 							'Select Extensions'

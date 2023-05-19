@@ -58,6 +58,10 @@
 	margin-bottom: 8px;
 }
 
+.configurator .summaryOutOfDate .summaryText {
+	opacity: 0.3;
+}
+
 label.monthsRemaining {
 	display: flex;
 	flex-direction: row;

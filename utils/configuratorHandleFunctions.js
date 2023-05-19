@@ -39,7 +39,7 @@ export const createHandleOptionChange = (updateFormData) => (event) => {
 
 /**
  * @function
- * Handles the change of type option for the ConfiguratorUnit form, awith specific logic for updating dependent values
+ * Handles the change of type option for the ConfiguratorUnit form, with specific logic for updating dependent values
  */
 export const createHandleUnitTypeChange = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
@@ -66,6 +66,7 @@ export const createHandleUnitTypeChange = (updateFormData, formData, productData
 	})
 }
 
+/**This is the onChange handler, that handles updates while the filed is being edited, before being confirmed with onBlur */
 export const createHandleUnitsExistingChange = (updateFormData) => (event) => {
 	const { value } = event.target
 	if (isNaN(value)) {
@@ -78,10 +79,12 @@ export const createHandleUnitsExistingChange = (updateFormData) => (event) => {
 		unitsExisting = parseInt(value)
 	}
 	updateFormData({
+		currentlyEditingField: true,
 		unitsExistingLiveUpdate: unitsExisting,
 	})
 }
 
+/**This is the onChange handler, that handles updates while the filed is being edited, before being confirmed with onBlur */
 export const createHandleUnitsChangeChange = (updateFormData, formData) => (event) => {
 	const { value } = event.target
 	if (isNaN(value) && (formData.unType != PurchaseType.SUB || value != '-')) {
@@ -94,6 +97,7 @@ export const createHandleUnitsChangeChange = (updateFormData, formData) => (even
 		unitsChange = parseInt(value)
 	}
 	updateFormData({
+		currentlyEditingField: true,
 		unitsChangeLiveUpdate: unitsChange,
 	})
 }
