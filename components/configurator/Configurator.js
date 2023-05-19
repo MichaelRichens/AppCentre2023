@@ -30,7 +30,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 	// sub components (ie different productOptions) share a single state.
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
-		type: PurchaseType.SUB,
+		unType: PurchaseType.SUB,
 		hsType: PurchaseType.SUB,
 		existingUnitsLiveUpdate: productDataArray[0].minUnits,
 		existingUnits: productDataArray[0].minUnits,
@@ -114,7 +114,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 				<fieldset className={configuratorStyles.summary}>
 					<legend>Summary</legend>
 					<SubscriptionSummary
-						allowAddToCart={!(formData.type === PurchaseType.EXT && formData?.checkedExtensions?.length === 0)}
+						allowAddToCart={!(formData.unType === PurchaseType.EXT && formData?.checkedExtensions?.length === 0)}
 						configuration={currentConfiguration.summary}
 						haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
 						addToCartInProgress={addingToCart}

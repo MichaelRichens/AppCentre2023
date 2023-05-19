@@ -34,12 +34,12 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 	useEffect(() => {
 		const unitState = {}
 		if (
-			formData.type !== PurchaseType.SUB &&
-			formData.type !== PurchaseType.NEW &&
-			formData.type !== PurchaseType.ADD &&
-			formData.type !== PurchaseType.EXT
+			formData.unType !== PurchaseType.SUB &&
+			formData.unType !== PurchaseType.NEW &&
+			formData.unType !== PurchaseType.ADD &&
+			formData.unType !== PurchaseType.EXT
 		) {
-			unitState.type = PurchaseType.SUB
+			unitState.unType = PurchaseType.SUB
 			if (formData.existingUnits < productData.minUnits || formData.existingUnits > formData.maxUnits) {
 				unitState.existingUnits = productData.minUnits
 				unitState.existingUnitsLiveUpdate = productData.minUnits
@@ -69,7 +69,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 	let durationType = 'years'
 	let durationClass = null
-	if (formData.type === PurchaseType.ADD || formData.type === PurchaseType.EXT) {
+	if (formData.unType === PurchaseType.ADD || formData.unType === PurchaseType.EXT) {
 		durationType = 'months'
 		durationClass = configuratorStyles.monthsRemaining
 	}
@@ -102,7 +102,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 				<SimpleSelect
 					name='type'
 					options={typeOptions}
-					value={formData.type}
+					value={formData.unType}
 					onChange={handleTypeChange}
 					ariaLabel='Type of Purchase'
 				/>
@@ -112,12 +112,12 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 				<legend>{productData.unitName.pluralC}</legend>
 				<PurchaseUnitInput
 					allowDisplay={
-						formData.type === PurchaseType.SUB ||
-						formData.type === PurchaseType.EXT ||
-						(formData.type === PurchaseType.ADD &&
+						formData.unType === PurchaseType.SUB ||
+						formData.unType === PurchaseType.EXT ||
+						(formData.unType === PurchaseType.ADD &&
 							process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true')
 					}
-					label={`${formData.type !== PurchaseType.EXT ? 'Current ' : ''}${
+					label={`${formData.unType !== PurchaseType.EXT ? 'Current ' : ''}${
 						productData.unitName.pluralC
 					} on Subscription`}
 					min={productData.minUnits}
@@ -130,16 +130,16 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					error={formData.existingUnitsError}
 				/>
 				<PurchaseUnitInput
-					allowDisplay={formData.type !== PurchaseType.EXT}
+					allowDisplay={formData.unType !== PurchaseType.EXT}
 					label={
-						formData.type === PurchaseType.NEW
+						formData.unType === PurchaseType.NEW
 							? `Number of ${productData.unitName.pluralC}`
-							: formData.type === PurchaseType.ADD
+							: formData.unType === PurchaseType.ADD
 							? `${productData.unitName.pluralC} to Add`
 							: `Adjust Number of ${productData.unitName.pluralC} by`
 					}
 					min={
-						formData.type === PurchaseType.SUB
+						formData.unType === PurchaseType.SUB
 							? productData.minUnits - formData.existingUnits
 							: PurchaseType.ADD
 							? productData.minUnitsStep
@@ -158,11 +158,11 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 			{productData.availableExtensions && productData.availableExtensions.length > 0 && (
 				<fieldset className={configuratorStyles.checkbox}>
 					<legend>
-						{formData.type === PurchaseType.EXT ? (
+						{formData.unType === PurchaseType.EXT ? (
 							'New Extensions to Add'
-						) : formData.type === PurchaseType.ADD ? (
+						) : formData.unType === PurchaseType.ADD ? (
 							'Extensions You Currently Have'
-						) : formData.type === PurchaseType.SUB ? (
+						) : formData.unType === PurchaseType.SUB ? (
 							<>
 								Select Extensions <small>You can add/remove them as desired</small>
 							</>

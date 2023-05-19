@@ -34,7 +34,7 @@ export const createHandleUnitTypeChange = (updateFormData, formData, productData
 	}
 
 	updateFormData({
-		type: value,
+		unType: value,
 		unitsChange: unitsChange,
 		unitsChangeLiveUpdate: unitsChange,
 		years: years,
@@ -59,7 +59,7 @@ export const createHandleExistingUnitsChange = (updateFormData) => (event) => {
 
 export const createHandleUnitsChangeChange = (updateFormData, formData) => (event) => {
 	const { value } = event.target
-	if (isNaN(value) && (formData.type != PurchaseType.SUB || value != '-')) {
+	if (isNaN(value) && (formData.unType != PurchaseType.SUB || value != '-')) {
 		return
 	}
 	let unitsChange
@@ -84,7 +84,7 @@ export const createHandleExistingUnitsBlur = (updateFormData, formData, productD
 		return
 	} else {
 		let existingUnits = Math.min(Math.max(parseInt(value), productData.minUnits), productData.maxUnits)
-		if (formData.type === PurchaseType.SUB || formData.type === PurchaseType.ADD) {
+		if (formData.unType === PurchaseType.SUB || formData.unType === PurchaseType.ADD) {
 			const remainder = existingUnits % productData.minUnitsStep
 			if (remainder !== 0) {
 				existingUnits += productData.minUnitsStep - remainder
@@ -103,7 +103,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	const { value } = event.target
 	// early exit if NaN entered - not an error, since its probably been left blank, just set to default minimum.
 	if (isNaN(value)) {
-		const newValue = formData.type === PurchaseType.ADD ? productData.minUnitsStep : 0
+		const newValue = formData.unType === PurchaseType.ADD ? productData.minUnitsStep : 0
 		updateFormData({
 			unitsChangeLiveUpdate: newValue,
 			unitsChange: newValue,
@@ -115,9 +115,9 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	let unitsChange = !isNaN(parseInt(value)) ? parseInt(value) : 0
 	// Calculate the minimum and maximum user change values based on the type of subscription.
 	let minUnitsChange
-	if (formData.type === PurchaseType.NEW) {
+	if (formData.unType === PurchaseType.NEW) {
 		minUnitsChange = productData.minUnits
-	} else if (formData.type === PurchaseType.ADD) {
+	} else if (formData.unType === PurchaseType.ADD) {
 		minUnitsChange = productData.minUnitsStep
 	} else {
 		minUnitsChange = productData.minUnitsStep - (formData?.existingUnits || 0)

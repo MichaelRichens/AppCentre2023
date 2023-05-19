@@ -95,7 +95,7 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
  */
 function processConfigurationSub(productName, products, extensions, formData, unitName, minUnitsOverride = null) {
 	/** The return object */
-	const result = new ProductConfiguration(formData.type, 0, formData.years)
+	const result = new ProductConfiguration(formData.unType, 0, formData.years)
 
 	/**
 	 * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
@@ -118,7 +118,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 	 */
 	let partYears = 0
 
-	switch (formData.type) {
+	switch (formData.unType) {
 		case PurchaseType.NEW:
 			numUnitsForPriceBand = formData.unitsChange
 			numUnitsToPurchase = formData.unitsChange
@@ -153,7 +153,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 
 	result.units = numUnitsToPurchase
 
-	if (formData.type !== PurchaseType.EXT) {
+	if (formData.unType !== PurchaseType.EXT) {
 		const productsWithCorrectWholeYear = products.filter((sku) => sku.years === wholeYears)
 		/** @var Array - Holds part codes for products with a 1 year subscription, used for pro-rata of part year items */
 		const productsWithOneYear = products.filter((sku) => sku.years === 1)
@@ -214,7 +214,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 	}
 	result.summary = new ConfigurationSummary(
 		productName,
-		result.type,
+		result.unType,
 		result.price,
 		formData.existingUnits,
 		formData.unitsChange,
@@ -231,7 +231,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
  * STUB
  */
 function processConfigurationHardSub(productName, hardware, formData, unitName) {
-	const result = new ProductConfiguration(formData.type, 0, formData.years)
+	const result = new ProductConfiguration(formData.unType, 0, formData.years)
 
 	return result
 }
@@ -253,7 +253,7 @@ function processConfiguration(productData, formData) {
 				productData.extensions,
 				formData,
 				productData.unitName,
-				formData.type === PurchaseType.ADD && productData.minUnitsStep < productData.minUnits
+				formData.unType === PurchaseType.ADD && productData.minUnitsStep < productData.minUnits
 					? productData.minUnitsStep
 					: null
 			)

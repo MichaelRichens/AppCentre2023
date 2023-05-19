@@ -39,7 +39,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 				<SimpleSelect options={hsTypeOptions} value={formData.hsType} onChange={handleHsTypeChange} />
 			</fieldset>
 			<fieldset>
-				{formData.type === PurchaseType.NEW || formData.type === PurchaseType.SPARE || PurchaseType.WAREX ? (
+				{formData.unType === PurchaseType.NEW || formData.unType === PurchaseType.SPARE || PurchaseType.WAREX ? (
 					<legend>Appliance Model</legend>
 				) : (
 					<>

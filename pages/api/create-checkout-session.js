@@ -50,7 +50,7 @@ export default async (req, res) => {
 
 				const metadata = {
 					internalId: id,
-					configuration: item.type,
+					configuration: item.unType,
 					units: item.units,
 					years: item.years,
 					skus: JSON.stringify(item.skus),

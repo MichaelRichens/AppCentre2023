@@ -17,7 +17,7 @@ class ProductConfiguration {
 	 * @param {ConfigurationSummary|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  May be null if it isn't generated yet.
 	 */
 	constructor(type, units, years, price = 0, skus = {}, summary = null) {
-		this.type = type
+		this.unType = type
 		this.units = units
 		this.years = years
 		this.price = price
