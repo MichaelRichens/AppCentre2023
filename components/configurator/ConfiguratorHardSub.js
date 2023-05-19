@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import SimpleSelect from '../SimpleSelect'
+import SimpleRadio from '../SimpleRadio'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createUpdateFormValue,
@@ -19,6 +20,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	const handleHsTypeChange = createUpdateFormValue(updateFormData, 'hsType')
 	const handleHsSubFamilyChange = createHandleHSSubFamilyChange(updateFormData, productData)
 	const handleApplianceTypeChange = createHandleHSApplianceChange(updateFormData, productData)
+	const handleWarrantyChange = createUpdateFormValue(updateFormData, 'hsWarranty')
 
 	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },
@@ -33,6 +35,17 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	)
 
 	const subFamilyOptions = productData.subFamilies.map((code) => ({ value: code, text: `${code} Series` }))
+
+	const extendedWarrantyAvailable = !!productData.appliances[formData.hsSubFamily]?.find(
+		(item) => item.sku === formData.hsAppliance
+	)?.extendedWarranty
+
+	console.log('extendedWarrantyAvailable', extendedWarrantyAvailable)
+
+	const warrantyOptions = [
+		{ value: false, text: '1 Year' },
+		{ value: true, text: '3 Years' },
+	]
 
 	return (
 		<>
@@ -62,6 +75,18 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 					</>
 				)}
 			</fieldset>
+			{(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) &&
+				extendedWarrantyAvailable && (
+					<fieldset className={configuratorStyles.extendedWarranty}>
+						<legend>Hardware Warranty</legend>
+						<SimpleRadio
+							name='hsWarranty'
+							onChange={handleWarrantyChange}
+							value={formData.hsWarranty}
+							options={warrantyOptions}
+						/>
+					</fieldset>
+				)}
 		</>
 	)
 }

@@ -91,6 +91,21 @@ label.monthsRemaining > span {
 	margin-bottom: 0;
 }
 
+.extendedWarranty > div {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.extendedWarranty > div > label {
+	width: initial;
+	margin-right: 2em;
+}
+
+.extendedWarranty > div > label:last-child {
+	margin-right: 0;
+}
+
 @media (max-width: 500px) {
 	.configurator {
 		padding-left: 0;

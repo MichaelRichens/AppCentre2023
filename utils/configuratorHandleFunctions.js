@@ -2,6 +2,7 @@ import PurchaseType from './types/enums/PurchaseType'
 
 export const createHandleOptionChange = (updateFormData) => (event) => {
 	const { value } = event.target
+
 	updateFormData({
 		optionIndex: value,
 	})
@@ -9,8 +10,22 @@ export const createHandleOptionChange = (updateFormData) => (event) => {
 
 /** @function
  * Handles a generic change in formData, with no validation
+ * Does coerce 'true'/'false' strings to boolean
  */
-export const createUpdateFormValue = (updateFormData, key) => (event) => updateFormData({ [key]: event.target.value })
+export const createUpdateFormValue = (updateFormData, key) => (event) => {
+	const value = event.target.value
+	let allowBool
+	if (value === 'true') {
+		allowBool = true
+	} else if (value === 'false') {
+		allowBool = false
+	} else {
+		allowBool = value
+	}
+	updateFormData({
+		[key]: allowBool,
+	})
+}
 
 /**
  * @function

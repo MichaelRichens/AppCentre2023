@@ -54,6 +54,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 		hsType: PurchaseType.SUB,
 		hsSubFamily: hsDefaultSubFamily,
 		hsAppliance: hsDefaultAppliance,
+		hsWarranty: false,
 	}
 
 	const [formData, updateFormData, suppressAriaLivePriceUpdate] = useFormData(savedData)
