@@ -16,10 +16,10 @@ class ProductConfiguration {
 	 * @param {Object} [skus={}] - An object containing the SKUs for the product as keys, and quantities as values.
 	 * @param {ConfigurationSummary|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  May be null if it isn't generated yet.
 	 */
-	constructor(type, units, years, price = 0, skus = {}, summary = null) {
-		this.unType = type
+	constructor(unType, units, unYears, price = 0, skus = {}, summary = null) {
+		this.unType = unType
 		this.units = units
-		this.years = years
+		this.years = unYears
 		this.price = price
 		this.skus = skus
 		this.summary = summary

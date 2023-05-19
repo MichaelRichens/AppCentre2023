@@ -7,8 +7,8 @@ import MonthsRemainingSelect from './MonthsRemainingSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleUnitTypeChange,
-	createHandleunitsExistingBlur,
-	createHandleunitsExistingChange,
+	createHandleUnitsExistingBlur,
+	createHandleUnitsExistingChange,
 	createHandleUnitsChangeChange,
 	createHandleUnitsChangeBlur,
 	createHandleExtensionCheckboxChange,
@@ -53,9 +53,9 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
-	const handleunitsExistingChange = createHandleunitsExistingChange(updateFormData)
+	const handleunitsExistingChange = createHandleUnitsExistingChange(updateFormData)
 
-	const handleunitsExistingBlur = createHandleunitsExistingBlur(updateFormData, formData, productData)
+	const handleunitsExistingBlur = createHandleUnitsExistingBlur(updateFormData, formData, productData)
 
 	const handleUnitsChangeChange = createHandleUnitsChangeChange(updateFormData, formData)
 
@@ -185,7 +185,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 						<SimpleSelect
 							name='years'
 							options={yearsOptions}
-							value={formData.years}
+							value={formData.unYears}
 							onChange={handleYearsChange}
 							ariaLabel='Subscription Length'
 						/>
@@ -194,7 +194,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					<>
 						<legend>Time Remaining Until Renewal Date</legend>
 						<MonthsRemainingSelect
-							value={formData.years}
+							value={formData.unYears}
 							onChange={handleMonthsRemainingChange}
 							maxYears={productData.maxYears}
 						/>

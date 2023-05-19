@@ -95,7 +95,7 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
  */
 function processConfigurationSub(productName, products, extensions, formData, unitName, minUnitsOverride = null) {
 	/** The return object */
-	const result = new ProductConfiguration(formData.unType, 0, formData.years)
+	const result = new ProductConfiguration(formData.unType, 0, formData.unYears)
 
 	/**
 	 * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
@@ -122,7 +122,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 		case PurchaseType.NEW:
 			numUnitsForPriceBand = formData.unitsChange
 			numUnitsToPurchase = formData.unitsChange
-			wholeYears = Math.ceil(formData.years)
+			wholeYears = Math.ceil(formData.unYears)
 			break
 		case PurchaseType.ADD:
 			if (process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true') {
@@ -131,19 +131,19 @@ function processConfigurationSub(productName, products, extensions, formData, un
 				numUnitsForPriceBand = formData.unitsChange
 			}
 			numUnitsToPurchase = formData.unitsChange
-			wholeYears = Math.floor(formData.years)
-			partYears = formData.years - wholeYears
+			wholeYears = Math.floor(formData.unYears)
+			partYears = formData.unYears - wholeYears
 			break
 		case PurchaseType.EXT:
 			numUnitsToPurchase = formData.unitsExisting
 			numUnitsForPriceBand = 0
-			wholeYears = Math.floor(formData.years)
-			partYears = formData.years - wholeYears
+			wholeYears = Math.floor(formData.unYears)
+			partYears = formData.unYears - wholeYears
 			break
 		default:
 			numUnitsForPriceBand = formData.unitsChange + formData.unitsExisting
 			numUnitsToPurchase = formData.unitsChange + formData.unitsExisting
-			wholeYears = Math.ceil(formData.years)
+			wholeYears = Math.ceil(formData.unYears)
 	}
 
 	if (numUnitsToPurchase < 1) {
@@ -231,7 +231,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
  * STUB
  */
 function processConfigurationHardSub(productName, hardware, formData, unitName) {
-	const result = new ProductConfiguration(formData.unType, 0, formData.years)
+	const result = new ProductConfiguration(formData.unType, 0, formData.unYears)
 
 	return result
 }

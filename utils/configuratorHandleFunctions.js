@@ -27,10 +27,10 @@ export const createHandleUnitTypeChange = (updateFormData, formData, productData
 		unitsChange = 0
 	}
 
-	let years = formData.years
+	let years = formData.unYears
 	if (value === PurchaseType.SUB || value === PurchaseType.NEW) {
 		// make sure we have a whole number for years
-		years = Math.max(productData.minYears, Math.min(productData.maxYears, Math.ceil(formData.years)))
+		years = Math.max(productData.minYears, Math.min(productData.maxYears, Math.ceil(formData.unYears)))
 	}
 
 	updateFormData({
@@ -41,7 +41,7 @@ export const createHandleUnitTypeChange = (updateFormData, formData, productData
 	})
 }
 
-export const createHandleunitsExistingChange = (updateFormData) => (event) => {
+export const createHandleUnitsExistingChange = (updateFormData) => (event) => {
 	const { value } = event.target
 	if (isNaN(value)) {
 		return
@@ -73,7 +73,7 @@ export const createHandleUnitsChangeChange = (updateFormData, formData) => (even
 	})
 }
 
-export const createHandleunitsExistingBlur = (updateFormData, formData, productData) => (event) => {
+export const createHandleUnitsExistingBlur = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let unitsExistingError = false
 	if (isNaN(value) || value == '') {
@@ -170,7 +170,7 @@ export const createHandleYearsChange = (updateFormData) => (event) => {
 	const finalValue = isNaN(parsedValue) ? value : parsedValue
 
 	updateFormData({
-		years: finalValue,
+		unYears: finalValue,
 	})
 }
 
@@ -179,7 +179,7 @@ export const createHandleMonthsRemainingChange = (updateFormData) => (event) => 
 	const parsedValue = parseFloat(value)
 	const finalValue = isNaN(parsedValue) ? value : parsedValue
 	updateFormData({
-		years: finalValue,
+		unYears: finalValue,
 	})
 }
 

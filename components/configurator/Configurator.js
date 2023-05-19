@@ -37,7 +37,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 		unitsChangeLiveUpdate: 0,
 		unitsChange: 0,
 		unitCheckedExtensions: [],
-		years: productDataArray[0].minYears,
+		unYears: productDataArray[0].minYears,
 		unitsChangeError: false,
 		unitsExistingError: false,
 	}
