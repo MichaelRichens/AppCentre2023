@@ -271,7 +271,7 @@ const processProductsHardSub = (data, hardware) => {
 	})
 
 	hardware.forEach((item) => {
-		switch (item.unType) {
+		switch (item.type) {
 			case 'HARD':
 				appliances[item.sub_family].push({
 					sku: item.sku,
@@ -303,7 +303,7 @@ const processProductsHardSub = (data, hardware) => {
 	})
 
 	hardware.forEach((item) => {
-		switch (item.unType) {
+		switch (item.type) {
 			case 'WAREX': {
 				const index = appliances[item.sub_family].findIndex((appliance) => appliance.sku === item.for_sku)
 				if (index !== -1) {

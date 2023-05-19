@@ -31,8 +31,8 @@ const Configurator = ({ productDataArray, unitName }) => {
 	//  However different types (ie PricingType) of subunits use different property names, so they don't interfere with each other.  They just share a ,optionsIndex (which says which one is active) + maybe configuration
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
+		// PricingType.UNIT
 		unType: PurchaseType.SUB,
-		hsType: PurchaseType.SUB,
 		unitsExistingLiveUpdate: productDataArray[0].minUnits,
 		unitsExisting: productDataArray[0].minUnits,
 		unitsChangeLiveUpdate: 0,
@@ -41,6 +41,8 @@ const Configurator = ({ productDataArray, unitName }) => {
 		unYears: productDataArray[0].minYears,
 		unitsChangeError: false,
 		unitsExistingError: false,
+		// PricingType.HARDSUB
+		hsType: PurchaseType.SUB,
 	}
 
 	const [formData, updateFormData, suppressAriaLivePriceUpdate] = useFormData(savedData)

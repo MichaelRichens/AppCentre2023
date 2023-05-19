@@ -14,14 +14,6 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	const handleHsTypeChange = createUpdateFormValue(updateFormData, 'hsType')
 
-	/*
-		SUB: 'sub', // A renewal of an existing subscription
-	NEW: 'new', // A new purchase
-	ADD: 'add', // Additional units/users to an existing subscription
-	EXT: 'ext', // Additional extension(s) to an existing subscription
-	SPARE: 'spare', // Spare hardware (for a customer who has a subscription to the service that uses the hardware)
-	WAREX: 'warex', // A warranty extension
-	ACC: 'acc', // Accessories*/
 	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },
 		{ value: PurchaseType.NEW, text: 'New Control Box & Subscription' },
@@ -30,8 +22,12 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		{ value: PurchaseType.ACC, text: 'Accessories' },
 	]
 
-	const subFamilyOptions = productData.subFamilies.map((code) => ({ value: code, text: `${code} Series` }))
+	const appliances = Object.values(productData.appliances).flatMap((arr) =>
+		arr.map((item) => ({ value: item.sku, text: item.name }))
+	)
 
+	const subFamilyOptions = productData.subFamilies.map((code) => ({ value: code, text: `${code} Series` }))
+	console.log('subFamilyOptions', subFamilyOptions)
 	return (
 		<>
 			<fieldset>
@@ -39,12 +35,22 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 				<SimpleSelect options={hsTypeOptions} value={formData.hsType} onChange={handleHsTypeChange} />
 			</fieldset>
 			<fieldset>
-				{formData.unType === PurchaseType.NEW || formData.unType === PurchaseType.SPARE || PurchaseType.WAREX ? (
-					<legend>Appliance Model</legend>
+				{formData.hsType === PurchaseType.NEW ||
+				formData.hsType === PurchaseType.SPARE ||
+				formData.hsType === PurchaseType.WAREX ? (
+					<>
+						<legend>Appliance Model</legend>
+						<SimpleSelect options={appliances} />
+					</>
 				) : (
 					<>
 						<legend>Appliance Series</legend>
-						<SimpleSelect options={subFamilyOptions} />
+						<SimpleSelect
+							options={subFamilyOptions.filter(
+								(subFamily) =>
+									formData.hsType === PurchaseType.SUB || productData.accessories[subFamily.value].length > 0
+							)}
+						/>
 					</>
 				)}
 			</fieldset>
