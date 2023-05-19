@@ -12,7 +12,7 @@ import {
 	createHandleUnitsChangeChange,
 	createHandleUnitsChangeBlur,
 	createHandleExtensionCheckboxChange,
-	createHandleYearsChange,
+	createUpdateFormValueWithFloat,
 	createHandleMonthsRemainingChange,
 } from '../../utils/configuratorHandleFunctions'
 
@@ -43,7 +43,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 	const handleExtensionCheckboxChange = createHandleExtensionCheckboxChange(updateFormData, formData)
 
-	const handleYearsChange = createHandleYearsChange(updateFormData)
+	const handleYearsChange = createUpdateFormValueWithFloat(updateFormData, 'unYears')
 
 	const handleMonthsRemainingChange = createHandleMonthsRemainingChange(updateFormData)
 

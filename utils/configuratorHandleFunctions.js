@@ -1,13 +1,5 @@
 import PurchaseType from './types/enums/PurchaseType'
 
-export const createHandleOptionChange = (updateFormData) => (event) => {
-	const { value } = event.target
-
-	updateFormData({
-		optionIndex: value,
-	})
-}
-
 /** @function
  * Handles a generic change in formData, with no validation
  * Does coerce 'true'/'false' strings to boolean
@@ -24,6 +16,24 @@ export const createUpdateFormValue = (updateFormData, key) => (event) => {
 	}
 	updateFormData({
 		[key]: allowBool,
+	})
+}
+
+export const createUpdateFormValueWithFloat = (updateFormData, key) => (event) => {
+	const { value } = event.target
+	const parsedValue = parseFloat(value)
+	const finalValue = isNaN(parsedValue) ? value : parsedValue
+
+	updateFormData({
+		[key]: finalValue,
+	})
+}
+
+export const createHandleOptionChange = (updateFormData) => (event) => {
+	const { value } = event.target
+
+	updateFormData({
+		optionIndex: value,
 	})
 }
 
@@ -177,16 +187,6 @@ export const createHandleExtensionCheckboxChange = (updateFormData, formData) =>
 		newCheckedExtensions = newCheckedExtensions.filter((extensionKey) => extensionKey !== value)
 	}
 	updateFormData({ unitCheckedExtensions: newCheckedExtensions })
-}
-
-export const createHandleYearsChange = (updateFormData) => (event) => {
-	const { value } = event.target
-	const parsedValue = parseFloat(value)
-	const finalValue = isNaN(parsedValue) ? value : parsedValue
-
-	updateFormData({
-		unYears: finalValue,
-	})
 }
 
 export const createHandleMonthsRemainingChange = (updateFormData) => (event) => {

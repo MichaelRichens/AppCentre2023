@@ -37,9 +37,11 @@ const Configurator = ({ productDataArray, unitName }) => {
 	const hsDefaultSubFamily = hsIndex !== -1 ? productDataArray[hsIndex].subFamilies[0] : undefined
 	const hsDefaultAppliance =
 		hsIndex !== -1 ? productDataArray[hsIndex].appliances[hsDefaultSubFamily][0].sku : undefined
+	const hsMinYears = unitIndex !== -1 ? productDataArray[unitIndex].minYears : undefined
 
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
+
 		// PricingType.UNIT
 		unType: PurchaseType.SUB,
 		unitsExistingLiveUpdate: minUnits,
@@ -50,10 +52,13 @@ const Configurator = ({ productDataArray, unitName }) => {
 		unYears: minUnitYears,
 		unitsChangeError: false,
 		unitsExistingError: false,
+
 		// PricingType.HARDSUB
 		hsType: PurchaseType.SUB,
 		hsSubFamily: hsDefaultSubFamily,
 		hsAppliance: hsDefaultAppliance,
+		hsYears: hsMinYears,
+		// note: this field is ignored if hsType is set to PurchaseType.WAREX, since that is a type used just to purchase warranty (and doing it this way avoids setting warranty to true if the user selects this option out of curiosity)
 		hsWarranty: false,
 	}
 

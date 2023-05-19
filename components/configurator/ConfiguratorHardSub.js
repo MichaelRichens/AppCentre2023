@@ -4,6 +4,7 @@ import SimpleRadio from '../SimpleRadio'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createUpdateFormValue,
+	createUpdateFormValueWithFloat,
 	createHandleHSApplianceChange,
 	createHandleHSSubFamilyChange,
 } from '../../utils/configuratorHandleFunctions'
@@ -20,6 +21,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	const handleHsTypeChange = createUpdateFormValue(updateFormData, 'hsType')
 	const handleHsSubFamilyChange = createHandleHSSubFamilyChange(updateFormData, productData)
 	const handleApplianceTypeChange = createHandleHSApplianceChange(updateFormData, productData)
+	const handleHSYearsChange = createUpdateFormValueWithFloat(updateFormData, 'hsYears')
 	const handleWarrantyChange = createUpdateFormValue(updateFormData, 'hsWarranty')
 
 	const hsTypeOptions = [
@@ -35,6 +37,14 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	)
 
 	const subFamilyOptions = productData.subFamilies.map((code) => ({ value: code, text: `${code} Series` }))
+
+	const yearsOptions = Array.from({ length: productData.maxYears - productData.minYears + 1 }, (_, index) => {
+		const year = productData.minYears + index
+		return {
+			value: year,
+			text: `${year} Year${year > 1 ? 's' : ''}`,
+		}
+	})
 
 	const extendedWarrantyAvailable = !!productData.appliances[formData.hsSubFamily]?.find(
 		(item) => item.sku === formData.hsAppliance
@@ -73,6 +83,18 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 					</>
 				)}
 			</fieldset>
+			{(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SUB) && (
+				<fieldset>
+					<legend>Subscription Length</legend>
+					<SimpleSelect
+						name='hsYears'
+						options={yearsOptions}
+						value={formData.hsYears}
+						onChange={handleHSYearsChange}
+						ariaLabel='Subscription Length'
+					/>
+				</fieldset>
+			)}
 			{(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) &&
 				extendedWarrantyAvailable && (
 					<fieldset className={configuratorStyles.extendedWarranty}>
