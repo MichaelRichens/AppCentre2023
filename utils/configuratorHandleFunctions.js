@@ -103,7 +103,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	const { value } = event.target
 	// early exit if NaN entered - not an error, since its probably been left blank, just set to default minimum.
 	if (isNaN(value)) {
-		const newValue = formData.type == PurchaseType.ADD ? productData.minUnitsStep : 0
+		const newValue = formData.type === PurchaseType.ADD ? productData.minUnitsStep : 0
 		updateFormData({
 			unitsChangeLiveUpdate: newValue,
 			unitsChange: newValue,
@@ -120,9 +120,9 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	} else if (formData.type === PurchaseType.ADD) {
 		minUnitsChange = productData.minUnitsStep
 	} else {
-		minUnitsChange = productData.minUnitsStep - formData.existingUnits
+		minUnitsChange = productData.minUnitsStep - (formData?.existingUnits || 0)
 	}
-	const maxUnitsChange = productData.maxUnits - formData.existingUnits
+	const maxUnitsChange = productData.maxUnits - (formData?.existingUnits || 0)
 	const unitsChangeBeforeClamp = unitsChange
 	// Clamp the unitsChange value to be between minUnitsChange and maxUnitsChange.
 	unitsChange = Math.min(Math.max(unitsChange, minUnitsChange), maxUnitsChange)
@@ -155,7 +155,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 
 export const createHandleExtensionCheckboxChange = (updateFormData, formData) => (event) => {
 	const { value, checked } = event.target
-	let newCheckedExtensions = [...formData.checkedExtensions]
+	let newCheckedExtensions = [...(formData?.checkedExtensions || [])]
 	if (checked) {
 		newCheckedExtensions.push(value)
 	} else {
