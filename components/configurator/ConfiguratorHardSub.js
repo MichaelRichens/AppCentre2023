@@ -40,8 +40,6 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		(item) => item.sku === formData.hsAppliance
 	)?.extendedWarranty
 
-	console.log('extendedWarrantyAvailable', extendedWarrantyAvailable)
-
 	const warrantyOptions = [
 		{ value: false, text: '1 Year' },
 		{ value: true, text: '3 Years' },
