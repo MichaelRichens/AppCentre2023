@@ -4,7 +4,7 @@ import createUnitName from '../utils/createUnitName'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 
 export async function getStaticProps() {
-	const productDataArray = await asyncFetchAndProcessMultipleOptions('CONTROL')
+	const productDataArray = await asyncFetchAndProcessMultipleOptions('CONTROL', ['CONTROL', 'CONTROLBOX'])
 
 	return {
 		props: { productDataArray },
