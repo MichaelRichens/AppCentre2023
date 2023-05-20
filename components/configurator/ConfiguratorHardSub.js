@@ -43,7 +43,6 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		{ value: PurchaseType.NEW, text: 'New Control Box & Subscription' },
 		{ value: PurchaseType.SPARE, text: 'Spare/Replacement Hardware' },
 		{ value: PurchaseType.WAREX, text: 'Extended Warranty' },
-		{ value: PurchaseType.ACC, text: 'Accessories' },
 	]
 
 	const appliances = Object.values(productData.appliances).flatMap((arr) =>
@@ -68,12 +67,6 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		{ value: false, text: '1 Year' },
 		{ value: true, text: '3 Years' },
 	]
-
-	const offerAccessories =
-		(formData.hsType === PurchaseType.ACC ||
-			formData.hsType === PurchaseType.NEW ||
-			formData.hsType === PurchaseType.SPARE) &&
-		productData?.accessories[formData.hsSubFamily]?.length > 0
 
 	return (
 		<>
@@ -107,14 +100,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 				) : (
 					<>
 						<legend>Appliance Series</legend>
-						<SimpleSelect
-							options={subFamilyOptions.filter(
-								(subFamily) =>
-									formData.hsType === PurchaseType.SUB || productData.accessories[subFamily.value].length > 0
-							)}
-							value={formData.hsSubFamily}
-							onChange={handleHsSubFamilyChange}
-						/>
+						<SimpleSelect options={subFamilyOptions} value={formData.hsSubFamily} onChange={handleHsSubFamilyChange} />
 					</>
 				)}
 			</fieldset>
@@ -139,11 +125,6 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 						value={formData.hsWarranty}
 						options={warrantyOptions}
 					/>
-				</fieldset>
-			)}
-			{offerAccessories && (
-				<fieldset className={configuratorStyles.checkbox}>
-					<legend>Accessories</legend>
 				</fieldset>
 			)}
 		</>

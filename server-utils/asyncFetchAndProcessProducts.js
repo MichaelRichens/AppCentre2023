@@ -260,13 +260,11 @@ const processProductsHardSub = (data, hardware) => {
 	subFamilies = subFamilies.sort((a, b) => a.localeCompare(b))
 
 	const appliances = {}
-	const accessories = {}
 	const shipping = {}
 	const unlimitedUsers = {}
 
 	subFamilies.forEach((subFamily) => {
 		appliances[subFamily] = []
-		accessories[subFamily] = []
 		shipping[subFamily] = []
 		unlimitedUsers[subFamily] = {}
 	})
@@ -275,13 +273,6 @@ const processProductsHardSub = (data, hardware) => {
 		switch (item.type) {
 			case 'HARD':
 				appliances[item.sub_family].push({
-					sku: item.sku,
-					price: item.price,
-					name: item.name,
-				})
-				break
-			case 'ACC':
-				accessories[item.sub_family].push({
 					sku: item.sku,
 					price: item.price,
 					name: item.name,
@@ -331,9 +322,6 @@ const processProductsHardSub = (data, hardware) => {
 	// Object, with properties that match sub-family strings, each of which will be an array of objects with name, sku, price, extendedWarranty and shipping properties.
 	// extendedWarranty is another object with sku, years and price properties.  shipping is another object with sku and price properties
 	productData.appliances = appliances
-
-	// Object, with properties that match sub-family strings, each of which will be an array of objects with name, sku and price properties
-	productData.accessories = accessories
 
 	// Object, with properties that match sub-family strings, each of which is an object with sku and price properties
 	productData.shipping = shipping

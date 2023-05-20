@@ -7,7 +7,6 @@ const PurchaseTypeEnum = {
 	EXT: 'ext', // Additional extension(s) to an existing subscription
 	SPARE: 'spare', // Spare hardware (for a customer who has a subscription to the service that uses the hardware)
 	WAREX: 'warex', // A warranty extension
-	ACC: 'acc', // Accessories
 }
 
 // Depending on the environment, we define PurchaseType in different ways.

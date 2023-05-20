@@ -196,14 +196,7 @@ export const createHandleMonthsRemainingChange = (updateFormData) => (event) => 
 export const createHandleHSTypeChange = (updateFormData, formData, productData) => (event) => {
 	const value = event.target.value
 	const updateObj = { hsType: value }
-	if (value === PurchaseType.ACC && !productData.accessories[formData.hsSubFamily]?.length) {
-		for (let [subFamily, arr] of Object.entries(productData.accessories)) {
-			if (arr.length) {
-				updateObj.hsSubFamily = subFamily
-				updateObj.hsAppliance = productData.appliances[subFamily][0].sku
-			}
-		}
-	}
+
 	updateFormData(updateObj)
 }
 
