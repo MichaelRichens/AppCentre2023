@@ -7,8 +7,7 @@ import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleUnitTypeChange,
 	createHandleUnitsExistingBlur,
-	createHandleUnitsExistingChange,
-	createHandleUnitsChangeChange,
+	createHandleInputChange,
 	createHandleUnitsChangeBlur,
 	createHandleCheckboxChange,
 	createUpdateFormValueWithFloat,
@@ -32,11 +31,21 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
-	const handleUnitsExistingChange = createHandleUnitsExistingChange(updateFormData)
+	const handleUnitsExistingChange = createHandleInputChange(
+		updateFormData,
+		formData,
+		'unitsExistingLiveUpdate',
+		'currentlyEditingField'
+	)
 
 	const handleUnitsExistingBlur = createHandleUnitsExistingBlur(updateFormData, formData, productData)
 
-	const handleUnitsChangeChange = createHandleUnitsChangeChange(updateFormData, formData)
+	const handleUnitsChangeChange = createHandleInputChange(
+		updateFormData,
+		formData,
+		'unitsChangeLiveUpdate',
+		'currentlyEditingField'
+	)
 
 	const handleUnitsChangeBlur = createHandleUnitsChangeBlur(updateFormData, formData, productData)
 
