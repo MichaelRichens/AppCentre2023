@@ -14,7 +14,6 @@ import {
 } from '../../utils/configuratorHandleFunctions'
 
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
-import SimpleCheckboxes from '../SimpleCheckboxes'
 
 /**
  * @component
