@@ -133,42 +133,6 @@ export const createHandleUnitTypeChange = (updateFormData, formData, productData
 	})
 }
 
-/**This is the onChange handler, that handles updates while the filed is being edited, before being confirmed with onBlur */
-export const createHandleUnitsExistingChange = (updateFormData) => (event) => {
-	const { value } = event.target
-	if (isNaN(value)) {
-		return
-	}
-	let unitsExisting
-	if (value == '' || value == '-') {
-		unitsExisting = value
-	} else {
-		unitsExisting = parseInt(value)
-	}
-	updateFormData({
-		currentlyEditingField: true,
-		unitsExistingLiveUpdate: unitsExisting,
-	})
-}
-
-/**This is the onChange handler, that handles updates while the filed is being edited, before being confirmed with onBlur */
-export const createHandleUnitsChangeChange = (updateFormData, formData) => (event) => {
-	const { value } = event.target
-	if (isNaN(value) && (formData.unType != PurchaseType.SUB || value != '-')) {
-		return
-	}
-	let unitsChange
-	if (value == '' || value == '-') {
-		unitsChange = value
-	} else {
-		unitsChange = parseInt(value)
-	}
-	updateFormData({
-		currentlyEditingField: true,
-		unitsChangeLiveUpdate: unitsChange,
-	})
-}
-
 export const createHandleUnitsExistingBlur = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
 	let unitsExistingError = false
