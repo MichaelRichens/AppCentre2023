@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
 				res.status(200).json('ok') // Respond with the session data
 			} catch (error) {
-				error.log('Error retrieving session from Stripe', error)
+				console.erro('Error retrieving session from Stripe', error)
 				res.status(500).json({ statusCode: 500, message: error.message })
 			}
 		} catch (error) {

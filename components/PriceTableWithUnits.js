@@ -15,7 +15,7 @@ import priceTableStyles from '../styles/Table.shared.module.css'
  */
 const PriceTableWithUnits = ({ productName, products, unitName }) => {
 	if (!products || products.length === 0) {
-		error.log('No products found.')
+		console.error('No products found.')
 		return null
 	}
 
