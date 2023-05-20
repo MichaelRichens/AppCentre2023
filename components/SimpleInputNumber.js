@@ -1,6 +1,8 @@
 import React from 'react'
 import generateUniqueId from '../utils/generateUniqueId'
 
+import styles from '../styles/SimpleInputNumber.module.css'
+
 /**
  * SimpleInputNumber component.
  *
@@ -8,7 +10,6 @@ import generateUniqueId from '../utils/generateUniqueId'
  * displays an error message if there's any.
  *
  * @param {Object} props - The component's props.
- * @param {string} props.className - Class to be put on the unit's container
  * @param {string} props.label - The label text for the field.
  * @param {number} props.min - The minimum value for the input field.
  * @param {number} props.max - The maximum value for the input field.
@@ -18,12 +19,15 @@ import generateUniqueId from '../utils/generateUniqueId'
  * @param {Function} props.onBlur - The onBlur event handler for the input field.
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
-const SimpleInputNumber = ({ className, label, min, max, step, value, onChange, onBlur, error }) => {
+const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, error }) => {
 	const inputId = `numIn${generateUniqueId()}`
 
 	return (
-		<div className={className}>
-			<label htmlFor={inputId}>{`${label}: `}</label>
+		<div className={styles.container}>
+			<label htmlFor={inputId}>
+				{`${label}: `}
+				{error !== false && <span className={`formError ${styles.error}`}> {error}</span>}
+			</label>
 			<input
 				id={inputId}
 				type='number'
@@ -34,7 +38,6 @@ const SimpleInputNumber = ({ className, label, min, max, step, value, onChange, 
 				onChange={onChange}
 				onBlur={onBlur}
 			/>
-			{error !== false && <span className='formError'> {error}</span>}
 		</div>
 	)
 }

@@ -82,14 +82,13 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 				/>
 			</fieldset>
 
-			<fieldset>
+			<fieldset className={configuratorStyles.unitsInput}>
 				<legend>{productData.unitName.pluralC}</legend>
 				{(formData.unType === PurchaseType.SUB ||
 					formData.unType === PurchaseType.EXT ||
 					(formData.unType === PurchaseType.ADD &&
 						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true')) && (
 					<SimpleInputNumber
-						className={configuratorStyles.unitsInputContainer}
 						label={`${formData.unType !== PurchaseType.EXT ? 'Current ' : ''}${
 							productData.unitName.pluralC
 						} on Subscription`}
@@ -104,7 +103,6 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 				)}
 				{formData.unType !== PurchaseType.EXT && (
 					<SimpleInputNumber
-						className={configuratorStyles.unitsInputContainer}
 						label={
 							formData.unType === PurchaseType.NEW
 								? `Number of ${productData.unitName.pluralC}`

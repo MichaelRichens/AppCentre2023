@@ -26,7 +26,7 @@
 .configurator input,
 .configurator select,
 .configurator textarea {
-	max-width: fit-content;
+	min-width: fit-content;
 	padding: 0.5em;
 	font-size: 1em;
 	font-weight: 500;
@@ -38,6 +38,11 @@
 .configurator input[type='radio'] {
 	width: auto;
 	margin-right: 5px;
+}
+
+.configurator input[type='number'] {
+	text-align: right;
+	width: 7em;
 }
 
 .configurator label {
@@ -59,6 +64,14 @@
 	margin-right: 0;
 }
 
+.configurator .unitsInput > div {
+	margin-bottom: 0.5em;
+}
+
+.configurator .unitsInput > div:last-child {
+	margin-bottom: 0;
+}
+
 .configurator .summary {
 	color: #666;
 	margin-bottom: 8px;
@@ -68,7 +81,7 @@
 	opacity: 0.3;
 }
 
-label.monthsRemaining {
+.configurator label.monthsRemaining {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -77,42 +90,29 @@ label.monthsRemaining {
 	margin-bottom: 0.5em;
 }
 
-label.monthsRemaining:last-child {
+.configurator label.monthsRemaining:last-child {
 	margin-bottom: 0;
 }
 
-label.monthsRemaining > span {
+.configurator label.monthsRemaining > span {
 	white-space: break-spaces;
 	margin-right: 1em;
 	width: 40%;
 	flex-grow: 1;
 }
 
-.unitsInputContainer {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	max-width: 80%;
-	margin-bottom: 0.5em;
-}
-
-.unitsInputContainer:last-child {
-	margin-bottom: 0;
-}
-
-.extendedWarranty > div {
+.configurator .extendedWarranty > div {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 }
 
-.extendedWarranty > div > label {
+.configurator .extendedWarranty > div > label {
 	width: initial;
 	margin-right: 2em;
 }
 
-.extendedWarranty > div > label:last-child {
+.configurator .extendedWarranty > div > label:last-child {
 	margin-right: 0;
 }
 
@@ -129,18 +129,18 @@ label.monthsRemaining > span {
 }
 
 @media (max-width: 400px) {
-	label.monthsRemaining {
+	.configurator label.monthsRemaining {
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 0.3em;
 		margin-bottom: 1.5em;
 	}
 
-	label.monthsRemaining:last-child {
+	.configurator label.monthsRemaining:last-child {
 		margin-bottom: 0;
 	}
 
-	label.monthsRemaining > span {
+	.configurator label.monthsRemaining > span {
 		width: 100%;
 	}
 }

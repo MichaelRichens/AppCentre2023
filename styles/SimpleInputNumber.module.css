@@ -1,0 +1,31 @@
+.container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 80%;
+}
+
+.container label {
+	position: relative;
+}
+
+.container label span.error {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 1.3em;
+}
+
+@media (max-width: 800px) {
+	.container label {
+		position: initial;
+	}
+	.container label span.error {
+		position: initial;
+		width: initial;
+		left: initial;
+		top: initial;
+		display: block;
+	}
+}
