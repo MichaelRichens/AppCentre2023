@@ -138,8 +138,8 @@ export const createHandleUnitsExistingBlur = (updateFormData, formData, productD
 	let unitsExistingError = false
 	if (isNaN(value) || value == '') {
 		updateFormData({
-			unitsExistingLiveUpdate: productData.minUnits,
-			unitsExisting: productData.minUnits,
+			unitsExistingLiveUpdate: formData.unitsExisting,
+			unitsExisting: formData.unitsExisting,
 		})
 		return
 	} else {
@@ -169,12 +169,11 @@ export const createHandleUnitsExistingBlur = (updateFormData, formData, productD
 
 export const createHandleUnitsChangeBlur = (updateFormData, formData, productData) => (event) => {
 	const { value } = event.target
-	// early exit if NaN entered - not an error, since its probably been left blank, just set to default minimum.
-	if (isNaN(value)) {
-		const newValue = formData.unType === PurchaseType.ADD ? productData.minUnitsStep : 0
+	// early exit if NaN entered and reset to original figure
+	if (isNaN(value) || value == '') {
 		updateFormData({
-			unitsChangeLiveUpdate: newValue,
-			unitsChange: newValue,
+			unitsChangeLiveUpdate: formData.unitsChange,
+			unitsChange: formData.unitsChange,
 		})
 		return
 	}
