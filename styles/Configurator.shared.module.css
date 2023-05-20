@@ -53,6 +53,16 @@
 	width: 100%;
 }
 
+.checkbox > label {
+	display: inline-block;
+	width: auto;
+	margin-right: 1.5em;
+}
+
+.checkbox > label:last-of-type {
+	margin-right: 0;
+}
+
 .configurator .summary {
 	color: #666;
 	margin-bottom: 8px;

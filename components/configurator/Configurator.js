@@ -61,6 +61,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 		hsYears: hsMinYears,
 		// note: this field is ignored if hsType is set to PurchaseType.WAREX, since that is a type used just to purchase warranty (and doing it this way avoids setting warranty to true if the user selects this option out of curiosity)
 		hsWarranty: false,
+		hsCheckedAccessories: [],
 	}
 
 	const [formData, updateFormData, suppressAriaLivePriceUpdate] = useFormData(savedData)

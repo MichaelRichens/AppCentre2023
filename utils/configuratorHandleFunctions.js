@@ -29,6 +29,17 @@ export const createUpdateFormValueWithFloat = (updateFormData, key) => (event) =
 	})
 }
 
+export const createHandleCheckboxChange = (updateFormData, formData, formDataArrayProperty) => (event) => {
+	const { value, checked } = event.target
+	let newChecked = [...(formData?.[formDataArrayProperty] || [])]
+	if (checked) {
+		newChecked.push(value)
+	} else {
+		newChecked = newChecked.filter((item) => item !== value)
+	}
+	updateFormData({ [formDataArrayProperty]: newChecked })
+}
+
 export const createHandleOptionChange = (updateFormData) => (event) => {
 	const { value } = event.target
 
@@ -36,6 +47,46 @@ export const createHandleOptionChange = (updateFormData) => (event) => {
 		optionIndex: value,
 	})
 }
+
+export const createAsyncHandleSubmit =
+	(productFamily, productOption, unitName, formData, addItem, setSubmitInProgress) => async (event) => {
+		event.preventDefault()
+
+		setSubmitInProgress(true)
+		try {
+			const response = await fetch('/api/save-configuration', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					productFamily: productFamily,
+					productOption: productOption,
+					unitName: unitName,
+					formData: formData,
+				}),
+			})
+
+			const result = await response.json()
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}\nmessage: ${result.message}`)
+			} else {
+				// Add item to cart here
+				addItem({
+					id: result.key,
+					name: result.name,
+					price: result.price,
+					currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
+					quantity: 1,
+				})
+			}
+		} catch (error) {
+			console.error('Error submitting form data:', error)
+		} finally {
+			setSubmitInProgress(false)
+		}
+	}
 
 /**
  * @function
@@ -182,17 +233,6 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 	})
 }
 
-export const createHandleExtensionCheckboxChange = (updateFormData, formData) => (event) => {
-	const { value, checked } = event.target
-	let newCheckedExtensions = [...(formData?.unitCheckedExtensions || [])]
-	if (checked) {
-		newCheckedExtensions.push(value)
-	} else {
-		newCheckedExtensions = newCheckedExtensions.filter((extensionKey) => extensionKey !== value)
-	}
-	updateFormData({ unitCheckedExtensions: newCheckedExtensions })
-}
-
 export const createHandleMonthsRemainingChange = (updateFormData) => (event) => {
 	const { value } = event.target
 	const parsedValue = parseFloat(value)
@@ -202,45 +242,19 @@ export const createHandleMonthsRemainingChange = (updateFormData) => (event) => 
 	})
 }
 
-export const createAsyncHandleSubmit =
-	(productFamily, productOption, unitName, formData, addItem, setSubmitInProgress) => async (event) => {
-		event.preventDefault()
-
-		setSubmitInProgress(true)
-		try {
-			const response = await fetch('/api/save-configuration', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					productFamily: productFamily,
-					productOption: productOption,
-					unitName: unitName,
-					formData: formData,
-				}),
-			})
-
-			const result = await response.json()
-
-			if (!response.ok) {
-				throw new Error(`HTTP error! status: ${response.status}\nmessage: ${result.message}`)
-			} else {
-				// Add item to cart here
-				addItem({
-					id: result.key,
-					name: result.name,
-					price: result.price,
-					currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
-					quantity: 1,
-				})
+export const createHandleHSTypeChange = (updateFormData, formData, productData) => (event) => {
+	const value = event.target.value
+	const updateObj = { hsType: value }
+	if (value === PurchaseType.ACC && !productData.accessories[formData.hsSubFamily]?.length) {
+		for (let [subFamily, arr] of Object.entries(productData.accessories)) {
+			if (arr.length) {
+				updateObj.hsSubFamily = subFamily
+				updateObj.hsAppliance = productData.appliances[subFamily][0].sku
 			}
-		} catch (error) {
-			console.error('Error submitting form data:', error)
-		} finally {
-			setSubmitInProgress(false)
 		}
 	}
+	updateFormData(updateObj)
+}
 
 export const createHandleHSApplianceChange = (updateFormData, productData) => (event) => {
 	const value = event.target.value

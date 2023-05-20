@@ -27,7 +27,7 @@ const SimpleCheckboxes = ({ name, options, selected, onChange }) => {
 						type='checkbox'
 						name={name}
 						value={option.value}
-						checked={selected.includes(option.value)}
+						checked={selected?.includes(option.value)}
 						onChange={onChange}
 					/>
 					{option.text}

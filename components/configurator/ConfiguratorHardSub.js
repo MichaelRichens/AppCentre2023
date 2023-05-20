@@ -5,11 +5,14 @@ import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createUpdateFormValue,
 	createUpdateFormValueWithFloat,
+	createHandleCheckboxChange,
 	createHandleHSApplianceChange,
 	createHandleHSSubFamilyChange,
+	createHandleHSTypeChange,
 } from '../../utils/configuratorHandleFunctions'
 
 import configuratorStyles from '../../styles/Configurator.shared.module.css'
+import SimpleCheckboxes from '../SimpleCheckboxes'
 
 /**
  * @component
@@ -18,11 +21,12 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @returns {JSX.Element} The rendered component.
  */
 const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
-	const handleHsTypeChange = createUpdateFormValue(updateFormData, 'hsType')
+	const handleHsTypeChange = createHandleHSTypeChange(updateFormData, formData, productData)
 	const handleHsSubFamilyChange = createHandleHSSubFamilyChange(updateFormData, productData)
 	const handleApplianceTypeChange = createHandleHSApplianceChange(updateFormData, productData)
 	const handleHSYearsChange = createUpdateFormValueWithFloat(updateFormData, 'hsYears')
 	const handleWarrantyChange = createUpdateFormValue(updateFormData, 'hsWarranty')
+	const handleAccessoriesCheckboxChange = createHandleCheckboxChange(updateFormData, formData, 'hsCheckedAccessories')
 
 	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },
@@ -46,14 +50,20 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		}
 	})
 
-	const extendedWarrantyAvailable = !!productData.appliances[formData.hsSubFamily]?.find(
-		(item) => item.sku === formData.hsAppliance
-	)?.extendedWarranty
+	const offerExtendedWarranty =
+		(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) &&
+		!!productData.appliances[formData.hsSubFamily]?.find((item) => item.sku === formData.hsAppliance)?.extendedWarranty
 
 	const warrantyOptions = [
 		{ value: false, text: '1 Year' },
 		{ value: true, text: '3 Years' },
 	]
+
+	const offerAccessories =
+		(formData.hsType === PurchaseType.ACC ||
+			formData.hsType === PurchaseType.NEW ||
+			formData.hsType === PurchaseType.SPARE) &&
+		productData?.accessories[formData.hsSubFamily]?.length > 0
 
 	return (
 		<>
@@ -95,18 +105,27 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 					/>
 				</fieldset>
 			)}
-			{(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) &&
-				extendedWarrantyAvailable && (
-					<fieldset className={configuratorStyles.extendedWarranty}>
-						<legend>Hardware Warranty</legend>
-						<SimpleRadio
-							name='hsWarranty'
-							onChange={handleWarrantyChange}
-							value={formData.hsWarranty}
-							options={warrantyOptions}
-						/>
-					</fieldset>
-				)}
+			{offerExtendedWarranty && (
+				<fieldset className={configuratorStyles.extendedWarranty}>
+					<legend>Hardware Warranty</legend>
+					<SimpleRadio
+						name='hsWarranty'
+						onChange={handleWarrantyChange}
+						value={formData.hsWarranty}
+						options={warrantyOptions}
+					/>
+				</fieldset>
+			)}
+			{offerAccessories && (
+				<fieldset className={configuratorStyles.checkbox}>
+					<legend>Accessories</legend>
+					<SimpleCheckboxes
+						options={productData.accessories[formData.hsSubFamily].map((obj) => ({ value: obj.sku, text: obj.name }))}
+						selected={formData.hsCheckedAccessories}
+						onChange={handleAccessoriesCheckboxChange}
+					/>
+				</fieldset>
+			)}
 		</>
 	)
 }
