@@ -6,9 +6,8 @@ import MonthsRemainingSelect from './MonthsRemainingSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createHandleUnitTypeChange,
-	createHandleUnitsExistingBlur,
 	createHandleInputChange,
-	createHandleUnitsChangeBlur,
+	createHandleInputNumberBlur,
 	createHandleCheckboxChange,
 	createUpdateFormValueWithFloat,
 	createHandleMonthsRemainingChange,
@@ -29,15 +28,43 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  */
 
 const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
+	let minUnitsChange
+	if (formData.unType === PurchaseType.NEW) {
+		minUnitsChange = productData.minUnits
+	} else if (formData.unType === PurchaseType.ADD) {
+		minUnitsChange = productData.minUnitsStep
+	} else {
+		minUnitsChange = productData.minUnitsStep - (formData?.unitsExisting || 0)
+	}
+	const maxUnitsChange = productData.maxUnits - (formData?.unitsExisting || 0)
+
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
 	const handleUnitsExistingChange = createHandleInputChange(updateFormData, 'unitsExistingLiveUpdate')
 
-	const handleUnitsExistingBlur = createHandleUnitsExistingBlur(updateFormData, formData, productData)
+	const handleUnitsExistingBlur = createHandleInputNumberBlur(
+		updateFormData,
+		formData,
+		'unitsExisting',
+		'unitsExistingLiveUpdate',
+		'unitsExistingError',
+		productData.minUnits,
+		productData.maxUnits,
+		productData.minUnitsStep
+	)
 
 	const handleUnitsChangeChange = createHandleInputChange(updateFormData, 'unitsChangeLiveUpdate')
 
-	const handleUnitsChangeBlur = createHandleUnitsChangeBlur(updateFormData, formData, productData)
+	const handleUnitsChangeBlur = createHandleInputNumberBlur(
+		updateFormData,
+		formData,
+		'unitsChange',
+		'unitsChangeLiveUpdate',
+		'unitsChangeError',
+		minUnitsChange,
+		maxUnitsChange,
+		productData.minUnitsStep
+	)
 
 	const handleExtensionCheckboxChange = createHandleCheckboxChange(updateFormData, formData, 'unitCheckedExtensions')
 
