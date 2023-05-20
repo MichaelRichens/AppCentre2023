@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import SimpleSelect from '../SimpleSelect'
+import SimpleInputNumber from '../SimpleInputNumber'
 import SimpleCheckboxes from '../SimpleCheckboxes'
-import PurchaseUnitInput from './PurchaseUnitInput'
 import MonthsRemainingSelect from './MonthsRemainingSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
@@ -88,7 +88,8 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					formData.unType === PurchaseType.EXT ||
 					(formData.unType === PurchaseType.ADD &&
 						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true')) && (
-					<PurchaseUnitInput
+					<SimpleInputNumber
+						className={configuratorStyles.unitsInputContainer}
 						label={`${formData.unType !== PurchaseType.EXT ? 'Current ' : ''}${
 							productData.unitName.pluralC
 						} on Subscription`}
@@ -102,7 +103,8 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 					/>
 				)}
 				{formData.unType !== PurchaseType.EXT && (
-					<PurchaseUnitInput
+					<SimpleInputNumber
+						className={configuratorStyles.unitsInputContainer}
 						label={
 							formData.unType === PurchaseType.NEW
 								? `Number of ${productData.unitName.pluralC}`

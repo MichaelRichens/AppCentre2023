@@ -1,14 +1,14 @@
 import React from 'react'
-import generateUniqueId from '../../utils/generateUniqueId'
-import configuratorStyles from '../../styles/Configurator.shared.module.css'
+import generateUniqueId from '../utils/generateUniqueId'
 
 /**
- * PurchaseUnitInput component.
+ * SimpleInputNumber component.
  *
- * This component renders a number input field with an associated legend and
+ * This component renders a number input field with an associated label, and
  * displays an error message if there's any.
  *
  * @param {Object} props - The component's props.
+ * @param {string} props.className - Class to be put on the unit's container
  * @param {string} props.label - The label text for the field.
  * @param {number} props.min - The minimum value for the input field.
  * @param {number} props.max - The maximum value for the input field.
@@ -18,11 +18,11 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
  * @param {Function} props.onBlur - The onBlur event handler for the input field.
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
-const PurchaseUnitInput = ({ label, min, max, step, value, onChange, onBlur, error }) => {
-	const inputId = `unit${generateUniqueId()}`
+const SimpleInputNumber = ({ className, label, min, max, step, value, onChange, onBlur, error }) => {
+	const inputId = `numIn${generateUniqueId()}`
 
 	return (
-		<div className={configuratorStyles.unitsInputContainer}>
+		<div className={className}>
 			<label htmlFor={inputId}>{`${label}: `}</label>
 			<input
 				id={inputId}
@@ -33,11 +33,10 @@ const PurchaseUnitInput = ({ label, min, max, step, value, onChange, onBlur, err
 				value={value}
 				onChange={onChange}
 				onBlur={onBlur}
-				aria-label={label}
 			/>
-			{error !== false && <span className={configuratorStyles.formError}> {error}</span>}
+			{error !== false && <span className='formError'> {error}</span>}
 		</div>
 	)
 }
 
-export default PurchaseUnitInput
+export default SimpleInputNumber

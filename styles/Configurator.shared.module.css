@@ -4,10 +4,6 @@
 	padding: 2em;
 }
 
-.formError {
-	color: rgb(194, 147, 59);
-}
-
 .configurator fieldset {
 	border: 5px solid #ccc;
 	border-right-color: #aaa;

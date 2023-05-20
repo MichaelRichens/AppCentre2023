@@ -197,6 +197,10 @@ form button:disabled:active {
 	transform: scale(1);
 }
 
+form .formError {
+	color: rgb(194, 147, 59);
+}
+
 .sr-only {
 	position: absolute;
 	width: 1px;
