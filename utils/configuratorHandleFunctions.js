@@ -163,7 +163,15 @@ export const createHandleUnitsExistingBlur = (updateFormData, formData, productD
 		})
 		return
 	} else {
+		const unitsExistingBeforeClamp = value
 		let unitsExisting = Math.min(Math.max(parseInt(value), productData.minUnits), productData.maxUnits)
+		if (unitsExisting !== unitsExistingBeforeClamp) {
+			if (unitsExisting === productData.minUnits) {
+				unitsExistingError = `Minimum Allowed Value: ${productData.minUnits}`
+			} else if (unitsExisting == productData.maxUnits) {
+				unitsExistingError = `Maximum Allowed Value ${productData.maxUnits}`
+			}
+		}
 		if (formData.unType === PurchaseType.SUB || formData.unType === PurchaseType.ADD) {
 			const remainder = unitsExisting % productData.minUnitsStep
 			if (remainder !== 0) {
@@ -203,9 +211,11 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 		minUnitsChange = productData.minUnitsStep - (formData?.unitsExisting || 0)
 	}
 	const maxUnitsChange = productData.maxUnits - (formData?.unitsExisting || 0)
-	const unitsChangeBeforeClamp = unitsChange
+
 	// Clamp the unitsChange value to be between minUnitsChange and maxUnitsChange.
+	const unitsChangeBeforeClamp = unitsChange
 	unitsChange = Math.min(Math.max(unitsChange, minUnitsChange), maxUnitsChange)
+
 	if (unitsChange !== unitsChangeBeforeClamp) {
 		if (unitsChange === minUnitsChange) {
 			unitsChangeError = `Minimum Allowed Value: ${minUnitsChange}`
@@ -224,7 +234,7 @@ export const createHandleUnitsChangeBlur = (updateFormData, formData, productDat
 		unitsChangeError = `Must be changed in steps of ${productData.minUnitsStep}`
 	} else if (remainder < 0) {
 		unitsChange -= remainder
-		unitsChangeError = `Must be changed in steps of ${productData.minUnitsStep}`
+		unitsChangeError = unitsChangeError || `Must be changed in steps of ${productData.minUnitsStep}`
 	}
 	updateFormData({
 		unitsChange: unitsChange,
