@@ -84,49 +84,47 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 			<fieldset>
 				<legend>{productData.unitName.pluralC}</legend>
-				<PurchaseUnitInput
-					allowDisplay={
-						formData.unType === PurchaseType.SUB ||
-						formData.unType === PurchaseType.EXT ||
-						(formData.unType === PurchaseType.ADD &&
-							process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true')
-					}
-					label={`${formData.unType !== PurchaseType.EXT ? 'Current ' : ''}${
-						productData.unitName.pluralC
-					} on Subscription`}
-					min={productData.minUnits}
-					max={productData.maxUnits}
-					step={productData.minUnitsStep}
-					name='unitsExisting'
-					value={formData.unitsExistingLiveUpdate}
-					onChange={handleUnitsExistingChange}
-					onBlur={handleUnitsExistingBlur}
-					error={formData.unitsExistingError}
-				/>
-				<PurchaseUnitInput
-					allowDisplay={formData.unType !== PurchaseType.EXT}
-					label={
-						formData.unType === PurchaseType.NEW
-							? `Number of ${productData.unitName.pluralC}`
-							: formData.unType === PurchaseType.ADD
-							? `${productData.unitName.pluralC} to Add`
-							: `Adjust Number of ${productData.unitName.pluralC} by`
-					}
-					min={
-						formData.unType === PurchaseType.SUB
-							? productData.minUnits - formData.unitsExisting
-							: PurchaseType.ADD
-							? productData.minUnitsStep
-							: productData.minUnits
-					}
-					max={productData.maxUnits - formData.unitsExisting}
-					step={productData.minUnitsStep}
-					name='unitsChange'
-					value={formData.unitsChangeLiveUpdate}
-					onChange={handleUnitsChangeChange}
-					onBlur={handleUnitsChangeBlur}
-					error={formData.unitsChangeError}
-				/>
+				{(formData.unType === PurchaseType.SUB ||
+					formData.unType === PurchaseType.EXT ||
+					(formData.unType === PurchaseType.ADD &&
+						process.env.NEXT_PUBLIC_ADD_UNIT_PRICE_BAND_CONSIDERS_ALL_UNITS === 'true')) && (
+					<PurchaseUnitInput
+						label={`${formData.unType !== PurchaseType.EXT ? 'Current ' : ''}${
+							productData.unitName.pluralC
+						} on Subscription`}
+						min={productData.minUnits}
+						max={productData.maxUnits}
+						step={productData.minUnitsStep}
+						value={formData.unitsExistingLiveUpdate}
+						onChange={handleUnitsExistingChange}
+						onBlur={handleUnitsExistingBlur}
+						error={formData.unitsExistingError}
+					/>
+				)}
+				{formData.unType !== PurchaseType.EXT && (
+					<PurchaseUnitInput
+						label={
+							formData.unType === PurchaseType.NEW
+								? `Number of ${productData.unitName.pluralC}`
+								: formData.unType === PurchaseType.ADD
+								? `${productData.unitName.pluralC} to Add`
+								: `Adjust Number of ${productData.unitName.pluralC} by`
+						}
+						min={
+							formData.unType === PurchaseType.SUB
+								? productData.minUnits - formData.unitsExisting
+								: PurchaseType.ADD
+								? productData.minUnitsStep
+								: productData.minUnits
+						}
+						max={productData.maxUnits - formData.unitsExisting}
+						step={productData.minUnitsStep}
+						value={formData.unitsChangeLiveUpdate}
+						onChange={handleUnitsChangeChange}
+						onBlur={handleUnitsChangeBlur}
+						error={formData.unitsChangeError}
+					/>
+				)}
 			</fieldset>
 
 			{productData.availableExtensions && productData.availableExtensions.length > 0 && (
