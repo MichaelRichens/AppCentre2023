@@ -104,11 +104,12 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
  */
 const createBaseProductDataObject = (hcData, productFamily, productOption) => {
 	const productData = {
+		familyName: hcData.familyName,
+		maxHardwareUnits: parseFloat(hcData?.maxHardwareUnits) || null,
+		name: hcData.name,
+		pricingType: hcData.pricingType,
 		productFamily: hcData.productFamily,
 		productOption: hcData.productOption,
-		name: hcData.name,
-		familyName: hcData.familyName,
-		pricingType: hcData.pricingType,
 		optionSortOrder: Number(hcData.optionSortOrder) || 1000,
 		unitName: hcData.unitName ? createUnitName(hcData.unitName.singular, hcData.unitName.plural) : null,
 	}

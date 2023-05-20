@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import SimpleSelect from '../SimpleSelect'
+import SimpleInputNumber from '../SimpleInputNumber'
 import SimpleRadio from '../SimpleRadio'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import {
 	createUpdateFormValue,
 	createUpdateFormValueWithFloat,
-	createHandleCheckboxChange,
+	createHandleInputChange,
+	createHandleInputNumberBlur,
 	createHandleHSApplianceChange,
 	createHandleHSSubFamilyChange,
 	createHandleHSTypeChange,
@@ -24,9 +26,18 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	const handleHsTypeChange = createHandleHSTypeChange(updateFormData, formData, productData)
 	const handleHsSubFamilyChange = createHandleHSSubFamilyChange(updateFormData, productData)
 	const handleApplianceTypeChange = createHandleHSApplianceChange(updateFormData, productData)
+	const handleApplianceQuantityChange = createHandleInputChange(updateFormData, 'hsHardwareQuantityLiveUpdate')
+	const handleApplianceQuantityBlur = createHandleInputNumberBlur(
+		updateFormData,
+		formData,
+		'hsHardwareQuantity',
+		'hsHardwareQuantityLiveUpdate',
+		'hsHardwareQuantityError',
+		1,
+		productData.maxHardwareUnits
+	)
 	const handleHSYearsChange = createUpdateFormValueWithFloat(updateFormData, 'hsYears')
 	const handleWarrantyChange = createUpdateFormValue(updateFormData, 'hsWarranty')
-	const handleAccessoriesCheckboxChange = createHandleCheckboxChange(updateFormData, formData, 'hsCheckedAccessories')
 
 	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },
@@ -76,8 +87,23 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 				formData.hsType === PurchaseType.SPARE ||
 				formData.hsType === PurchaseType.WAREX ? (
 					<>
-						<legend>Appliance Model</legend>
+						<legend>Appliances</legend>
 						<SimpleSelect options={appliances} value={formData.hsAppliance} onChange={handleApplianceTypeChange} />
+
+						{(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) && (
+							<SimpleInputNumber
+								label='Number of Appliances'
+								min='1'
+								max={productData.maxHardwareUnits}
+								value={formData.hsHardwareQuantityLiveUpdate}
+								onChange={handleApplianceQuantityChange}
+								onBlur={handleApplianceQuantityBlur}
+								error={formData.hsHardwareQuantityError}
+							/>
+						)}
+						{formData.hsType === PurchaseType.NEW && (
+							<p>Additional units are supplied for use as spares or for testing.</p>
+						)}
 					</>
 				) : (
 					<>
@@ -119,11 +145,6 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 			{offerAccessories && (
 				<fieldset className={configuratorStyles.checkbox}>
 					<legend>Accessories</legend>
-					<SimpleCheckboxes
-						options={productData.accessories[formData.hsSubFamily].map((obj) => ({ value: obj.sku, text: obj.name }))}
-						selected={formData.hsCheckedAccessories}
-						onChange={handleAccessoriesCheckboxChange}
-					/>
 				</fieldset>
 			)}
 		</>

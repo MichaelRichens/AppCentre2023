@@ -15,7 +15,7 @@ function useFormData(initialState) {
 
 		// These fields get set to false on any change that doesn't specifically set them to true.
 		// Used for transient error messages regarding user input
-		const resetToFalse = ['unitsExistingError', 'unitsChangeError']
+		const resetToFalse = ['unitsExistingError', 'unitsChangeError', 'hsHardwareQuantityError']
 
 		// These are pairs of fields where if the `update` is passed without the corresponding `main`, the currentlyEditingField flag is set to true
 		// In all other cases it is set to false. (for input fields which have these temporary update fields that handle not yet finalised changes, onChange handlers pass the `update` only, onBlur do both)

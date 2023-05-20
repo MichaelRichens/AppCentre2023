@@ -108,7 +108,7 @@ export const createHandleCheckboxChange = (updateFormData, formData, formDataArr
 }
 
 export const createHandleOptionChange = (updateFormData) => (event) => {
-	const value = event.target.value
+	const value = Number(event.target.value)
 
 	updateFormData({
 		optionIndex: value,
