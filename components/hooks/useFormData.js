@@ -13,7 +13,18 @@ function useFormData(initialState) {
 	const updateFormData = (newData) => {
 		setSuppressAriaLivePriceUpdate(newData.unType !== undefined && formData.unType !== newData.unType)
 
-		const resetToFalse = ['currentlyEditingField', 'unitsExistingError', 'unitsChangeError']
+		// These fields get set to false on any change that doesn't specifically set them to true.
+		// Used for transient error messages regarding user input
+		const resetToFalse = ['unitsExistingError', 'unitsChangeError']
+
+		// These are pairs of fields where if the `update` is passed without the corresponding `main`, the currentlyEditingField flag is set to true
+		// In all other cases it is set to false. (for input fields which have these temporary update fields that handle not yet finalised changes, onChange handlers pass the `update` only, onBlur do both)
+		// Used for disabling the checkout while the displayed price isn't up to date with changes the user has made in a still active field
+		const liveUpdateFields = [
+			{ update: 'unitsExistingLiveUpdate', main: 'unitsExisting' },
+			{ update: 'unitsChangeLiveUpdate', main: 'unitsChange' },
+			{ update: 'hsHardwareQuantityLiveUpdate', main: 'hsHardwareQuantity' },
+		]
 
 		const updatedData = {
 			...formData,
@@ -25,6 +36,15 @@ function useFormData(initialState) {
 				updatedData[field] = false
 			}
 		})
+
+		let currentlyEditingField = false
+		for (let i = 0; i < liveUpdateFields.length; i++) {
+			if (newData.hasOwnProperty(liveUpdateFields[i].update) && !newData.hasOwnProperty(liveUpdateFields[i].main)) {
+				currentlyEditingField = true
+				break
+			}
+		}
+		updatedData.currentlyEditingField = currentlyEditingField
 
 		setFormData(updatedData)
 	}
