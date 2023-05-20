@@ -31,11 +31,11 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
-	const handleUnitsExistingChange = createHandleInputChange(updateFormData, formData, 'unitsExistingLiveUpdate')
+	const handleUnitsExistingChange = createHandleInputChange(updateFormData, 'unitsExistingLiveUpdate')
 
 	const handleUnitsExistingBlur = createHandleUnitsExistingBlur(updateFormData, formData, productData)
 
-	const handleUnitsChangeChange = createHandleInputChange(updateFormData, formData, 'unitsChangeLiveUpdate')
+	const handleUnitsChangeChange = createHandleInputChange(updateFormData, 'unitsChangeLiveUpdate')
 
 	const handleUnitsChangeBlur = createHandleUnitsChangeBlur(updateFormData, formData, productData)
 

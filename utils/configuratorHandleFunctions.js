@@ -33,7 +33,7 @@ export const createUpdateFormValueWithFloat = (updateFormData, key) => (event) =
  * This creates an onChange handler for an Input, that handles updates while the filed is being edited, before being confirmed separately with onBlur
  * Therefore it has no validation.
  */
-export const createHandleInputChange = (updateFormData, formData, updateField) => (event) => {
+export const createHandleInputChange = (updateFormData, updateField) => (event) => {
 	let { value } = event.target
 
 	updateFormData({
