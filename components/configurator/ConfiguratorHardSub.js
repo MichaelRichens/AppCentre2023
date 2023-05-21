@@ -94,7 +94,10 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 							error={formData.hsHardwareQuantityError}
 						/>
 						{formData.hsType === PurchaseType.NEW ? (
-							<p>Additional units are supplied for use as spares or for testing.</p>
+							<p>
+								Additional units are supplied for use as spares or for testing. If you want multiple full subscriptions,
+								please add them to your cart separately
+							</p>
 						) : formData.hsType === PurchaseType.WAREX ? (
 							<p>You can extend the warranty for appliances you own that are within their original warranty.</p>
 						) : null}
