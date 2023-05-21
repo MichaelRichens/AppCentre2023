@@ -19,9 +19,9 @@ import styles from '../styles/SimpleInputNumber.module.css'
  * @param {Function} props.onBlur - The onBlur event handler for the input field.
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
-const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, error }) => {
-	const inputId = `numIn${generateUniqueId()}`
-
+const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, error, ariaDescribedBy }) => {
+	const inputId = generateUniqueId('numId')
+	console.log('xx', ariaDescribedBy)
 	return (
 		<div className={styles.container}>
 			<label htmlFor={inputId}>
@@ -37,6 +37,7 @@ const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, err
 				value={value}
 				onChange={onChange}
 				onBlur={onBlur}
+				aria-describedby={ariaDescribedBy}
 			/>
 		</div>
 	)

@@ -3,6 +3,7 @@ import SimpleSelect from '../SimpleSelect'
 import SimpleInputNumber from '../SimpleInputNumber'
 import SimpleRadio from '../SimpleRadio'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
+import generateUniqueId from '../../utils/generateUniqueId'
 import {
 	createUpdateFormValue,
 	createUpdateFormValueWithFloat,
@@ -37,6 +38,8 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	)
 	const handleHSYearsChange = createUpdateFormValueWithFloat(updateFormData, 'hsYears')
 	const handleWarrantyChange = createUpdateFormValue(updateFormData, 'hsWarranty')
+
+	const qtyTextId = generateUniqueId('appQ')
 
 	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },
@@ -92,14 +95,19 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 							onChange={handleApplianceQuantityChange}
 							onBlur={handleApplianceQuantityBlur}
 							error={formData.hsHardwareQuantityError}
+							ariaDescribedBy={
+								formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.WAREX ? qtyTextId : undefined
+							}
 						/>
 						{formData.hsType === PurchaseType.NEW ? (
-							<p>
-								Additional units are supplied for use as spares or for testing. If you want multiple full subscriptions,
-								please add them to your cart separately
+							<p id={qtyTextId}>
+								Additional units are supplied for use as spares or for testing. If you want multiple boxes with their
+								own subscriptions, please add them to your cart separately.
 							</p>
 						) : formData.hsType === PurchaseType.WAREX ? (
-							<p>You can extend the warranty for appliances you own that are within their original warranty.</p>
+							<p id={qtyTextId}>
+								You can extend the warranty for appliances you own that are within their original warranty.
+							</p>
 						) : null}
 					</>
 				) : (
