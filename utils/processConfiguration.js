@@ -95,7 +95,7 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
  */
 function processConfigurationSub(productName, products, extensions, formData, unitName, minUnitsOverride = null) {
 	/** The return object */
-	const result = new ProductConfigurationUnit(formData.unType, 0, formData.unYears)
+	const result = new ProductConfigurationUnit(formData.unType)
 
 	/**
 	 * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
@@ -150,8 +150,6 @@ function processConfigurationSub(productName, products, extensions, formData, un
 		// No users, just exit early with default result.
 		return result
 	}
-
-	result.units = numUnitsToPurchase
 
 	if (formData.unType !== PurchaseType.EXT) {
 		const productsWithCorrectWholeYear = products.filter((sku) => sku.years === wholeYears)

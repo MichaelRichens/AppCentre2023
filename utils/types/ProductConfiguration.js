@@ -1,4 +1,5 @@
 import PricingType from './enums/PricingType'
+import PurchaseType from './enums/PurchaseType'
 
 /**
  * ProductConfigurationUnit class definition.
@@ -11,18 +12,14 @@ import PricingType from './enums/PricingType'
 
 export class ProductConfigurationUnit {
 	/**
-	 * @param {string} type - The type of the configuration - 'new', 'sub' ect.
-	 * @param {number} units - The number of units (eg users).
-	 * @param {number} years - The number of years the subscription will last with this configuration, may be fractional, which is allowed for some type values.
+	 * @param {PurchaseType} unType - The type of the configuration - 'new', 'sub' ect.
 	 * @param {number} [price=0] - The price of the selected product configuration.
 	 * @param {Object} [skus={}] - An object containing the SKUs for the product as keys, and quantities as values.
 	 * @param {ConfigurationSummaryUnit|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  May be null if it isn't generated yet.
 	 */
-	constructor(unType, units, unYears, price = 0, skus = {}, summary = null) {
+	constructor(unType, price = 0, skus = {}, summary = null) {
 		this.pricingType = PricingType.UNIT
 		this.unType = unType
-		this.units = units
-		this.years = unYears
 		this._price = parseFloat(price.toFixed(2)) // Store the price in a private variable
 		this.skus = skus
 		this.summary = summary

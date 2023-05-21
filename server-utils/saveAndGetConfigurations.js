@@ -54,11 +54,11 @@ async function asyncGetConfiguration(uniqueKey) {
 
 		switch (configurationData.pricingType) {
 			case PricingType.UNIT:
-				const { unType, units, years, _price: price, skus, summary } = configurationData
+				const { unType, _price: price, skus, summary } = configurationData
 
 				const summaryInstance = ConfigurationSummaryUnit.fromProperties(summary)
 
-				return new ProductConfigurationUnit(unType, units, years, price, skus, summaryInstance)
+				return new ProductConfigurationUnit(unType, price, skus, summaryInstance)
 			default:
 				throw new Error(`Unknown pricingType: ${configurationData.pricingType}`)
 		}
