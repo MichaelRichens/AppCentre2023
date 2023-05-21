@@ -11,6 +11,7 @@ import PurchaseType from './enums/PurchaseType'
 
 export class ProductConfiguration {
 	/**
+	 * @param {PricingType} pricingType - The PricingType (.Unit, .HARDSUB, etc) that this instance holds.
 	 * @param {PurchaseType} unType - The type of the configuration - 'new', 'sub' ect.
 	 * @param {number} [price=0] - The price of the selected product configuration.
 	 * @param {Object} [skus={}] - An object containing the SKUs for the product as keys, and quantities as values.
