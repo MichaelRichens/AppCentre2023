@@ -1,4 +1,4 @@
-import ProductConfiguration from './types/ProductConfiguration'
+import { ProductConfigurationUnit } from './types/ProductConfiguration'
 import ConfigurationSummary from './types/ConfigurationSummary'
 import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
@@ -91,11 +91,11 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
  * @param {Object} formData - The configurator options, such as type, users, and years.
  * @param {Object} unitName - The type of units that are being used (users or whatever)
  * @param {number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more.
- * @returns {ProductConfiguration} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
+ * @returns {ProductConfigurationUnit} Has the number of users being purchased, the calculated price in the `price` field, and a `skus` field is a dictionary object sku => qty.  Also has the type and years from the configuratorOptions parameter
  */
 function processConfigurationSub(productName, products, extensions, formData, unitName, minUnitsOverride = null) {
 	/** The return object */
-	const result = new ProductConfiguration(formData.unType, 0, formData.unYears)
+	const result = new ProductConfigurationUnit(formData.unType, 0, formData.unYears)
 
 	/**
 	 * @type {number} - Represents the total number of users on the subscription, including existing users and any being added.
@@ -232,7 +232,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
  * STUB
  */
 function processConfigurationHardSub(productName, hardware, formData, unitName) {
-	const result = new ProductConfiguration(formData.unType, 0, formData.unYears)
+	const result = new ProductConfigurationUnit(formData.unType, 0, formData.unYears)
 
 	return result
 }

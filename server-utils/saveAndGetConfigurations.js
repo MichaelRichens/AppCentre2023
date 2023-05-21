@@ -1,11 +1,12 @@
 import ConfigurationSummary from '../utils/types/ConfigurationSummary'
-import ProductConfiguration from '../utils/types/ProductConfiguration'
+import { ProductConfigurationUnit } from '../utils/types/ProductConfiguration'
+import PricingType from '../utils/types/enums/PricingType'
 import generateKey from '../utils/generateKey'
 import { connectToDatabase } from './mongodb'
 
 /**
  * Save a product configuration object to the MongoDB 'configurations' collection.
- * @param {ProductConfiguration} configuration - The product configuration object to save.
+ * @param {ProductConfigurationUnit} configuration - The product configuration object to save.
  * @returns {Promise<string>} The unique key of the saved configuration.
  */
 async function asyncSaveConfiguration(configuration) {
@@ -33,7 +34,7 @@ async function asyncSaveConfiguration(configuration) {
 /**
  * Retrieve a product configuration object from the MongoDB 'configurations' collection using its unique key.
  * @param {string} uniqueKey - The unique key of the configuration to retrieve.
- * @returns {Promise<ProductConfiguration>} The retrieved product configuration object.
+ * @returns {Promise<ProductConfigurationUnit>} The retrieved product configuration object.
  * @throws {Error} If a configuration with the provided key is not found.
  */
 async function asyncGetConfiguration(uniqueKey) {
@@ -47,10 +48,20 @@ async function asyncGetConfiguration(uniqueKey) {
 			throw new Error('Configuration not found.')
 		}
 
-		const { type, units, years, price, skus, summary } = configurationData
-		const summaryInstance = ConfigurationSummary.fromProperties(summary)
+		if (!configurationData.pricingType) {
+			throw new Error('Saved configuration did not have a pricingType.')
+		}
 
-		return new ProductConfiguration(type, units, years, price, skus, summaryInstance)
+		switch (configurationData.pricingType) {
+			case PricingType.UNIT:
+				const { unType, units, years, _price: price, skus, summary } = configurationData
+
+				const summaryInstance = ConfigurationSummary.fromProperties(summary)
+
+				return new ProductConfigurationUnit(unType, units, years, price, skus, summaryInstance)
+			default:
+				throw new Error(`Unknown pricingType: ${configurationData.pricingType}`)
+		}
 	} catch (error) {
 		console.error('Unable to get configuration', error)
 		throw error

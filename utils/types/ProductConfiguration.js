@@ -1,13 +1,15 @@
+import PricingType from './enums/PricingType'
+
 /**
- * ProductConfiguration class definition.
+ * ProductConfigurationUnit class definition.
  *
- * @module
- * This module provides a ProductConfiguration class that represents an actual or potential purchase.
+ * @class
+ * This is the ProductConfigurationUnit class that represents an actual or potential purchase of a PricingType.UNIT configuration.
  * It relates to a new purchase of, or modification of an existing, product (eg Kerio Connect)
  * This is a simple record object with no validation.
  */
 
-class ProductConfiguration {
+export class ProductConfigurationUnit {
 	/**
 	 * @param {string} type - The type of the configuration - 'new', 'sub' ect.
 	 * @param {number} units - The number of units (eg users).
@@ -17,6 +19,7 @@ class ProductConfiguration {
 	 * @param {ConfigurationSummary|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  May be null if it isn't generated yet.
 	 */
 	constructor(unType, units, unYears, price = 0, skus = {}, summary = null) {
+		this.pricingType = PricingType.UNIT
 		this.unType = unType
 		this.units = units
 		this.years = unYears
@@ -34,4 +37,4 @@ class ProductConfiguration {
 	}
 }
 
-export default ProductConfiguration
+export class ProductConfigurationHardSub {}
