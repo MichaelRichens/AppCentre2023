@@ -38,7 +38,7 @@ export default async (req, res) => {
 					throw new Error(`Invalid product data for ID ${id}`)
 				}
 
-				const itemName = `${item.summary.product}${item.summary.extensions ? ' ' + item.summary.extensions : ''}`
+				const itemName = item.description
 				const priceInPence = Math.round(item.price * 100)
 
 				// untrusted data from the client, just using it for the cart quantity
