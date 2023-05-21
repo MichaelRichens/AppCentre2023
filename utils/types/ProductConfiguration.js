@@ -1,3 +1,4 @@
+import { ProductConfigurationUnit } from './ConfigurationSummary'
 import PricingType from './enums/PricingType'
 import PurchaseType from './enums/PurchaseType'
 

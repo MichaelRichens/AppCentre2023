@@ -9,7 +9,7 @@ import { formatPriceFromPounds } from '../formatPrice'
  * It is meant to be extended by subclasses for specific pricing types.
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
  * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
- * @param {number} price - The total price in GBP, formatted as a string with currency symbol for user display (or rather process.env.NEXT_PUBLIC_CURRENCY_UC / process.env.NEXT_PUBLIC_CURRENCY_LC).
+ * @param {number} price - The total price in as a number in pounds - will be converted and stored as a string for user display in the property of the same name.
  */
 class ConfigurationSummary {
 	constructor(productName = null, type = null, price = null) {
