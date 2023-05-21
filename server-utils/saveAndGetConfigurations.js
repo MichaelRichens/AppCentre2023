@@ -1,12 +1,12 @@
 import { ConfigurationSummaryUnit } from '../utils/types/ConfigurationSummary'
-import { ProductConfigurationUnit } from '../utils/types/ProductConfiguration'
+import ProductConfiguration from '../utils/types/ProductConfiguration'
 import PricingType from '../utils/types/enums/PricingType'
 import generateKey from '../utils/generateKey'
 import { connectToDatabase } from './mongodb'
 
 /**
  * Save a product configuration object to the MongoDB 'configurations' collection.
- * @param {ProductConfigurationUnit} configuration - The product configuration object to save.
+ * @param {ProductConfiguration} configuration - The product configuration object to save.
  * @returns {Promise<string>} The unique key of the saved configuration.
  */
 async function asyncSaveConfiguration(configuration) {
@@ -34,7 +34,7 @@ async function asyncSaveConfiguration(configuration) {
 /**
  * Retrieve a product configuration object from the MongoDB 'configurations' collection using its unique key.
  * @param {string} uniqueKey - The unique key of the configuration to retrieve.
- * @returns {Promise<ProductConfigurationUnit>} The retrieved product configuration object.
+ * @returns {Promise<ProductConfiguration>} The retrieved product configuration object.
  * @throws {Error} If a configuration with the provided key is not found.
  */
 async function asyncGetConfiguration(uniqueKey) {
@@ -58,7 +58,7 @@ async function asyncGetConfiguration(uniqueKey) {
 
 				const summaryInstance = ConfigurationSummaryUnit.fromProperties(summary)
 
-				return new ProductConfigurationUnit(unType, price, skus, summaryInstance)
+				return new ProductConfiguration(PricingType.UNIT, unType, price, skus, summaryInstance)
 			default:
 				throw new Error(`Unknown pricingType: ${configurationData.pricingType}`)
 		}
