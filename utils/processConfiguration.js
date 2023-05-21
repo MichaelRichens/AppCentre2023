@@ -95,6 +95,7 @@ function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsFor
  */
 function processConfigurationSub(productName, products, extensions, formData, unitName, minUnitsOverride = null) {
 	/** The return object */
+
 	const result = new ProductConfiguration(PricingType.UNIT, formData.unType)
 
 	/**
@@ -213,7 +214,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 
 	result.summary = new ConfigurationSummaryUnit(
 		productName,
-		result.unType,
+		result.type,
 		result.price,
 		formData.unitsExisting,
 		formData.unitsChange,
@@ -230,7 +231,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
  * STUB
  */
 function processConfigurationHardSub(productName, hardware, formData, unitName) {
-	const result = new ProductConfiguration(PricingType.HARDSUB, formData.unType, 0, formData.unYears)
+	const result = new ProductConfiguration(PricingType.HARDSUB, formData.hsType)
 
 	return result
 }
