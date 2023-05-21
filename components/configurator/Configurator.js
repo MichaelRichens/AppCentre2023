@@ -141,21 +141,25 @@ const Configurator = ({ productDataArray, unitName }) => {
 						formData.currentlyEditingField ? configuratorStyles.summaryOutOfDate : ''
 					}`}>
 					<legend>Summary</legend>
-					{currentConfiguration.pricingType === PricingType.UNIT ? (
-						<SummaryUnit
-							configuration={currentConfiguration.summary}
-							haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
+					<div className={configuratorStyles.summaryInnerWrapper}>
+						{currentConfiguration.pricingType === PricingType.UNIT ? (
+							<SummaryUnit
+								configuration={currentConfiguration.summary}
+								haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
+							/>
+						) : currentConfiguration.pricingType === PricingType.HARDSUB ? (
+							<p>{currentConfiguration.summary.product}</p>
+						) : null}
+						<ConfiguratorCheckout
+							allowAddToCart={
+								!formData.currentlyEditingField &&
+								!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)
+							}
+							haveJustChangedType={suppressAriaLivePriceUpdate}
+							addToCartInProgress={addingToCart}
+							displayPrice={currentConfiguration.summary.price}
 						/>
-					) : currentConfiguration.pricingType === PricingType.HARDSUB ? null : null}
-					<ConfiguratorCheckout
-						allowAddToCart={
-							!formData.currentlyEditingField &&
-							!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)
-						}
-						haveJustChangedType={suppressAriaLivePriceUpdate}
-						addToCartInProgress={addingToCart}
-						displayPrice={currentConfiguration.summary.price}
-					/>
+					</div>
 				</fieldset>
 			)}
 		</form>

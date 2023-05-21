@@ -1,5 +1,5 @@
 import ProductConfiguration from './types/ProductConfiguration'
-import { ConfigurationSummaryUnit } from './types/ConfigurationSummary'
+import { ConfigurationSummaryUnit, ConfigurationSummaryHardSub } from './types/ConfigurationSummary'
 import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
 
@@ -235,6 +235,7 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, sh
 
 	let price = 0
 	let skus = {}
+	let isShipping = false
 
 	// subscriptions
 	if (formData.hsType === PurchaseType.SUB || formData.hsType === PurchaseType.NEW) {
@@ -264,6 +265,7 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, sh
 	}
 
 	// extended warranty
+	let warrantyYears = 1
 	console.log(appliances)
 	if (
 		formData.hsType === PurchaseType.WAREX ||
@@ -276,6 +278,7 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, sh
 		// If extended warranty options are ever become only available on some appliances, there are routes through the configurator that could leave formData.hsWarranty === true
 		// when a model that doesn't have an extended warranty is selected.  So validating it exists here, and ignoring the option silently if it doesn't.
 		if (warObj && warObj?.years > 0) {
+			warrantyYears += warObj.years
 			const sku = warObj.sku
 			const priceEach = warObj.price
 
@@ -287,11 +290,41 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, sh
 
 			price += priceEach * formData.hsHardwareQuantity
 		}
-
-		// Shipping TODO
 	}
 
-	console.log('XX', skus, price)
+	// Accessories
+	// Took an executive decision that the options of a single rack mount kit for the NG300 isn't worth the time it would take to implement
+	// This is where they should be added if that changes.
+
+	// Shipping
+	// Going to ignore the charges and use free shipping, mainly because I'm not sure two to combine the shipping charges if multiple products are ordered
+	// across different line items, and it seems like a lot of work for little benefit.
+	// Just need to set a flag so we know that there is something being shipped, and we need to collect a shipping address.
+
+	if (formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) {
+		isShipping = true
+	}
+
+	// Populate result object with calculate values
+
+	result.skus = skus
+	result.price = price
+	result.isShipping = isShipping
+
+	// Create the summary object
+
+	result.summary = new ConfigurationSummaryHardSub(
+		productName,
+		formData.hsType,
+		price,
+		formData.hsSubFamily,
+		formData.hsAppliance,
+		formData.hsHardwareQuantity,
+		formData.hsYears,
+		warrantyYears
+	)
+
+	console.log('result', result)
 	return result
 }
 

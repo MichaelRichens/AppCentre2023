@@ -13,12 +13,12 @@ import configuratorStyles from '../../styles/Configurator.shared.module.css'
 
 const SummaryUnit = ({ configuration, haveExtensionOptions }) => {
 	return (
-		<div className={configuratorStyles.summaryText}>
+		<>
 			<p>{configuration.product}</p>
 			{haveExtensionOptions ? (
 				<p>{configuration.extensions.length > 0 ? configuration.extensions : 'With no extensions'}</p>
 			) : null}
-		</div>
+		</>
 	)
 }
 

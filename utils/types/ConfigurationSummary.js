@@ -10,11 +10,14 @@ import { formatPriceFromPounds } from '../formatPrice'
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
  * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
  * @param {number} price - The total price in as a number in pounds - will be converted and stored as a string for user display in the property of the same name.
+ * @property {string} productName - The name of the product/product family.
+ * @property {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
+ * @property {string} price - The total price, formatted for display to the user. Input as a number in pounds, and converted to string format.
  */
 class ConfigurationSummary {
 	constructor(productName = null, type = null, price = null) {
 		// Return empty, object - required by the fromProperties static method
-		if (productName === null || type === null || price === null) {
+		if (productName === null && type === null && price === null) {
 			return
 		}
 
@@ -40,6 +43,8 @@ class ConfigurationSummary {
  * @param {string[]} extensionNames - The names (as in user-appropriate descriptions) of the extensions on this configuration, may be existing or new depending on `type`
  * @param {Object} unitName - A createUnitName object holding the name for the unit that the subscription is measured in - eg 'User'
  * @static fromProperties(properties: Object) - Creates a new ConfigurationSummaryUnit instance from an object with property values that match the properties of the ConfigurationSummaryUnit class.
+ * @property {string} product - A text description of the principle software product being ordered, they type of purchase, and the user count.
+ * @property {string} product - A text description of the extensions on the software product.
  */
 export class ConfigurationSummaryUnit extends ConfigurationSummary {
 	constructor(
@@ -56,13 +61,13 @@ export class ConfigurationSummaryUnit extends ConfigurationSummary {
 
 		// Return empty, unfrozen, object - required by the fromProperties static method
 		if (
-			productName === null ||
-			type === null ||
-			price === null ||
-			unitsExisting === null ||
-			unitsChange === null ||
-			years === null ||
-			extensionNames === null ||
+			productName === null &&
+			type === null &&
+			price === null &&
+			unitsExisting === null &&
+			unitsChange === null &&
+			years === null &&
+			extensionNames === null &&
 			unitName === null
 		) {
 			return
@@ -143,6 +148,79 @@ export class ConfigurationSummaryUnit extends ConfigurationSummary {
 		}
 		if (partYears > 0) {
 			str += `${Math.floor(partYears * 12)} months`
+		}
+		return str
+	}
+}
+
+export class ConfigurationSummaryHardSub extends ConfigurationSummary {
+	constructor(
+		productName = null,
+		type = null,
+		price = null,
+		hsSubFamily = null,
+		appliance = null,
+		hsHardwareQuantity = null,
+		subscriptionYears = null,
+		warrantyYears = null
+	) {
+		super(productName, type, price)
+
+		// Return empty, unfrozen, object - required by the fromProperties static method
+		if (
+			(productName === null && type === null && price === null && hsSubFamily === null,
+			appliance === null,
+			hsHardwareQuantity === null,
+			subscriptionYears === null,
+			warrantyYears === null)
+		) {
+			return
+		}
+
+		this.product = this.#createProductDescription(
+			productName,
+			type,
+			hsSubFamily,
+			appliance,
+			hsHardwareQuantity,
+			subscriptionYears,
+			warrantyYears
+		)
+
+		// Make the object immutable
+		Object.freeze(this)
+	}
+
+	static fromProperties(obj) {
+		const instance = new ConfigurationSummaryHardSub()
+		Object.assign(instance, obj)
+		Object.freeze(instance)
+		return instance
+	}
+
+	#createProductDescription(
+		productName,
+		type,
+		hsSubFamily,
+		appliance,
+		hsHardwareQuantity,
+		subscriptionYears,
+		warrantyYears
+	) {
+		let str = productName + ' - '
+		switch (type) {
+			case PurchaseType.SUB:
+				str += `Renewal of ${hsSubFamily} for ${subscriptionYears} year${subscriptionYears != 1 ? 's' : ''}.`
+				break
+			case PurchaseType.NEW:
+				str += `New purchase of ${appliance} appliance and ${subscriptionYears} year subscription${
+					hsHardwareQuantity > 1
+						? ', with ' + (hsHardwareQuantity - 1) + ' additional appliance' + (hsHardwareQuantity != 2 ? 's' : '')
+						: ''
+				}. ${warrantyYears} year${warrantyYears != 1 ? 's' : ''} hardware warranty.`
+				break
+			default:
+				throw new Error(`Unexpected PurchaseType encountered in type: ${type}`)
 		}
 		return str
 	}

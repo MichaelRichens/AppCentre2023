@@ -17,13 +17,15 @@ export class ProductConfiguration {
 	 * @param {number} [price=0] - The price of the selected product configuration.
 	 * @param {Object} [skus={}] - An object containing the SKUs for the product as keys, and quantities as values.
 	 * @param {ConfigurationSummaryUnit|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  Its class depends on the pricingType.  May be null if it isn't generated yet.
+	 * @param {boolean} [isShipping=false] - A flag that can be set to true if something on this order requires being shipped.
 	 */
-	constructor(pricingType, type, price = 0, skus = {}, summary = null) {
+	constructor(pricingType, type, price = 0, skus = {}, summary = null, isShipping = false) {
 		this.pricingType = pricingType
 		this.type = type
 		this._price = parseFloat(price.toFixed(2)) // Store the price in a private variable
 		this.skus = skus
 		this.summary = summary
+		this.isShipping = isShipping
 	}
 
 	get price() {
