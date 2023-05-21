@@ -5,8 +5,8 @@ import { formatPriceFromPounds } from '../formatPrice'
  * ConfigurationSummary class definition.
  *
  * @class
- * This module takes in various basic attributes of a product configuration, and generates some text summaries suitable for display to the user.
- * It is meant to be extended by subclasses for specific pricing types.
+ * This class is a base class that is meant to be extended to handle specific PricingTypes.
+ * It takes in various basic attributes of a product configuration, and expects its subclasses to generate some text summaries suitable for display to the user.
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
  * @param {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
  * @param {number} price - The total price in as a number in pounds - will be converted and stored as a string for user display in the property of the same name.
