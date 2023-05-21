@@ -59,14 +59,17 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		}
 	})
 
-	const offerExtendedWarranty =
-		(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) &&
-		!!productData.appliances[formData.hsSubFamily]?.find((item) => item.sku === formData.hsAppliance)?.extendedWarranty
+	const extendedWarrantyDuration = productData.appliances?.[formData.hsSubFamily].find(
+		(appliance) => appliance.sku === formData.hsAppliance
+	)?.extendedWarranty.years
 
-	const warrantyOptions = [
-		{ value: false, text: '1 Year' },
-		{ value: true, text: '3 Years' },
-	]
+	const warrantyOptions =
+		extendedWarrantyDuration > 0
+			? [
+					{ value: false, text: '1 Year' },
+					{ value: true, text: `${extendedWarrantyDuration + 1} Years` },
+			  ]
+			: false
 
 	return (
 		<>
@@ -81,21 +84,20 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 					<>
 						<legend>Appliances</legend>
 						<SimpleSelect options={appliances} value={formData.hsAppliance} onChange={handleApplianceTypeChange} />
-
-						{(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) && (
-							<SimpleInputNumber
-								label='Number of Appliances'
-								min='1'
-								max={productData.maxHardwareUnits}
-								value={formData.hsHardwareQuantityLiveUpdate}
-								onChange={handleApplianceQuantityChange}
-								onBlur={handleApplianceQuantityBlur}
-								error={formData.hsHardwareQuantityError}
-							/>
-						)}
-						{formData.hsType === PurchaseType.NEW && (
+						<SimpleInputNumber
+							label='Number of Appliances'
+							min='1'
+							max={productData.maxHardwareUnits}
+							value={formData.hsHardwareQuantityLiveUpdate}
+							onChange={handleApplianceQuantityChange}
+							onBlur={handleApplianceQuantityBlur}
+							error={formData.hsHardwareQuantityError}
+						/>
+						{formData.hsType === PurchaseType.NEW ? (
 							<p>Additional units are supplied for use as spares or for testing.</p>
-						)}
+						) : formData.hsType === PurchaseType.WAREX ? (
+							<p>You can extend the warranty for appliances you own that are within their original warranty.</p>
+						) : null}
 					</>
 				) : (
 					<>
@@ -116,7 +118,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 					/>
 				</fieldset>
 			)}
-			{offerExtendedWarranty && (
+			{(formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) && warrantyOptions && (
 				<fieldset className={configuratorStyles.extendedWarranty}>
 					<legend>Hardware Warranty</legend>
 					<SimpleRadio

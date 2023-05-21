@@ -228,11 +228,70 @@ function processConfigurationSub(productName, products, extensions, formData, un
 
 /**
  * @function
- * STUB
+ *
  */
-function processConfigurationHardSub(productName, hardware, formData, unitName) {
+function processConfigurationHardSub(productName, appliances, unlimitedUsers, shipping, formData, unitName) {
 	const result = new ProductConfiguration(PricingType.HARDSUB, formData.hsType)
 
+	let price = 0
+	let skus = {}
+
+	// subscriptions
+	if (formData.hsType === PurchaseType.SUB || formData.hsType === PurchaseType.NEW) {
+		const sku = unlimitedUsers[formData.hsSubFamily][formData.hsYears].sku
+
+		if (skus.hasOwnProperty(sku)) {
+			skus[sku] += 1
+		} else {
+			skus[sku] = 1
+		}
+
+		price += unlimitedUsers[formData.hsSubFamily][formData.hsYears].price
+	}
+
+	// appliances
+	if (formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) {
+		const sku = formData.hsAppliance // the sku was stored in the variable
+		const priceEach = appliances[formData.hsSubFamily].find((appliance) => appliance.sku === sku).price
+
+		if (skus.hasOwnProperty(sku)) {
+			skus[sku] += formData.hsHardwareQuantity
+		} else {
+			skus[sku] = formData.hsHardwareQuantity
+		}
+
+		price += priceEach * formData.hsHardwareQuantity
+	}
+
+	// extended warranty
+	console.log(appliances)
+	if (
+		formData.hsType === PurchaseType.WAREX ||
+		(formData.hsWarranty && (formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE))
+	) {
+		const warObj = appliances[formData.hsSubFamily].find(
+			(appliance) => appliance.sku === formData.hsAppliance
+		)?.extendedWarranty
+
+		// If extended warranty options are ever become only available on some appliances, there are routes through the configurator that could leave formData.hsWarranty === true
+		// when a model that doesn't have an extended warranty is selected.  So validating it exists here, and ignoring the option silently if it doesn't.
+		if (warObj && warObj?.years > 0) {
+			const sku = warObj.sku
+			const priceEach = warObj.price
+
+			if (skus.hasOwnProperty(sku)) {
+				skus[sku] += formData.hsHardwareQuantity
+			} else {
+				skus[sku] = formData.hsHardwareQuantity
+			}
+
+			price += priceEach * formData.hsHardwareQuantity
+		}
+
+		// Shipping TODO
+	}
+
+	console.log('XX', skus, price)
 	return result
 }
 
@@ -259,7 +318,14 @@ function processConfiguration(productData, formData) {
 			)
 		}
 		case PricingType.HARDSUB: {
-			return processConfigurationHardSub(productData.name, productData.hardware, formData, productData.unitName)
+			return processConfigurationHardSub(
+				productData.name,
+				productData.appliances,
+				productData.unlimitedUsers,
+				productData.shipping,
+				formData,
+				productData.unitName
+			)
 		}
 		default:
 			throw new Error(`Unknown pricingType: ${productData.pricingType}`)
