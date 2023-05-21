@@ -21,7 +21,7 @@ import styles from '../styles/SimpleInputNumber.module.css'
  */
 const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, error, ariaDescribedBy }) => {
 	const inputId = generateUniqueId('numId')
-	console.log('xx', ariaDescribedBy)
+
 	return (
 		<div className={styles.container}>
 			<label htmlFor={inputId}>
