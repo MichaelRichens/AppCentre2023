@@ -46,7 +46,6 @@
 		"prettier.bracketSpacing": true,
 		"prettier.bracketSameLine": true,
 		"prettier.singleAttributePerLine": false,
-		"editor.tabSize": 2,
 		"editor.insertSpaces": false
 	}
 }
