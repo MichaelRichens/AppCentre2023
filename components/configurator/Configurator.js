@@ -2,10 +2,11 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
 import { useShoppingCart } from 'use-shopping-cart'
 import useFormData from '../hooks/useFormData'
+import ProductOptionSelect from './ProductOptionSelect'
 import ConfiguratorHardSub from './ConfiguratorHardSub'
 import ConfiguratorUnit from './ConfiguratorUnit'
-import SubscriptionSummary from './SubscriptionSummary'
-import ProductOptionSelect from './ProductOptionSelect'
+import SummaryUnit from './SummaryUnit'
+import ConfiguratorCheckout from './ConfiguratorCheckout'
 
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import { createAsyncHandleSubmit } from '../../utils/configuratorHandleFunctions'
@@ -140,18 +141,21 @@ const Configurator = ({ productDataArray, unitName }) => {
 						formData.currentlyEditingField ? configuratorStyles.summaryOutOfDate : ''
 					}`}>
 					<legend>Summary</legend>
-					<div className={configuratorStyles.summaryText}>
-						<SubscriptionSummary
-							allowAddToCart={
-								!formData.currentlyEditingField &&
-								!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)
-							}
+					{currentConfiguration.pricingType === PricingType.UNIT ? (
+						<SummaryUnit
 							configuration={currentConfiguration.summary}
 							haveExtensionOptions={productDataArray[formData.optionIndex]?.availableExtensions?.length > 0}
-							addToCartInProgress={addingToCart}
-							haveJustChangedType={suppressAriaLivePriceUpdate}
 						/>
-					</div>
+					) : currentConfiguration.pricingType === PricingType.HARDSUB ? null : null}
+					<ConfiguratorCheckout
+						allowAddToCart={
+							!formData.currentlyEditingField &&
+							!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)
+						}
+						haveJustChangedType={suppressAriaLivePriceUpdate}
+						addToCartInProgress={addingToCart}
+						displayPrice={currentConfiguration.summary.price}
+					/>
 				</fieldset>
 			)}
 		</form>
