@@ -1,6 +1,6 @@
 import React from 'react'
 import { RotatingLines } from 'react-loader-spinner'
-import ConfigurationSummary from '../../utils/types/ConfigurationSummary'
+import { ConfigurationSummaryUnit } from '../../utils/types/ConfigurationSummary'
 
 /**
  * SubscriptionSummary is a tightly coupled subcomponent of the Configurator form
@@ -8,7 +8,7 @@ import ConfigurationSummary from '../../utils/types/ConfigurationSummary'
  *
  * @param {Object} props - The component props.
  * @param {boolean?} props.allowAddToCart - Optionally can be passed as false to disable add to cart button.
- * @param {ConfigurationSummary} props.configuration - Details of the configuration to summarise.
+ * @param {ConfigurationSummaryUnit} props.configuration - Details of the configuration to summarise.
  * @param {boolean?} props.haveExtensionOptions - Optional. Are there any extensions available for this product?
  * @param {boolean?} props.addToCartInProgress - Optional. Is there currently an add to cart operation in progress?
  * @param {boolean?} props.haveJustChangedType - Optionally can be passed as true to indicate the last change made to the configuration form was its type.

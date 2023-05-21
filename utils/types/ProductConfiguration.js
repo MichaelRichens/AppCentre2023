@@ -16,7 +16,7 @@ export class ProductConfigurationUnit {
 	 * @param {number} years - The number of years the subscription will last with this configuration, may be fractional, which is allowed for some type values.
 	 * @param {number} [price=0] - The price of the selected product configuration.
 	 * @param {Object} [skus={}] - An object containing the SKUs for the product as keys, and quantities as values.
-	 * @param {ConfigurationSummary|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  May be null if it isn't generated yet.
+	 * @param {ConfigurationSummaryUnit|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  May be null if it isn't generated yet.
 	 */
 	constructor(unType, units, unYears, price = 0, skus = {}, summary = null) {
 		this.pricingType = PricingType.UNIT

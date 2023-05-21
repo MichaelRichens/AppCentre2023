@@ -1,4 +1,4 @@
-import ConfigurationSummary from '../utils/types/ConfigurationSummary'
+import { ConfigurationSummaryUnit } from '../utils/types/ConfigurationSummary'
 import { ProductConfigurationUnit } from '../utils/types/ProductConfiguration'
 import PricingType from '../utils/types/enums/PricingType'
 import generateKey from '../utils/generateKey'
@@ -56,7 +56,7 @@ async function asyncGetConfiguration(uniqueKey) {
 			case PricingType.UNIT:
 				const { unType, units, years, _price: price, skus, summary } = configurationData
 
-				const summaryInstance = ConfigurationSummary.fromProperties(summary)
+				const summaryInstance = ConfigurationSummaryUnit.fromProperties(summary)
 
 				return new ProductConfigurationUnit(unType, units, years, price, skus, summaryInstance)
 			default:

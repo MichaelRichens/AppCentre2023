@@ -6,10 +6,10 @@ const createExtensionsDescription = Symbol('privateMethod')
 const durationString = Symbol('durationString')
 
 /**
- * ConfigurationSummary class definition.
+ * ConfigurationSummaryUnit class definition.
  *
- * @module
- * This module takes in various attributes of a product configuration, and generates some text summaries suitable for display to the user.
+ * @class
+ * This module takes in various attributes of a product configuration for PricingType.Unit, and generates some text summaries suitable for display to the user.
  * It is immutable.
  * @warning It can also be called with no or null arguments, to get an empty, unfrozen object.  This shouldn't be done, and is available for the fromProperties static method.
  * @param {string} productName - The name of the product/product family, eg 'Kerio Connect'.
@@ -20,9 +20,9 @@ const durationString = Symbol('durationString')
  * @param {number} years - The duration in years that the subscription will run for (or is running for if that is not being modified).  Can be fractional for some `type` values.
  * @param {string[]} extensionNames - The names (as in user-appropriate descriptions) of the extensions on this configuration, may be existing or new depending on `type`
  * @param {Object} unitName - A createUnitName object holding the name for the unit that the subscription is measured in - eg 'User'
- * @static fromProperties(properties: Object) - Creates a new ConfigurationSummary instance from an object with property values that match the properties of the ConfigurationSummary class.
+ * @static fromProperties(properties: Object) - Creates a new ConfigurationSummaryUnit instance from an object with property values that match the properties of the ConfigurationSummaryUnit class.
  */
-class ConfigurationSummary {
+export class ConfigurationSummaryUnit {
 	constructor(
 		productName = null,
 		type = null,
@@ -55,12 +55,12 @@ class ConfigurationSummary {
 	}
 
 	/**
-	 * Creates a new ConfigurationSummary instance from a plain object with the generated properties.
-	 * @param {Object} obj - The plain object containing the generated properties needed to create a ConfigurationSummary instance.
-	 * @returns {ConfigurationSummary} A new ConfigurationSummary instance.
+	 * Creates a new ConfigurationSummaryUnit instance from a plain object with the generated properties.
+	 * @param {Object} obj - The plain object containing the generated properties needed to create a ConfigurationSummaryUnit instance.
+	 * @returns {ConfigurationSummaryUnit} A new ConfigurationSummaryUnit instance.
 	 */
 	static fromProperties(obj) {
-		const instance = new ConfigurationSummary()
+		const instance = new ConfigurationSummaryUnit()
 		Object.assign(instance, obj)
 		Object.freeze(instance)
 		return instance
@@ -131,5 +131,3 @@ class ConfigurationSummary {
 		return str
 	}
 }
-
-export default ConfigurationSummary

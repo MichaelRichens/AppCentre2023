@@ -1,5 +1,5 @@
 import { ProductConfigurationUnit } from './types/ProductConfiguration'
-import ConfigurationSummary from './types/ConfigurationSummary'
+import { ConfigurationSummaryUnit } from './types/ConfigurationSummary'
 import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
 
@@ -213,7 +213,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 		}
 	}
 
-	result.summary = new ConfigurationSummary(
+	result.summary = new ConfigurationSummaryUnit(
 		productName,
 		result.unType,
 		result.price,
