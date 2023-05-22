@@ -6,9 +6,9 @@ import PurchaseType from './types/enums/PurchaseType'
 // Helper function for processConfigurationUnit.
 // ChatGPT written helper function to take an array of products or extensions which have already been filtered for the correct subscription length
 // (ie there are only 1 of each unit band in it), and filters it for the correct unit band, accounting for a minUnitOverride
-const filterYearMatches = (yearMatches, numUnitsForPriceBand, minUnitsOverride) => {
+const filterForUserBand = (yearMatches, numUnitsForPriceBand, minUnitsOverride) => {
 	// Step 1: Filter the yearMatches array to only include elements that meet the criteria
-	let filteredYearMatches = yearMatches.filter(
+	let filteredMatches = yearMatches.filter(
 		(match) =>
 			(match.units_from <= numUnitsForPriceBand || (minUnitsOverride && minUnitsOverride <= numUnitsForPriceBand)) &&
 			(match.units_to >= numUnitsForPriceBand || !Number.isFinite(match.units_to))
@@ -16,7 +16,7 @@ const filterYearMatches = (yearMatches, numUnitsForPriceBand, minUnitsOverride) 
 
 	// Step 2: Transform the filtered array into an object where keys are `key` values and values are the match objects
 	// If there are multiple objects with the same `key`, only the one with the lowest `units_from` value is kept
-	let reducedYearMatches = filteredYearMatches.reduce((acc, curr) => {
+	let reducedMatches = filteredMatches.reduce((acc, curr) => {
 		if (!acc[curr.key] || acc[curr.key].units_from > curr.units_from) {
 			acc[curr.key] = curr
 		}
@@ -24,9 +24,9 @@ const filterYearMatches = (yearMatches, numUnitsForPriceBand, minUnitsOverride) 
 	}, {})
 
 	// Step 3: Convert the object back to an array
-	let finalYearMatches = Object.values(reducedYearMatches)
-	console.log('ffff', numUnitsForPriceBand, minUnitsOverride, yearMatches, finalYearMatches)
-	return finalYearMatches
+	let finalMatches = Object.values(reducedMatches)
+
+	return finalMatches
 }
 
 /**
@@ -45,7 +45,7 @@ function findExtensions(searchKeys, extensions, years, numUnitsForPriceBand, min
 		return extension.years === years && searchKeys.some((key) => key === extension.key)
 	})
 
-	let userMatches = filterYearMatches(yearMatches, numUnitsForPriceBand, minUnitsOverride)
+	let userMatches = filterForUserBand(yearMatches, numUnitsForPriceBand, minUnitsOverride)
 
 	// checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
 	const uniqueExtensions = Array.from(new Set(yearMatches.map((extension) => extension.key))).map((key) =>
@@ -187,7 +187,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 		const productsWithOneYear = products.filter((sku) => sku.years === 1)
 
 		if (wholeYears > 0) {
-			const wholeYearProduct = filterYearMatches(
+			const wholeYearProduct = filterForUserBand(
 				productsWithCorrectWholeYear,
 				numUnitsForPriceBand,
 				minUnitsOverride
@@ -201,7 +201,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 			result.price += wholeYearProduct.price * numUnitsToPurchase
 		}
 		if (partYears > 0) {
-			const partYearProduct = filterYearMatches(productsWithOneYear, numUnitsForPriceBand, minUnitsOverride)[0]
+			const partYearProduct = filterForUserBand(productsWithOneYear, numUnitsForPriceBand, minUnitsOverride)[0]
 			if (partYearProduct === false) {
 				throw new Error('This should never happen.  Missing 1 year part code for product.')
 			}
