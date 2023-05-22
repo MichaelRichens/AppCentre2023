@@ -23,6 +23,22 @@ export default async (req, res) => {
 				throw error
 			}
 
+			// do we have anything to ship
+
+			let isShipping = false
+
+			for (let key in trustedProductData) {
+				if (trustedProductData[key].hasOwnProperty('isShipping') && trustedProductData[key].isShipping === true) {
+					isShipping = true
+					break
+				}
+			}
+			// create shipping properties for session object
+			let shipping_address_collection = null
+			if (isShipping) {
+				shipping_address_collection = { allowed_countries: process.env.NEXT_PUBLIC_SHIPPING_COUNTRIES.split(',') }
+			}
+
 			// Create an array of line items for the Stripe checkout session
 			const line_items = Object.keys(trustedProductData).map((id) => {
 				const item = trustedProductData[id]
@@ -63,29 +79,35 @@ export default async (req, res) => {
 				}
 			})
 
+			let sessionCreationObj = {
+				payment_method_types: ['card'],
+				line_items,
+				mode: 'payment',
+				success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+				cancel_url: `${req.headers.origin}/cancel`,
+				billing_address_collection: 'required',
+				invoice_creation: {
+					enabled: true,
+					invoice_data: {
+						/*account_tax_ids: [process.env.NEXT_PUBLIC_VAT_NUMBER],*/
+						footer: `AppCentre is a trading name of Second Chance PC Ltd.  Company Number: ${process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT: ${process.env.NEXT_PUBLIC_VAT_NUMBER}. E&OE.`,
+						rendering_options: {
+							amount_tax_display: 'exclude_tax',
+						},
+					},
+				},
+				submit_type: 'pay',
+			}
+
+			if (isShipping) {
+				sessionCreationObj['shipping_address_collection'] = shipping_address_collection
+			}
+
 			let session
 
 			try {
 				// Create a Stripe checkout session
-				session = await stripe.checkout.sessions.create({
-					payment_method_types: ['card'],
-					line_items,
-					mode: 'payment',
-					success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-					cancel_url: `${req.headers.origin}/cancel`,
-					billing_address_collection: 'required',
-					invoice_creation: {
-						enabled: true,
-						invoice_data: {
-							/*account_tax_ids: [process.env.NEXT_PUBLIC_VAT_NUMBER],*/
-							footer: `AppCentre is a trading name of Second Chance PC Ltd.  Company Number: ${process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT: ${process.env.NEXT_PUBLIC_VAT_NUMBER}. E&OE.`,
-							rendering_options: {
-								amount_tax_display: 'exclude_tax',
-							},
-						},
-					},
-					submit_type: 'pay',
-				})
+				session = await stripe.checkout.sessions.create(sessionCreationObj)
 			} catch (stripeError) {
 				// Handle errors from the Stripe API separately
 				console.error('Stripe API Error:', stripeError)
