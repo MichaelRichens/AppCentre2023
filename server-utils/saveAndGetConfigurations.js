@@ -52,19 +52,19 @@ async function asyncGetConfiguration(uniqueKey) {
 			throw new Error('Saved configuration did not have a pricingType.')
 		}
 
-		const { type, _price: price, skus, summary, isShipping } = configurationData
 		switch (configurationData.pricingType) {
 			case PricingType.UNIT: {
-				const summaryInstance = ConfigurationSummaryUnit.fromProperties(summary)
-				return new ProductConfiguration(PricingType.UNIT, type, price, skus, summaryInstance)
+				configurationData.summary = ConfigurationSummaryUnit.fromProperties(configurationData.summary)
+				break
 			}
 			case PricingType.HARDSUB: {
-				const summaryInstance = ConfigurationSummaryHardSub.fromProperties(summary)
-				return new ProductConfiguration(PricingType.UNIT, type, price, skus, summaryInstance, isShipping)
+				configurationData.summary = ConfigurationSummaryHardSub.fromProperties(configurationData.summary)
+				break
 			}
 			default:
 				throw new Error(`Unknown pricingType: ${configurationData.pricingType}`)
 		}
+		return ProductConfiguration.fromRawProperties(configurationData)
 	} catch (error) {
 		console.error('Unable to get configuration', error)
 		throw error

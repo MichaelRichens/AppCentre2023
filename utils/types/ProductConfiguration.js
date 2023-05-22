@@ -18,6 +18,7 @@ export class ProductConfiguration {
 	 * @param {Object} [skus={}] - An object containing the SKUs for the product as keys, and quantities as values.
 	 * @param {ConfigurationSummaryUnit|null} [summary=null] - The summary of the product, object that contains text information intended for user display.  Its class depends on the pricingType.  May be null if it isn't generated yet.
 	 * @param {boolean} [isShipping=false] - A flag that can be set to true if something on this order requires being shipped.
+	 * @static fromRawProperties - Creates a new instance from the properties of the passed object, assumed to be a raw serialisation of another instance (ie will use backing field names not getter names)
 	 */
 	constructor(pricingType, type, price = 0, skus = {}, summary = null, isShipping = false) {
 		this.pricingType = pricingType
@@ -26,6 +27,12 @@ export class ProductConfiguration {
 		this.skus = skus
 		this.summary = summary
 		this.isShipping = isShipping
+	}
+
+	static fromRawProperties(properties) {
+		const { pricingType, type, _price, skus, summary, isShipping } = properties
+
+		return new ProductConfiguration(pricingType, type, _price, skus, summary, isShipping)
 	}
 
 	get price() {
