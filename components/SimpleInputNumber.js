@@ -27,7 +27,7 @@ const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, err
 		<div className={styles.container}>
 			<label htmlFor={inputId}>
 				{`${label}: `}
-				{toolTip && <InfoTooltip>{toolTip}</InfoTooltip>}
+				{toolTip && <InfoTooltip>{toolTip}</InfoTooltip>}{' '}
 				{error !== false && <span className={`formError ${styles.error}`}> {error}</span>}
 			</label>
 			<input
