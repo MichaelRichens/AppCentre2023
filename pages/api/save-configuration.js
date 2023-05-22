@@ -9,7 +9,6 @@ export default async function handler(req, res) {
 			let key
 			let configuration
 			let priceInPennies
-			let name
 			try {
 				// console.time('save-configuration TOTAL')
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
@@ -28,9 +27,6 @@ export default async function handler(req, res) {
 				// console.time('save-configuration await 2')
 				key = await asyncSaveConfiguration(configuration)
 				// console.timeEnd('save-configuration await 2')
-				name = `${configuration.summary.product}${
-					configuration.summary.extensions.length > 0 ? ' ' + configuration.summary.extensions : ''
-				}`
 			} catch (error) {
 				console.error(error)
 				return res
@@ -40,7 +36,7 @@ export default async function handler(req, res) {
 			// console.timeEnd('save-configuration TOTAL')
 			return res.status(200).json({
 				key: key,
-				name: name,
+				name: configuration.description,
 				price: priceInPennies,
 			})
 		} else {

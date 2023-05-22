@@ -44,7 +44,7 @@ class ConfigurationSummary {
  * @param {Object} unitName - A createUnitName object holding the name for the unit that the subscription is measured in - eg 'User'
  * @static fromProperties(properties: Object) - Creates a new ConfigurationSummaryUnit instance from an object with property values that match the properties of the ConfigurationSummaryUnit class.
  * @property {string} product - A text description of the principle software product being ordered, they type of purchase, and the user count.
- * @property {string} product - A text description of the extensions on the software product.
+ * @property {string} extensions - A text description of the extensions on the software product.
  */
 export class ConfigurationSummaryUnit extends ConfigurationSummary {
 	constructor(

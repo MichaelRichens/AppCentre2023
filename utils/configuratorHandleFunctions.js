@@ -64,7 +64,6 @@ export const createHandleInputNumberBlur =
 		}
 
 		let error = null
-		console.log(value, min, max)
 		if (min !== undefined && value < min) {
 			value = min
 			error = `Must be at least ${min}`

@@ -44,7 +44,7 @@ export class ProductConfiguration {
 			case PricingType.UNIT:
 				return `${this.summary.product}${this.summary.extensions ? ' ' + this.summary.extensions : ''}`
 			default:
-				throw new Error(`Unknown pricingType: ${this.pricingType}`)
+				return this.summary.product
 		}
 	}
 }

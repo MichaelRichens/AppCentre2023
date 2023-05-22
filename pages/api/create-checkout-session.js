@@ -26,19 +26,13 @@ export default async (req, res) => {
 			// Create an array of line items for the Stripe checkout session
 			const line_items = Object.keys(trustedProductData).map((id) => {
 				const item = trustedProductData[id]
+				const itemName = item.description
 
-				if (
-					!item ||
-					!item.summary ||
-					!('product' in item.summary) ||
-					!('extensions' in item.summary) ||
-					typeof item.price !== 'number'
-				) {
+				if (!item || !item.summary || !item.summary || !item.price || !itemName || typeof item.price !== 'number') {
 					console.error(`Invalid product data for ID ${id}`)
 					throw new Error(`Invalid product data for ID ${id}`)
 				}
 
-				const itemName = item.description
 				const priceInPence = Math.round(item.price * 100)
 
 				// untrusted data from the client, just using it for the cart quantity

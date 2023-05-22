@@ -1,4 +1,4 @@
-import { ConfigurationSummaryUnit } from '../utils/types/ConfigurationSummary'
+import { ConfigurationSummaryUnit, ConfigurationSummaryHardSub } from '../utils/types/ConfigurationSummary'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
 import PricingType from '../utils/types/enums/PricingType'
 import generateKey from '../utils/generateKey'
@@ -52,13 +52,16 @@ async function asyncGetConfiguration(uniqueKey) {
 			throw new Error('Saved configuration did not have a pricingType.')
 		}
 
+		const { type, _price: price, skus, summary, isShipping } = configurationData
 		switch (configurationData.pricingType) {
-			case PricingType.UNIT:
-				const { type, _price: price, skus, summary } = configurationData
-
+			case PricingType.UNIT: {
 				const summaryInstance = ConfigurationSummaryUnit.fromProperties(summary)
-
 				return new ProductConfiguration(PricingType.UNIT, type, price, skus, summaryInstance)
+			}
+			case PricingType.HARDSUB: {
+				const summaryInstance = ConfigurationSummaryHardSub.fromProperties(summary)
+				return new ProductConfiguration(PricingType.UNIT, type, price, skus, summaryInstance, isShipping)
+			}
 			default:
 				throw new Error(`Unknown pricingType: ${configurationData.pricingType}`)
 		}

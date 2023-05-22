@@ -266,7 +266,6 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, sh
 
 	// extended warranty
 	let warrantyYears = 1
-	console.log(appliances)
 	if (
 		formData.hsType === PurchaseType.WAREX ||
 		(formData.hsWarranty && (formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE))
@@ -324,7 +323,6 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, sh
 		warrantyYears
 	)
 
-	console.log('result', result)
 	return result
 }
 
@@ -336,7 +334,6 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, sh
  * @param {Object} formData - The form data object, which contains the user's choices - shape will depend on productData.pricingType
  */
 function processConfiguration(productData, formData) {
-	//console.log(productData)
 	switch (productData.pricingType) {
 		case PricingType.UNIT: {
 			return processConfigurationSub(
