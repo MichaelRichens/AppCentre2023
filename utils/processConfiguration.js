@@ -14,10 +14,12 @@ import PurchaseType from './types/enums/PurchaseType'
  * @returns {Object[]} - The passed in extensions that matched the passed keys and the passed years value
  * @throws {Error} If the function is unable to find all the extensions it is looking for with the data it has to search in, it will throw.
  */
-function findExtensions(searchKeys, extensions, years) {
+function findExtensions(searchKeys, extensions, years, numUnitsForPriceBand, minUnitsOverride) {
 	const yearMatches = extensions.filter((extension) => {
 		return extension.years === years && searchKeys.some((key) => key === extension.key)
 	})
+
+	//TODO FILTER EXTENSIONS BY YEAR
 
 	// checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
 	const uniqueExtensions = Array.from(new Set(yearMatches.map((extension) => extension.key))).map((key) =>
@@ -189,16 +191,29 @@ function processConfigurationSub(productName, products, extensions, formData, un
 	let extensionNames = false
 
 	if (wholeYears > 0) {
-		const wholeYearExtensions = findExtensions(formData.unitCheckedExtensions, extensions, wholeYears)
+		const wholeYearExtensions = findExtensions(
+			formData.unitCheckedExtensions,
+			extensions,
+			wholeYears,
+			numUnitsForPriceBand,
+			minUnitsOverride
+		)
 
 		wholeYearExtensions.forEach((extension) => {
 			result.skus[extension.sku] = numUnitsToPurchase
 			result.price += extension.price * numUnitsToPurchase
 		})
+
 		extensionNames = wholeYearExtensions.map((extension) => extension.name)
 	}
 	if (partYears > 0) {
-		const partYearExtensions = findExtensions(formData.unitCheckedExtensions, extensions, 1)
+		const partYearExtensions = findExtensions(
+			formData.unitCheckedExtensions,
+			extensions,
+			1,
+			numUnitsForPriceBand,
+			minUnitsOverride
+		)
 
 		partYearExtensions.forEach((extension) => {
 			if (!result.skus.hasOwnProperty(extension.sku)) {
