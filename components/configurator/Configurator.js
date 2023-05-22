@@ -118,9 +118,9 @@ const Configurator = ({ productDataArray, unitName }) => {
 			throw new Error(`Unknown PricingType: ${productDataArray[formData.optionIndex].pricingType}`)
 	}
 
-	console.log('formData', formData)
-	console.log('currentConfiguration', currentConfiguration)
-	console.log('productDataArray', productDataArray)
+	//console.log('formData', formData)
+	//console.log('currentConfiguration', currentConfiguration)
+	//console.log('productDataArray', productDataArray)
 
 	return (
 		<form className={configuratorStyles.configurator} onSubmit={asyncHandleSubmit}>
