@@ -2,9 +2,9 @@
 	position: relative;
 }
 
-.infoTooltipContainer .toolTip {
-	width: 1.3em;
-	height: 1.3em;
+.infoTooltipContainer .icon {
+	width: 1.4em;
+	height: 1.4em;
 	position: relative;
 	top: 0.2em;
 }

@@ -20,7 +20,7 @@ const InfoTooltip = ({ children }) => {
 	return (
 		<span className={styles.infoTooltipContainer}>
 			<img
-				className={styles.toolTip}
+				className={styles.icon}
 				src='/images/icons/question_mark50x50.png'
 				data-tooltip-id={id}
 				data-tooltip-content={children}
