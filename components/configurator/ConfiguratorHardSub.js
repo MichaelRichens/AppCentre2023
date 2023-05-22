@@ -98,17 +98,14 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 							ariaDescribedBy={
 								formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.WAREX ? qtyTextId : undefined
 							}
+							toolTip={
+								formData.hsType === PurchaseType.NEW
+									? 'Additional units are supplied for use as spares or for testing. If you want multiple boxes with their own subscriptions, please add them to your cart separately.'
+									: formData.hsType === PurchaseType.WAREX
+									? 'You can extend the warranty for appliances you own that are within their original warranty.'
+									: null
+							}
 						/>
-						{formData.hsType === PurchaseType.NEW ? (
-							<p id={qtyTextId}>
-								Additional units are supplied for use as spares or for testing. If you want multiple boxes with their
-								own subscriptions, please add them to your cart separately.
-							</p>
-						) : formData.hsType === PurchaseType.WAREX ? (
-							<p id={qtyTextId}>
-								You can extend the warranty for appliances you own that are within their original warranty.
-							</p>
-						) : null}
 					</>
 				) : (
 					<>

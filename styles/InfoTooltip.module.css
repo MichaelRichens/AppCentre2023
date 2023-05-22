@@ -1,0 +1,15 @@
+.infoTooltipContainer {
+	position: relative;
+}
+
+.infoTooltipContainer .toolTip {
+	width: 1.3em;
+	height: 1.3em;
+	position: relative;
+	top: 0.2em;
+}
+
+.infoTooltipContainer .toolTipText {
+	max-width: 300px;
+	white-space: pre-wrap;
+}

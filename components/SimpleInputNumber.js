@@ -1,4 +1,5 @@
 import React from 'react'
+import InfoTooltip from './InfoTooltip'
 import generateUniqueId from '../utils/generateUniqueId'
 
 import styles from '../styles/SimpleInputNumber.module.css'
@@ -19,13 +20,14 @@ import styles from '../styles/SimpleInputNumber.module.css'
  * @param {Function} props.onBlur - The onBlur event handler for the input field.
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
-const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, error, ariaDescribedBy }) => {
+const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, error, ariaDescribedBy, toolTip }) => {
 	const inputId = generateUniqueId('numId')
 
 	return (
 		<div className={styles.container}>
 			<label htmlFor={inputId}>
 				{`${label}: `}
+				{toolTip && <InfoTooltip size='15'>{toolTip}</InfoTooltip>}
 				{error !== false && <span className={`formError ${styles.error}`}> {error}</span>}
 			</label>
 			<input
