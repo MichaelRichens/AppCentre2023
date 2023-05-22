@@ -219,6 +219,20 @@ export class ConfigurationSummaryHardSub extends ConfigurationSummary {
 						: ''
 				}. ${warrantyYears} year${warrantyYears != 1 ? 's' : ''} hardware warranty.`
 				break
+			case PurchaseType.SPARE:
+				str += `${hsHardwareQuantity} x Additional ${appliance} appliance${
+					hsHardwareQuantity != 1 ? 's' : ''
+				} for existing ${hsSubFamily} series subscription. With ${warrantyYears} year${
+					warrantyYears != 1 ? 's' : ''
+				} hardware warranty.`
+				break
+			case PurchaseType.WAREX:
+				if (hsHardwareQuantity === 1) {
+					str += `Extended warranty for existing ${appliance} appliance that is within its original warranty.`
+				} else {
+					str += `${hsHardwareQuantity} x Extended warranties for existing ${appliance} appliances that are within their original warranties.`
+				}
+				break
 			default:
 				throw new Error(`Unexpected PurchaseType encountered in type: ${type}`)
 		}
