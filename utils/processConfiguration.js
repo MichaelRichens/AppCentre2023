@@ -3,6 +3,32 @@ import { ConfigurationSummaryUnit, ConfigurationSummaryHardSub } from './types/C
 import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
 
+// Helper function for processConfigurationUnit.
+// ChatGPT written helper function to take an array of products or extensions which have already been filtered for the correct subscription length
+// (ie there are only 1 of each unit band in it), and filters it for the correct unit band, accounting for a minUnitOverride
+const filterYearMatches = (yearMatches, numUnitsForPriceBand, minUnitsOverride) => {
+	// Step 1: Filter the yearMatches array to only include elements that meet the criteria
+	let filteredYearMatches = yearMatches.filter(
+		(match) =>
+			(match.units_from <= numUnitsForPriceBand || (minUnitsOverride && minUnitsOverride <= numUnitsForPriceBand)) &&
+			(match.units_to >= numUnitsForPriceBand || !Number.isFinite(match.units_to))
+	)
+
+	// Step 2: Transform the filtered array into an object where keys are `key` values and values are the match objects
+	// If there are multiple objects with the same `key`, only the one with the lowest `units_from` value is kept
+	let reducedYearMatches = filteredYearMatches.reduce((acc, curr) => {
+		if (!acc[curr.key] || acc[curr.key].units_from > curr.units_from) {
+			acc[curr.key] = curr
+		}
+		return acc
+	}, {})
+
+	// Step 3: Convert the object back to an array
+	let finalYearMatches = Object.values(reducedYearMatches)
+	console.log('ffff', numUnitsForPriceBand, minUnitsOverride, yearMatches, finalYearMatches)
+	return finalYearMatches
+}
+
 /**
  * @function
  * Helper function for processConfigurationSub.
@@ -19,11 +45,11 @@ function findExtensions(searchKeys, extensions, years, numUnitsForPriceBand, min
 		return extension.years === years && searchKeys.some((key) => key === extension.key)
 	})
 
-	//TODO FILTER EXTENSIONS BY YEAR
+	let userMatches = filterYearMatches(yearMatches, numUnitsForPriceBand, minUnitsOverride)
 
 	// checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
 	const uniqueExtensions = Array.from(new Set(yearMatches.map((extension) => extension.key))).map((key) =>
-		yearMatches.find((extension) => extension.key === key)
+		userMatches.find((extension) => extension.key === key)
 	)
 
 	if (uniqueExtensions.length !== searchKeys.length) {
@@ -37,6 +63,7 @@ function findExtensions(searchKeys, extensions, years, numUnitsForPriceBand, min
 }
 
 /**
+ * OBSOLETE FUNCTION NO LONGER CALLED, DELETE ONCE HAPPY filterYearMatches IS WORKING
  * Helper function for processConfigurationUnit.
  * Returns the sku of first product it encounters (searching from the end of the passed array) which has a user band that matches the passed number.
  * @param {object[]} sortedProductsOfCorrectYear - An array of products, where we want to find the one which is for the correct user band
@@ -160,11 +187,11 @@ function processConfigurationSub(productName, products, extensions, formData, un
 		const productsWithOneYear = products.filter((sku) => sku.years === 1)
 
 		if (wholeYears > 0) {
-			const wholeYearProduct = findProductWithCorrectUserBand(
+			const wholeYearProduct = filterYearMatches(
 				productsWithCorrectWholeYear,
 				numUnitsForPriceBand,
 				minUnitsOverride
-			)
+			)[0]
 
 			if (wholeYearProduct === false) {
 				throw new Error('This should never happen.  Unable to find product with correct duration.')
@@ -174,11 +201,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
 			result.price += wholeYearProduct.price * numUnitsToPurchase
 		}
 		if (partYears > 0) {
-			const partYearProduct = findProductWithCorrectUserBand(
-				productsWithOneYear,
-				numUnitsForPriceBand,
-				minUnitsOverride
-			)
+			const partYearProduct = filterYearMatches(productsWithOneYear, numUnitsForPriceBand, minUnitsOverride)[0]
 			if (partYearProduct === false) {
 				throw new Error('This should never happen.  Missing 1 year part code for product.')
 			}
