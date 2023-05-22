@@ -6,7 +6,7 @@ import styles from '../styles/InfoTooltip.module.css'
  * @component
  * InfoTooltip Component.
  *
- * This component displays a question mark icon (with a tooltip) that provides additional
+ * This component displays a question mark icon, with its children as a tooltip, that provides additional
  * information to the user when hovered over. The tooltip is also accessible
  * to screen readers.
  *
