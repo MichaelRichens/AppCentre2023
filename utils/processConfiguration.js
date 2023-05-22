@@ -5,7 +5,7 @@ import PurchaseType from './types/enums/PurchaseType'
 
 // Helper function for processConfigurationUnit.
 // ChatGPT written helper function to take an array of products or extensions which have already been filtered for the correct subscription length
-// (ie there are only 1 of each unit band in it), and filters it for the correct unit band, accounting for a minUnitOverride
+// (ie there are only 1 of each unit band for each key (key may not be present) in it), and filters it for the correct unit band, accounting for a minUnitOverride
 const filterForUserBand = (yearMatches, numUnitsForPriceBand, minUnitsOverride) => {
 	// Step 1: Filter the yearMatches array to only include elements that meet the criteria
 	let filteredMatches = yearMatches.filter(
@@ -16,6 +16,7 @@ const filterForUserBand = (yearMatches, numUnitsForPriceBand, minUnitsOverride) 
 
 	// Step 2: Transform the filtered array into an object where keys are `key` values and values are the match objects
 	// If there are multiple objects with the same `key`, only the one with the lowest `units_from` value is kept
+	// May not be a key property (used by extensions where we may want multiple products)
 	let reducedMatches = filteredMatches.reduce((acc, curr) => {
 		if (!acc[curr.key] || acc[curr.key].units_from > curr.units_from) {
 			acc[curr.key] = curr
@@ -26,6 +27,8 @@ const filterForUserBand = (yearMatches, numUnitsForPriceBand, minUnitsOverride) 
 	// Step 3: Convert the object back to an array
 	let finalMatches = Object.values(reducedMatches)
 
+	// One product per unique key.  So one of each extension when used for extensions
+	//  If no key field is present, there will only be a single element (ie when using this for products, just grab [0] from the result and call it good)
 	return finalMatches
 }
 
