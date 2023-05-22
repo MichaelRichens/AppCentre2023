@@ -3,9 +3,18 @@ import generateUniqueId from '../utils/generateUniqueId'
 import styles from '../styles/InfoTooltip.module.css'
 
 /**
- * @returns The tooltip element.
+ * @component
+ * InfoTooltip Component.
+ *
+ * This component displays a question mark icon (with a tooltip) that provides additional
+ * information to the user when hovered over. The tooltip is also accessible
+ * to screen readers.
+ *
+ * @param {Object} props The props.
+ * @param {string} props.children The content of the tooltip.
+ * @returns {JSX.Element} The rendered InfoTooltip component.
  */
-const InfoTooltip = ({ size, children }) => {
+const InfoTooltip = ({ children }) => {
 	const id = generateUniqueId('tooltip')
 	const srId = generateUniqueId('sr')
 	return (
