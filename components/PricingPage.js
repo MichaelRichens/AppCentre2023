@@ -70,8 +70,6 @@ const PricingPage = ({ productIntro, productDataArray, unitName, children }) => 
 		// - not an issue since productDataArray never changes, but we might as well have an empty array here for all the good it does
 	}, [productDataArray])
 
-	console.log('have', haveAnyExtensions, 'same', extensionsSameForAllOptions)
-
 	return (
 		<Page title={familyName}>
 			<section>{productIntro}</section>
