@@ -2,6 +2,7 @@ import React from 'react'
 import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
 import { formatPriceFromPounds } from '../utils/formatPrice'
+import { yearsGen, unitRangeGen } from '../utils/textSnippetFuncs'
 import priceTableStyles from '../styles/PriceTable.shared.module.css'
 
 const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
@@ -10,29 +11,27 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 		return null
 	}
 
-	const yearLabelGen = (years) => `${years} Year${years != 1 ? 's' : ''}`
-
 	// extensionsData is pre-sorted by years low -> high, so no need to sort
-	const yearLabels = new Set(extensionsData.map((ext) => yearLabelGen(ext.years)))
+	const yearLabels = new Set(extensionsData.map((ext) => yearsGen(ext.years)))
 
 	// Some products have extensions which are sorted into a single sku for a year renewal.  Others have multiple (for different unit tiers)
 	// For a single price, we want to display all extensions in one table, for multiple prices we show a table for each extension.
 	// Just checking that any extension has multiple prices, don't try and look for some that do and some that don't and get fancy.
 	let singleSkuPerYear = true
 
-	const organisedExtensions = extensionsData.reduce((acc, ext) => {
-		if (!acc.hasOwnProperty(ext.key)) {
-			acc[ext.key] = { name: ext.name, years: { [ext.years]: { skus: [ext] } } }
-		} else if (!acc[ext.key].years.hasOwnProperty(ext.years)) {
-			acc[ext.key].years[ext.years] = { skus: [ext] }
+	const organisedExtensions = extensionsData.reduce((acc, extSkuObj) => {
+		if (!acc.hasOwnProperty(extSkuObj.key)) {
+			acc[extSkuObj.key] = { name: extSkuObj.name, years: { [extSkuObj.years]: { skus: [extSkuObj] } } }
+		} else if (!acc[extSkuObj.key].years.hasOwnProperty(extSkuObj.years)) {
+			acc[extSkuObj.key].years[extSkuObj.years] = { skus: [extSkuObj] }
 		} else {
-			acc[ext.key].years[ext.years].skus.push(ext)
+			acc[extSkuObj.key].years[extSkuObj.years].skus.push(extSkuObj)
 			singleSkuPerYear = false
 		}
 		return acc
 	}, {})
 
-	console.log(singleSkuPerYear, organisedExtensions)
+	let tables
 
 	if (singleSkuPerYear) {
 		const names = Object.values(organisedExtensions)
@@ -42,11 +41,10 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 		const extensionsTable = new TableData(yearLabels, names, 'Subscription Length')
 
 		extensionsData.forEach((ext) => {
-			const yearLabel = yearLabelGen(ext.years)
+			const yearLabel = yearsGen(ext.years)
 			extensionsTable.setData(yearLabel, ext.name, formatPriceFromPounds(ext.price))
 		})
-
-		return (
+		tables = (
 			<SimpleTable
 				tableData={extensionsTable}
 				caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
@@ -55,14 +53,46 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 			/>
 		)
 	} else {
-		return (
+		const extensionTables = Object.values(organisedExtensions).map((ext) => {
+			const rows = Object.keys(ext.years)
+				.sort((a, b) => a < b)
+				.map((year) => yearsGen(year))
+
+			const anyYearKey = Object.keys(ext.years)[0]
+
+			const columns = Object.values(ext.years[anyYearKey].skus)
+				.sort((a, b) => a.units_from < b.units_from)
+				.map((sku) => unitRangeGen(sku.units_from, sku.units_to, unitName))
+
+			const tableData = new TableData(rows, columns, 'Subscription Length')
+
+			extensionsData.forEach((extSkuObj) => {
+				console.log(extSkuObj.sku)
+				tableData.setData(
+					yearsGen(extSkuObj.years),
+					unitRangeGen(extSkuObj.units_from, extSkuObj.units_to, unitName),
+					formatPriceFromPounds(extSkuObj.price)
+				)
+			})
+
+			return { name: ext.name, tableData }
+		})
+
+		tables = (
 			<>
-				{Object.entries(organisedExtensions).map(([key, ext]) => (
-					<p>{key}</p>
+				{extensionTables.map((extensionTable) => (
+					<SimpleTable
+						tableData={extensionTable.tableData}
+						caption={`Per ${unitName.singularC} Pricing for ${extensionTable.name} Extension`}
+						className={priceTableStyles.priceTable}
+						ariaLabelledby={'pricingHeading'}
+					/>
 				))}
 			</>
 		)
 	}
+
+	return tables
 }
 
 export default PriceTableExtensions
