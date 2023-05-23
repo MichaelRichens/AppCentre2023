@@ -48,8 +48,6 @@ function findExtensions(searchKeys, extensions, years, numUnitsForPriceBand, min
 		return extension.years === years && searchKeys.some((key) => key === extension.key)
 	})
 
-	console.log('ym', yearMatches, numUnitsForPriceBand, minUnitsOverride)
-
 	let userMatches = filterForUserBand(yearMatches, numUnitsForPriceBand, minUnitsOverride)
 
 	// checking the keys are unique so that we can check the number of extensions we have found vs the number of elements we are looking for and have a bit of a panic if we fail
@@ -218,9 +216,6 @@ function processConfigurationSub(productName, products, extensions, formData, un
 	/** @type {string[]|boolean} Needs to be populated with a list of extension names to generate the summary from. Or boolean false if there are none. */
 	let extensionNames = false
 
-	console.log('fd', formData)
-	console.log('ex', extensions)
-
 	if (wholeYears > 0) {
 		const wholeYearExtensions = findExtensions(
 			formData.unitCheckedExtensions,
@@ -230,14 +225,10 @@ function processConfigurationSub(productName, products, extensions, formData, un
 			minUnitsOverride
 		)
 
-		console.log('wy1', wholeYearExtensions)
-
 		wholeYearExtensions.forEach((extension) => {
 			result.skus[extension.sku] = numUnitsToPurchase
 			result.price += extension.price * numUnitsToPurchase
 		})
-
-		console.log('r1', result)
 
 		extensionNames = wholeYearExtensions.map((extension) => extension.name)
 	}
