@@ -76,7 +76,6 @@
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	column-gap: 2em;
 	row-gap: 1em;
 	width: 90%;
 }
@@ -106,12 +105,16 @@
 	color: lightblue;
 }
 
-.headerMainContent nav.infoMenu {
+.headerMainContent .infoMenu {
 	margin: 0;
 }
 
-.headerMainContent nav.infoMenu a,
-.headerMainContent nav.infoMenu button {
+.headerMainContent .infoMenu ul {
+	column-gap: 2em;
+}
+
+.headerMainContent .infoMenu a,
+.headerMainContent .infoMenu button {
 	display: block;
 	padding-top: 0.5em;
 	padding-bottom: 0.5em;
@@ -119,12 +122,12 @@
 	padding-right: 0.2em;
 }
 
-.headerMainContent nav.infoMenu a:active,
-.headerMainContent nav.infoMenu button:active {
+.headerMainContent .infoMenu a:active,
+.headerMainContent .infoMenu button:active {
 	transform: scale(0.99);
 }
 
-.headerMainContent nav.infoMenu button {
+.headerMainContent .infoMenu button {
 	background: none;
 	border: none;
 	font-family: inherit;
@@ -136,12 +139,16 @@
 	cursor: pointer;
 }
 
+.headerMainContent .productMenu ul {
+	column-gap: 0.7em;
+}
+
 .headerMainContent .multiRowProductNav {
 	row-gap: 0.2em;
 }
 
 .headerMainContent .multiRowProductNav li {
-	width: 6.5em;
+	width: 9em;
 }
 
 .headerMainContent nav button {
