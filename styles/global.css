@@ -122,6 +122,12 @@ caption {
 	margin-block-end: 0.3em;
 }
 
+caption {
+	font-size: 1.2em;
+	margin-block-start: 0.5em;
+	margin-block-end: 0.3em;
+}
+
 .h1SubHeading {
 	line-height: 1.1;
 }
@@ -289,6 +295,10 @@ form .formError {
 	.h1SubHeading {
 		font-size: 1.2em;
 	}
+
+	caption {
+		font-size: 1.1em;
+	}
 }
 
 @media (max-width: 1000px) {
@@ -330,6 +340,11 @@ form .formError {
 		margin-block-start: 0.4em;
 		margin-block-end: 0.3em;
 	}
+	caption {
+		font-size: 1em;
+		margin-block-start: 0.4em;
+		margin-block-end: 0.2em;
+	}
 	.h1SubHeading {
 		font-size: 1.2em;
 	}
@@ -353,6 +368,11 @@ form .formError {
 		margin-block-end: 0.2em;
 	}
 	h3 {
+		margin-block-start: 0.2em;
+		margin-block-end: 0.2em;
+	}
+
+	caption {
 		margin-block-start: 0.2em;
 		margin-block-end: 0.2em;
 	}

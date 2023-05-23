@@ -106,6 +106,10 @@
 	.priceTable {
 		font-size: 90%;
 	}
+
+	.priceTable caption {
+		font-size: 111.11%;
+	}
 }
 
 @media (max-width: 700px) {
@@ -118,5 +122,9 @@
 @media (max-width: 625px) {
 	.priceTable {
 		font-size: 80%;
+	}
+
+	.priceTable caption {
+		font-size: 125%;
 	}
 }
