@@ -19,7 +19,9 @@ const MailEssentialsPricing = (props) => {
 	const { productDataArray } = props
 	return (
 		<PricingPage
-			productIntro={<p>GFI MailEssentials has 3 editions, and is licenced on a per-user yearly subscription basis.</p>}
+			productIntro={
+				<p>GFI MailEssentials has 3 editions, and is licenced on a per-mailbox yearly subscription basis.</p>
+			}
 			productDataArray={productDataArray}></PricingPage>
 	)
 }
