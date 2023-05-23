@@ -305,15 +305,7 @@ form .formError {
 	margin-left: 1em;
 }
 
-@media (min-width: 1800px) {
-	.titleWrapper img:first-child {
-		margin-left: -5em;
-	}
-
-	.titleWrapper img:last-child {
-		margin-right: -5em;
-	}
-}
+/*min-width queries*/
 
 /* Styles above 1500px + margins (must also adjust max-width on main element to match (see above)) */
 @media (min-width: calc(4em + 1500px)), (min-width: 1600px) {
@@ -324,6 +316,18 @@ form .formError {
 		margin-right: auto;
 	}
 }
+
+@media (min-width: 1800px) {
+	.titleWrapper img:first-child {
+		margin-left: -5em;
+	}
+
+	.titleWrapper img:last-child {
+		margin-right: -5em;
+	}
+}
+
+/*max-width queries*/
 
 @media (max-width: 1200px) {
 	h1 {
