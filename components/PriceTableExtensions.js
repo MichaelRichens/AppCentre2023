@@ -5,25 +5,58 @@ import { formatPriceFromPounds } from '../utils/formatPrice'
 import priceTableStyles from '../styles/PriceTable.shared.module.css'
 
 const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
-	const yearLabel = (years) => `${years} Year${years != 1 ? 's' : ''}`
-	// relying on productData.extensions being pre-sorted
-	const uniqueYears = new Set(extensionsData.map((ext) => yearLabel(ext.years)))
-	const uniqueNames = new Set(extensionsData.map((ext) => ext.name))
+	if (!extensionsData || !extensionsData?.length) {
+		console.error('Invalid extensionData passed to PriceTableExtensions')
+		return null
+	}
 
-	const extensionsTable = new TableData(uniqueYears, uniqueNames, 'Subscription Length')
+	const yearLabelGen = (years) => `${years} Year${years != 1 ? 's' : ''}`
 
-	extensionsData.forEach((ext) => {
-		extensionsTable.setData(yearLabel(ext.years), ext.name, formatPriceFromPounds(ext.price))
-	})
+	// extensionsData is pre-sorted by years low -> high, so no need to sort
+	const yearLabels = new Set(extensionsData.map((ext) => yearLabelGen(ext.years)))
 
-	return (
-		<SimpleTable
-			tableData={extensionsTable}
-			caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
-			className={priceTableStyles.priceTable}
-			ariaLabelledby={'pricingHeading'}
-		/>
-	)
+	// Some products have extensions which are sorted into a single sku for a year renewal.  Others have multiple (for different unit tiers)
+	// For a single price, we want to display all extensions in one table, for multiple prices we show a table for each extension.
+	// Just checking that any extension has multiple prices, don't try and look for some that do and some that don't and get fancy.
+	let singleSkuPerYear = true
+
+	const organisedExtensions = extensionsData.reduce((acc, ext) => {
+		if (!acc.hasOwnProperty(ext.key)) {
+			acc[ext.key] = { name: ext.name, years: { [ext.years]: { skus: [ext] } } }
+		} else if (!acc[ext.key].years.hasOwnProperty(ext.years)) {
+			acc[ext.key].years[ext.years] = { skus: [ext] }
+		} else {
+			acc[ext.key].years[ext.years].skus.push(ext)
+			singleSkuPerYear = false
+		}
+		return acc
+	}, {})
+
+	const names = Object.values(organisedExtensions)
+		.map((ext) => ext.name)
+		.sort((a, b) => a.localeCompare(b))
+
+	console.log(singleSkuPerYear, organisedExtensions)
+
+	if (singleSkuPerYear) {
+		const extensionsTable = new TableData(yearLabels, names, 'Subscription Length')
+
+		extensionsData.forEach((ext) => {
+			const yearLabel = yearLabelGen(ext.years)
+			extensionsTable.setData(yearLabel, ext.name, formatPriceFromPounds(ext.price))
+		})
+
+		return (
+			<SimpleTable
+				tableData={extensionsTable}
+				caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
+				className={priceTableStyles.priceTable}
+				ariaLabelledby={'pricingHeading'}
+			/>
+		)
+	} else {
+		return null
+	}
 }
 
 export default PriceTableExtensions
