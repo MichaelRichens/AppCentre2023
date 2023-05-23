@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import Page from './Page'
 import PriceTableWithUnits from './PriceTableWithUnits'
 import PriceTableExtensions from './PriceTableExtensions'
@@ -22,6 +22,56 @@ const PricingPage = ({ productIntro, productDataArray, unitName, children }) => 
 
 	const familyName = productDataArray[0].familyName // familyName is the same across all options
 
+	// Check extension options.  Do we have them at all, and if so, are they the same for all options (ie elements of the productDataArray)
+	const [haveAnyExtensions, extensionsSameForAllOptions] = useMemo(() => {
+		let haveAnyExtensions = false
+		let extensionsSameForAllOptions = true
+		productDataArray.forEach((productData, index) => {
+			if (productData.availableExtensions && productData.availableExtensions.length > 0) {
+				// we have extensions for this option
+				haveAnyExtensions = true
+				if (index > 0) {
+					// compare with previous option
+					if (
+						!(
+							productDataArray[index - 1].availableExtensions &&
+							productDataArray[index - 1].availableExtensions.length > 0
+						)
+					) {
+						// previous option doesn't have extensions
+						extensionsSameForAllOptions = false
+					} else if (productData.availableExtensions.length != productDataArray[index - 1].availableExtensions.length) {
+						// previous option does have extensions, but a different number of them
+						extensionsSameForAllOptions = false
+					} else {
+						// previous has the same number of extensions - check if they are the same skus
+						for (let i = 0; i < productData.availableExtensions.length; i++) {
+							if (productData.availableExtensions[i].sku != productDataArray[index - 1].availableExtensions[i].sku) {
+								// not the same skus
+								extensionsSameForAllOptions = false
+								break
+							}
+						}
+					}
+				}
+			} else if (
+				index > 0 &&
+				productDataArray[index - 1].availableExtensions &&
+				productDataArray[index - 1].availableExtensions.length > 0
+			) {
+				// no extensions on current options, but previous option did have extensions
+				extensionsSameForAllOptions = false
+			}
+		})
+
+		return [haveAnyExtensions, extensionsSameForAllOptions]
+
+		// This dependency array is essentially useless, since its only tracking reference equality of productDataArray
+		// - not an issue since productDataArray never changes, but we might as well have an empty array here for all the good it does
+	}, [productDataArray])
+
+	console.log('have', haveAnyExtensions, 'same', extensionsSameForAllOptions)
+
 	return (
 		<Page title={familyName}>
 			<section>{productIntro}</section>
@@ -29,23 +79,32 @@ const PricingPage = ({ productIntro, productDataArray, unitName, children }) => 
 				<h2 id='pricingHeading'>{familyName} Pricing</h2>
 				{productDataArray.map((productData, index) => (
 					<section key={index}>
-						{productData.pricingType === PricingType.UNIT ? (
+						{productData.pricingType === PricingType.UNIT && (
 							<PriceTableWithUnits
 								productName={productData.name}
 								products={productData.products}
 								unitName={productData.unitName}
 							/>
-						) : null}
-						{productData.availableExtensions && productData.availableExtensions.length > 0 ? (
-							<PriceTableExtensions
-								productName={productData.name}
-								extensionsData={productData.extensions}
-								unitName={productData.unitName}
-							/>
-						) : null}
+						)}
+						{!extensionsSameForAllOptions &&
+							productData.availableExtensions &&
+							productData.availableExtensions.length > 0 && (
+								<PriceTableExtensions
+									productName={productData.name}
+									extensionsData={productData.extensions}
+									unitName={productData.unitName}
+								/>
+							)}
 					</section>
 				))}
 			</section>
+			{haveAnyExtensions && extensionsSameForAllOptions && (
+				<PriceTableExtensions
+					productName={productDataArray[0].familyName}
+					extensionsData={productDataArray[0].extensions}
+					unitName={productDataArray[0].unitName}
+				/>
+			)}
 			<section className={styles.Configurator}>
 				<h2>{familyName} Configurator</h2>
 				<Configurator productDataArray={productDataArray} unitName={unitName} />
