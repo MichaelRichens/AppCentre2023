@@ -90,7 +90,7 @@ const Control = (props) => {
 					offers three hardware options:
 				</p>
 				<ul>
-					<li>NG110 - perfect for small businesses, remote and home offices</li>
+					<li>NG110 - perfect for small businesses, remote and home offices, yachts</li>
 					<li>NG310 - the choice for small businesses planning for growth</li>
 					<li>NG510/NG511 - ideal for mid-sized businesses</li>
 				</ul>
