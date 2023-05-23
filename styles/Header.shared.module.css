@@ -140,15 +140,12 @@
 }
 
 .headerMainContent .productMenu ul {
-	column-gap: 0.7em;
+	column-gap: 2em;
 }
 
-.headerMainContent .multiRowProductNav {
+.headerMainContent .productMenu .multiRowProductNav {
 	row-gap: 0.2em;
-}
-
-.headerMainContent .multiRowProductNav li {
-	width: 9em;
+	column-gap: 1em;
 }
 
 .headerMainContent nav button {
@@ -229,6 +226,13 @@
 		right: -100px;
 	}
 }
+
+@media (max-width: 1300px) {
+	.headerMainContent .productMenu ul {
+		column-gap: 1em;
+	}
+}
+
 @media (max-width: 850px) {
 	.gfiPartnerLogoContainer img {
 		max-width: 20vw;
@@ -239,6 +243,9 @@
 @media (max-width: 750px) {
 	.headerMainContent .productMenu {
 		font-size: 14px;
+	}
+	.headerMainContent .productMenu li {
+		width: 9em;
 	}
 	.cartWrapper {
 		width: 500px;
