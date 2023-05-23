@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react'
 import Page from './Page'
 import PriceTableWithUnits from './PriceTableWithUnits'
+import PricingTableAppliances from './PricingTableAppliances'
 import PriceTableExtensions from './PriceTableExtensions'
 import Configurator from './configurator/Configurator'
 import PricingType from '../utils/types/enums/PricingType'
@@ -66,10 +67,9 @@ const PricingPage = ({ logoSrc, productIntro, productDataArray, unitName, childr
 		})
 
 		return [haveAnyExtensions, extensionsSameForAllOptions]
-
-		// This dependency array is essentially useless, since its only tracking reference equality of productDataArray
-		// - not an issue since productDataArray never changes, but we might as well have an empty array here for all the good it does
 	}, [productDataArray])
+
+	console.log('Full productData', productDataArray[1])
 
 	return (
 		<Page title={`${familyName} Pricing`} logoSrc={logoSrc} mainClassName={styles.pricingPage}>
@@ -78,13 +78,19 @@ const PricingPage = ({ logoSrc, productIntro, productDataArray, unitName, childr
 				<h2 id='pricingHeading'>{familyName} Pricing</h2>
 				{productDataArray.map((productData, index) => (
 					<section key={index}>
-						{productData.pricingType === PricingType.UNIT && (
+						{productData.pricingType === PricingType.UNIT ? (
 							<PriceTableWithUnits
 								productName={productData.name}
 								products={productData.products}
 								unitName={productData.unitName}
 							/>
-						)}
+						) : productData.pricingType === PricingType.HARDSUB ? (
+							<PricingTableAppliances
+								productName={productData.name}
+								applianceDataObject={productData.appliances}
+								subscriptionDataObject={productData.unlimitedUsers}
+							/>
+						) : null}
 						{!extensionsSameForAllOptions &&
 							productData.availableExtensions &&
 							productData.availableExtensions.length > 0 && (
