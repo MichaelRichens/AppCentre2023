@@ -10,10 +10,11 @@ import Footer from './Footer'
  * @param {Object} props - The component properties.
  * @param {string} props.title - The title to display on the page.
  * @param {string?} props.subHeading - Optional. A supplement to the main title.
+ * @param {string?} props.mainClassName - Optional. A css class to apply to the main element.
  * @param {React.ReactNode} props.children - The child components to render within the page.
  * @returns {JSX.Element} The Page component.
  */
-const Page = ({ title, subHeading, children }) => {
+const Page = ({ title, subHeading, mainClassName, children }) => {
 	// This converts standard quotes into smart quotes in all text displayed.
 	useEffect(() => {
 		smartquotes().listen()
@@ -32,9 +33,9 @@ const Page = ({ title, subHeading, children }) => {
 				<meta name='theme-color' content='#ffffff' />
 			</Head>
 			<Header />
-			<main>
+			<main className={mainClassName}>
 				<h1>{title}</h1>
-				{subHeading && subHeading.length > 0 && <p className='subHeading'>{subHeading}</p>}
+				{subHeading && subHeading.length > 0 && <p className='h1SubHeading'>{subHeading}</p>}
 				{children}
 			</main>
 			<Footer />

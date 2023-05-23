@@ -71,7 +71,7 @@ const PricingPage = ({ productIntro, productDataArray, unitName, children }) => 
 	}, [productDataArray])
 
 	return (
-		<Page title={familyName}>
+		<Page title={familyName} mainClassName={styles.pricingPage}>
 			<section>{productIntro}</section>
 			<section className={styles.priceTables}>
 				<h2 id='pricingHeading'>{familyName} Pricing</h2>

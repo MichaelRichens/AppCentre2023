@@ -11,7 +11,7 @@ h3,
 h4,
 h5,
 h6,
-p.subHeading,
+.h1SubHeading,
 caption,
 legend {
 	font-family: 'Roboto', sans-serif;
@@ -42,6 +42,10 @@ select,
 	background-color: #f9f9f9;
 }
 
+strong {
+	font-weight: 600;
+}
+
 header {
 	margin-block-end: 1.7em;
 }
@@ -67,17 +71,35 @@ h3,
 h4,
 h5,
 h6,
-p.subHeading,
+.h1SubHeading,
 legend,
-strong {
+caption {
 	text-align: center;
 }
 
 h1,
 h2,
 h3,
-p.subHeading {
+caption {
 	font-weight: 500;
+}
+
+h4,
+h5,
+h6,
+.h1SubHeading,
+legend {
+	font-weight: 600;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1SubHeading,
+caption {
+	color: #333;
 }
 
 h1 {
@@ -93,23 +115,19 @@ h2 {
 }
 
 h3,
-p.subHeading {
+.h1SubHeading,
+caption {
 	font-size: 1.3em;
 	margin-block-start: 0.5em;
 	margin-block-end: 0.3em;
 }
 
-p.subHeading {
+.h1SubHeading {
 	line-height: 1.1;
 }
 
-h1 + p.subHeading {
+h1 + .h1SubHeading {
 	margin-block-start: -0.7em;
-}
-
-caption,
-legend {
-	font-weight: 600;
 }
 
 legend > small {
@@ -259,7 +277,7 @@ form .formError {
 	h1 {
 		font-size: 2.4em;
 	}
-	h1 + p.subHeading {
+	h1 + .h1SubHeading {
 		margin-block-start: -0.5em;
 	}
 
@@ -268,7 +286,7 @@ form .formError {
 	}
 
 	h3,
-	p.subHeading {
+	.h1SubHeading {
 		font-size: 1.2em;
 	}
 }
@@ -312,7 +330,7 @@ form .formError {
 		margin-block-start: 0.4em;
 		margin-block-end: 0.3em;
 	}
-	p.subHeading {
+	.h1SubHeading {
 		font-size: 1.2em;
 	}
 }
@@ -326,7 +344,7 @@ form .formError {
 		margin-block-end: 0.2em;
 	}
 
-	h1 + p.subHeading {
+	h1 + .h1SubHeading {
 		margin-block-start: -0.2em;
 	}
 
