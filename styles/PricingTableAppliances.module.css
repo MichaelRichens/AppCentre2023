@@ -11,3 +11,7 @@
 	background-color: initial;
 	mix-blend-mode: initial;
 }
+
+.applianceTable th[scope='rowgroup'] {
+	text-align: left;
+}

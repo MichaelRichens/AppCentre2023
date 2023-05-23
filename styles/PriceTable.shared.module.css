@@ -17,16 +17,16 @@
 	padding-right: 2em;
 }
 
-/* Darken the entire first row (thead row) except for the first cell */
+/* Darken the entire first row (thead row) except for the first cell (since that is darkened by the first column rule) */
 .priceTable thead th:not(:first-child) {
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.2);
 	mix-blend-mode: multiply;
 }
 
 /* Darken the first column at a darker shade */
 .priceTable th:first-child,
 .priceTable tbody td:first-child {
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.2);
 	mix-blend-mode: multiply;
 }
 
@@ -75,6 +75,11 @@
 
 .priceTable thead th:first-of-type {
 	text-align: left;
+}
+
+.priceTable th[scope='col'],
+.priceTable th[scope='rowgroup'] {
+	font-weight: 600;
 }
 
 .priceTable th[scope='row'] {

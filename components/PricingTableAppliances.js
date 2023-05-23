@@ -28,23 +28,26 @@ const PricingTableAppliances = ({ productName, applianceDataObject, subscription
 					<th scope='col'>Hardware Price</th>
 					<th scope='col'>Extended Warranty</th>
 					{yearOptions.map((year) => (
-						<th key={year}>{`${yearsGen(year)} Subscription`}</th>
+						<th scope='col' key={year}>{`${yearsGen(year)} Subscription`}</th>
 					))}
 				</tr>
 			</thead>
 			{Object.entries(applianceDataObject).map(([subFamily, appliances]) => (
 				<tbody key={subFamily}>
 					<tr>
-						<th colSpan={numCols}>{`${subFamily} Series`}</th>
+						<th scope='rowgroup' colSpan={numCols}>{`${subFamily} Series`}</th>
 					</tr>
-					{appliances.map((appliance) => (
+					{appliances.map((appliance, index) => (
 						<tr key={appliance.sku}>
 							<th scope='row'>{appliance.name}</th>
 							<td>{formatPriceFromPounds(appliance.price)}</td>
 							<td>{formatPriceFromPounds(appliance.extendedWarranty.price)}</td>
-							{yearOptions.map((year) => (
-								<td key={year}>{formatPriceFromPounds(subscriptionDataObject[subFamily][year].price)}</td>
-							))}
+							{index === 0 &&
+								yearOptions.map((year) => (
+									<td key={year} rowSpan={appliances.length > 1 ? appliances.length : undefined}>
+										{formatPriceFromPounds(subscriptionDataObject[subFamily][year].price)}
+									</td>
+								))}
 						</tr>
 					))}
 				</tbody>
