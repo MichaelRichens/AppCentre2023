@@ -32,13 +32,13 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 		return acc
 	}, {})
 
-	const names = Object.values(organisedExtensions)
-		.map((ext) => ext.name)
-		.sort((a, b) => a.localeCompare(b))
-
 	console.log(singleSkuPerYear, organisedExtensions)
 
 	if (singleSkuPerYear) {
+		const names = Object.values(organisedExtensions)
+			.map((ext) => ext.name)
+			.sort((a, b) => a.localeCompare(b))
+
 		const extensionsTable = new TableData(yearLabels, names, 'Subscription Length')
 
 		extensionsData.forEach((ext) => {
@@ -55,7 +55,13 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 			/>
 		)
 	} else {
-		return null
+		return (
+			<>
+				{Object.entries(organisedExtensions).map(([key, ext]) => (
+					<p>{key}</p>
+				))}
+			</>
+		)
 	}
 }
 
