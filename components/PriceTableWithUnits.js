@@ -2,7 +2,7 @@ import React from 'react'
 import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
 import { formatPriceFromPounds } from '../utils/formatPrice'
-import priceTableStyles from '../styles/Table.shared.module.css'
+import priceTableStyles from '../styles/PriceTable.shared.module.css'
 
 /**
  * PricingWithUnits provides a price table element for the passed products.
