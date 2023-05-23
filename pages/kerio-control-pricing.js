@@ -15,7 +15,13 @@ const ControlPricing = (props) => {
 	const { productDataArray } = props
 	return (
 		<PricingPage
-			productIntro={<p>Kerio Control is licenced on a per-user yearly subscription basis.</p>}
+			productIntro={
+				<p>
+					Kerio Control is available as software, licenced on a per-user yearly subscription basis with optional
+					extensions. And as the Control Box hardware appliance, licenced on an unlimited users yearly subscription,
+					with all extensions included. .
+				</p>
+			}
 			productDataArray={productDataArray}></PricingPage>
 	)
 }

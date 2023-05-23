@@ -26,7 +26,7 @@ const MailEssentials = (props) => {
 	const { productDataArray } = props
 
 	return (
-		<ProductInfoPage title='GFI MAILESSENTIALS' subHeading='subheading' productDataArray={productDataArray}>
+		<ProductInfoPage title='GFI MailEssentials' subHeading='subheading' productDataArray={productDataArray}>
 			<section>Content goes here.</section>
 		</ProductInfoPage>
 	)
