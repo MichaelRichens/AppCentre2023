@@ -1,3 +1,15 @@
+.logoContainer {
+	position: relative;
+}
+
+.logoContainer img {
+	height: 6em;
+	max-width: 20vw;
+	position: absolute;
+	right: 5em;
+	top: -6.5em;
+}
+
 .topConfigurator {
 	font-size: 90%;
 	float: right;
@@ -85,6 +97,11 @@
 .trialLink:active {
 	color: blue;
 }
+@media (max-width: 1200px) {
+	.logoContainer img {
+		right: 3em;
+	}
+}
 
 @media (max-width: 1000px) {
 	.topConfigurator {
@@ -92,12 +109,22 @@
 	}
 }
 @media (max-width: 850px) {
+	.logoContainer img {
+		right: 1em;
+		max-width: 25vw;
+	}
 	.topConfigurator {
 		width: 30em;
 	}
 
 	.article > img.smallerImg {
 		max-width: min(40em, 50vw);
+	}
+}
+
+@media (max-width: 700px) {
+	.logoContainer {
+		display: none;
 	}
 }
 

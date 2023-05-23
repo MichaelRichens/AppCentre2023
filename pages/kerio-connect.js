@@ -26,6 +26,7 @@ const Connect = (props) => {
 		<ProductInfoPage
 			title='Kerio Connect'
 			subHeading='The Ultimate Mailserver Solution for SMBs'
+			logoSvgSrc='images/logos/kerio-connect-logo.svg'
 			productName='Kerio Connect'
 			productDataArray={productDataArray}>
 			<section>

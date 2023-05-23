@@ -26,6 +26,7 @@ const Control = (props) => {
 		<ProductInfoPage
 			title='Kerio Control'
 			subHeading='Your Comprehensive Security Solution'
+			logoSvgSrc='images/logos/kerio-control-logo.svg'
 			productDataArray={productDataArray}>
 			<section>
 				<p>

@@ -10,11 +10,12 @@ import productInfoStyles from '../styles/ProductInfo.shared.module.css'
  * @param {Object} props - The component props.
  * @param {string} props.title - The title to display on the page.
  * @param {string?} props.subHeading - Optional. A supplement to the main title.
+ * @param {string?} props.logoSvgSrc - Optional.  The path to an svg file to display as the logo of this product
  * @param {Object[]} props.productDataArray - The product data pulled from the database, one object for each option (or just one element if there are no options).
  * @param {JSX.Element} props.children - The child components to render within the page.
  * @returns {JSX.Element} The ProductInfoPage component.
  */
-const ProductInfoPage = ({ title, subHeading, productDataArray, children }) => {
+const ProductInfoPage = ({ title, subHeading, logoSvgSrc, productDataArray, children }) => {
 	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
 		throw new Error('Invalid productDataArray')
 	}
@@ -22,6 +23,11 @@ const ProductInfoPage = ({ title, subHeading, productDataArray, children }) => {
 
 	return (
 		<Page title={title} subHeading={subHeading}>
+			{logoSvgSrc && (
+				<div className={productInfoStyles.logoContainer}>
+					<img src={logoSvgSrc} />
+				</div>
+			)}
 			{showTopConfigurator && (
 				<aside className={productInfoStyles.topConfigurator}>
 					<Configurator productDataArray={productDataArray} />
