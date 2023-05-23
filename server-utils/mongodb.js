@@ -20,10 +20,6 @@ async function connectToDatabase() {
 			} else {
 				client = await getClient()
 			}
-
-			process.once('SIGINT', closeClient)
-			process.once('SIGTERM', closeClient)
-			process.once('SIGQUIT', closeClient)
 		}
 
 		const db = client.db(process.env.DB_NAME)
@@ -41,10 +37,6 @@ async function getClient() {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
-}
-
-function closeClient() {
-	if (client) client.close()
 }
 
 export { connectToDatabase }
