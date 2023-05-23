@@ -2,6 +2,7 @@ import React from 'react'
 import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
 import { formatPriceFromPounds } from '../utils/formatPrice'
+import { yearsGen, unitRangeGen } from '../utils/textSnippetFuncs'
 import priceTableStyles from '../styles/PriceTable.shared.module.css'
 
 /**
@@ -19,20 +20,16 @@ const PriceTableWithUnits = ({ productName, products, unitName }) => {
 		return null
 	}
 
-	const rowNameGen = (years) => `${years} Year${years != 1 ? 's' : ''}`
-	const columnNameGen = (units_from, units_to, unitName) =>
-		`${units_from} ${units_to > units_from ? '- ' + units_to : '+'} ${unitName.pluralC}`
-
-	const rows = new Set(products.map((product) => rowNameGen(product.years)))
-	const columns = new Set(products.map((product) => columnNameGen(product.units_from, product.units_to, unitName)))
+	const rows = new Set(products.map((product) => yearsGen(product.years)))
+	const columns = new Set(products.map((product) => unitRangeGen(product.units_from, product.units_to, unitName)))
 
 	const tableData = new TableData(rows, columns, 'Subscription Length')
 
 	for (let i = 0; i < products.length; i++) {
 		const product = products[i]
 		tableData.setData(
-			rowNameGen(product.years),
-			columnNameGen(product.units_from, product.units_to, unitName),
+			yearsGen(product.years),
+			unitRangeGen(product.units_from, product.units_to, unitName),
 			formatPriceFromPounds(product.price)
 		)
 	}
