@@ -236,6 +236,10 @@ form .formError {
 	border: 0;
 }
 
+.clearFloat {
+	clear: both;
+}
+
 .popupContainer {
 	position: relative;
 }

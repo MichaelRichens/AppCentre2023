@@ -7,19 +7,26 @@
 }
 
 .article > img {
-	max-width: 60vw;
+	max-width: min(40em, 50vw);
 	height: auto;
 	margin-right: 0.8em;
 }
 
+.article > img.smallerImg {
+	max-width: min(30em, 35vw);
+}
+
 .article > img:nth-of-type(odd) {
 	float: left;
+	clear: right;
+	margin-right: 0.8em;
 }
 
 .article > img:nth-of-type(even) {
 	float: right;
+	clear: left;
+	margin-left: 0.8em;
 }
-
 .article blockquote {
 	position: relative;
 	font-style: italic;
@@ -88,21 +95,19 @@
 	.topConfigurator {
 		width: 30em;
 	}
+
+	.article > img.smallerImg {
+		max-width: min(40em, 50vw);
+	}
 }
 
 @media (max-width: 600px) {
-	.article > img:nth-of-type(odd) {
-		float: none;
-	}
-
-	.article > img:nth-of-type(even) {
-		float: none;
-	}
-
+	/* important is used because these styles were put on with selectors that are more specific rules that are a pain to override - neater to override them all in one go this way */
 	.article > img {
+		float: none !important;
 		display: block;
-		max-width: 80vw;
-		margin-left: auto;
-		margin-right: auto;
+		max-width: 80vw !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
 	}
 }

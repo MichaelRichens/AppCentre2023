@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import ProductInfoPage from '../components/ProductInfoPage'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
@@ -39,6 +40,8 @@ const Connect = (props) => {
 					need a "big brand" solution to achieve efficiency and productivity.
 				</p>
 			</section>
+			<Image src='/images/connect-dashboard1289x750.png' height={750} width={1289} alt='Connect dashboard' />
+
 			<section>
 				<h2>Key Features and Benefits</h2>
 				<h3>Comprehensive Collaboration and Messaging</h3>
@@ -53,6 +56,7 @@ const Connect = (props) => {
 					Furthermore, the software supports direct push synchronization to your preferred mobile device via Microsoft
 					ActiveSync, keeping your communications consistent and up-to-date across all platforms.
 				</p>
+
 				<h3>Effortless Deployment and User-friendly Management</h3>
 				<p>
 					Kerio Connect stands out with its rapid deployment capability. A full installation can be completed in just
@@ -71,6 +75,7 @@ const Connect = (props) => {
 					automated backup feature, coupled with granular restore options, ensures quick and easy recovery from various
 					types of disasters.
 				</p>
+
 				<p>
 					In addition, Kerio Connect's server-wide archiving feature is designed to prevent data loss and help
 					organizations comply with legal requirements for email retention.
@@ -86,6 +91,13 @@ const Connect = (props) => {
 					management and access to your organization's electronic communications history.
 				</p>
 			</section>
+			<Image
+				className={productInfoStyles.smallerImg}
+				src='/images/connect-security-policy728x668.png'
+				height={668}
+				width={728}
+				alt='Connect security policy'
+			/>
 			<section>
 				<h2>Detailed Feature Breakdown</h2>
 				<h3>Full-featured, Business-class Email</h3>
@@ -189,6 +201,13 @@ const Connect = (props) => {
 					requirements for email retention.
 				</p>
 			</section>
+			<Image
+				className={productInfoStyles.smallerImg}
+				src='/images/connect-configuration-wizard768x588.png'
+				height={588}
+				width={768}
+				alt='Connect security policy'
+			/>
 			<section>
 				<h2>Key Takeaways</h2>
 				<p>
@@ -203,7 +222,7 @@ const Connect = (props) => {
 					communication across all devices and platforms. Furthermore, its affordable licensing model and professional
 					support provide added value, making it an ideal solution for businesses of all sizes.
 				</p>
-				<h3>Try Kerio Connect Today</h3>
+				<h3 className='clearFloat'>Try Kerio Connect Today</h3>
 				<p>Don't just take our word for it, try Kerio Connect free for 30 days and experience:</p>
 				<ul>
 					<li>Secure and easy-to-install email</li>
