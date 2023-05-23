@@ -273,6 +273,48 @@ form .formError {
 	color: rgb(109, 69, 69);
 }
 
+.titleWrapper {
+	display: grid;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
+}
+
+.titleWrapper::before,
+.titleWrapper::after {
+	content: '';
+}
+
+.titleWrapper h1 {
+	grid-column: 2;
+	justify-self: center;
+}
+
+.titleWrapper img:first-child {
+	max-height: 80px;
+	max-width: 300px;
+	grid-column: 1;
+	justify-self: start;
+	margin-right: 1em;
+}
+
+.titleWrapper img:last-child {
+	max-height: 80px;
+	max-width: 300px;
+	grid-column: 3;
+	justify-self: end;
+	margin-left: 1em;
+}
+
+@media (min-width: 1800px) {
+	.titleWrapper img:first-child {
+		margin-left: -5em;
+	}
+
+	.titleWrapper img:last-child {
+		margin-right: -5em;
+	}
+}
+
 /* Styles above 1500px + margins (must also adjust max-width on main element to match (see above)) */
 @media (min-width: calc(4em + 1500px)), (min-width: 1600px) {
 	main,
@@ -321,6 +363,10 @@ form .formError {
 	#footerInnerWrapper {
 		margin-left: 0.5em;
 		margin-right: 0.5em;
+	}
+
+	.titleWrapper > img {
+		display: none;
 	}
 
 	ul {
