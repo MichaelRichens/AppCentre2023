@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import ProductInfoPage from '../components/ProductInfoPage'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
@@ -43,7 +44,14 @@ const HelpDesk = (props) => {
 					creating a seamless flow of communication and resolution.
 				</p>
 			</section>
-
+			<div className='clearFloat'></div>
+			<Image
+				className={productInfoStyles.smallerImg}
+				src='/images/helpdesk-inbox728x668.png'
+				width={728}
+				height={668}
+				alt='Connect security policy'
+			/>
 			<section>
 				<h2>An All-encompassing View of Your Customer's Activity</h2>
 
