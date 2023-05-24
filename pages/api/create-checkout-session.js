@@ -78,7 +78,7 @@ export default async (req, res) => {
 				}
 			})
 
-			let cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_URL + '/'
+			let cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_URL + '/cart'
 
 			if (req.headers.referer) {
 				const url = new URL(req.headers.referer)
