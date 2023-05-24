@@ -30,12 +30,6 @@
 	mix-blend-mode: multiply;
 }
 
-/* Darken odd-numbered rows in the tbody at a lighter shade, excluding the first cell */
-.priceTable tbody tr:nth-child(even) td:not(:first-child) {
-	background-color: rgba(0, 0, 0, 0.05);
-	mix-blend-mode: multiply;
-}
-
 /* Add border-radius to the table */
 .priceTable {
 	border-collapse: separate;
