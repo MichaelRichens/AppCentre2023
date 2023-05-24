@@ -38,7 +38,7 @@ const CartDisplay = () => {
 	const createLicenceKeyOnBlurHandler = (itemId) => {
 		return () => {
 			const newLicence = licenceKeyLiveUpdate?.[itemId] || ''
-			if (newLicence || getItem(itemId)?.licenceKey.length) {
+			if (newLicence || getItem(itemId)?.licenceKey?.length) {
 				// A new licence string has been provided, or one already existed so we want to overwrite even if the new one is empty (to delete it)
 				console.log(newLicence)
 			}
@@ -52,6 +52,7 @@ const CartDisplay = () => {
 				<legend>Items</legend>
 				<ul>
 					{cart.map((item) => {
+						// Is this type of purchase some that modifies/renews an existing licence, or is it a new purchase?
 						const isExistingLicence =
 							(item.pricingType === PricingType.UNIT &&
 								(item.purchaseType === PurchaseType.ADD ||
@@ -61,8 +62,7 @@ const CartDisplay = () => {
 								(item.purchaseType === PurchaseType.SPARE ||
 									item.purchaseType === PurchaseType.SUB ||
 									item.purchaseType === PurchaseType.WAREX))
-						const handleLicenceKeyChange = createLicenceKeyChangeHandler(item.id)
-						const handleLicenceKeyBlur = createLicenceKeyOnBlurHandler(item.id)
+
 						return (
 							<li key={item.id}>
 								<button
@@ -84,8 +84,8 @@ const CartDisplay = () => {
 										<input
 											type='text'
 											value={licenceKeyLiveUpdate[item.id] || ''}
-											onChange={handleLicenceKeyChange}
-											onBlur={handleLicenceKeyBlur}
+											onChange={createLicenceKeyChangeHandler(item.id)}
+											onBlur={createLicenceKeyOnBlurHandler(item.id)}
 										/>
 									</label>
 								)}
