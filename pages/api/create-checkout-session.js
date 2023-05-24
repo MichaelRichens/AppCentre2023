@@ -9,7 +9,7 @@ export default async (req, res) => {
 
 			if (!cartFromClientSide || !Array.isArray(cartFromClientSide.items)) {
 				console.error('Invalid request body. Expected "items" array.')
-				return res.status(400).json({ message: "Invalid request body. Expected 'items' array." })
+				return res.status(400).json({ message: 'Invalid request.' })
 			}
 
 			let trustedConfigurations
@@ -126,7 +126,7 @@ export default async (req, res) => {
 			res.status(200).json({ sessionId: session.id, url: session.url })
 		} catch (error) {
 			console.error(error)
-			return res.status(500).json({ statusCode: 500, message: error.message })
+			return res.status(500).json({ statusCode: 500, message: 'Internal Error' })
 		}
 	} else {
 		res.setHeader('Allow', 'POST')
