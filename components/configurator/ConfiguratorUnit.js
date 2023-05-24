@@ -4,6 +4,7 @@ import SimpleInputNumber from '../SimpleInputNumber'
 import SimpleCheckboxes from '../SimpleCheckboxes'
 import MonthsRemainingSelect from './MonthsRemainingSelect'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
+import PricingType from '../../utils/types/enums/PricingType'
 import {
 	createHandleUnitTypeChange,
 	createHandleInputChange,
@@ -94,6 +95,10 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 			text: `${year} Year${year > 1 ? 's' : ''}`,
 		}
 	})
+
+	useEffect(() => {
+		updateFormData({ pricingType: PricingType.UNIT })
+	}, [productData])
 
 	return (
 		<>

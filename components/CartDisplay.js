@@ -11,6 +11,7 @@ const CartDisplay = () => {
 	const handleRemoveItem = (id) => {
 		removeFromCart(id)
 	}
+	console.log(cart)
 	return (
 		<form className={styles.cartContainer}>
 			<h2>Your Cart</h2>

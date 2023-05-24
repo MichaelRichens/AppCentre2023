@@ -1,3 +1,4 @@
+import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
 
 /** @function
@@ -139,9 +140,22 @@ export const createAsyncHandleSubmit =
 				throw new Error(`HTTP error! status: ${response.status}\nmessage: ${result.message}`)
 			} else {
 				// Add item to cart here
+				let purchaseType
+				switch (formData.pricingType) {
+					case PricingType.UNIT:
+						purchaseType = formData.unType
+						break
+					case PricingType.HARDSUB:
+						purchaseType = formData.hsType
+						break
+					default:
+						throw new Error(`Unexpected pricingType: ${formData.pricingType}`)
+				}
 				addItem({
 					id: result.key,
 					name: result.name,
+					pricingType: formData.pricingType,
+					purchaseType: purchaseType,
 					price: result.price,
 					currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
 					quantity: 1,

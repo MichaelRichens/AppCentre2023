@@ -3,6 +3,7 @@ import SimpleSelect from '../SimpleSelect'
 import SimpleInputNumber from '../SimpleInputNumber'
 import SimpleRadio from '../SimpleRadio'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
+import PricingType from '../../utils/types/enums/PricingType'
 import generateUniqueId from '../../utils/generateUniqueId'
 import {
 	createUpdateFormValue,
@@ -73,6 +74,10 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 					{ value: true, text: `${extendedWarrantyDuration + 1} Years` },
 			  ]
 			: false
+
+	useEffect(() => {
+		updateFormData({ pricingType: PricingType.HARDSUB })
+	}, [productData])
 
 	return (
 		<>
