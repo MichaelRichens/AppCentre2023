@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import ProductInfoPage from '../components/ProductInfoPage'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 import productInfoStyles from '../styles/ProductInfo.shared.module.css'
@@ -43,6 +44,13 @@ const LanGuard = (props) => {
 					seamless patch deployment.
 				</p>
 			</section>
+			<Image
+				className={productInfoStyles.smallerImg}
+				src='/images/languard-network-overview395x342.png'
+				width={395}
+				height={342}
+				alt='Connect security policy'
+			/>
 			<section>
 				<h2>Network Visibility and Threat Management</h2>
 				<p>
@@ -58,6 +66,20 @@ const LanGuard = (props) => {
 					defences.
 				</p>
 			</section>
+			<Image
+				className={productInfoStyles.smallerImg}
+				src='/images/languard-patch-view425x317.png'
+				width={425}
+				height={317}
+				alt='Connect security policy'
+			/>
+			<Image
+				className={productInfoStyles.smallerImg}
+				src='/images/languard-deploy-updates372x289.png'
+				width={372}
+				height={289}
+				alt='Connect security policy'
+			/>
 			<section>
 				<h2>Network Vulnerability Detection and Patch Management</h2>
 				<p>
@@ -83,6 +105,7 @@ const LanGuard = (props) => {
 					no device unprotected.
 				</p>
 			</section>
+
 			<section>
 				<h2>Compliance Reporting</h2>
 				<p>
@@ -146,6 +169,13 @@ const LanGuard = (props) => {
 					resolve issues that require attention, such as triggering antivirus or anti-spyware updates.
 				</p>
 			</section>
+			<Image
+				className={productInfoStyles.smallerImg}
+				src='/images/languard-reports379x259.png'
+				width={379}
+				height={259}
+				alt='Connect security policy'
+			/>
 			<section>
 				<h2>Ensuring Compliance with Various Standards</h2>
 				<p>
