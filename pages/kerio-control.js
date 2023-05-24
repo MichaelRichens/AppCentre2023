@@ -102,8 +102,8 @@ const Control = (props) => {
 			</section>
 			<Image
 				src='/images/control-traffic-rules722x606.png'
-				height={606}
 				width={722}
+				height={606}
 				alt='Traffic Rules control panel'
 			/>
 			<section>
@@ -172,8 +172,8 @@ const Control = (props) => {
 			</section>
 			<Image
 				src='/images/control-box-hardware409x240.png'
-				height={240}
 				width={409}
+				height={240}
 				alt='Kerio Control Box Group Shot'
 			/>
 			<section>

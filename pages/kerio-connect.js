@@ -95,8 +95,8 @@ const Connect = (props) => {
 			<Image
 				className={productInfoStyles.smallerImg}
 				src='/images/connect-security-policy728x668.png'
-				height={668}
 				width={728}
+				height={668}
 				alt='Connect security policy'
 			/>
 			<section>
@@ -205,8 +205,8 @@ const Connect = (props) => {
 			<Image
 				className={productInfoStyles.smallerImg}
 				src='/images/connect-configuration-wizard768x588.png'
-				height={588}
 				width={768}
+				height={588}
 				alt='Connect security policy'
 			/>
 			<section>
