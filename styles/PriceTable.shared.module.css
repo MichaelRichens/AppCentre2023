@@ -82,17 +82,22 @@
 	font-weight: normal;
 }
 
-.priceTable .hardware {
-	background-color: rgb(223, 234, 240);
-}
-
 .priceTable col.mainSubscription,
-table.mainSubscription td {
+table.mainSubscription tbody,
+tbody.mainSubscription {
 	background-color: rgb(224, 236, 217);
 }
 
-.priceTable col.extensionSubscription {
+.priceTable col.extensionSubscription,
+table.extensionSubscription tbody,
+tbody.extensionSubscription {
 	background-color: rgb(236, 224, 217);
+}
+
+.priceTable col.hardwarePurchase,
+table.hardwarePurchase tbody,
+tbody.hardwarePurchase {
+	background-color: rgb(223, 234, 240);
 }
 
 @media (max-width: 1000px) {

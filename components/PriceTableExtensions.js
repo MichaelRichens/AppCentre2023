@@ -48,7 +48,7 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 			<SimpleTable
 				tableData={extensionsTable}
 				caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
-				className={priceTableStyles.priceTable}
+				className={`${priceTableStyles.priceTable} ${priceTableStyles.extensionSubscription}`}
 				ariaLabelledby={'pricingHeading'}
 			/>
 		)
@@ -84,7 +84,7 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 					<SimpleTable
 						tableData={extensionTable.tableData}
 						caption={`Per ${unitName.singularC} Pricing for ${extensionTable.name} Extension`}
-						className={priceTableStyles.priceTable}
+						className={`${priceTableStyles.priceTable} ${priceTableStyles.extensionSubscription}`}
 						ariaLabelledby={'pricingHeading'}
 					/>
 				))}

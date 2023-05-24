@@ -19,7 +19,7 @@ const PricingTableAppliances = ({ productName, applianceDataObject, subscription
 			<caption>{`${productName} Pricing`}</caption>
 			<colgroup>
 				<col />
-				<col span='2' className={priceTableStyles.hardware} />
+				<col span='2' className={priceTableStyles.hardwarePurchase} />
 				<col span={yearOptions.length} className={priceTableStyles.mainSubscription} />
 			</colgroup>
 			<thead>
