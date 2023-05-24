@@ -5,9 +5,6 @@ import priceTableStyles from '../styles/PriceTable.shared.module.css'
 import styles from '../styles/PricingTableAppliances.module.css'
 
 const PricingTableAppliances = ({ productName, applianceDataObject, subscriptionDataObject }) => {
-	console.log('applianceDataObject', applianceDataObject)
-	console.log('subscriptionDataObject', subscriptionDataObject)
-
 	const yearOptions = Object.keys(Object.values(subscriptionDataObject || {})[0] || {}).sort(
 		(a, b) => Number(a) < Number(b)
 	)

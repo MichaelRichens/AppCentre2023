@@ -69,8 +69,6 @@ const PricingPage = ({ logoSrc, productIntro, productDataArray, unitName, childr
 		return [haveAnyExtensions, extensionsSameForAllOptions]
 	}, [productDataArray])
 
-	console.log('Full productData', productDataArray[1])
-
 	return (
 		<Page title={`${familyName} Pricing`} logoSrc={logoSrc} mainClassName={styles.pricingPage}>
 			<section>{productIntro}</section>

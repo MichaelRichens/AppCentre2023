@@ -67,7 +67,6 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 			const tableData = new TableData(rows, columns, 'Subscription Length')
 
 			extensionsData.forEach((extSkuObj) => {
-				console.log(extSkuObj.sku)
 				tableData.setData(
 					yearsGen(extSkuObj.years),
 					unitRangeGen(extSkuObj.units_from, extSkuObj.units_to, unitName),
