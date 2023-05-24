@@ -66,53 +66,6 @@ function findExtensions(searchKeys, extensions, years, numUnitsForPriceBand, min
 }
 
 /**
- * OBSOLETE FUNCTION NO LONGER CALLED, DELETE ONCE HAPPY filterYearMatches IS WORKING
- * Helper function for processConfigurationUnit.
- * Returns the sku of first product it encounters (searching from the end of the passed array) which has a user band that matches the passed number.
- * @param {object[]} sortedProductsOfCorrectYear - An array of products, where we want to find the one which is for the correct user band
- * @param {number} numUnitsForPriceBand - The number of users, from which to find the user band.
- * @param {Number|null} minUnitsOverride - Can be passed to override the lowe bound on user tier requirements - as long as the configured users is at least this many, use the lowest tier, even if it says it needs more. (Used when you can add a lower number of users than the min amount)
- * @returns {object|boolean} - The found product, or false if none was found.
- */
-function findProductWithCorrectUserBand(sortedProductsOfCorrectYear, numUnitsForPriceBand, minUnitsOverride) {
-	// We are relying on sortedProducts being passed in already sorted by low to high user tiers.
-
-	let fallbackLowUserTier = null
-
-	for (let i = sortedProductsOfCorrectYear.length - 1; i >= 0; i--) {
-		const product = sortedProductsOfCorrectYear[i]
-		if (
-			minUnitsOverride !== null &&
-			(fallbackLowUserTier === null || product.units_from < fallbackLowUserTier.units_from)
-		) {
-			fallbackLowUserTier = product
-		}
-
-		let unitsFrom
-		if (Number.isInteger(product.units_from) && product.units_from > 0) {
-			unitsFrom = product.units_from
-		} else {
-			unitsFrom = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MIN_UNITS, 10)
-		}
-
-		let unitsTo
-		if (Number.isInteger(product.units_to) && product.units_to > 0) {
-			unitsTo = product.units_to
-		} else {
-			unitsTo = parseInt(process.env.NEXT_PUBLIC_DEFAULT_MAX_UNITS, 10)
-		}
-		if (unitsFrom <= numUnitsForPriceBand && numUnitsForPriceBand <= unitsTo) {
-			return product
-		}
-
-		if (fallbackLowUserTier !== null) {
-			return fallbackLowUserTier
-		}
-	}
-	return false
-}
-
-/**
  * @function
  * Calculates the price and generates the skus needed for a given set of configurator options, based on the skus passed in.
  * Main logic function for processConfiguration - handles PricingType.SUB
@@ -271,7 +224,7 @@ function processConfigurationSub(productName, products, extensions, formData, un
  * @function
  *
  */
-function processConfigurationHardSub(productName, appliances, unlimitedUsers, shipping, formData, unitName) {
+function processConfigurationHardSub(productName, appliances, unlimitedUsers, formData) {
 	const result = new ProductConfiguration(PricingType.HARDSUB, formData.hsType)
 
 	let price = 0
@@ -389,14 +342,7 @@ function processConfiguration(productData, formData) {
 			)
 		}
 		case PricingType.HARDSUB: {
-			return processConfigurationHardSub(
-				productData.name,
-				productData.appliances,
-				productData.unlimitedUsers,
-				productData.shipping,
-				formData,
-				productData.unitName
-			)
+			return processConfigurationHardSub(productData.name, productData.appliances, productData.unlimitedUsers, formData)
 		}
 		default:
 			throw new Error(`Unknown pricingType: ${productData.pricingType}`)
