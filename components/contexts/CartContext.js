@@ -12,6 +12,8 @@ const cartReducer = (state, action) => {
 			return [...state, action.item]
 		case CartActions.REMOVE_ITEM:
 			return state.filter((item) => item.id !== action.id)
+		case CartActions.UPDATE_ITEM:
+			return state.map((item) => (item.id === action.id ? { ...item, ...action.updates } : item))
 		case CartActions.CLEAR_CART:
 			return []
 		default:
@@ -55,6 +57,10 @@ const CartProvider = ({ children }) => {
 		dispatch({ type: CartActions.REMOVE_ITEM, id })
 	}
 
+	const updateItem = (id, updates) => {
+		dispatch({ type: CartActions.UPDATE_ITEM, id, updates })
+	}
+
 	const clearCart = () => {
 		dispatch({ type: CartActions.CLEAR_CART })
 	}
@@ -73,7 +79,17 @@ const CartProvider = ({ children }) => {
 
 	return (
 		<CartContext.Provider
-			value={{ cart, isCartLoading, addToCart, removeFromCart, clearCart, getItem, getTotalItems, getTotalPrice }}>
+			value={{
+				cart,
+				isCartLoading,
+				addToCart,
+				removeFromCart,
+				updateItem,
+				clearCart,
+				getItem,
+				getTotalItems,
+				getTotalPrice,
+			}}>
 			{children}
 		</CartContext.Provider>
 	)
