@@ -30,6 +30,7 @@
 
 .cartContainer .cartItems button {
 	padding: 0.1em 0.3em;
+	margin-right: 1em;
 	height: initial;
 	color: rgb(172, 111, 111);
 }
