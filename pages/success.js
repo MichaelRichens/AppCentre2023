@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CartContext } from './components/contexts/CartContext'
+import { CartContext } from '../components/contexts/CartContext'
 import Page from '../components/Page'
 
 const OrderSuccess = () => {
