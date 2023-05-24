@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useContext, useMemo } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
-import { useShoppingCart } from 'use-shopping-cart'
+import { CartContext } from '../contexts/CartContext'
 import useFormData from '../hooks/useFormData'
 import ProductOptionSelect from './ProductOptionSelect'
 import ConfiguratorHardSub from './ConfiguratorHardSub'
@@ -69,7 +69,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 
 	const [formData, updateFormData, suppressAriaLivePriceUpdate] = useFormData(savedData)
 
-	const { addItem } = useShoppingCart()
+	const { addToCart } = useContext(CartContext)
 
 	const [addingToCart, setAddingToCart] = useState(false)
 
@@ -87,7 +87,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 		productDataArray[formData.optionIndex].productOption,
 		unitName,
 		formData,
-		addItem,
+		addToCart,
 		setAddingToCart
 	)
 

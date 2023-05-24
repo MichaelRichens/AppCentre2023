@@ -1,15 +1,15 @@
-import React from 'react'
-import { useShoppingCart } from 'use-shopping-cart'
+import React, { useContext } from 'react'
+import { CartContext } from './contexts/CartContext'
 import { Tooltip } from 'react-tooltip'
 import CheckoutButton from './CheckoutButton'
 import { formatPriceFromPennies } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
-	const { cartDetails, totalPrice, removeItem } = useShoppingCart()
+	const { cart, removeFromCart, getTotalPrice } = useContext(CartContext)
 
 	const handleRemoveItem = (id) => {
-		removeItem(id)
+		removeFromCart(id)
 	}
 	return (
 		<form className={styles.cartContainer}>
@@ -17,25 +17,18 @@ const CartDisplay = () => {
 			<fieldset className={styles.cartItems}>
 				<legend>Items</legend>
 				<ul>
-					{Object.keys(cartDetails).map((itemID) => {
-						const item = cartDetails[itemID]
+					{cart.map((item) => {
 						return (
-							<li key={itemID}>
+							<li key={item.id}>
 								<button
-									onClick={() => handleRemoveItem(itemID)}
-									aria-label='Delete Item'
-									data-tooltip-id={`remove-item-${itemID}`}
-									data-tooltip-content='Delete Item'>
+									onClick={() => handleRemoveItem(item.id)}
+									aria-label='Remove Item'
+									data-tooltip-id={`remove-item-${item.id}`}
+									data-tooltip-content='Remove Item'>
 									X
 								</button>
-								<Tooltip id={`remove-item-${itemID}`} />
-								{` ${item.quantity > 1 ? item.quantity + ' x ' : ''}${item.name} - ${formatPriceFromPennies(
-									item.price
-								)}${
-									item.quantity > 1
-										? ' per unit = ' + formatPriceFromPennies(item.price * item.quantity) + ' total'
-										: ''
-								}`}
+								<Tooltip id={`remove-item-${item.id}`} />
+								{`${item.name} - ${formatPriceFromPennies(item.price)}`}
 							</li>
 						)
 					})}
@@ -43,7 +36,7 @@ const CartDisplay = () => {
 			</fieldset>
 			<fieldset>
 				<legend>Total</legend>
-				<p>Total: {formatPriceFromPennies(totalPrice)}</p>
+				<p>Total: {formatPriceFromPennies(getTotalPrice())}</p>
 				<CheckoutButton />
 			</fieldset>
 		</form>

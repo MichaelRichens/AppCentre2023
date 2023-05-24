@@ -16,8 +16,7 @@ export const formatPriceFromPounds = (price) => {
  * Takes a price value in pennies, converts it to pounds by dividing by 100,
  * then formats the result as a string in GBP currency and adds ' + vat' at the end.
  *
- * This function is designed for compatibility with Stripe and use-shopping-cart,
- * both of which represent currency amounts in the smallest currency unit (e.g., pennies for GBP).
+ * This function is designed for compatibility with Stripe, which represents currency amounts in the smallest currency unit (e.g., pennies for GBP).
  *
  * @param {number} priceInPennies - The price in pennies.
  * @returns {string} The formatted price string with ' + vat' appended.

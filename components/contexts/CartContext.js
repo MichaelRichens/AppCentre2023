@@ -1,6 +1,9 @@
-import React, { createContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer, useEffect, useState } from 'react'
 import CartActions from '../../utils/types/enums/CartActions'
 
+/**
+ * @warning ALL PRICES ARE STORED IN PENNIES, NOT POUNDS
+ */
 const CartContext = createContext()
 
 const cartReducer = (state, action) => {
@@ -16,15 +19,33 @@ const cartReducer = (state, action) => {
 	}
 }
 
+/**
+ * @warning ALL PRICES ARE STORED IN PENNIES, NOT POUNDS
+ */
 const CartProvider = ({ children }) => {
+	const [isLoading, setIsLoading] = useState(true)
+
 	const [cart, dispatch] = useReducer(cartReducer, [], () => {
-		const localData = localStorage.getItem(process.env.NEXT_PUBLIC_CART_LOCALSTORAGE_KEY)
-		return localData ? JSON.parse(localData) : []
+		// Check if code is running on the client-side
+		if (typeof window !== 'undefined') {
+			const localData = localStorage.getItem(process.env.NEXT_PUBLIC_CART_LOCALSTORAGE_KEY)
+			return localData ? JSON.parse(localData) : []
+		}
+		// Default state for server-side rendering
+		return []
 	})
 
 	useEffect(() => {
-		localStorage.setItem(process.env.NEXT_PUBLIC_CART_LOCALSTORAGE_KEY, JSON.stringify(cart))
+		// Check if code is running on the client-side
+		if (typeof window !== 'undefined') {
+			localStorage.setItem(process.env.NEXT_PUBLIC_CART_LOCALSTORAGE_KEY, JSON.stringify(cart))
+		}
+		setIsLoading(false)
 	}, [cart])
+
+	const isCartLoading = () => {
+		return isLoading
+	}
 
 	const addToCart = (item) => {
 		dispatch({ type: CartActions.ADD_ITEM, item })
@@ -51,7 +72,8 @@ const CartProvider = ({ children }) => {
 	}
 
 	return (
-		<CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, getItem, getTotalItems, getTotalPrice }}>
+		<CartContext.Provider
+			value={{ cart, isCartLoading, addToCart, removeFromCart, clearCart, getItem, getTotalItems, getTotalPrice }}>
 			{children}
 		</CartContext.Provider>
 	)

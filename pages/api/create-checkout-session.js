@@ -6,6 +6,9 @@ export default async (req, res) => {
 		try {
 			const cartFromClientSide = req.body
 
+			console.log(cartFromClientSide)
+			throw new Error('endx')
+
 			if (!cartFromClientSide || !Array.isArray(cartFromClientSide.items)) {
 				console.error('Invalid request body. Expected "items" array.')
 				return res.status(400).json({ message: "Invalid request body. Expected 'items' array." })

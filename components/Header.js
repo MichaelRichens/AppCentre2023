@@ -1,18 +1,16 @@
-import React, { useRef } from 'react'
+import React, { useContext, useRef } from 'react'
 import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
-import useAllowCartStatus from './hooks/useAllowCartStatus'
 import HeaderCartMenu from './HeaderCartMenu'
 import NavLink from './NavLink'
 import ProductDropdown from './ProductDropdown'
 import CheckoutButton from './CheckoutButton'
-import { useShoppingCart } from 'use-shopping-cart'
+import { CartContext } from './contexts/CartContext'
 import headerStyles from '../styles/Header.shared.module.css'
 
 const Header = () => {
 	const productUlRef = useRef(null)
 	const productNavIsMultiRow = useIsAtLeastTwiceChildHeight(productUlRef)
-	const { cartCount } = useShoppingCart()
-	const showCartWidget = useAllowCartStatus()
+	const { isCartLoading, getTotalItems } = useContext(CartContext)
 
 	return (
 		<header className={headerStyles.header}>
@@ -30,11 +28,11 @@ const Header = () => {
 									About Us
 								</NavLink>
 							</li>
-							{showCartWidget && cartCount > 0 && (
-								<li className={headerStyles.pushRight}>
-									<CheckoutButton />
-								</li>
-							)}
+							<li
+								style={{ display: isCartLoading() || !getTotalItems() ? 'none' : 'block' }}
+								className={headerStyles.pushRight}>
+								<CheckoutButton />
+							</li>
 						</ul>
 					</nav>
 

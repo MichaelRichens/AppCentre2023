@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import InfoTooltip from './InfoTooltip'
 import generateUniqueId from '../utils/generateUniqueId'
 
@@ -21,7 +21,11 @@ import styles from '../styles/SimpleInputNumber.module.css'
  * @param {string|boolean} props.error - The error message, or false if there is no error.
  */
 const SimpleInputNumber = ({ label, min, max, step, value, onChange, onBlur, error, ariaDescribedBy, toolTip }) => {
-	const inputId = generateUniqueId('numId')
+	const [inputId, setInputId] = useState(undefined)
+
+	useEffect(() => {
+		setInputId(generateUniqueId('numId'))
+	}, [])
 
 	return (
 		<div className={styles.container}>

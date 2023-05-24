@@ -80,8 +80,9 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 
 		tables = (
 			<>
-				{extensionTables.map((extensionTable) => (
+				{extensionTables.map((extensionTable, index) => (
 					<SimpleTable
+						key={index}
 						tableData={extensionTable.tableData}
 						caption={`Per ${unitName.singularC} Pricing for ${extensionTable.name} Extension`}
 						className={`${priceTableStyles.priceTable} ${priceTableStyles.extensionSubscription}`}

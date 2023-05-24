@@ -31,8 +31,7 @@
 		"react-router-dom": "^6.11.1",
 		"react-tooltip": "^5.11.2",
 		"smartquotes": "^2.3.2",
-		"stripe": "^12.4.0",
-		"use-shopping-cart": "^3.1.7"
+		"stripe": "^12.4.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.21.8",

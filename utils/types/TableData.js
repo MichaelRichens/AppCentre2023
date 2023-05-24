@@ -98,7 +98,7 @@ class TableData {
 								if (cellData === undefined) {
 									throw new Error(`Data is missing for row: ${row}, column: ${col}.`)
 								}
-								return <td key={colIndex}>{cellData}</td>
+								return <td key={`${rowIndex}-${colIndex}`}>{cellData}</td>
 							})}
 						</tr>
 					))}

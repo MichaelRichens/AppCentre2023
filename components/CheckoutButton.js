@@ -1,12 +1,8 @@
-import React from 'react'
-import { useShoppingCart, formatCurrencyString } from 'use-shopping-cart'
-import { loadStripe } from '@stripe/stripe-js'
-
-// load the Stripe object
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
+import React, { useContext } from 'react'
+import { CartContext } from './contexts/CartContext'
 
 const CheckoutButton = () => {
-	const { cartDetails, cartCount, setCartSessionId } = useShoppingCart()
+	const { cart, isCartLoading, getTotalItems } = useContext(CartContext)
 
 	// This function will handle the process of creating a checkout session
 	// by making a request to your server-side route
@@ -17,7 +13,7 @@ const CheckoutButton = () => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ items: Object.values(cartDetails) }), // sending the cart details
+				body: JSON.stringify({ items: cart }), // sending the cart details
 			})
 
 			if (!response.ok) {
@@ -37,8 +33,8 @@ const CheckoutButton = () => {
 		const sessionId = await handleCreateCheckoutSession()
 		sessionStorage.setItem('checkoutSessionId', sessionId)
 
-		const stripe = await stripePromise
-		const { error } = await stripe.redirectToCheckout({ sessionId })
+		console.log(sessionId)
+		console.log('TODO: sending customer to stripe goes here...')
 
 		// You can handle any errors from the Stripe checkout redirection here
 		if (error) {
@@ -47,7 +43,7 @@ const CheckoutButton = () => {
 	}
 
 	return (
-		<button type='button' disabled={!cartCount} onClick={handleCheckout}>
+		<button type='button' disabled={!!(isCartLoading() || !getTotalItems())} onClick={handleCheckout}>
 			Checkout
 		</button>
 	)

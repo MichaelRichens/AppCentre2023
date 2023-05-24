@@ -1,5 +1,5 @@
 import React from 'react'
-import { CartProvider } from 'use-shopping-cart'
+import { CartProvider } from '../components/contexts/CartContext'
 import { ConfiguratorProvider } from '../components/contexts/ConfiguratorContext'
 
 import '../styles/font-face.css'

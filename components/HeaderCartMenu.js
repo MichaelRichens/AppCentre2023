@@ -1,21 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import Image from 'next/image'
 import { Tooltip } from 'react-tooltip'
-import { useShoppingCart } from 'use-shopping-cart'
-import useAllowCartStatus from './hooks/useAllowCartStatus'
+import { CartContext } from './contexts/CartContext'
 import CartDisplay from './CartDisplay'
 import headerStyles from '../styles/Header.shared.module.css'
 
 const HeaderCartMenu = () => {
-	const { cartCount } = useShoppingCart()
+	const { cart, getTotalItems } = useContext(CartContext)
+	const [isLoading, setIsLoading] = useState(true)
+	const [itemCount, setItemCount] = useState(0)
+
+	useEffect(() => {
+		if (cart) {
+			setIsLoading(false)
+			setItemCount(getTotalItems())
+		}
+	}, [cart])
+
 	const [isCartVisible, setCartVisible] = useState(false)
 	const cartRef = useRef(null)
 	const cartButtonRef = useRef(null)
 
-	const showCartWidget = useAllowCartStatus()
-
 	const handleCartClick = () => {
-		if (cartCount > 0) {
+		if (getTotalItems() > 0) {
 			setCartVisible(!isCartVisible)
 		}
 	}
@@ -49,14 +56,14 @@ const HeaderCartMenu = () => {
 
 	return (
 		<div className={`popupContainer ${headerStyles.headerCartContainer}`}>
-			{showCartWidget && (
+			{!isLoading ? (
 				<>
 					<button
 						ref={cartButtonRef}
 						className={headerStyles.cartIcon}
 						onClick={handleCartClick}
 						aria-label='Open Cart'
-						disabled={cartCount === 0}
+						disabled={getTotalItems() === 0}
 						data-tooltip-id='open-cart'
 						data-tooltip-content='Click to Open Cart'>
 						<Image
@@ -68,12 +75,14 @@ const HeaderCartMenu = () => {
 						/>
 						<div
 							aria-live='polite'
-							className={`${headerStyles.cartCount} ${cartCount > 0 ? headerStyles.cartFull : headerStyles.cartEmpty}`}>
+							className={`${headerStyles.cartCount} ${
+								getTotalItems() > 0 ? headerStyles.cartFull : headerStyles.cartEmpty
+							}`}>
 							<span className='sr-only'>Quantity in Cart: </span>
-							{cartCount}
+							{getTotalItems()}
 						</div>
 					</button>
-					{!isCartVisible && cartCount > 0 && <Tooltip id='open-cart' />}
+					{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}
 					{isCartVisible && (
 						<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
 							<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
@@ -85,7 +94,7 @@ const HeaderCartMenu = () => {
 						</div>
 					)}
 				</>
-			)}
+			) : null}
 		</div>
 	)
 }
