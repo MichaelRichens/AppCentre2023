@@ -9,7 +9,7 @@ import { formatPriceFromPennies } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
-	const { cart, removeFromCart, getTotalPrice } = useContext(CartContext)
+	const { cart, getItem, removeFromCart, getTotalPrice } = useContext(CartContext)
 	const [licenceKeyLiveUpdate, setLicenceKeyLiveUpdate] = useState({})
 
 	useEffect(() => {
@@ -35,7 +35,15 @@ const CartDisplay = () => {
 		}
 	}
 
-	console.log(cart)
+	const createLicenceKeyOnBlurHandler = (itemId) => {
+		return () => {
+			const newLicence = licenceKeyLiveUpdate?.[itemId] || ''
+			if (newLicence || getItem(itemId)?.licenceKey.length) {
+				// A new licence string has been provided, or one already existed so we want to overwrite even if the new one is empty (to delete it)
+				console.log(newLicence)
+			}
+		}
+	}
 
 	return (
 		<form className={styles.cartContainer}>
@@ -53,7 +61,8 @@ const CartDisplay = () => {
 								(item.purchaseType === PurchaseType.SPARE ||
 									item.purchaseType === PurchaseType.SUB ||
 									item.purchaseType === PurchaseType.WAREX))
-						const handleLicenceKeyUpdate = createLicenceKeyChangeHandler(item.id)
+						const handleLicenceKeyChange = createLicenceKeyChangeHandler(item.id)
+						const handleLicenceKeyBlur = createLicenceKeyOnBlurHandler(item.id)
 						return (
 							<li key={item.id}>
 								<button
@@ -72,7 +81,12 @@ const CartDisplay = () => {
 											If you have access to it, please input the licence key for the existing subscription this purchase
 											is to be applied to.
 										</InfoTooltip>
-										<input type='text' value={licenceKeyLiveUpdate[item.id]} onChange={handleLicenceKeyUpdate} />
+										<input
+											type='text'
+											value={licenceKeyLiveUpdate[item.id] || ''}
+											onChange={handleLicenceKeyChange}
+											onBlur={handleLicenceKeyBlur}
+										/>
 									</label>
 								)}
 							</li>
