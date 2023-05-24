@@ -123,6 +123,15 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 						label={`${formData.unType !== PurchaseType.EXT ? 'Current ' : ''}${
 							productData.unitName.pluralC
 						} on Subscription`}
+						toolTip={
+							formData.unType === PurchaseType.SUB
+								? `Please enter the number of ${productData.unitName.pluralLC} you currently have on your subscription.`
+								: formData.unType === PurchaseType.ADD
+								? `The total number of ${productData.unitName.pluralLC} on your subscription currently.`
+								: formData.unType === PurchaseType.EXT
+								? `The total number of ${productData.unitName.pluralLC} on your subscription - extensions have to be added for all ${productData.unitName.pluralLC} on the subscription.`
+								: null
+						}
 						min={productData.minUnits}
 						max={productData.maxUnits}
 						step={productData.minUnitsStep}
@@ -140,6 +149,17 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 								: formData.unType === PurchaseType.ADD
 								? `${productData.unitName.pluralC} to Add`
 								: `Adjust Number of ${productData.unitName.pluralC} by`
+						}
+						toolTip={
+							formData.unType === PurchaseType.SUB
+								? `If you want to renew for more or less ${productData.unitName.pluralLC} then your currently have, please enter the adjustment here.`
+								: formData.unType === PurchaseType.NEW
+								? `Please input how many ${productData.unitName.pluralLC} you wish to purchase a subscription for.`
+								: formData.unType === PurchaseType.ADD
+								? `The number of additional ${productData.unitName.pluralLC} you wish to increase your subscription by.`
+								: formData.unType === PurchaseType.EXT
+								? `The total number of ${productData.unitName.pluralLC} on your subscription - extensions have to be added for all ${productData.unitName.pluralLC}.`
+								: null
 						}
 						min={
 							formData.unType === PurchaseType.SUB
