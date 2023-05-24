@@ -18,6 +18,26 @@
 	padding-right: 2em;
 }
 
+.priceTable th[scope='col'] {
+	text-align: center;
+}
+
+.priceTable th[scope='col'],
+.priceTable th[scope='rowgroup'] {
+	font-weight: 600;
+}
+
+.priceTable th[scope='row'] {
+	text-align: left;
+	font-weight: 500;
+}
+
+.priceTable td {
+	text-align: right;
+	padding-right: 0.5em;
+	font-size: 0.9em;
+}
+
 /* Darken the entire first row (thead row) except for the first cell (since that is darkened by the first column rule) */
 .priceTable thead th:not(:first-child) {
 	background-color: rgba(0, 0, 0, 0.2);
@@ -51,28 +71,8 @@
 	border-bottom-right-radius: 10px;
 }
 
-.priceTable th[scope='col'] {
-	text-align: center;
-}
-
-.priceTable td {
-	text-align: right;
-	padding-right: 0.5em;
-	font-size: 0.9em;
-}
-
 .priceTable thead th:first-of-type {
 	text-align: left;
-}
-
-.priceTable th[scope='col'],
-.priceTable th[scope='rowgroup'] {
-	font-weight: 600;
-}
-
-.priceTable th[scope='row'] {
-	text-align: left;
-	font-weight: normal;
 }
 
 .priceTable col.mainSubscription,
