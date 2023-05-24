@@ -37,7 +37,7 @@ const InfoTooltip = ({ children }) => {
 			<span id={srId} className='sr-only'>
 				{children}
 			</span>
-			<Tooltip className={styles.toolTipText} id={tooltipId} />
+			<Tooltip className={styles.tooltipText} id={tooltipId} />
 		</span>
 	)
 }
