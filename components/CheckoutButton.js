@@ -20,9 +20,9 @@ const CheckoutButton = () => {
 				throw new Error(`Server responded with a status of ${response.status}`)
 			}
 
-			const { sessionId } = await response.json()
+			const stripeData = await response.json()
 
-			return sessionId
+			return stripeData
 		} catch (error) {
 			console.error('Failed to create checkout session:', error.message)
 		}
@@ -30,15 +30,11 @@ const CheckoutButton = () => {
 
 	// When the button is clicked, it will trigger the checkout process
 	async function handleCheckout() {
-		const sessionId = await handleCreateCheckoutSession()
-		sessionStorage.setItem('checkoutSessionId', sessionId)
+		const stripeData = await handleCreateCheckoutSession()
+		if (stripeData?.sessionId) {
+			sessionStorage.setItem('checkoutSessionId', stripeData.sessionId)
 
-		console.log(sessionId)
-		console.log('TODO: sending customer to stripe goes here...')
-
-		// You can handle any errors from the Stripe checkout redirection here
-		if (error) {
-			console.warn('Error:', error)
+			window.location.href = stripeData.url
 		}
 	}
 

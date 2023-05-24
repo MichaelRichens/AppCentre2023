@@ -1,3 +1,4 @@
+import Error from 'next/error'
 import { stripe } from '../../server-utils/initStripe'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 
@@ -5,9 +6,6 @@ export default async (req, res) => {
 	if (req.method === 'POST') {
 		try {
 			const cartFromClientSide = req.body
-
-			console.log(cartFromClientSide)
-			throw new Error('endx')
 
 			if (!cartFromClientSide || !Array.isArray(cartFromClientSide.items)) {
 				console.error('Invalid request body. Expected "items" array.')
@@ -56,12 +54,8 @@ export default async (req, res) => {
 
 				const priceInPence = Math.round(configuration.price * 100)
 
-				// untrusted data from the client, just using it for the cart quantity
-				const cartItem = cartFromClientSide.items.find((item) => item.id === id)
-				if (!cartItem || typeof cartItem.quantity !== 'number' || cartItem.quantity < 1) {
-					throw new Error(`Invalid quantity for cart item with ID ${id}`)
-				}
-				const quantity = cartItem.quantity
+				// not using quantities at present - cart doesn't even have the concept
+				const quantity = 1
 
 				const metadata = {
 					internalId: id,
@@ -129,7 +123,7 @@ export default async (req, res) => {
 			}
 
 			// Return the session ID
-			res.status(200).json({ sessionId: session.id })
+			res.status(200).json({ sessionId: session.id, url: session.url })
 		} catch (error) {
 			console.error(error)
 			return res.status(500).json({ statusCode: 500, message: error.message })
