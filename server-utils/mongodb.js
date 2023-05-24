@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 
 let cachedDb
 let client
@@ -39,4 +39,43 @@ async function getClient() {
 	})
 }
 
-export { connectToDatabase }
+async function asyncUpdateRecord(collectionName, id, updatedProperties) {
+	if (!id) {
+		throw new Error('Id cannot be empty, null, or undefined.')
+	}
+
+	if (typeof id !== 'string') {
+		throw new Error('Id must be a string.')
+	}
+
+	const _id = new ObjectId(id)
+	if (updatedProperties.id && updatedProperties.id !== id) {
+		throw new Error('Mismatch between id in updatedProperties and passed id.')
+	}
+
+	if (updatedProperties._id && updatedProperties._id !== id) {
+		throw new Error('Mismatch between _id in updatedProperties and passed id.')
+	}
+
+	try {
+		const db = await connectToDatabase()
+		const collection = db.collection(collectionName)
+
+		const result = await collection.updateOne({ _id }, { $set: updatedProperties })
+
+		if (result.matchedCount === 0) {
+			throw new Error(`No document found with id: ${id}`)
+		}
+
+		if (result.modifiedCount !== 1) {
+			throw new Error(`Unable to update document with id: ${id}`)
+		}
+
+		return result
+	} catch (error) {
+		console.error('Error updating record:', error)
+		throw error
+	}
+}
+
+export { connectToDatabase, asyncUpdateRecord }
