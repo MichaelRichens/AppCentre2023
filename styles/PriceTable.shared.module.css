@@ -3,6 +3,7 @@
 	max-width: 60em;
 	margin-left: auto;
 	margin-right: auto;
+	border-radius: 10px;
 }
 
 .priceTable th,
@@ -30,13 +31,6 @@
 	mix-blend-mode: multiply;
 }
 
-/* Add border-radius to the table */
-.priceTable {
-	border-collapse: separate;
-	border-radius: 10px;
-	overflow: hidden;
-}
-
 /* Add border-radius to the top-left cell */
 .priceTable thead th:first-child {
 	border-top-left-radius: 10px;
@@ -58,7 +52,7 @@
 }
 
 .priceTable th[scope='col'] {
-	text-align: right;
+	text-align: center;
 }
 
 .priceTable td {
@@ -78,7 +72,6 @@
 
 .priceTable th[scope='row'] {
 	text-align: left;
-	padding-left: 3em;
 	font-weight: normal;
 }
 
@@ -105,9 +98,6 @@ tbody.hardwarePurchase {
 		padding-left: 1em;
 		padding-right: 1em;
 	}
-	.priceTable th[scope='col'] {
-		text-align: center;
-	}
 }
 
 @media (max-width: 850px) {
@@ -130,7 +120,8 @@ tbody.hardwarePurchase {
 }
 
 @media (max-width: 700px) {
-	.priceTable th {
+	.priceTable th,
+	.priceTable td {
 		padding-left: 0.5em;
 		padding-right: 0.5em;
 	}
@@ -143,5 +134,16 @@ tbody.hardwarePurchase {
 
 	.priceTable caption {
 		font-size: 125%;
+	}
+
+	.priceTable td {
+		padding-left: 0.1em;
+		padding-right: 0.1em;
+	}
+}
+
+@media (max-width: 500px) {
+	.priceTable th {
+		font-size: 90%;
 	}
 }
