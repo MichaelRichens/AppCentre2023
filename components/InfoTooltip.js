@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
 import generateUniqueId from '../utils/generateUniqueId'
 import styles from '../styles/InfoTooltip.module.css'
@@ -15,14 +16,20 @@ import styles from '../styles/InfoTooltip.module.css'
  * @returns {JSX.Element} The rendered InfoTooltip component.
  */
 const InfoTooltip = ({ children }) => {
-	const id = generateUniqueId('tooltip')
-	const srId = generateUniqueId('sr')
+	const [tooltipId, setTooltipId] = useState(undefined)
+	const [srId, setSrId] = useState(undefined)
+
+	useEffect(() => {
+		setTooltipId(generateUniqueId('tooltip'))
+		setSrId(generateUniqueId('sr'))
+	}, [])
+
 	return (
 		<span className={styles.infoTooltipContainer}>
 			<img
 				className={styles.icon}
 				src='/images/icons/question_mark50x50.png'
-				data-tooltip-id={id}
+				data-tooltip-id={tooltipId}
 				data-tooltip-content={children}
 				alt='Info'
 				aria-describedby={srId}
@@ -30,7 +37,7 @@ const InfoTooltip = ({ children }) => {
 			<span id={srId} className='sr-only'>
 				{children}
 			</span>
-			<Tooltip className={styles.toolTipText} id={id} />
+			<Tooltip className={styles.toolTipText} id={tooltipId} />
 		</span>
 	)
 }
