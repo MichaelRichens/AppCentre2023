@@ -1,5 +1,6 @@
 .infoTooltipContainer {
 	position: relative;
+	text-align: left;
 }
 
 .infoTooltipContainer .icon {

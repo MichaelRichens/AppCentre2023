@@ -34,3 +34,15 @@
 	height: initial;
 	color: rgb(172, 111, 111);
 }
+
+.licenceWrapper {
+	width: 100%;
+	display: block;
+	text-align: right;
+	margin-top: 0.5em;
+}
+
+.licenceWrapper input {
+	margin-left: 1em;
+	width: 20em;
+}
