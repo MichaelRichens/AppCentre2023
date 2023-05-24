@@ -25,6 +25,7 @@ const LanGuard = (props) => {
 		<ProductInfoPage
 			title='GFI LanGuard'
 			subHeading='Comprehensive Network Security and Patch Management'
+			logoSrc='images/logos/gfi-languard-logo.svg'
 			productDataArray={productDataArray}>
 			<section>
 				<p>

@@ -66,6 +66,10 @@
 	margin-left: -1em;
 }
 
+.cleanList h3 + p {
+	margin-block-start: 0;
+}
+
 .trialLink {
 	font-weight: 600;
 	font-size: 1.2em;

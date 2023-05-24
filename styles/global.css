@@ -289,20 +289,21 @@ form .formError {
 	justify-self: center;
 }
 
+.titleWrapper img {
+	max-height: 3em;
+	max-width: 20vw;
+}
+
 .titleWrapper img:first-child {
-	max-height: 80px;
-	max-width: 300px;
 	grid-column: 1;
 	justify-self: start;
-	margin-right: 1em;
+	margin-right: 3em;
 }
 
 .titleWrapper img:last-child {
-	max-height: 80px;
-	max-width: 300px;
 	grid-column: 3;
 	justify-self: end;
-	margin-left: 1em;
+	margin-left: 3em;
 }
 
 /*min-width queries*/
@@ -369,12 +370,14 @@ form .formError {
 		margin-right: 0.5em;
 	}
 
-	.titleWrapper > img {
-		display: none;
-	}
-
 	ul {
 		padding-inline-start: 1.5em;
+	}
+}
+
+@media (max-width: 600px) {
+	.titleWrapper > img {
+		display: none;
 	}
 }
 
