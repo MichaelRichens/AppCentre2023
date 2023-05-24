@@ -31,7 +31,6 @@ const MailEssentials = (props) => {
 			subHeading='Your Ultimate Email Security Solution'
 			logoSrc='images/logos/gfi-mailessentials-logo.svg'
 			productDataArray={productDataArray}>
-			<h1>GFI MailEssentials - Your Ultimate Email Security Solution</h1>
 			<section>
 				<p>
 					GFI MailEssentials is a comprehensive and robust email security solution designed to protect your business

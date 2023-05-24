@@ -3,7 +3,7 @@
 }
 
 .applianceTable col.software {
-	background-color: rgb(236, 217, 217);
+	background-color: rgb(224, 236, 217);
 }
 
 /* Counteracting the zebra stripe style on .pricingTable that is also being applied */
