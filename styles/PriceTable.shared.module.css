@@ -88,6 +88,19 @@
 	font-weight: normal;
 }
 
+.priceTable .hardware {
+	background-color: rgb(223, 234, 240);
+}
+
+.priceTable col.mainSubscription,
+table.mainSubscription td {
+	background-color: rgb(224, 236, 217);
+}
+
+.priceTable col.extensionSubscription {
+	background-color: rgb(236, 224, 217);
+}
+
 @media (max-width: 1000px) {
 	.priceTable th {
 		padding-left: 1em;

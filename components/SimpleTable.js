@@ -23,7 +23,7 @@ const SimpleTable = ({ tableData, caption, className, ariaLabelledby }) => {
 
 	return (
 		<table
-			className={className ? className : undefined}
+			className={className}
 			aria-labelledby={ariaLabelledby ? ariaLabelledby : undefined}
 			aria-describedby={caption ? 'pricingCaption' : undefined}>
 			{caption && <caption id={captionId}>{caption}</caption>}

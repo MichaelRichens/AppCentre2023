@@ -38,7 +38,7 @@ const PriceTableWithUnits = ({ productName, products, unitName }) => {
 		<SimpleTable
 			tableData={tableData}
 			caption={`Per ${unitName.singularC} Pricing for ${productName}`}
-			className={priceTableStyles.priceTable}
+			className={`${priceTableStyles.priceTable} ${priceTableStyles.mainSubscription}`}
 			ariaLabelledby={'pricingHeading'}
 		/>
 	)

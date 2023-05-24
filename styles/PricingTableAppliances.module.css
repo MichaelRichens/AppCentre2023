@@ -1,11 +1,3 @@
-.applianceTable col.hardware {
-	background-color: rgb(223, 234, 240);
-}
-
-.applianceTable col.software {
-	background-color: rgb(224, 236, 217);
-}
-
 /* Counteracting the zebra stripe style on .pricingTable that is also being applied */
 .applianceTable tbody tr:nth-child(even) td:not(:first-child) {
 	background-color: initial;
