@@ -51,11 +51,9 @@ export class ProductConfiguration {
 		}
 		switch (this.pricingType) {
 			case PricingType.UNIT:
-				return `${this.licence.length > 0 ? this.licence + ' :' : ''}${this.summary.product}${
-					this.summary.extensions ? ' ' + this.summary.extensions : ''
-				}`
+				return `${this.summary.product}${this.summary.extensions ? ' ' + this.summary.extensions : ''}`
 			default:
-				return (this.licence.length > 0 ? this.licence + ' :' : '') + this.summary.product
+				return this.summary.product
 		}
 	}
 }

@@ -48,7 +48,6 @@ async function asyncUpdateRecord(collectionName, id, updatedProperties) {
 		throw new Error('Id must be a string.')
 	}
 
-	const _id = new ObjectId(id)
 	if (updatedProperties.id && updatedProperties.id !== id) {
 		throw new Error('Mismatch between id in updatedProperties and passed id.')
 	}
@@ -61,7 +60,7 @@ async function asyncUpdateRecord(collectionName, id, updatedProperties) {
 		const db = await connectToDatabase()
 		const collection = db.collection(collectionName)
 
-		const result = await collection.updateOne({ _id }, { $set: updatedProperties })
+		const result = await collection.updateOne({ _id: id }, { $set: updatedProperties })
 
 		if (result.matchedCount === 0) {
 			throw new Error(`No document found with id: ${id}`)

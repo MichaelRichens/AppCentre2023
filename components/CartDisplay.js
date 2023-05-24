@@ -9,38 +9,52 @@ import { formatPriceFromPennies } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
-	const { cart, getItem, removeFromCart, getTotalPrice } = useContext(CartContext)
-	const [licenceKeyLiveUpdate, setLicenceKeyLiveUpdate] = useState({})
+	const { cart, getItem, removeFromCart, updateItem, getTotalPrice } = useContext(CartContext)
+	const [licenceLiveUpdate, setLicenceLiveUpdate] = useState({})
 
 	useEffect(() => {
-		const newLicenceKeyLiveUpdate = { ...licenceKeyLiveUpdate }
+		const newLicenceLiveUpdate = { ...licenceLiveUpdate }
 		cart.forEach((item) => {
-			if (item.licenceKey) {
-				newLicenceKeyLiveUpdate[item.id] = item.licenceKey
+			if (item.licence) {
+				newLicenceLiveUpdate[item.id] = item.licence
 			}
 		})
-		setLicenceKeyLiveUpdate(newLicenceKeyLiveUpdate)
+		setLicenceLiveUpdate(newLicenceLiveUpdate)
 	}, [cart])
 
 	const handleRemoveItem = (id) => {
 		removeFromCart(id)
 	}
 
-	const createLicenceKeyChangeHandler = (itemId) => {
+	const createLicenceChangeHandler = (itemId) => {
 		return (event) => {
-			setLicenceKeyLiveUpdate((prevState) => ({
+			setLicenceLiveUpdate((prevState) => ({
 				...prevState,
 				[itemId]: event.target.value,
 			}))
 		}
 	}
 
-	const createLicenceKeyOnBlurHandler = (itemId) => {
-		return () => {
-			const newLicence = licenceKeyLiveUpdate?.[itemId] || ''
-			if (newLicence || getItem(itemId)?.licenceKey?.length) {
+	const createLicenceOnBlurHandler = (itemId) => {
+		return async () => {
+			const newLicence = licenceLiveUpdate?.[itemId] || ''
+			if (newLicence || getItem(itemId)?.licence?.length) {
 				// A new licence string has been provided, or one already existed so we want to overwrite even if the new one is empty (to delete it)
-				console.log(newLicence)
+				try {
+					const response = await fetch('/api/update-configuration-licence', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ id: itemId, licence: newLicence }),
+					})
+					console.log('newLicence:', newLicence)
+					const data = await response.json()
+					updateItem(itemId, { licence: newLicence })
+					console.log('API response:', data)
+				} catch (error) {
+					console.error('Error calling API:', error)
+				}
 			}
 		}
 	}
@@ -63,6 +77,8 @@ const CartDisplay = () => {
 									item.purchaseType === PurchaseType.SUB ||
 									item.purchaseType === PurchaseType.WAREX))
 
+						let displayName = item.name + (item?.licence ? ` (${item.licence})` : '')
+
 						return (
 							<li key={item.id}>
 								<button
@@ -73,7 +89,7 @@ const CartDisplay = () => {
 									X
 								</button>
 								<Tooltip id={`remove-item-${item.id}`} />
-								{`${item.name} - ${formatPriceFromPennies(item.price)}`}
+								{`${displayName} - ${formatPriceFromPennies(item.price)}`}
 								{isExistingLicence && (
 									<label className={styles.licenceWrapper}>
 										Existing licence key:{' '}
@@ -84,9 +100,9 @@ const CartDisplay = () => {
 										</InfoTooltip>
 										<input
 											type='text'
-											value={licenceKeyLiveUpdate[item.id] || ''}
-											onChange={createLicenceKeyChangeHandler(item.id)}
-											onBlur={createLicenceKeyOnBlurHandler(item.id)}
+											value={licenceLiveUpdate[item.id] || ''}
+											onChange={createLicenceChangeHandler(item.id)}
+											onBlur={createLicenceOnBlurHandler(item.id)}
 										/>
 									</label>
 								)}
