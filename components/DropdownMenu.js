@@ -79,13 +79,13 @@ const DropdownMenu = ({ title, linkData, className, navIsSingleRow }) => {
 				}
 			}}
 			onBlur={handleBlur}
-			onKeyDown={handleKeyDown}
-			aria-haspopup='true'
-			aria-expanded={showDropdown}>
+			onKeyDown={handleKeyDown}>
 			<button
 				className={`${styles.menuTitle} ${isFixedOpen ? linkData[0].currentPageStyle : ''} ${
 					showDropdown ? styles.menuTitleOpen : ''
-				}`}>
+				}`}
+				aria-haspopup='true'
+				aria-expanded={showDropdown}>
 				<Image src='/images/icons/white-triangle-right100x100.png' height='10' width='10' alt='' loading='eager' />
 				{title}
 			</button>

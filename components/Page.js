@@ -23,6 +23,7 @@ const Page = ({ title, subHeading, logoSrc, mainClassName, children }) => {
 	return (
 		<>
 			<Head>
+				<title>{`AppCentre: ${title}`}</title>
 				<link rel='apple-touch-icon' sizes='180x180' href='/images/icons/favicons/apple-touch-icon.png' />
 				<link rel='icon' type='image/png' sizes='32x32' href='/images/icons/favicons/favicon-32x32.png' />
 				<link rel='icon' type='image/png' sizes='16x16' href='/images/icons/favicons/favicon-16x16.png' />
