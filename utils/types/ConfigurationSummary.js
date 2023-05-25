@@ -14,7 +14,7 @@ import { formatPriceFromPounds } from '../formatPrice'
  * @property {PurchaseType} type - The type of purchase being made, new subscription, additional users, etc.
  * @property {string} price - The total price, formatted for display to the user. Input as a number in pounds, and converted to string format.
  */
-class ConfigurationSummary {
+export class ConfigurationSummary {
 	constructor(productName = null, type = null, price = null) {
 		// Return empty, object - required by the fromProperties static method
 		if (productName === null && type === null && price === null) {

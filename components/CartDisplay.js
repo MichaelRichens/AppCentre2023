@@ -5,7 +5,7 @@ import CheckoutButton from './CheckoutButton'
 import InfoTooltip from './InfoTooltip'
 import PricingType from '../utils/types/enums/PricingType'
 import PurchaseType from '../utils/types/enums/PurchaseType'
-import { formatPriceFromPennies } from '../utils/formatPrice'
+import { formatPriceFromPounds } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
@@ -176,7 +176,7 @@ const CartDisplay = () => {
 									X
 								</button>
 								<Tooltip id={`remove-item-${item.id}`} />
-								{`${displayName} - ${formatPriceFromPennies(item.price)}`}
+								{`${displayName} - ${formatPriceFromPounds(item.price)}`}
 								{isExistingLicence && (
 									<label className={styles.licenceWrapper}>
 										Existing licence key:{' '}
@@ -209,7 +209,7 @@ const CartDisplay = () => {
 			</small>
 			<fieldset>
 				<legend>Total</legend>
-				<p>Total: {formatPriceFromPennies(getTotalPrice())}</p>
+				<p>Total: {formatPriceFromPounds(getTotalPrice())}</p>
 				<CheckoutButton />
 				<div className={styles.configSave}>
 					<button type='button' disabled={!getTotalItems()} onClick={asyncSaveConfigOnClickHandler}>

@@ -116,7 +116,7 @@ export const createHandleOptionChange = (updateFormData) => (event) => {
 }
 
 export const createAsyncHandleSubmit =
-	(productFamily, productOption, unitName, formData, addItem, setSubmitInProgress) => async (event) => {
+	(productFamily, productOption, unitName, formData, addToCart, setSubmitInProgress) => async (event) => {
 		event.preventDefault()
 
 		setSubmitInProgress(true)
@@ -151,14 +151,12 @@ export const createAsyncHandleSubmit =
 					default:
 						throw new Error(`Unexpected pricingType: ${formData.pricingType}`)
 				}
-				addItem({
+				addToCart({
 					id: result.key,
 					name: result.name,
 					pricingType: formData.pricingType,
 					purchaseType: purchaseType,
 					price: result.price,
-					currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
-					quantity: 1,
 				})
 			}
 		} catch (error) {

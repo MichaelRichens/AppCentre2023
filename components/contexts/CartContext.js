@@ -2,7 +2,6 @@ import React, { createContext, useReducer, useEffect, useState } from 'react'
 import CartActions from '../../utils/types/enums/CartActions'
 
 /**
- * @warning ALL PRICES ARE STORED IN PENNIES, NOT POUNDS
  * Handles the user's cart.
  * Note that once a configuration is added here, it is copied from its ProductConfiguration instance, which is also stored in the configurations database collection, and only the details here are used in generating the cart items.
  * The id is then used, when the order is checked out, to pull info back from the configurations collection to send data to checkout.
@@ -26,7 +25,7 @@ const cartReducer = (state, action) => {
 }
 
 /**
- * @warning ALL PRICES ARE STORED IN PENNIES, NOT POUNDS
+ * @warning
  */
 const CartProvider = ({ children }) => {
 	const [isLoading, setIsLoading] = useState(true)

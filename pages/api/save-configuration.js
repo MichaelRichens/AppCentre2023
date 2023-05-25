@@ -18,8 +18,8 @@ export default async function handler(req, res) {
 				// console.timeEnd('save-configuration await 1')
 
 				configuration = processConfiguration(freshProductData, formData)
-				priceInPennies = Math.round(configuration.price * 100) // Stripe works with the smallest currency unit
-				if (priceInPennies <= 0) {
+				price = Math.round(configuration.price * 100)
+				if (price <= 0) {
 					return res
 						.status(422)
 						.json({ message: 'The passed configuration options do not create a product with a price greater than 0.' })
@@ -37,7 +37,7 @@ export default async function handler(req, res) {
 			return res.status(200).json({
 				key: key,
 				name: configuration.description,
-				price: priceInPennies,
+				price: price,
 			})
 		} else {
 			return res.status(400).json({ message: 'Required data not received.' })

@@ -1,4 +1,4 @@
-import { ProductConfigurationUnit } from './ConfigurationSummary'
+import { ConfigurationSummary, ConfigurationSummaryUnit, ConfigurationSummaryHardSub } from './ConfigurationSummary'
 import PricingType from './enums/PricingType'
 import PurchaseType from './enums/PurchaseType'
 
@@ -32,8 +32,22 @@ export class ProductConfiguration {
 	}
 
 	static fromRawProperties(properties) {
-		const { pricingType, type, _price, skus, summary, isShipping, licence } = properties
+		let { pricingType, type, _price, skus, summary, isShipping, licence } = properties
 
+		if (!(summary instanceof ConfigurationSummary)) {
+			switch (pricingType) {
+				case PricingType.UNIT: {
+					summary = ConfigurationSummaryUnit.fromProperties(summary)
+					break
+				}
+				case PricingType.HARDSUB: {
+					summary = ConfigurationSummaryHardSub.fromProperties(summary)
+					break
+				}
+				default:
+					throw new Error(`Unknown pricingType: ${pricingType}`)
+			}
+		}
 		return new ProductConfiguration(pricingType, type, _price, skus, summary, isShipping, licence)
 	}
 
