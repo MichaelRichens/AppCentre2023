@@ -94,10 +94,13 @@
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
+	min-height: 48px;
+	min-width: 48px;
 }
 
 .headerMainContent a:hover,
-.headerMainContent .infoMenu button:hover {
+.headerMainContent .infoMenu button:hover,
+.headerMainContent .cartMenu button:hover {
 	color: rgb(194, 227, 238);
 }
 
@@ -298,7 +301,8 @@
 }
 
 @media (max-width: 400px) {
-	.headerMainContent .infoMenu {
+	.headerMainContent .infoMenu,
+	.cartMenu {
 		font-size: 14px;
 	}
 	.headerMainContent .productMenu {
