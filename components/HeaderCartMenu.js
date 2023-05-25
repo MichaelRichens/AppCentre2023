@@ -6,16 +6,7 @@ import CartDisplay from './CartDisplay'
 import headerStyles from '../styles/Header.shared.module.css'
 
 const HeaderCartMenu = () => {
-	const { cart, getTotalItems } = useContext(CartContext)
-	const [isLoading, setIsLoading] = useState(true)
-	const [itemCount, setItemCount] = useState(0)
-
-	useEffect(() => {
-		if (cart) {
-			setIsLoading(false)
-			setItemCount(getTotalItems())
-		}
-	}, [cart])
+	const { isCartLoading, getTotalItems } = useContext(CartContext)
 
 	const [isCartVisible, setCartVisible] = useState(false)
 	const cartRef = useRef(null)
@@ -56,39 +47,36 @@ const HeaderCartMenu = () => {
 
 	return (
 		<div className={`popupContainer ${headerStyles.headerCartContainer}`}>
-			{!isLoading ? (
-				<>
-					<button
-						ref={cartButtonRef}
-						className={headerStyles.cartIcon}
-						onClick={handleCartClick}
-						aria-label='Open Cart'
-						disabled={getTotalItems() === 0}
-						data-tooltip-id='open-cart'
-						data-tooltip-content='Click to Open Cart'>
-						<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='Shopping Cart' />
-						<div
-							aria-live='polite'
-							className={`${headerStyles.cartCount} ${
-								getTotalItems() > 0 ? headerStyles.cartFull : headerStyles.cartEmpty
-							}`}>
-							<span className='sr-only'>Quantity in Cart: </span>
-							{getTotalItems()}
-						</div>
+			<button
+				style={{ visibility: isCartLoading() || !getTotalItems() ? 'hidden' : 'visible' }}
+				ref={cartButtonRef}
+				className={headerStyles.cartIcon}
+				onClick={handleCartClick}
+				aria-label='Open Cart'
+				disabled={isCartLoading() || getTotalItems() === 0}
+				data-tooltip-id='open-cart'
+				data-tooltip-content='Click to Open Cart'>
+				<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='Shopping Cart' />
+				<div
+					aria-live='polite'
+					className={`${headerStyles.cartCount} ${
+						!isCartLoading() && getTotalItems() ? headerStyles.cartFull : headerStyles.cartEmpty
+					}`}>
+					<span className='sr-only'>Quantity in Cart: </span>
+					{!isCartLoading() ? getTotalItems() : 0}
+				</div>
+			</button>
+			{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}
+			{isCartVisible && (
+				<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
+					<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
+						X
 					</button>
-					{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}
-					{isCartVisible && (
-						<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
-							<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
-								X
-							</button>
-							<div className={headerStyles.cart}>
-								<CartDisplay />
-							</div>
-						</div>
-					)}
-				</>
-			) : null}
+					<div className={headerStyles.cart}>
+						<CartDisplay />
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }

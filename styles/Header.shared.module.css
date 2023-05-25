@@ -56,6 +56,7 @@
 
 .mainLogo {
 	height: 70px;
+	width: 373px;
 }
 
 .headerMainContent nav {
@@ -232,6 +233,7 @@
 @media (min-width: 1800px) {
 	.mainLogo {
 		height: 100px;
+		width: 533px;
 	}
 
 	.gfiPartnerLogoContainer img {
@@ -287,6 +289,7 @@
 @media (max-width: 475px) {
 	.mainLogo {
 		height: 50px;
+		width: 266px;
 	}
 	.cartWrapper {
 		font-size: 90%;
@@ -312,6 +315,7 @@
 @media (max-width: 350px) {
 	.mainLogo {
 		height: 30px;
+		width: 160px;
 	}
 	.cartWrapper {
 		right: -25px;

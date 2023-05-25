@@ -34,7 +34,7 @@ const Header = () => {
 						<nav
 							className={headerStyles.cartMenu}
 							aria-label='Cart Menu'
-							style={{ display: isCartLoading() || !getTotalItems() ? 'none' : 'inline-block' }}>
+							style={{ visibility: isCartLoading() || !getTotalItems() ? 'hidden' : 'visible' }}>
 							<ul>
 								<li>
 									<NavLink href='/cart' currentPageStyle={headerStyles.currentPageStyle}>
