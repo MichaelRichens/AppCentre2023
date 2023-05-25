@@ -6,7 +6,7 @@ import CartActions from '../../utils/types/enums/CartActions'
  * Handles the user's cart.
  * Note that once a configuration is added here, it is copied from its ProductConfiguration instance, which is also stored in the configurations database collection, and only the details here are used in generating the cart items.
  * The id is then used, when the order is checked out, to pull info back from the configurations collection to send data to checkout.
- * So any updates to items here (eg adding the licence key) have to be manually replicated to the database to have an effect on the product which gets checked out.
+ * So any updates to items here (eg adding the licence key) have to be manually replicated to the database to have an effect on the product which gets checked out (see CartDisplay component for logic doing this).
  */
 const CartContext = createContext()
 

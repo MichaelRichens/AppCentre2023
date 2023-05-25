@@ -52,12 +52,10 @@ const CartDisplay = () => {
 						},
 						body: JSON.stringify({ id: itemId, licence: newLicence }),
 					})
-					console.log('newLicence:', newLicence)
 					const data = await response.json()
 					updateItem(itemId, { licence: newLicence })
-					console.log('API response:', data)
 				} catch (error) {
-					console.error('Error calling API:', error)
+					console.error('Error updating licence.')
 				}
 			}
 		}
