@@ -86,6 +86,7 @@
 }
 
 .headerMainContent li {
+	min-height: 48px;
 	white-space: nowrap;
 }
 
@@ -114,6 +115,7 @@
 
 .headerMainContent .topLinks {
 	white-space: nowrap;
+	padding-right: 2em;
 }
 
 .headerMainContent .topLinks nav {
@@ -125,7 +127,12 @@
 
 .headerMainContent .topLinks ul {
 	column-gap: 2em;
-	width: 50%;
+	row-gap: 0;
+	width: 100%;
+}
+
+.headerMainContent .topLinks li a,
+.headerMainContent .topLinks li button {
 }
 
 .headerMainContent .topLinks nav:last-of-type ul {
