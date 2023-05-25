@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { Tooltip } from 'react-tooltip'
 import { CartContext } from './contexts/CartContext'
 import CartDisplay from './CartDisplay'
@@ -7,6 +9,7 @@ import headerStyles from '../styles/Header.shared.module.css'
 
 const HeaderCartMenu = () => {
 	const { isCartLoading, getTotalItems } = useContext(CartContext)
+	const router = useRouter()
 
 	const [isCartVisible, setCartVisible] = useState(false)
 	const cartRef = useRef(null)
@@ -74,6 +77,11 @@ const HeaderCartMenu = () => {
 					</button>
 					<div className={headerStyles.cart}>
 						<CartDisplay />
+						{router.pathname !== '/cart' && (
+							<p>
+								Go to <Link href='/cart'>full size cart</Link>.
+							</p>
+						)}
 					</div>
 				</div>
 			)}

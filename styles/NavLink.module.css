@@ -3,7 +3,6 @@
 .current:hover,
 .current:active,
 .current:visited {
-	display: inline-block;
 	text-decoration: inherit;
 	cursor: inherit;
 	font-weight: inherit;

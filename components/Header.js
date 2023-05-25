@@ -37,11 +37,6 @@ const Header = () => {
 							style={{ visibility: isCartLoading() || !getTotalItems() ? 'hidden' : 'visible' }}>
 							<ul>
 								<li>
-									<NavLink href='/cart' currentPageStyle={headerStyles.currentPageStyle}>
-										Cart
-									</NavLink>
-								</li>
-								<li>
 									<CheckoutButton />
 								</li>
 							</ul>
