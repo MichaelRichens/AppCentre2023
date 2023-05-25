@@ -9,10 +9,19 @@ import { formatPriceFromPennies } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
-	const { cart, getItem, removeFromCart, updateItem, getTotalPrice } = useContext(CartContext)
+	const { cart, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } = useContext(CartContext)
+
+	// backing fields for debouncing licence key input from the user
 	const [licenceLiveUpdate, setLicenceLiveUpdate] = useState({})
 
+	// Don't want to store a new config group if someone clicks the button multiple times, so when the config group is created, we'll save its id and an array
+	// of the cart item ids, and if the button is clicked again we'll just use the same group id.
+	// A useEffect watching `cart` handles wiping the saved data if the cart is changed.
+	const [savedConfigurationGroup, setSavedConfigurationGroup] = useState(false)
+
+	// Changes to the items in the cart
 	useEffect(() => {
+		// update the debouncing fields of the licence key inputs to the current state
 		const newLicenceLiveUpdate = { ...licenceLiveUpdate }
 		cart.forEach((item) => {
 			if (item.licence) {
@@ -20,6 +29,21 @@ const CartDisplay = () => {
 			}
 		})
 		setLicenceLiveUpdate(newLicenceLiveUpdate)
+
+		// Check that, if there is a saved configuration group, if it is still valid.
+		// Which it is if all the cart items have the same ids in the same order - changes to licence keys have been written to the db under the same id
+		if (savedConfigurationGroup) {
+			if (savedConfigurationGroup.itemIds.length !== cart.length) {
+				setSavedConfigurationGroup(false)
+			} else {
+				for (let i = 0; i < cart.length; i++) {
+					if (cart[i].id != savedConfigurationGroup.itemIds[i]) {
+						setSavedConfigurationGroup(false)
+						break
+					}
+				}
+			}
+		}
 	}, [cart])
 
 	useEffect(() => {
@@ -69,6 +93,54 @@ const CartDisplay = () => {
 				} catch (error) {
 					console.error('Error updating licence.')
 				}
+			}
+		}
+	}
+
+	const asyncSaveConfigOnClickHandler = async () => {
+		// Can't rely on setSavedConfigurationGroup to immediately refresh value of savedConfigurationGroup, so need to use a local variable
+		let groupId = savedConfigurationGroup.id
+		if (!groupId) {
+			const configurations = cart.map((item) => item.id)
+			if (configurations.length) {
+				try {
+					const response = await fetch('/api/save-configuration-group', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ configurations }), // sending the configurations
+					})
+
+					if (response.ok) {
+						// Handle 2XX status codes
+						const data = await response.json()
+
+						console.log(data)
+
+						setSavedConfigurationGroup({ id: data.id, itemIds: cart.map((item) => item.id) })
+						groupId = data.id
+					} else if (response.status === 410) {
+						// Handle 410 status code
+						// Do something specific for this status code
+					} else {
+						// Handle other status codes
+						throw new Error(`Server responded with a status of ${response.status}`)
+					}
+				} catch (error) {
+					console.error('Failed to save configuration group:', error.message)
+				}
+			}
+		}
+		// groupId should now hold either a previously saved configuration group id, or the new one that has just been created and is currently being setSavedConfigurationGroup (async, probably not completed yet)
+		// if there has been an error of some sort groupId will be false
+		if (groupId) {
+			const link = process.env.NEXT_PUBLIC_DEPLOY_URL + '/cart?quote=' + groupId
+			try {
+				await navigator.clipboard.writeText(link)
+			} catch (clipboardError) {
+				console.error('Failed to copy text to clipboard:', clipboardError)
+				// Provide an alternative way to copy the text
 			}
 		}
 	}
@@ -140,6 +212,11 @@ const CartDisplay = () => {
 				<legend>Total</legend>
 				<p>Total: {formatPriceFromPennies(getTotalPrice())}</p>
 				<CheckoutButton />
+				<div className={styles.configSave}>
+					<button type='button' disabled={!getTotalItems()} onClick={asyncSaveConfigOnClickHandler}>
+						Save
+					</button>
+				</div>
 			</fieldset>
 		</form>
 	)

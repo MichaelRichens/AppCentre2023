@@ -16,7 +16,7 @@ export default async function handler(req, res) {
 		return
 	}
 
-	const { db } = await connectToDatabase()
+	const db = await connectToDatabase()
 
 	const configCollection = db.collection('configurations')
 	const groupCollection = db.collection('configuration_groups')
