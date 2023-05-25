@@ -22,6 +22,18 @@ const CartDisplay = () => {
 		setLicenceLiveUpdate(newLicenceLiveUpdate)
 	}, [cart])
 
+	useEffect(() => {
+		const handleFirstTab = (e) => {
+			if (e.keyCode === 9) {
+				// the "I am a keyboard user" key
+				document.body.classList.add('userIsTabbing')
+				window.removeEventListener('keydown', handleFirstTab)
+			}
+		}
+
+		window.addEventListener('keydown', handleFirstTab)
+	}, [])
+
 	const handleRemoveItem = (id) => {
 		removeFromCart(id)
 	}
@@ -62,10 +74,11 @@ const CartDisplay = () => {
 	}
 
 	return (
-		<form className={styles.cartContainer}>
+		<form className={styles.cartContainer} onSubmit={(e) => e.preventDefault()}>
 			<h2>Your Cart</h2>
 			<fieldset className={styles.cartItems}>
 				<legend>Items</legend>
+
 				<ul>
 					{cart.map((item) => {
 						// Is this type of purchase some that modifies/renews an existing licence, or is it a new purchase?
@@ -84,6 +97,7 @@ const CartDisplay = () => {
 						return (
 							<li key={item.id}>
 								<button
+									type='button'
 									onClick={() => handleRemoveItem(item.id)}
 									aria-label='Remove Item'
 									data-tooltip-id={`remove-item-${item.id}`}
@@ -105,6 +119,12 @@ const CartDisplay = () => {
 											value={licenceLiveUpdate[item.id] || ''}
 											onChange={createLicenceChangeHandler(item.id)}
 											onBlur={createLicenceOnBlurHandler(item.id)}
+											onKeyDown={(e) => {
+												if (e.key === 'Enter') {
+													e.preventDefault()
+													e.target.blur()
+												}
+											}}
 										/>
 									</label>
 								)}
@@ -113,6 +133,9 @@ const CartDisplay = () => {
 					})}
 				</ul>
 			</fieldset>
+			<small className='keyboardNote' aria-live='polite'>
+				Note: Pressing Enter will not submit the form.
+			</small>
 			<fieldset>
 				<legend>Total</legend>
 				<p>Total: {formatPriceFromPennies(getTotalPrice())}</p>

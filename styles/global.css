@@ -236,6 +236,15 @@ form .formError {
 	border: 0;
 }
 
+.keyboardNote {
+	display: none;
+}
+
+body.userIsTabbing .keyboardNote {
+	display: block;
+	font-weight: 600;
+}
+
 .clearFloat {
 	clear: both;
 }

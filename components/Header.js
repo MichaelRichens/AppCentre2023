@@ -16,25 +16,37 @@ const Header = () => {
 		<header className={headerStyles.header}>
 			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
 				<div id='headerMainContent' className={headerStyles.headerMainContent}>
-					<nav className={headerStyles.infoMenu} aria-label='Info'>
-						<ul>
-							<li>
-								<NavLink href='/' currentPageStyle={headerStyles.currentPageStyle}>
-									Home
-								</NavLink>
-							</li>
-							<li>
-								<NavLink href='/about-us' currentPageStyle={headerStyles.currentPageStyle}>
-									About Us
-								</NavLink>
-							</li>
-							<li
-								style={{ display: isCartLoading() || !getTotalItems() ? 'none' : 'block' }}
-								className={headerStyles.pushRight}>
-								<CheckoutButton />
-							</li>
-						</ul>
-					</nav>
+					<div id='topLinks' className={headerStyles.topLinks}>
+						<nav className={headerStyles.infoMenu} aria-label='Info'>
+							<ul>
+								<li>
+									<NavLink href='/' currentPageStyle={headerStyles.currentPageStyle}>
+										Home
+									</NavLink>
+								</li>
+								<li>
+									<NavLink href='/about-us' currentPageStyle={headerStyles.currentPageStyle}>
+										About Us
+									</NavLink>
+								</li>
+							</ul>
+						</nav>
+						<nav
+							className={headerStyles.cartMenu}
+							aria-label='Cart Menu'
+							style={{ display: isCartLoading() || !getTotalItems() ? 'none' : 'inline-block' }}>
+							<ul>
+								<li>
+									<NavLink href='/cart' currentPageStyle={headerStyles.currentPageStyle}>
+										Cart
+									</NavLink>
+								</li>
+								<li>
+									<CheckoutButton />
+								</li>
+							</ul>
+						</nav>
+					</div>
 
 					<div className={headerStyles.logoContainer}>
 						<NavLink href='/' currentPageStyle={headerStyles.mainLogoLinkCurrent}>
