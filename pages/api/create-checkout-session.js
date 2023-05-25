@@ -1,5 +1,6 @@
 import Error from 'next/error'
 import { stripe } from '../../server-utils/initStripe'
+import { VersioningError } from '../../utils/types/errors'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 
 export default async (req, res) => {
@@ -20,8 +21,12 @@ export default async (req, res) => {
 					)
 				)
 			} catch (error) {
-				console.error('Failed to fetch fresh product data from the database.', error)
-				throw error
+				if (error instanceof VersioningError) {
+					return res.status(410).json({ message: 'A requested configuration is outdated an cannot be returned.' })
+				} else {
+					console.error('Failed to fetch fresh product data from the database.', error)
+					throw error
+				}
 			}
 
 			// do we have anything to ship
@@ -123,7 +128,7 @@ export default async (req, res) => {
 			}
 
 			// Return the session ID
-			res.status(200).json({ sessionId: session.id, url: session.url })
+			return res.status(200).json({ sessionId: session.id, url: session.url })
 		} catch (error) {
 			console.error(error)
 			return res.status(500).json({ statusCode: 500, message: 'Internal Error' })

@@ -1,8 +1,11 @@
 import { ConfigurationSummaryUnit, ConfigurationSummaryHardSub } from '../utils/types/ConfigurationSummary'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
 import PricingType from '../utils/types/enums/PricingType'
+import { VersioningError } from '../utils/types/errors'
 import generateKey from '../utils/generateKey'
 import { connectToDatabase } from './mongodb'
+
+const currentConfigVersion = Number(process.env.CONFIGURATION_VERSION)
 
 /**
  * Save a product configuration object to the MongoDB 'configurations' collection.
@@ -14,6 +17,7 @@ async function asyncSaveConfiguration(configuration) {
 		const db = await connectToDatabase()
 		const collection = db.collection('configurations')
 
+		// generate a key and check that it doesn't already exist, repeating until one is found
 		let uniqueKey = generateKey(6)
 		let existingConfig = await collection.findOne({ _id: uniqueKey })
 
@@ -21,6 +25,8 @@ async function asyncSaveConfiguration(configuration) {
 			uniqueKey = generateKey(6)
 			existingConfig = await collection.findOne({ _id: uniqueKey })
 		}
+
+		configuration.configuration_version = currentConfigVersion
 
 		await collection.insertOne({ ...configuration, _id: uniqueKey })
 
@@ -52,6 +58,12 @@ async function asyncGetConfiguration(uniqueKey) {
 			throw new Error('Saved configuration did not have a pricingType.')
 		}
 
+		const receivedConfigVersion = configurationData?.configuration_version
+
+		if (!(typeof receivedConfigVersion === 'number') || receivedConfigVersion < currentConfigVersion) {
+			throw new VersioningError('Configuration version mismatch', receivedConfigVersion, currentConfigVersion)
+		}
+
 		switch (configurationData.pricingType) {
 			case PricingType.UNIT: {
 				configurationData.summary = ConfigurationSummaryUnit.fromProperties(configurationData.summary)
@@ -66,7 +78,9 @@ async function asyncGetConfiguration(uniqueKey) {
 		}
 		return ProductConfiguration.fromRawProperties(configurationData)
 	} catch (error) {
-		console.error('Unable to get configuration', error)
+		if (!(error instanceof VersioningError)) {
+			console.error('Unable to get configuration', error)
+		}
 		throw error
 	}
 }
