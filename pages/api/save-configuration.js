@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 		if (productFamily && productFamily.length > 0 && formData) {
 			let key
 			let configuration
-			let priceInPennies
+			let price
 			try {
 				// console.time('save-configuration TOTAL')
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
 				// console.timeEnd('save-configuration await 1')
 
 				configuration = processConfiguration(freshProductData, formData)
-				price = Math.round(configuration.price * 100)
+				price = Math.round(configuration.price)
 				if (price <= 0) {
 					return res
 						.status(422)

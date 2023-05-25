@@ -64,18 +64,6 @@ async function asyncGetConfiguration(uniqueKey) {
 			throw new VersioningError('Configuration version mismatch', receivedConfigVersion, currentConfigVersion)
 		}
 
-		switch (configurationData.pricingType) {
-			case PricingType.UNIT: {
-				configurationData.summary = ConfigurationSummaryUnit.fromProperties(configurationData.summary)
-				break
-			}
-			case PricingType.HARDSUB: {
-				configurationData.summary = ConfigurationSummaryHardSub.fromProperties(configurationData.summary)
-				break
-			}
-			default:
-				throw new Error(`Unknown pricingType: ${configurationData.pricingType}`)
-		}
 		return ProductConfiguration.fromRawProperties(configurationData)
 	} catch (error) {
 		if (!(error instanceof VersioningError)) {
