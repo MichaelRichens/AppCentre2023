@@ -25,17 +25,13 @@ const CartPage = () => {
 					})
 
 					if (response.ok) {
-						// Handle 2XX status codes
-						console.log('2XX status code')
 						const data = await response.json()
-						// Log the results of the API to the console
 
 						clearCart()
-						console.log(data)
+
 						Object.entries(data).forEach(([id, item]) => {
-							console.log(item)
 							const configuration = ProductConfiguration.fromRawProperties(item)
-							configuration.summary
+
 							addToCart({
 								id: id,
 								name: configuration.description,
