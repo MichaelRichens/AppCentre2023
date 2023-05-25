@@ -98,6 +98,7 @@ const CartDisplay = () => {
 	}
 
 	const asyncSaveConfigOnClickHandler = async () => {
+		// if we have a savedConfigurationGroup already we'll return a link to that to the user, otherwise we'll ask the backend for a new one
 		// Can't rely on setSavedConfigurationGroup to immediately refresh value of savedConfigurationGroup, so need to use a local variable
 		let groupId = savedConfigurationGroup.id
 		if (!groupId) {
@@ -115,8 +116,6 @@ const CartDisplay = () => {
 					if (response.ok) {
 						// Handle 2XX status codes
 						const data = await response.json()
-
-						console.log(data)
 
 						setSavedConfigurationGroup({ id: data.id, itemIds: cart.map((item) => item.id) })
 						groupId = data.id
