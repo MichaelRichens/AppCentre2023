@@ -254,7 +254,7 @@ body.userIsTabbing .keyboardNote {
 }
 
 .popupWrapper {
-	position: absolute;
+	position: fixed;
 	width: 200px;
 	height: auto;
 	max-height: 50vh;
