@@ -28,9 +28,13 @@ const CartDisplay = () => {
 
 	const createLicenceChangeHandler = (itemId) => {
 		return (event) => {
+			let newLicence = event.target.value
+			if (newLicence.length > process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH) {
+				newLicence = newLicence.substring(0, process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH)
+			}
 			setLicenceLiveUpdate((prevState) => ({
 				...prevState,
-				[itemId]: event.target.value,
+				[itemId]: newLicence,
 			}))
 		}
 	}

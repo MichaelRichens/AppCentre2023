@@ -11,7 +11,14 @@ export default async function handler(req, res) {
 		return res.status(400).json({ error: 'Licence must be provided.' })
 	}
 
-	const licenceToUpdate = licence === null || licence === '' || typeof licence !== 'string' ? undefined : licence
+	let licenceToUpdate = licence === null || licence === '' || typeof licence !== 'string' ? undefined : licence
+
+	if (
+		typeof licenceToUpdate === 'string' &&
+		licenceToUpdate.length > process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH
+	) {
+		licenceToUpdate = licenceToUpdate.substring(0, process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH)
+	}
 
 	try {
 		await asyncUpdateRecord('configurations', id, { licence: licenceToUpdate })

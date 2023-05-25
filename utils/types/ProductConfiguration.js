@@ -49,12 +49,18 @@ export class ProductConfiguration {
 		if (this.summary === null) {
 			throw new Error('description getter called on instance with null summary')
 		}
+		let description = ''
 		switch (this.pricingType) {
 			case PricingType.UNIT:
-				return `${this.summary.product}${this.summary.extensions ? ' ' + this.summary.extensions : ''}`
+				description = `${this.summary.product}${this.summary.extensions ? ' ' + this.summary.extensions : ''}`
+				break
 			default:
-				return this.summary.product
+				description = this.summary.product
 		}
+		if (this.licence.length > 0) {
+			description += ` (${this.licence})`
+		}
+		return description
 	}
 }
 
