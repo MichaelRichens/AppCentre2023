@@ -11,11 +11,11 @@ import styles from '../styles/CartDisplay.module.css'
 const CartDisplay = () => {
 	const { cart, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } = useContext(CartContext)
 
-	// backing fields for debouncing licence key input from the user
+	// backing field arrays for debouncing licence key input from the user
 	const [licenceLiveUpdate, setLicenceLiveUpdate] = useState({})
 
 	// Don't want to store a new config group if someone clicks the button multiple times, so when the config group is created, we'll save its id and an array
-	// of the cart item ids, and if the button is clicked again we'll just use the same group id.
+	// of the cart item ids, and if the button is clicked again we'll just use the same group id.  Just local state, so doesn't do any more than prevent button spamming issues in currently open form.
 	// A useEffect watching `cart` handles wiping the saved data if the cart is changed.
 	const [savedConfigurationGroup, setSavedConfigurationGroup] = useState(false)
 
