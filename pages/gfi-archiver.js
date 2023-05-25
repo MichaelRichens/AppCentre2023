@@ -98,7 +98,7 @@ const Archiver = (props) => {
 				</ul>
 			</section>
 			<section>
-				<h2>Why Choose GFI Archiver?</h2>
+				<h2>The Benefits of GFI Archiver?</h2>
 				<p>
 					GFI Archiver isn't just an archiving tool - it's a powerful software solution that brings numerous benefits to
 					businesses:

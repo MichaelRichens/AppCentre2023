@@ -199,6 +199,27 @@ const Control = (props) => {
 				</ul>
 			</section>
 			<section>
+				<h2>Testimonials</h2>
+				<blockquote>
+					The main benefits gained by our company from having Kerio Control are derived from its ease of use—that the
+					system just works without any complicated configuration. This give me peace of mind, which frees my time up,
+					time that can be otherwise spent monitoring or configuring the system.
+					<cite>Mark Taylor, IT Manager at Hellyar Plastics</cite>
+				</blockquote>
+				<blockquote>
+					For ease of day-to-day admin, I'd give Kerio nine out of ten, maybe even ten - and I'm not exaggerating. It
+					took me a couple of days to get up to speed with the basic, everyday management of Kerio. The more detailed
+					stuff took a while longer, but that was mainly to do with our own IT policies.
+					<cite>Asim Syed IT Network Manager, Ryman Stationery</cite>
+				</blockquote>
+				<blockquote>
+					KerioControl gives my clientele security knowing their network is safe, Internet access is optimized, and that
+					someone on land is able to oversee all administration. Yachts are cruising around the world, and KerioControl
+					is enabling passengers to stay connected in a way never before possible.
+					<cite>Ed Lasher Yachtcomputing</cite>
+				</blockquote>
+			</section>
+			<section>
 				<h2>Try Kerio Control Today</h2>
 				<p>
 					Don't just take our word for it, try Kerio Control free for 30 days and experience the powerful features and

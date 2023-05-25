@@ -49,7 +49,6 @@ const CheckoutButton = () => {
 				window.location.href = stripeData.url
 			}
 		} catch (error) {
-			console.log(error)
 			if (error instanceof VersioningError) {
 				setCheckoutError(
 					'Error: Very sorry, one or more items in the cart are no longer valid. Please try removing them from your cart and re-adding them.'

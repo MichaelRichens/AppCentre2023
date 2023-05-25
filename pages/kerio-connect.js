@@ -202,6 +202,21 @@ const Connect = (props) => {
 					requirements for email retention.
 				</p>
 			</section>
+			<section>
+				<h2>Testimonials</h2>
+				<blockquote>
+					The clearest advantage, has been our ability to access the emails from anywhere, on pretty much any device,
+					via the incredibly straightforward webmail interface built into Kerio Connect ... The only comment I can make
+					is that connecting employees with better communication always saves time and money and improves business.
+					<cite>Matt Bartlet, CEO Chord Electronics</cite>
+				</blockquote>
+				<blockquote>
+					For ease of day-to-day admin, I'd give Kerio nine out of ten, maybe even ten - and I'm not exaggerating. It
+					took me a couple of days to get up to speed with the basic, everyday management of Kerio. The more detailed
+					stuff took a while longer, but that was mainly to do with our own IT policies.
+					<cite>Asim Syed IT Network Manager, Ryman Stationery</cite>
+				</blockquote>
+			</section>
 			<Image
 				className={productInfoStyles.smallerImg}
 				src='/images/connect-configuration-wizard768x588.png'

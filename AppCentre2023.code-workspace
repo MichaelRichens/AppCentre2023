@@ -6,6 +6,8 @@
 	],
 	"settings": {
 		"cSpell.words": [
+			"Asim",
+			"Bartlet",
 			"blocklisted",
 			"browserconfig",
 			"BYOD",
@@ -17,6 +19,7 @@
 			"GPT's",
 			"HARDSUB",
 			"haspopup",
+			"Hellyar",
 			"HELPDESK",
 			"Helpdesks",
 			"Jssdk",
@@ -36,13 +39,15 @@
 			"rata",
 			"Referers",
 			"rowgroup",
+			"Ryman",
 			"skus",
 			"truetype",
 			"UNIFIEDPROTECTION",
 			"UNLIMU",
 			"usehooks",
 			"WAREX",
-			"XMPP"
+			"XMPP",
+			"Yachtcomputing"
 		],
 		"editor.formatOnSave": true,
 		"prettier.proseWrap": "always",
