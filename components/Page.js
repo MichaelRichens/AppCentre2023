@@ -19,7 +19,18 @@ const Page = ({ title, subHeading, logoSrc, mainClassName, children }) => {
 	// This converts standard quotes into smart quotes in all text displayed.
 	useEffect(() => {
 		smartquotes().listen()
+
+		const handleFirstTab = (e) => {
+			if (e.keyCode === 9) {
+				// the "I am a keyboard user" key
+				document.body.classList.add('userIsTabbing')
+				window.removeEventListener('keydown', handleFirstTab)
+			}
+		}
+
+		window.addEventListener('keydown', handleFirstTab)
 	}, [])
+
 	return (
 		<>
 			<Head>

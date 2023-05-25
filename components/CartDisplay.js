@@ -46,18 +46,6 @@ const CartDisplay = () => {
 		}
 	}, [cart])
 
-	useEffect(() => {
-		const handleFirstTab = (e) => {
-			if (e.keyCode === 9) {
-				// the "I am a keyboard user" key
-				document.body.classList.add('userIsTabbing')
-				window.removeEventListener('keydown', handleFirstTab)
-			}
-		}
-
-		window.addEventListener('keydown', handleFirstTab)
-	}, [])
-
 	const handleRemoveItem = (id) => {
 		removeFromCart(id)
 	}
@@ -147,6 +135,9 @@ const CartDisplay = () => {
 	return (
 		<form className={styles.cartContainer} onSubmit={(e) => e.preventDefault()}>
 			<h2>Your Cart</h2>
+			<small className='keyboardNote' aria-live='polite'>
+				Note: Pressing Enter will not submit the form.
+			</small>
 			<fieldset className={styles.cartItems}>
 				<legend>Items</legend>
 
@@ -204,9 +195,6 @@ const CartDisplay = () => {
 					})}
 				</ul>
 			</fieldset>
-			<small className='keyboardNote' aria-live='polite'>
-				Note: Pressing Enter will not submit the form.
-			</small>
 			<fieldset>
 				<legend>Total</legend>
 				<p>Total: {formatPriceFromPounds(getTotalPrice())}</p>
