@@ -131,10 +131,6 @@
 	width: 100%;
 }
 
-.headerMainContent .topLinks li a,
-.headerMainContent .topLinks li button {
-}
-
 .headerMainContent .topLinks nav:last-of-type ul {
 	justify-content: flex-end;
 }
