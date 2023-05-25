@@ -277,7 +277,8 @@
 
 @media (max-width: 600px) {
 	.cartWrapper {
-		width: 400px;
+		right: 3vw;
+		width: 85vw;
 	}
 
 	.productMenu {
@@ -289,20 +290,10 @@
 	}
 }
 
-@media (max-width: 500px) {
-	.cartWrapper {
-		right: 0;
-	}
-}
-
 @media (max-width: 475px) {
 	.mainLogo {
 		height: 50px;
 		width: 266px;
-	}
-	.cartWrapper {
-		font-size: 90%;
-		width: 325px;
 	}
 }
 
@@ -314,11 +305,9 @@
 	.headerMainContent .productMenu {
 		font-size: 13px;
 	}
-
 	.cartWrapper {
-		right: 0;
-		font-size: 90%;
-		width: 275px;
+		right: 1vw;
+		width: 85vw;
 	}
 }
 
@@ -327,19 +316,10 @@
 		height: 30px;
 		width: 160px;
 	}
-	.cartWrapper {
-		right: -25px;
-		font-size: 90%;
-		width: 250px;
-		padding-left: 0.1em;
-		padding-right: 0.1em;
-	}
 }
 
 @media (max-width: 280px) {
 	.cartWrapper {
-		right: 1%;
-		font-size: 80%;
-		width: 200px;
+		font-size: 85%;
 	}
 }
