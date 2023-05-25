@@ -71,9 +71,7 @@ export class ProductConfiguration {
 			default:
 				description = this.summary.product
 		}
-		if (this.licence.length > 0) {
-			description += ` (${this.licence})`
-		}
+
 		return description
 	}
 }
