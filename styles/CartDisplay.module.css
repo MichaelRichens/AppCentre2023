@@ -45,4 +45,5 @@
 .licenceWrapper input {
 	margin-left: 1em;
 	width: 20em;
+	max-width: 50vw;
 }
