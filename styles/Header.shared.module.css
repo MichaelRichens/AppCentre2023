@@ -81,10 +81,6 @@
 	width: 90%;
 }
 
-.headerMainContent li.pushRight {
-	margin-left: auto;
-}
-
 .headerMainContent li {
 	min-height: 48px;
 	white-space: nowrap;
@@ -97,7 +93,10 @@
 	font-weight: bold;
 }
 
-.headerMainContent a {
+.headerMainContent a,
+.headerMainContent button {
+	display: flex;
+	align-items: center;
 	min-height: 48px;
 	min-width: 48px;
 }
@@ -114,15 +113,24 @@
 }
 
 .headerMainContent .topLinks {
-	white-space: nowrap;
+	display: flex;
+	flex-wrap: nowrap;
 	padding-right: 2em;
 }
 
 .headerMainContent .topLinks nav {
 	margin: 0;
 	padding: 0;
-	width: 50%;
 	display: inline-block;
+}
+
+.headerMainContent .topLinks nav.infoMenu {
+	flex-grow: 2;
+	margin-right: 2em;
+}
+
+.headerMainContent .topLinks nav.cartMenu {
+	flex-grow: 1;
 }
 
 .headerMainContent .topLinks ul {
@@ -133,15 +141,6 @@
 
 .headerMainContent .topLinks nav:last-of-type ul {
 	justify-content: flex-end;
-}
-
-.headerMainContent .topLinks a,
-.headerMainContent .topLinks button {
-	display: block;
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	padding-left: 0.2em;
-	padding-right: 0.2em;
 }
 
 .headerMainContent .topLinks a:active,
@@ -168,12 +167,6 @@
 .headerMainContent .productMenu .multiRowProductNav {
 	row-gap: 0.2em;
 	column-gap: 1em;
-}
-
-.headerMainContent nav button {
-	padding-top: 0.5em;
-	padding-left: 0.2em;
-	padding-right: 0.2em;
 }
 
 .headerCartContainer {
@@ -264,7 +257,7 @@
 }
 
 @media (max-width: 750px) {
-	.headerMainContent .productMenu {
+	.headerMainContent {
 		font-size: 14px;
 	}
 	.headerMainContent .productMenu li {
@@ -298,12 +291,8 @@
 }
 
 @media (max-width: 400px) {
-	.headerMainContent .infoMenu,
-	.cartMenu {
-		font-size: 14px;
-	}
-	.headerMainContent .productMenu {
-		font-size: 13px;
+	.headerMainContent {
+		font-size: 12px;
 	}
 	.cartWrapper {
 		right: 1vw;
