@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
-import { generateUniqueId } from '../utils/generateId'
+import useUniqueId from './hooks/useUniqueId'
 import styles from '../styles/InfoTooltip.module.css'
 
 /**
@@ -16,13 +16,8 @@ import styles from '../styles/InfoTooltip.module.css'
  * @returns {JSX.Element} The rendered InfoTooltip component.
  */
 const InfoTooltip = ({ children }) => {
-	const [tooltipId, setTooltipId] = useState(undefined)
-	const [srId, setSrId] = useState(undefined)
-
-	useEffect(() => {
-		setTooltipId(generateUniqueId('tooltip'))
-		setSrId(generateUniqueId('sr'))
-	}, [])
+	const tooltipId = useUniqueId('tooltip')
+	const srId = useUniqueId('sr')
 
 	return (
 		<span className={styles.infoTooltipContainer}>

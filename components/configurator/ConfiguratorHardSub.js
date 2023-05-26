@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
+import useUniqueId from '../hooks/useUniqueId'
 import SimpleSelect from '../SimpleSelect'
 import SimpleInputNumber from '../SimpleInputNumber'
 import SimpleRadio from '../SimpleRadio'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import PricingType from '../../utils/types/enums/PricingType'
-import { generateUniqueId } from '../../utils/generateId'
 import {
 	createUpdateFormValue,
 	createUpdateFormValueWithFloat,
@@ -40,7 +40,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	const handleHSYearsChange = createUpdateFormValueWithFloat(updateFormData, 'hsYears')
 	const handleWarrantyChange = createUpdateFormValue(updateFormData, 'hsWarranty')
 
-	const qtyTextId = generateUniqueId('appQ')
+	const qtyTextId = useUniqueId('appQ')
 
 	const hsTypeOptions = [
 		{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' },

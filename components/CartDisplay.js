@@ -1,20 +1,20 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { CartContext } from './contexts/CartContext'
 import { Tooltip } from 'react-tooltip'
+import useUniqueId from './hooks/useUniqueId'
 import CheckoutButton from './CheckoutButton'
 import InfoTooltip from './InfoTooltip'
 import PricingType from '../utils/types/enums/PricingType'
 import PurchaseType from '../utils/types/enums/PurchaseType'
 import { formatPriceFromPounds } from '../utils/formatPrice'
-import { generateUniqueId } from '../utils/generateId'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
 	const { cart, isCartLoading, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } =
 		useContext(CartContext)
 
-	// Can be multiple copies of this component - use this if need to have separate ids
-	const cartId = generateUniqueId('cart')
+	// Can be multiple copies of this component - use this as a prefix so elements can have separate ids from each other
+	const cartId = useUniqueId('cart')
 
 	// backing field arrays for debouncing licence key input from the user
 	const [licenceLiveUpdate, setLicenceLiveUpdate] = useState({})
