@@ -22,6 +22,7 @@
 		"endOfLine": "lf"
 	},
 	"dependencies": {
+		"firebase": "^9.22.1",
 		"mongodb": "^5.5.0",
 		"next": "^13.4.0",
 		"next-fonts": "^1.5.1",
