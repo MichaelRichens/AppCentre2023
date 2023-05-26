@@ -30,14 +30,14 @@ const PriceTableWithUnits = ({ productName, products, unitName }) => {
 		tableData.setData(
 			yearsGen(product.years),
 			unitRangeGen(product.units_from, product.units_to, unitName),
-			formatPriceFromPounds(product.price)
+			formatPriceFromPounds(product.price, false)
 		)
 	}
 
 	return (
 		<SimpleTable
 			tableData={tableData}
-			caption={`Per ${unitName.singularC} Pricing for ${productName}`}
+			caption={`Per ${unitName.singularC} Pricing for ${productName} (excludes vat)`}
 			className={`${priceTableStyles.priceTable} ${priceTableStyles.mainSubscription}`}
 			ariaLabelledby={'pricingHeading'}
 		/>

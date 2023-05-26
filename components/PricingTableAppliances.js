@@ -13,7 +13,7 @@ const PricingTableAppliances = ({ productName, applianceDataObject, subscription
 
 	return (
 		<table className={`${priceTableStyles.priceTable} ${styles.applianceTable}`}>
-			<caption>{`${productName} Pricing`}</caption>
+			<caption>{`${productName} Pricing (excludes vat)`}</caption>
 			<colgroup>
 				<col />
 				<col span='2' className={priceTableStyles.hardwarePurchase} />
@@ -37,12 +37,12 @@ const PricingTableAppliances = ({ productName, applianceDataObject, subscription
 					{appliances.map((appliance, index) => (
 						<tr key={appliance.sku}>
 							<th scope='row'>{appliance.name}</th>
-							<td>{formatPriceFromPounds(appliance.price)}</td>
-							<td>{formatPriceFromPounds(appliance.extendedWarranty.price)}</td>
+							<td>{formatPriceFromPounds(appliance.price, false)}</td>
+							<td>{formatPriceFromPounds(appliance.extendedWarranty.price, false)}</td>
 							{index === 0 &&
 								yearOptions.map((year) => (
 									<td key={year} rowSpan={appliances.length > 1 ? appliances.length : undefined}>
-										{formatPriceFromPounds(subscriptionDataObject[subFamily][year].price)}
+										{formatPriceFromPounds(subscriptionDataObject[subFamily][year].price, false)}
 									</td>
 								))}
 						</tr>

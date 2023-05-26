@@ -42,12 +42,12 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 
 		extensionsData.forEach((ext) => {
 			const yearLabel = yearsGen(ext.years)
-			extensionsTable.setData(yearLabel, ext.name, formatPriceFromPounds(ext.price))
+			extensionsTable.setData(yearLabel, ext.name, formatPriceFromPounds(ext.price, false))
 		})
 		tables = (
 			<SimpleTable
 				tableData={extensionsTable}
-				caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions`}
+				caption={`Per ${unitName.singularC} Pricing for ${productName} Extensions (excludes vat)`}
 				className={`${priceTableStyles.priceTable} ${priceTableStyles.extensionSubscription}`}
 				ariaLabelledby={'pricingHeading'}
 			/>
