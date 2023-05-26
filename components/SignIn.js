@@ -17,14 +17,11 @@ function SignIn() {
 	}
 
 	return (
-		<>
-			<h2>Log In</h2>
-			<form onSubmit={signIn}>
-				<input type='email' onChange={(e) => setEmail(e.target.value)} />
-				<input type='password' onChange={(e) => setPassword(e.target.value)} />
-				<button type='submit'>Sign In</button>
-			</form>
-		</>
+		<form onSubmit={signIn}>
+			<input type='email' onChange={(e) => setEmail(e.target.value)} />
+			<input type='password' onChange={(e) => setPassword(e.target.value)} />
+			<button type='submit'>Sign In</button>
+		</form>
 	)
 }
 

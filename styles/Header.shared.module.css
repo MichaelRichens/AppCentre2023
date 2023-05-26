@@ -107,7 +107,7 @@
 
 .headerMainContent a:hover,
 .headerMainContent .infoMenu button:hover,
-.headerMainContent .cartMenu button:hover {
+.headerMainContent .accountMenu button:hover {
 	color: rgb(194, 227, 238);
 }
 
@@ -133,7 +133,7 @@
 	margin-right: 2em;
 }
 
-.headerMainContent .topLinks nav.cartMenu {
+.headerMainContent .topLinks nav.accountMenu {
 	flex-grow: 1;
 }
 

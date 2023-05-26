@@ -4,6 +4,8 @@ import HeaderCartMenu from './HeaderCartMenu'
 import NavLink from './NavLink'
 import ProductDropdown from './ProductDropdown'
 import CheckoutButton from './CheckoutButton'
+import SignOutButton from './SignOutButton'
+import { useAuth } from './contexts/AuthContext'
 import { CartContext } from './contexts/CartContext'
 import headerStyles from '../styles/Header.shared.module.css'
 
@@ -11,6 +13,7 @@ const Header = () => {
 	const productUlRef = useRef(null)
 	const productNavIsMultiRow = useIsAtLeastTwiceChildHeight(productUlRef)
 	const { isCartLoading, getTotalItems } = useContext(CartContext)
+	const { user, isAuthLoading } = useAuth()
 
 	return (
 		<header className={headerStyles.header}>
@@ -31,12 +34,17 @@ const Header = () => {
 								</li>
 							</ul>
 						</nav>
-						<nav
-							className={headerStyles.cartMenu}
-							aria-label='Cart Menu'
-							style={{ visibility: isCartLoading() || !getTotalItems() ? 'hidden' : 'visible' }}>
+						<nav className={headerStyles.accountMenu} aria-label='Account Menu'>
 							<ul>
 								<li>
+									<NavLink href='/account' currentPageStyle={headerStyles.currentPageStyle}>
+										Account
+									</NavLink>
+								</li>
+								<li style={{ display: isAuthLoading || !user ? 'none' : 'list-item' }}>
+									<SignOutButton />
+								</li>
+								<li style={{ display: isCartLoading() || !getTotalItems() ? 'none' : 'list-item' }}>
 									<CheckoutButton />
 								</li>
 							</ul>

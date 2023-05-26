@@ -1,38 +1,33 @@
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { onAuthStateChanged } from 'firebase/auth'
 import { LineWave } from 'react-loader-spinner'
-import { auth } from '../../utils/firebaseClient'
+import Page from '../Page'
+import SignInOrSignUp from '../SignInOrSignUp'
+import { useAuth } from '../contexts/AuthContext'
 
 const withAuth = (Component) => {
 	return (props) => {
-		const router = useRouter()
-		const [loading, setLoading] = useState(true)
+		const { user, isAuthLoading } = useAuth()
 
-		useEffect(() => {
-			const unsubscribe = onAuthStateChanged(auth, (user) => {
-				if (!user) {
-					sessionStorage.setItem('targetPage', router.pathname)
-					router.push('/login')
-				}
-				setLoading(false)
-			})
-
-			// Cleanup subscription on unmount
-			return () => unsubscribe()
-		}, [])
-
-		// Render a loading indicator while waiting for hydration to check auth status
-		if (loading) {
+		// Render a loading page while waiting for hydration to check auth status
+		if (isAuthLoading) {
 			return (
-				<div style={{ textAlign: 'center' }}>
-					<LineWave width='400' height='400' color='#4fa94d' ariaLabel='Authenticating' />
-				</div>
+				<Page title='Loading...'>
+					<div style={{ paddingLeft: '30%' }}>
+						<LineWave width='400' height='200' color='#4fa94d' />
+					</div>
+				</Page>
 			)
 		}
 
 		// Render the component only if the user is authenticated
-		return <Component {...props} />
+		if (user) {
+			return <Component {...props} />
+		}
+
+		return (
+			<Page title='Please Log In'>
+				<SignInOrSignUp />
+			</Page>
+		)
 	}
 }
 

@@ -32,29 +32,26 @@ function SignUp() {
 
 	return (
 		<div>
-			<h2>Create Account</h2>
-			<div>
-				{error !== null && <div>{error}</div>}
-				<form onSubmit={handleSubmit}>
-					<label htmlFor='userEmail'>Email:</label>
-					<input
-						type='email'
-						name='userEmail'
-						value={email}
-						onChange={handleChange}
-						placeholder='E.g: faruq123@gmail.com'
-					/>
-					<label htmlFor='userPassword'>Password:</label>
-					<input
-						type='password'
-						name='userPassword'
-						value={password}
-						onChange={handleChange}
-						placeholder='Your Password'
-					/>
-					<button type='submit'>Sign Up</button>
-				</form>
-			</div>
+			{error !== null && <div>{error}</div>}
+			<form onSubmit={handleSubmit}>
+				<label htmlFor='userEmail'>Email:</label>
+				<input
+					type='email'
+					name='userEmail'
+					value={email}
+					onChange={handleChange}
+					placeholder='E.g: faruq123@gmail.com'
+				/>
+				<label htmlFor='userPassword'>Password:</label>
+				<input
+					type='password'
+					name='userPassword'
+					value={password}
+					onChange={handleChange}
+					placeholder='Your Password'
+				/>
+				<button type='submit'>Sign Up</button>
+			</form>
 		</div>
 	)
 }
