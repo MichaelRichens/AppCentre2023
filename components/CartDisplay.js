@@ -22,7 +22,8 @@ const CartDisplay = () => {
 	// Don't want to store a new config group if someone clicks the button multiple times, so when the config group is created, we'll save its id and an array
 	// of the cart item ids, and if the button is clicked again we'll just use the same group id.  Just local state, so doesn't do any more than prevent button spamming issues in currently open form.
 	// A useEffect watching `cart` handles wiping the saved data if the cart is changed.
-	const [savedConfigurationGroup, setSavedConfigurationGroup] = useState(false)
+	const [savedConfigurationGroup, setSavedConfigurationGroup] = useState({ isValid: false })
+	const setDefaultSavedConfigurationGroup = () => setSavedConfigurationGroup({ isValid: false })
 
 	// Changes to the items in the cart
 	useEffect(() => {
@@ -37,17 +38,20 @@ const CartDisplay = () => {
 
 		// Check that, if there is a saved configuration group, if it is still valid.
 		// Which it is if all the cart items have the same ids in the same order - changes to licence keys have been written to the db under the same id
-		if (savedConfigurationGroup) {
+		if (savedConfigurationGroup.isValid) {
 			if (savedConfigurationGroup.itemIds.length !== cart.length) {
-				setSavedConfigurationGroup(false)
+				setDefaultSavedConfigurationGroup()
 			} else {
 				for (let i = 0; i < cart.length; i++) {
 					if (cart[i].id != savedConfigurationGroup.itemIds[i]) {
-						setSavedConfigurationGroup(false)
+						setDefaultSavedConfigurationGroup()
 						break
 					}
 				}
 			}
+		} else {
+			// delete any errors that may have been set.
+			setDefaultSavedConfigurationGroup()
 		}
 	}, [cart])
 
@@ -93,43 +97,42 @@ const CartDisplay = () => {
 	}
 
 	const asyncSaveConfigOnClickHandler = async () => {
-		// if we have a savedConfigurationGroup already we'll return a link to that to the user, otherwise we'll ask the backend for a new one
-		// Can't rely on setSavedConfigurationGroup to immediately refresh value of savedConfigurationGroup, so need to use a local variable
-		let groupId = savedConfigurationGroup.id
-		if (!groupId) {
-			const configurations = cart.map((item) => item.id)
-			if (configurations.length) {
-				try {
-					const response = await fetch('/api/save-configuration-group', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ configurations }), // sending the configurations
+		const configurations = cart.map((item) => item.id)
+		if (configurations.length) {
+			try {
+				const response = await fetch('/api/save-configuration-group', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({ configurations }), // sending the configurations
+				})
+				if (response.ok) {
+					const data = await response.json()
+					setSavedConfigurationGroup({ id: data.id, itemIds: cart.map((item) => item.id), isValid: true })
+				} else if (response.status === 410) {
+					setSavedConfigurationGroup({
+						error:
+							'Very sorry, one or more items in the cart is outdated. Please try removing and re-adding the items.',
+						isValid: false,
 					})
-
-					if (response.ok) {
-						// Handle 2XX status codes
-						const data = await response.json()
-
-						setSavedConfigurationGroup({ id: data.id, itemIds: cart.map((item) => item.id) })
-						groupId = data.id
-					} else if (response.status === 410) {
-						// Handle 410 status code
-						// Do something specific for this status code
-					} else {
-						// Handle other status codes
-						throw new Error(`Server responded with a status of ${response.status}`)
-					}
-				} catch (error) {
-					console.error('Failed to save configuration group:', error.message)
+				} else {
+					setSavedConfigurationGroup({
+						error: 'Very sorry, there was an error when generating a quote for these items.',
+						isValid: false,
+					})
 				}
+			} catch (error) {
+				setSavedConfigurationGroup({
+					error: 'Very sorry, an error occurred when generating a quote for these items.',
+					isValid: false,
+				})
 			}
 		}
 	}
 
 	const asyncCopyLinkOnClickHandler = async () => {
-		if (savedConfigurationGroup) {
+		if (savedConfigurationGroup.isValid) {
 			try {
 				await navigator.clipboard.writeText(linkFromId(savedConfigurationGroup.id))
 				let element = document.getElementById(`${cartId}-link-text`)
@@ -137,9 +140,12 @@ const CartDisplay = () => {
 				element.classList.remove(styles.copySuccess) // Remove the class if it already present
 				void element.offsetWidth // Trigger a reflow, flushing the CSS changes
 				element.classList.add(styles.copySuccess) // (Re-)add the class
+
+				// Seems very unlikely we'd have a transient write to clipboard error, but if we have had one, we clear it here.
+				setSavedConfigurationGroup((prevState) => ({ ...prevState, error: undefined }))
 			} catch (clipboardError) {
 				console.error('Failed to copy text to clipboard:', clipboardError)
-				// Provide an alternative way to copy the text
+				setSavedConfigurationGroup((prevState) => ({ ...prevState, error: 'Error: Could not write to clipboard.' }))
 			}
 		}
 	}
@@ -216,9 +222,14 @@ const CartDisplay = () => {
 				<div
 					className={styles.configSave}
 					style={{ visibility: !isCartLoading() && getTotalItems() ? 'visible' : 'hidden' }}>
-					{savedConfigurationGroup ? (
+					{savedConfigurationGroup.isValid ? (
 						<>
-							<span id={`${cartId}-link-text`} className={styles.configLinkText}>
+							{savedConfigurationGroup.error && (
+								<span aria-live='polite' className={`${styles.configSaveText} formError`}>
+									{savedConfigurationGroup.error}
+								</span>
+							)}
+							<span id={`${cartId}-link-text`} className={styles.configSaveText}>
 								{linkFromId(savedConfigurationGroup.id)}
 							</span>
 							<button
@@ -237,6 +248,11 @@ const CartDisplay = () => {
 						</>
 					) : (
 						<>
+							{savedConfigurationGroup.error && (
+								<span aria-live='polite' className={`${styles.configSaveText} formError`}>
+									{savedConfigurationGroup.error}
+								</span>
+							)}
 							<button
 								type='button'
 								disabled={!getTotalItems()}
