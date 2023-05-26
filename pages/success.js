@@ -27,6 +27,7 @@ const OrderSuccess = () => {
 
 	useEffect(() => {
 		if (sessionIdState) {
+			console.log(sessionIdState)
 			const asyncProcessCheckoutSession = async () => {
 				try {
 					const response = await fetch('/api/process-successful-checkout', {
@@ -38,7 +39,7 @@ const OrderSuccess = () => {
 							sessionId: sessionIdState,
 						}),
 					})
-					//console.log(response)
+					console.log(response)
 				} catch (error) {
 					console.error('There was an error handing sessionIdState: ', error)
 				}

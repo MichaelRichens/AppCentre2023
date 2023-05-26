@@ -10,14 +10,14 @@ export default async function handler(req, res) {
 
 			try {
 				const session = await stripe.checkout.sessions.retrieve(sessionId)
-				//console.log(session)
+				console.log(session)
 
 				const { invoice } = session
-				//console.log(invoice)
+				console.log(invoice)
 
-				res.status(200).json('ok') // Respond with the session data
+				res.status(200).json({ session }) // Respond with the session data
 			} catch (error) {
-				console.erro('Error retrieving session from Stripe', error)
+				console.error('Error retrieving session from Stripe', error)
 				res.status(500).json({ statusCode: 500, message: error.message })
 			}
 		} catch (error) {
