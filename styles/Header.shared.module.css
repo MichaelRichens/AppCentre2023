@@ -45,8 +45,12 @@
 	height: 100%;
 }
 
-.logoContainer {
+.headerMainContent .logoContainer {
 	text-align: center;
+}
+
+.headerMainContent .logoContainer > * {
+	display: inline;
 }
 
 /* This is passed to the NavLink surrounding the logo to override the usual fading of the link contents when on the current page */
