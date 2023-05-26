@@ -10,7 +10,9 @@ import { CartContext } from './contexts/CartContext'
 import headerStyles from '../styles/Header.shared.module.css'
 
 const Header = () => {
+	const topLinksRef = useRef(null)
 	const productUlRef = useRef(null)
+	const topLinksIsMultiRow = useIsAtLeastTwiceChildHeight(topLinksRef)
 	const productNavIsMultiRow = useIsAtLeastTwiceChildHeight(productUlRef)
 	const { isCartLoading, getTotalItems } = useContext(CartContext)
 	const { user, isAuthLoading } = useAuth()
@@ -19,7 +21,10 @@ const Header = () => {
 		<header className={headerStyles.header}>
 			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
 				<div id='headerMainContent' className={headerStyles.headerMainContent}>
-					<div id='topLinks' className={headerStyles.topLinks}>
+					<div
+						ref={topLinksRef}
+						id='topLinks'
+						className={`${headerStyles.topLinks} ${topLinksIsMultiRow ? headerStyles.multiRowTopLinks : ''}`}>
 						<nav className={headerStyles.infoMenu} aria-label='Info'>
 							<ul>
 								<li>

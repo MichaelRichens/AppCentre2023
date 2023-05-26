@@ -118,7 +118,7 @@
 
 .headerMainContent .topLinks {
 	display: flex;
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	padding-right: 2em;
 }
 
@@ -143,8 +143,12 @@
 	width: 100%;
 }
 
-.headerMainContent .topLinks nav:last-of-type ul {
+.headerMainContent .topLinks .accountMenu ul {
 	justify-content: flex-end;
+}
+
+.headerMainContent .multiRowTopLinks .accountMenu ul {
+	justify-content: flex-start;
 }
 
 .headerMainContent .topLinks a:active,
