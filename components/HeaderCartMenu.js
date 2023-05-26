@@ -51,7 +51,6 @@ const HeaderCartMenu = () => {
 	return (
 		<div className={`popupContainer ${headerStyles.headerCartContainer}`}>
 			<button
-				style={{ visibility: isCartLoading() || !getTotalItems() ? 'hidden' : 'visible' }}
 				ref={cartButtonRef}
 				className={headerStyles.cartIcon}
 				onClick={handleCartClick}

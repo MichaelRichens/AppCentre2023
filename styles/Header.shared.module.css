@@ -295,8 +295,9 @@
 		font-size: 12px;
 	}
 	.cartWrapper {
-		right: 1vw;
-		width: 85vw;
+		left: 1vw;
+		right: 3vw;
+		width: auto;
 	}
 }
 
@@ -304,11 +305,5 @@
 	.mainLogo {
 		height: 30px;
 		width: 160px;
-	}
-}
-
-@media (max-width: 280px) {
-	.cartWrapper {
-		font-size: 85%;
 	}
 }
