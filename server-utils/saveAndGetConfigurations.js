@@ -18,11 +18,11 @@ async function asyncSaveConfiguration(configuration) {
 		const collection = db.collection('configurations')
 
 		// generate a key and check that it doesn't already exist, repeating until one is found
-		let uniqueKey = generateKey(6)
+		let uniqueKey = generateAlphaId(6)
 		let existingConfig = await collection.findOne({ _id: uniqueKey })
 
 		while (existingConfig) {
-			uniqueKey = generateKey(6)
+			uniqueKey = generateAlphaId(6)
 			existingConfig = await collection.findOne({ _id: uniqueKey })
 		}
 

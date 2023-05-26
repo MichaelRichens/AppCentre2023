@@ -37,7 +37,7 @@ export default async function handler(req, res) {
 
 	let id
 	do {
-		id = '1' + generateKey(5)
+		id = '1' + generateAlphaId(5)
 	} while (await groupCollection.findOne({ _id: id }))
 
 	const newGroup = {
