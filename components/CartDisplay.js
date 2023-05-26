@@ -6,10 +6,15 @@ import InfoTooltip from './InfoTooltip'
 import PricingType from '../utils/types/enums/PricingType'
 import PurchaseType from '../utils/types/enums/PurchaseType'
 import { formatPriceFromPounds } from '../utils/formatPrice'
+import { generateUniqueId } from '../utils/generateId'
 import styles from '../styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
-	const { cart, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } = useContext(CartContext)
+	const { cart, isCartLoading, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } =
+		useContext(CartContext)
+
+	// Can be multiple copies of this component - use this if need to have separate ids
+	const cartId = generateUniqueId('cart')
 
 	// backing field arrays for debouncing licence key input from the user
 	const [licenceLiveUpdate, setLicenceLiveUpdate] = useState({})
@@ -45,6 +50,8 @@ const CartDisplay = () => {
 			}
 		}
 	}, [cart])
+
+	const linkFromId = (groupId) => process.env.NEXT_PUBLIC_DEPLOY_URL + '/cart?quote=' + groupId
 
 	const handleRemoveItem = (id) => {
 		removeFromCart(id)
@@ -119,12 +126,17 @@ const CartDisplay = () => {
 				}
 			}
 		}
-		// groupId should now hold either a previously saved configuration group id, or the new one that has just been created and is currently being setSavedConfigurationGroup (async, probably not completed yet)
-		// if there has been an error of some sort groupId will be false
-		if (groupId) {
-			const link = process.env.NEXT_PUBLIC_DEPLOY_URL + '/cart?quote=' + groupId
+	}
+
+	const asyncCopyLinkOnClickHandler = async () => {
+		if (savedConfigurationGroup) {
 			try {
-				await navigator.clipboard.writeText(link)
+				await navigator.clipboard.writeText(linkFromId(savedConfigurationGroup.id))
+				let element = document.getElementById(`${cartId}-link-text`)
+
+				element.classList.remove(styles.copySuccess) // Remove the class if it already present
+				void element.offsetWidth // Trigger a reflow, flushing the CSS changes
+				element.classList.add(styles.copySuccess) // (Re-)add the class
 			} catch (clipboardError) {
 				console.error('Failed to copy text to clipboard:', clipboardError)
 				// Provide an alternative way to copy the text
@@ -136,7 +148,7 @@ const CartDisplay = () => {
 		<form className={styles.cartContainer} onSubmit={(e) => e.preventDefault()}>
 			<h2>Your Cart</h2>
 			<small className='keyboardNote' aria-live='polite'>
-				Note: Pressing Enter will not submit the form.
+				Note: Pressing Enter will not submit the form, please use the checkout button at the end.
 			</small>
 			<fieldset className={styles.cartItems}>
 				<legend>Items</legend>
@@ -162,11 +174,15 @@ const CartDisplay = () => {
 									type='button'
 									onClick={() => handleRemoveItem(item.id)}
 									aria-label='Remove Item'
-									data-tooltip-id={`remove-item-${item.id}`}
-									data-tooltip-content='Remove Item'>
+									data-tooltip-id={`remove-item-${cartId}-${item.id}`}
+									data-tooltip-content='Remove Item'
+									aria-describedby={`remove-item-sr-${cartId}-${item.id}`}>
 									X
 								</button>
-								<Tooltip id={`remove-item-${item.id}`} />
+								<Tooltip id={`remove-item-${cartId}-${item.id}`} />
+								<span id={`remove-item-sr-${cartId}-${item.id}`} className='sr-only'>
+									Remove Item
+								</span>
 								{`${displayName} - ${formatPriceFromPounds(item.price)}`}
 								{isExistingLicence && (
 									<label className={styles.licenceWrapper}>
@@ -197,12 +213,49 @@ const CartDisplay = () => {
 			</fieldset>
 			<fieldset>
 				<legend>Total</legend>
-				<p>Total: {formatPriceFromPounds(getTotalPrice())}</p>
-				<CheckoutButton />
-				<div className={styles.configSave}>
-					<button type='button' disabled={!getTotalItems()} onClick={asyncSaveConfigOnClickHandler}>
-						Save
-					</button>
+				<div
+					className={styles.configSave}
+					style={{ visibility: !isCartLoading() && getTotalItems() ? 'visible' : 'hidden' }}>
+					{savedConfigurationGroup ? (
+						<>
+							<span id={`${cartId}-link-text`} className={styles.configLinkText}>
+								{linkFromId(savedConfigurationGroup.id)}
+							</span>
+							<button
+								type='button'
+								disabled={!getTotalItems()}
+								onClick={asyncCopyLinkOnClickHandler}
+								data-tooltip-id={`copy-link-${cartId}`}
+								data-tooltip-content='Copies the link that has been created to your clipboard.'
+								aria-describedby={`copy-link-sr-${cartId}`}>
+								Copy to Clipboard
+							</button>
+							<Tooltip id={`copy-link-${cartId}`} />
+							<span id={`copy-link-sr-${cartId}`} className='sr-only'>
+								Copies the link that has been created to your clipboard.
+							</span>
+						</>
+					) : (
+						<>
+							<button
+								type='button'
+								disabled={!getTotalItems()}
+								onClick={asyncSaveConfigOnClickHandler}
+								data-tooltip-id={`create-link-${cartId}`}
+								data-tooltip-content='Creates a link that can be used to restore the current contents of the cart - for sharing this quote.'
+								aria-describedby={`create-link-sr-${cartId}`}>
+								Create Link
+							</button>
+							<Tooltip id={`create-link-${cartId}`} />
+							<span id={`create-link-sr-${cartId}`} className='sr-only'>
+								Creates a link that can be used to restore the current contents of the cart - for sharing this quote.
+							</span>
+						</>
+					)}
+				</div>
+				<div className={styles.checkout}>
+					<p>Total: {formatPriceFromPounds(getTotalPrice())}</p>
+					<CheckoutButton />
 				</div>
 			</fieldset>
 		</form>

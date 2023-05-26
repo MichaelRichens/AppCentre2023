@@ -157,8 +157,17 @@ ul {
 	padding-inline-start: 2em;
 }
 
+main a:link {
+	color: blue;
+}
+
+main a:hover {
+	color: SteelBlue;
+}
+
 main a:active {
-	transform: scale(0.99);
+	color: blue;
+	transform: scale(0.98);
 }
 
 article > section {

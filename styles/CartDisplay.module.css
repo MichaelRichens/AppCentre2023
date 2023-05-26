@@ -25,7 +25,7 @@
 }
 
 .cartItems ul li:hover {
-	background-color: #d3ebfc;
+	background-color: #e8f3fa;
 }
 
 .cartContainer .cartItems button {
@@ -46,4 +46,37 @@
 	margin-left: 1em;
 	width: 20em;
 	max-width: 70vw;
+}
+
+.checkout {
+	font-weight: bold;
+	text-align: center;
+	font-size: 150%;
+}
+
+.configSave {
+	font-size: 70%;
+	margin-bottom: 1em;
+	text-align: right;
+}
+
+.configSave button {
+	user-select: none;
+}
+
+.configLinkText {
+	padding-right: 2em;
+	display: inline-block;
+}
+
+.copySuccess {
+	color: green;
+	transition: color 1s;
+	animation: fadeColor 1s forwards;
+}
+
+@keyframes fadeColor {
+	to {
+		color: initial;
+	}
 }

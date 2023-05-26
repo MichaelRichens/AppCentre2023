@@ -223,6 +223,29 @@
 	z-index: 30;
 }
 
+.cartWrapper .fullSizeCartLink {
+	margin: 0;
+	margin-top: -1.5em;
+	padding: 0;
+	font-size: 85%;
+}
+
+.cartWrapper .fullSizeCartLink a {
+	display: inline-block;
+}
+
+.cartWrapper .fullSizeCartLink a:visited {
+	color: blue;
+}
+
+.cartWrapper .fullSizeCartLink a:hover {
+	color: SteelBlue;
+}
+
+.cartWrapper .fullSizeCartLink a:active {
+	transform: scale(0.98);
+}
+
 .gfiPartnerLogoContainer {
 	position: relative;
 	height: 100%;

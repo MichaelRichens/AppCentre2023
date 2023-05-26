@@ -72,16 +72,16 @@ const HeaderCartMenu = () => {
 			{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}
 			{isCartVisible && (
 				<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
+					{router.pathname !== '/cart' && (
+						<p className={headerStyles.fullSizeCartLink}>
+							<Link href='/cart'>Go to full size cart</Link>
+						</p>
+					)}
 					<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
 						X
 					</button>
 					<div className={headerStyles.cart}>
 						<CartDisplay />
-						{router.pathname !== '/cart' && (
-							<p>
-								Go to <Link href='/cart'>full size cart</Link>.
-							</p>
-						)}
 					</div>
 				</div>
 			)}
