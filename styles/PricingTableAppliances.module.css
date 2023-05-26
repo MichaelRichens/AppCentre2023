@@ -1,14 +1,16 @@
 .applianceTable th[scope='rowgroup'] {
 	text-align: left;
 }
-
 @media (max-width: 450px) {
 	.applianceTable {
 		font-size: 70%;
 	}
 
-	.applianceTable th,
-	.applianceTable th[scope='col'] {
+	.applianceTable tr th,
+	.applianceTable tr th[scope='col'],
+	.applianceTable tr th[scope='row'] {
 		font-size: 80%;
+		padding-left: 2px;
+		padding-right: 2px;
 	}
 }

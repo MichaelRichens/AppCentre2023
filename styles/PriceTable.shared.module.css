@@ -135,11 +135,6 @@ tbody.hardwarePurchase {
 	.priceTable caption {
 		font-size: 125%;
 	}
-
-	.priceTable td {
-		padding-left: 0.1em;
-		padding-right: 0.1em;
-	}
 }
 
 @media (max-width: 500px) {
