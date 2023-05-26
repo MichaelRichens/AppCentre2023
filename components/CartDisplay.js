@@ -145,6 +145,7 @@ const CartDisplay = () => {
 				setSavedConfigurationGroup((prevState) => ({ ...prevState, error: undefined }))
 			} catch (clipboardError) {
 				console.error('Failed to copy text to clipboard:', clipboardError)
+				//Leaves isValid set to true, so link will still be displayed - this is just an inability to write it to the clipboard.
 				setSavedConfigurationGroup((prevState) => ({ ...prevState, error: 'Error: Could not write to clipboard.' }))
 			}
 		}
