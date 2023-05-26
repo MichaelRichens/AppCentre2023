@@ -2,7 +2,7 @@ import { ConfigurationSummaryUnit, ConfigurationSummaryHardSub } from '../utils/
 import ProductConfiguration from '../utils/types/ProductConfiguration'
 import PricingType from '../utils/types/enums/PricingType'
 import { VersioningError } from '../utils/types/errors'
-import generateKey from '../utils/generateKey'
+import { generateAlphaId } from '../utils/generateId'
 import { connectToDatabase } from './mongodb'
 
 const currentConfigVersion = Number(process.env.CONFIGURATION_VERSION)

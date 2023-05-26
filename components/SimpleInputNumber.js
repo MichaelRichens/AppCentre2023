@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import InfoTooltip from './InfoTooltip'
-import generateUniqueId from '../utils/generateUniqueId'
+import { generateUniqueId } from '../utils/generateId'
 
 import styles from '../styles/SimpleInputNumber.module.css'
 

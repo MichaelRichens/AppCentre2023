@@ -1,5 +1,5 @@
 import { connectToDatabase } from '../../server-utils/mongodb'
-import generateKey from '../../utils/generateKey'
+import { generateAlphaId } from '../../utils/generateId'
 
 const currentConfigVersion = Number(process.env.CONFIGURATION_VERSION)
 

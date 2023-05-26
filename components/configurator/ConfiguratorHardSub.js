@@ -4,7 +4,7 @@ import SimpleInputNumber from '../SimpleInputNumber'
 import SimpleRadio from '../SimpleRadio'
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import PricingType from '../../utils/types/enums/PricingType'
-import generateUniqueId from '../../utils/generateUniqueId'
+import { generateUniqueId } from '../../utils/generateId'
 import {
 	createUpdateFormValue,
 	createUpdateFormValueWithFloat,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Tooltip } from 'react-tooltip'
-import generateUniqueId from '../utils/generateUniqueId'
+import { generateUniqueId } from '../utils/generateId'
 import styles from '../styles/InfoTooltip.module.css'
 
 /**

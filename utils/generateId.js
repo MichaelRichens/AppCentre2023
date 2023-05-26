@@ -1,10 +1,22 @@
 /**
+ * Generates a unique identifier with an optional prefix.
+ *
+ * @param {string} [prefix=""] - Optional prefix to prepend to the generated ID.
+ * @returns {string} A unique identifier.
+ */
+export function generateUniqueId(prefix = '') {
+	// Generate a random number between 0 and 10^9
+	const randomNumber = Math.floor(Math.random() * Math.pow(10, 9))
+	return `${prefix}${Date.now()}${randomNumber}`
+}
+
+/**
  * Generates a random string key consisting of uppercase letters.
  * @param {number} length - The length of the generated key. Must be an integer of 3 or more.
  * @returns {string} The generated random key with the specified length.
  * @throws {Error} If the length is less than 3.
  */
-function generateKey(length) {
+export function generateAlphaId(length) {
 	if (length < 3) {
 		throw new Error('Length must be an integer of 3 or more.')
 	}
@@ -31,5 +43,3 @@ function containsUnwanted(str, unwantedStrings) {
 	}
 	return false
 }
-
-export default generateKey
