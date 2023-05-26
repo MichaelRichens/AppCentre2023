@@ -70,7 +70,7 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 				tableData.setData(
 					yearsGen(extSkuObj.years),
 					unitRangeGen(extSkuObj.units_from, extSkuObj.units_to, unitName),
-					formatPriceFromPounds(extSkuObj.price)
+					formatPriceFromPounds(extSkuObj.price, false)
 				)
 			})
 
