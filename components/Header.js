@@ -44,7 +44,7 @@ const Header = () => {
 								<li style={{ display: isAuthLoading || !user ? 'none' : 'list-item' }}>
 									<SignOutButton />
 								</li>
-								<li style={{ display: isCartLoading() || !getTotalItems() ? 'none' : 'list-item' }}>
+								<li style={{ display: isCartLoading || !getTotalItems() ? 'none' : 'list-item' }}>
 									<CheckoutButton />
 								</li>
 							</ul>

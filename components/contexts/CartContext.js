@@ -28,7 +28,7 @@ const cartReducer = (state, action) => {
  * @warning
  */
 const CartProvider = ({ children }) => {
-	const [isLoading, setIsLoading] = useState(true)
+	const [isCartLoading, setIsCartLoading] = useState(true)
 
 	const [cart, dispatch] = useReducer(cartReducer, [], () => {
 		// Check if code is running on the client-side
@@ -45,12 +45,8 @@ const CartProvider = ({ children }) => {
 		if (typeof window !== 'undefined') {
 			localStorage.setItem(process.env.NEXT_PUBLIC_CART_LOCALSTORAGE_KEY, JSON.stringify(cart))
 		}
-		setIsLoading(false)
+		setIsCartLoading(false)
 	}, [cart])
-
-	const isCartLoading = () => {
-		return isLoading
-	}
 
 	const addToCart = (item) => {
 		dispatch({ type: CartActions.ADD_ITEM, item })

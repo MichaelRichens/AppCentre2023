@@ -222,7 +222,7 @@ const CartDisplay = () => {
 				<legend>Total</legend>
 				<div
 					className={styles.configSave}
-					style={{ visibility: !isCartLoading() && getTotalItems() ? 'visible' : 'hidden' }}>
+					style={{ visibility: !isCartLoading && getTotalItems() ? 'visible' : 'hidden' }}>
 					{savedConfigurationGroup.isValid ? (
 						<>
 							{savedConfigurationGroup.error && (

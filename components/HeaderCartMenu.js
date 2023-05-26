@@ -51,22 +51,22 @@ const HeaderCartMenu = () => {
 	return (
 		<div className={`popupContainer ${headerStyles.headerCartContainer}`}>
 			<button
-				style={{ visibility: isCartLoading() ? 'hidden' : 'visible' }}
+				style={{ visibility: isCartLoading ? 'hidden' : 'visible' }}
 				ref={cartButtonRef}
 				className={headerStyles.cartIcon}
 				onClick={handleCartClick}
 				aria-label='Open Cart'
-				disabled={isCartLoading() || getTotalItems() === 0}
+				disabled={isCartLoading || getTotalItems() === 0}
 				data-tooltip-id='open-cart'
 				data-tooltip-content='Click to Open Cart'>
 				<Image src='/images/icons/shopping_cart_icon100x100.png' height='30' width='30' alt='Shopping Cart' />
 				<div
 					aria-live='polite'
 					className={`${headerStyles.cartCount} ${
-						!isCartLoading() && getTotalItems() ? headerStyles.cartFull : headerStyles.cartEmpty
+						!isCartLoading && getTotalItems() ? headerStyles.cartFull : headerStyles.cartEmpty
 					}`}>
 					<span className='sr-only'>Quantity in Cart: </span>
-					{!isCartLoading() ? getTotalItems() : 0}
+					{!isCartLoading ? getTotalItems() : 0}
 				</div>
 			</button>
 			{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}

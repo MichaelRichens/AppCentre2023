@@ -64,7 +64,7 @@ const CartPage = () => {
 
 	return (
 		<Page title='Purchase Items'>
-			{isCartLoading() ? (
+			{isCartLoading ? (
 				<div style={{ textAlign: 'center' }}>
 					<RotatingLines
 						width='25%'
