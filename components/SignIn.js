@@ -9,7 +9,8 @@ function SignIn() {
 	const signIn = async (event) => {
 		event.preventDefault()
 		try {
-			await signInWithEmailAndPassword(auth, email, password)
+			const userCredential = await signInWithEmailAndPassword(auth, email, password)
+			console.log(userCredential)
 		} catch (error) {
 			console.error(error)
 		}

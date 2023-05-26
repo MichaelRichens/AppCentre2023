@@ -1,15 +1,9 @@
 import React from 'react'
 import Page from '../components/Page'
-import SignIn from '../components/SignIn'
-import SignUp from '../components/SignUp'
+import withAuth from '../components/hoc/withAuth'
 
 const Account = () => {
-	return (
-		<Page title='My Account'>
-			<SignIn />
-			<SignUp />
-		</Page>
-	)
+	return <Page title='My Account'></Page>
 }
 
-export default Account
+export default withAuth(Account)
