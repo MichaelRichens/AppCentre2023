@@ -64,7 +64,7 @@ const CheckoutButton = () => {
 			<button type='button' disabled={!!(isCartLoading || !getTotalItems())} onClick={handleCheckout}>
 				Checkout
 			</button>
-			{checkoutError && <p className='formError'>{checkoutError}</p>}
+			{checkoutError && <p className='onPageError'>{checkoutError}</p>}
 		</>
 	)
 }

@@ -33,7 +33,7 @@ function SignUp() {
 	return (
 		<div className={accountStyles.signInUpFormWrapper}>
 			{formError !== null && (
-				<p className='formError' aria-live='polite'>
+				<p className='onPageError' aria-live='polite'>
 					{formError}
 				</p>
 			)}

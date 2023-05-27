@@ -64,7 +64,7 @@ const AuthAction = () => {
 			return (
 				<Page title='Password reset'>
 					<div className={accountStyles.signInUpFormWrapper}>
-						{error && <p className='formError'>{error.message}</p>}
+						{error && <p className='onPageError'>{error.message}</p>}
 						<form onSubmit={handleSubmit}>
 							<input
 								type='email'

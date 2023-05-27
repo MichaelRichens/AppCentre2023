@@ -59,7 +59,7 @@ main.authRequiredForAccess h1 {
 	background-color: #384a80;
 }
 
-.signInUpFormWrapper .formError {
+.signInUpFormWrapper .onPageError {
 	font-size: 14px;
 	margin-top: -15px;
 	margin-bottom: 15px;

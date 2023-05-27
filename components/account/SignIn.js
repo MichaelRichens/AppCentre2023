@@ -60,7 +60,7 @@ function SignIn() {
 				</button>
 			</form>
 			{formError && (
-				<p className='formError' aria-live='polite'>
+				<p className='onPageError' aria-live='polite'>
 					{formError}
 				</p>
 			)}

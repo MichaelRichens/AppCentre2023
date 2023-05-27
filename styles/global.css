@@ -230,7 +230,7 @@ form button:disabled:active {
 	transform: scale(1);
 }
 
-.formError {
+.onPageError {
 	color: #ff4136;
 }
 
