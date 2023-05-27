@@ -13,6 +13,7 @@
 	color: white;
 	font-weight: 400;
 	background-color: #444;
+	border: 2px white solid;
 	border-radius: 5px;
 	padding: 0.2em;
 	opacity: 0;
@@ -28,7 +29,7 @@
 }
 
 .infoMessage {
-	background-color: rgb(13, 13, 112);
+	background-color: rgb(11, 11, 87);
 }
 
 .errorMessage {
