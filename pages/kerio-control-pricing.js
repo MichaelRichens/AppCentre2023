@@ -1,5 +1,5 @@
 import React from 'react'
-import PricingPage from '../components/PricingPage'
+import PricingPage from '../components/page/PricingPage'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 
 export async function getStaticProps() {

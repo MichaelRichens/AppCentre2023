@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { RotatingLines } from 'react-loader-spinner'
-import Page from '../components/Page'
+import Page from '../components/page/Page'
 import CartDisplay from '../components/CartDisplay'
 import { CartContext } from '../components/contexts/CartContext'
 import ProductConfiguration from '../utils/types/ProductConfiguration'

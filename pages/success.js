@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { CartContext } from '../components/contexts/CartContext'
-import Page from '../components/Page'
+import Page from '../components/page/Page'
 
 const OrderSuccess = () => {
 	const { clearCart } = useContext(CartContext)

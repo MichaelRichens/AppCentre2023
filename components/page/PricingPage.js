@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react'
 import Page from './Page'
-import PriceTableWithUnits from './PriceTableWithUnits'
-import PricingTableAppliances from './PricingTableAppliances'
-import PriceTableExtensions from './PriceTableExtensions'
-import Configurator from './configurator/Configurator'
-import PricingType from '../utils/types/enums/PricingType'
-import styles from '../styles/PricingPage.module.css'
+import PriceTableWithUnits from '../PriceTableWithUnits'
+import PricingTableAppliances from '../PricingTableAppliances'
+import PriceTableExtensions from '../PriceTableExtensions'
+import Configurator from '../configurator/Configurator'
+import PricingType from '../../utils/types/enums/PricingType'
+import styles from '../../styles/PricingPage.module.css'
 
 /**
  * PricingPage is a wrapper component that renders the Page component with price table and product configurator generated from its props.

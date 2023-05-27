@@ -1,8 +1,8 @@
 import React from 'react'
-import useMediaQuery from './hooks/useMediaQuery'
+import useMediaQuery from '../hooks/useMediaQuery'
 import Page from './Page'
-import Configurator from './configurator/Configurator'
-import productInfoStyles from '../styles/ProductInfo.shared.module.css'
+import Configurator from '../configurator/Configurator'
+import productInfoStyles from '../../styles/ProductInfo.shared.module.css'
 
 /**
  * @component

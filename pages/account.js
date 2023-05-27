@@ -1,5 +1,5 @@
 import React from 'react'
-import Page from '../components/Page'
+import Page from '../components/page/Page'
 import withAuth from '../components/hoc/withAuth'
 
 const Account = () => {

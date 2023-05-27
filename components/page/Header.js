@@ -1,13 +1,13 @@
 import React, { useContext, useRef } from 'react'
-import useIsAtLeastTwiceChildHeight from './hooks/useIsAtLeastTwiceChildHeight'
-import HeaderCartMenu from './HeaderCartMenu'
-import NavLink from './NavLink'
-import ProductDropdown from './ProductDropdown'
-import CheckoutButton from './CheckoutButton'
-import SignOutButton from './account/SignOutButton'
-import { useAuth } from './contexts/AuthContext'
-import { CartContext } from './contexts/CartContext'
-import headerStyles from '../styles/Header.shared.module.css'
+import useIsAtLeastTwiceChildHeight from '../hooks/useIsAtLeastTwiceChildHeight'
+import HeaderCartMenu from '../HeaderCartMenu'
+import NavLink from '../NavLink'
+import ProductDropdown from '../ProductDropdown'
+import CheckoutButton from '../CheckoutButton'
+import SignOutButton from '../account/SignOutButton'
+import { useAuth } from '../contexts/AuthContext'
+import { CartContext } from '../contexts/CartContext'
+import headerStyles from '../../styles/Header.shared.module.css'
 
 const Header = () => {
 	const topLinksRef = useRef(null)

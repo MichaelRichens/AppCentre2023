@@ -1,5 +1,5 @@
 import React from 'react'
-import Page from '../components/Page'
+import Page from '../components/page/Page'
 import SignIn from '../components/SignIn'
 import SignUp from '../components/SignUp'
 
