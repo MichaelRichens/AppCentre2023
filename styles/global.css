@@ -231,7 +231,7 @@ form button:disabled:active {
 }
 
 .formError {
-	color: rgb(194, 147, 59);
+	color: #ff4136;
 }
 
 .sr-only {
