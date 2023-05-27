@@ -2,6 +2,7 @@ import { LineWave } from 'react-loader-spinner'
 import Page from '../page/Page'
 import SignInOrSignUp from '../account/SignInOrSignUp'
 import { useAuth } from '../contexts/AuthContext'
+import accountStyles from '../../styles/Account.shared.module.css'
 
 const withAuth = (Component) => {
 	return (props) => {
@@ -24,7 +25,7 @@ const withAuth = (Component) => {
 		}
 
 		return (
-			<Page title='Please Log In'>
+			<Page title='Please Log In' mainClassName={accountStyles.authRequiredForAccess}>
 				<SignInOrSignUp />
 			</Page>
 		)

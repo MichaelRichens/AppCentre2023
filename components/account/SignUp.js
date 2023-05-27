@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { auth } from '../../utils/firebaseClient'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import accountStyles from '../styles/Account.shared.module.css'
+import accountStyles from '../../styles/Account.shared.module.css'
 
 function SignUp() {
 	const [email, setEmail] = useState('')
@@ -32,25 +32,29 @@ function SignUp() {
 	}
 
 	return (
-		<div className={accountStyles.signInWrapper}>
-			{error !== null && <div>{error}</div>}
-			<form className={accountStyles.signIn} onSubmit={handleSubmit}>
-				<label htmlFor='userEmail'>Email:</label>
-				<input
-					type='email'
-					name='userEmail'
-					value={email}
-					onChange={handleChange}
-					placeholder='E.g: faruq123@gmail.com'
-				/>
-				<label htmlFor='userPassword'>Password:</label>
-				<input
-					type='password'
-					name='userPassword'
-					value={password}
-					onChange={handleChange}
-					placeholder='Your Password'
-				/>
+		<div className={accountStyles.signInUpFormWrapper}>
+			{error !== null && <p className='formError'>{error}</p>}
+			<form onSubmit={handleSubmit}>
+				<label>
+					Email:
+					<input
+						type='email'
+						name='userEmail'
+						value={email}
+						onChange={handleChange}
+						placeholder='E.g: it@company.co.uk'
+					/>
+				</label>
+				<label>
+					Password:
+					<input
+						type='password'
+						name='userPassword'
+						value={password}
+						onChange={handleChange}
+						placeholder='Your Password'
+					/>
+				</label>
 				<button type='submit'>Sign Up</button>
 			</form>
 		</div>
