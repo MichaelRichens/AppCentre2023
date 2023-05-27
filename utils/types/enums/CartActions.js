@@ -9,9 +9,6 @@ const CartActionsEnum = {
 const CartActions =
 	process.env.NODE_ENV === 'development'
 		? new Proxy(CartActionsEnum, {
-				// The `get` method is called whenever a property on CartActions is accessed.
-				// If the property exists on the CartActionsEnum object, its value is returned.
-				// If the property doesn't exist, we throw an error.
 				get(target, name) {
 					if (name in target) {
 						return target[name]
