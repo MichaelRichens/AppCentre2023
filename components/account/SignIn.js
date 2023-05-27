@@ -1,39 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from '../../utils/firebaseClient'
+import MessageType from '../../utils/types/enums/MessageType'
+import { FlashMessageContext } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
 
 function SignIn() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [resetEmail, setResetEmail] = useState('')
-	const [resetEmailError, setResetEmailError] = useState(null)
+	const [formError, setFormError] = useState(null)
+
+	const { setMessage } = useContext(FlashMessageContext)
 
 	const signIn = async (event) => {
 		event.preventDefault()
+		setFormError(null) // Clear out any previous errors
 		try {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
-			console.log(userCredential)
 		} catch (error) {
-			console.error(error)
+			setFormError(error.message)
 		}
 	}
 
-	const resetPassword = async (event) => {
-		event.preventDefault()
-		setResetEmailError(null) // Clear out any previous errors
-
+	const resetPassword = async () => {
+		setFormError(null) // Clear out any previous errors
 		try {
-			await sendPasswordResetEmail(auth, resetEmail)
-			alert('Password reset email sent!')
+			await sendPasswordResetEmail(auth, email)
+			setMessage({ text: 'Password reset email sent.', type: MessageType.INFO })
 		} catch (error) {
-			setResetEmailError(error.message)
+			setFormError(error.message)
 		}
 	}
 
 	return (
 		<div className={accountStyles.signInUpFormWrapper}>
-			<h2>You can log in to your account here:</h2>
+			<h2>Log In or Reset Password:</h2>
 			<form onSubmit={signIn}>
 				<label>
 					Email:
@@ -44,16 +45,11 @@ function SignIn() {
 					<input type='password' onChange={(e) => setPassword(e.target.value)} />
 				</label>
 				<button type='submit'>Sign In</button>
+				<button type='button' onClick={resetPassword}>
+					Reset Password
+				</button>
 			</form>
-			<h2>Or Reset Your Password Here:</h2>
-			<form onSubmit={resetPassword}>
-				<label>
-					Reset Password:
-					<input type='email' onChange={(e) => setResetEmail(e.target.value)} placeholder='Enter your email' />
-				</label>
-				<button type='submit'>Reset Password</button>
-				{resetEmailError && <p className='formError'>{resetEmailError}</p>}
-			</form>
+			{formError && <p className='formError'>{formError}</p>}
 		</div>
 	)
 }
