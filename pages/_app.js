@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Modal from 'react-modal'
 import { AuthProvider } from '../components/contexts/AuthContext'
 import { FlashMessageProvider } from '../components/contexts/FlashMessageContext'
 import { CartProvider } from '../components/contexts/CartContext'
@@ -9,6 +10,12 @@ import '../styles/global.css'
 import 'react-tooltip/dist/react-tooltip.css'
 
 function App({ Component, pageProps }) {
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			Modal.setAppElement('#__next')
+		}
+	}, [])
+
 	return (
 		<AuthProvider>
 			<FlashMessageProvider>
