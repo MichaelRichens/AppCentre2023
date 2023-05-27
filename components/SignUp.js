@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { auth } from '../utils/firebaseClient'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import accountFormStyles from '../styles/AccountForms.shared.module.css'
+import accountStyles from '../styles/Account.shared.module.css'
 
 function SignUp() {
 	const [email, setEmail] = useState('')
@@ -32,9 +32,9 @@ function SignUp() {
 	}
 
 	return (
-		<div className={accountFormStyles.signInWrapper}>
+		<div className={accountStyles.signInWrapper}>
 			{error !== null && <div>{error}</div>}
-			<form className={accountFormStyles.signIn} onSubmit={handleSubmit}>
+			<form className={accountStyles.signIn} onSubmit={handleSubmit}>
 				<label htmlFor='userEmail'>Email:</label>
 				<input
 					type='email'
