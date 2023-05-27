@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
-import { auth } from '../../utils/firebaseClient'
+import { auth, translateFirebaseError } from '../../utils/firebaseClient'
 import MessageType from '../../utils/types/enums/MessageType'
 import { FlashMessageContext } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
@@ -18,7 +18,7 @@ function SignIn() {
 		try {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
 		} catch (error) {
-			setFormError(error.message)
+			setFormError(translateFirebaseError(error))
 		}
 	}
 
@@ -28,7 +28,7 @@ function SignIn() {
 			await sendPasswordResetEmail(auth, email)
 			setMessage({ text: 'Password reset email sent.', type: MessageType.INFO })
 		} catch (error) {
-			setFormError(error.message)
+			setFormError(translateFirebaseError(error))
 		}
 	}
 

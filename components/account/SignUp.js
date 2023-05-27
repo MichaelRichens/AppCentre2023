@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { auth } from '../../utils/firebaseClient'
+import { auth, translateFirebaseError } from '../../utils/firebaseClient'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import accountStyles from '../../styles/Account.shared.module.css'
 
 function SignUp() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [error, setError] = useState(null)
+	const [formError, setFormError] = useState(null)
 
 	const handleSubmit = async (event) => {
 		event.preventDefault()
@@ -16,8 +16,7 @@ function SignUp() {
 			setEmail('')
 			setPassword('')
 		} catch (error) {
-			console.error(error)
-			setError('Error signing up with email and password')
+			setFormError(translateFirebaseError(error))
 		}
 	}
 
@@ -33,7 +32,7 @@ function SignUp() {
 
 	return (
 		<div className={accountStyles.signInUpFormWrapper}>
-			{error !== null && <p className='formError'>{error}</p>}
+			{formError !== null && <p className='formError'>{formError}</p>}
 			<form onSubmit={handleSubmit}>
 				<label>
 					Email:
