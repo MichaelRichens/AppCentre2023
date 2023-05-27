@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Tooltip } from 'react-tooltip'
 import useUniqueId from './hooks/useUniqueId'
 import styles from '../styles/InfoTooltip.module.css'
