@@ -32,7 +32,11 @@ function SignUp() {
 
 	return (
 		<div className={accountStyles.signInUpFormWrapper}>
-			{formError !== null && <p className='formError'>{formError}</p>}
+			{formError !== null && (
+				<p className='formError' aria-live='polite'>
+					{formError}
+				</p>
+			)}
 			<form onSubmit={handleSubmit}>
 				<label>
 					Email:

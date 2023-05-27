@@ -59,7 +59,11 @@ function SignIn() {
 					Reset Password
 				</button>
 			</form>
-			{formError && <p className='formError'>{formError}</p>}
+			{formError && (
+				<p className='formError' aria-live='polite'>
+					{formError}
+				</p>
+			)}
 		</div>
 	)
 }
