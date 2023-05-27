@@ -12,8 +12,8 @@ main.authRequiredForAccess h1 {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding: 20px;
-	margin-top: 30px;
+	padding: 10px 20px;
+
 	border-radius: 5px;
 	background-color: #f2f3f4;
 }
@@ -48,6 +48,11 @@ main.authRequiredForAccess h1 {
 	font-size: 16px;
 	border: none;
 	border-radius: 5px;
+	background-color: #1d2747;
+}
+
+.signInUpFormWrapper button:hover {
+	background-color: #384a80;
 }
 
 .signInUpFormWrapper .formError {

@@ -33,6 +33,7 @@ function SignIn() {
 
 	return (
 		<div className={accountStyles.signInUpFormWrapper}>
+			<h2>You can log in to your account here:</h2>
 			<form onSubmit={signIn}>
 				<label>
 					Email:
@@ -44,6 +45,7 @@ function SignIn() {
 				</label>
 				<button type='submit'>Sign In</button>
 			</form>
+			<h2>Or Reset Your Password Here:</h2>
 			<form onSubmit={resetPassword}>
 				<label>
 					Reset Password:
