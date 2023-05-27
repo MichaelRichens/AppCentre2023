@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import { useAuth } from './contexts/AuthContext'
 import { CartContext } from './contexts/CartContext'
 import { VersioningError } from '../utils/types/errors'
+import accountStyles from '../styles/Account.shared.module.css'
 
 const CheckoutButton = () => {
 	const { user, isAuthLoading } = useAuth()
@@ -79,17 +80,16 @@ const CheckoutButton = () => {
 		}
 	}
 
+	const modalInlineStyles = { overlay: { zIndex: 900 } }
+
 	return (
 		<>
 			<button type='button' disabled={!!(isCartLoading || !getTotalItems())} onClick={handleCheckoutButtonClick}>
 				Checkout
 			</button>
-			<button type='button' onClick={openModal}>
-				Open Modal
-			</button>
 			{checkoutError && <p className='onPageError'>{checkoutError}</p>}
-			<Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
-				<h2>Hello</h2>
+			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalInlineStyles}>
+				<h2 className={accountStyles.test}>Checkout</h2>
 				<button onClick={closeModal}>Close</button>
 			</Modal>
 		</>
