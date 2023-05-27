@@ -3,9 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Tooltip } from 'react-tooltip'
-import { CartContext } from './contexts/CartContext'
-import CartDisplay from './CartDisplay'
-import headerStyles from '../styles/Header.shared.module.css'
+import { CartContext } from '../contexts/CartContext'
+import CartDisplay from '../CartDisplay'
+import headerStyles from '../../styles/Header.shared.module.css'
 
 const HeaderCartMenu = () => {
 	const { isCartLoading, getTotalItems } = useContext(CartContext)

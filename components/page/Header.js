@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import useIsAtLeastTwiceChildHeight from '../hooks/useIsAtLeastTwiceChildHeight'
-import HeaderCartMenu from '../HeaderCartMenu'
+import HeaderCartMenu from './HeaderCartMenu'
 import NavLink from '../NavLink'
 import ProductDropdown from '../ProductDropdown'
 import CheckoutButton from '../CheckoutButton'
