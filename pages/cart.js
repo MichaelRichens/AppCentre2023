@@ -46,12 +46,11 @@ const CartPage = () => {
 									price: configuration.price,
 									licence: configuration?.licence,
 								})
-								setMessage({
-									text: `Quote Loaded. ${getTotalItems()} item${
-										getTotalItems() !== 1 ? 's' : ''
-									} - ${formatPriceFromPounds(getTotalPrice())}`,
-									type: MessageType.INFO,
-								})
+							})
+							// Don't try an get clever, and report quantity or price - we can't rely on the cart to update quickly enough to provide correct information.
+							setMessage({
+								text: 'Quote Loaded.',
+								type: MessageType.INFO,
 							})
 						} else if (response.status === 404) {
 							setQuoteError('Very sorry, this quote could not be found.')
