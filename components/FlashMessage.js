@@ -9,25 +9,30 @@ const FlashMessage = () => {
 
 	const [isInDom, setIsInDom] = useState(false)
 	const [isVisible, setIsVisible] = useState(false)
+	const [timer, setTimer] = useState(null)
+	const [fadeOutTimer, setFadeOutTimer] = useState(null)
 
 	useEffect(() => {
 		if (message) {
+			// Clear old timers
+			if (timer) clearTimeout(timer)
+			if (fadeOutTimer) clearTimeout(fadeOutTimer)
+
 			setIsInDom(true)
 			setIsVisible(true)
 
-			const timer = setTimeout(() => {
+			const newTimer = setTimeout(() => {
 				setIsVisible(false)
 
-				const fadeOutTimer = setTimeout(() => {
+				const newFadeOutTimer = setTimeout(() => {
 					setIsInDom(false)
 					setMessage(null)
 				}, 1000) // This should match the duration of the css fade out transition - 1 second
 
-				return () => {
-					clearTimeout(timer)
-					clearTimeout(fadeOutTimer)
-				}
+				setFadeOutTimer(newFadeOutTimer)
 			}, 2000) // stay visible time - 2 seconds
+
+			setTimer(newTimer)
 		}
 	}, [message])
 
