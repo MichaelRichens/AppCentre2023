@@ -1,14 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
+import Modal from 'react-modal'
+import { useAuth } from './contexts/AuthContext'
 import { CartContext } from './contexts/CartContext'
 import { VersioningError } from '../utils/types/errors'
 
 const CheckoutButton = () => {
+	const { user, isAuthLoading } = useAuth()
 	const { cart, isCartLoading, getTotalItems } = useContext(CartContext)
 	const [checkoutError, setCheckoutError] = useState(false)
+	const [modalIsOpen, setModalIsOpen] = useState(false)
 
 	useEffect(() => {
 		setCheckoutError(false)
 	}, [cart])
+
+	const openModal = () => {
+		setModalIsOpen(true)
+	}
+
+	const closeModal = () => {
+		setModalIsOpen(false)
+	}
 
 	// This function will handle the process of creating a checkout session
 	// by making a request to your server-side route
@@ -39,7 +51,7 @@ const CheckoutButton = () => {
 	}
 
 	// When the button is clicked, it will trigger the checkout process
-	async function handleCheckout() {
+	async function checkout() {
 		setCheckoutError(false)
 		try {
 			const stripeData = await handleCreateCheckoutSession()
@@ -59,12 +71,27 @@ const CheckoutButton = () => {
 		}
 	}
 
+	async function handleCheckoutButtonClick() {
+		if (user) {
+			await checkout()
+		} else {
+			openModal()
+		}
+	}
+
 	return (
 		<>
-			<button type='button' disabled={!!(isCartLoading || !getTotalItems())} onClick={handleCheckout}>
+			<button type='button' disabled={!!(isCartLoading || !getTotalItems())} onClick={handleCheckoutButtonClick}>
 				Checkout
 			</button>
+			<button type='button' onClick={openModal}>
+				Open Modal
+			</button>
 			{checkoutError && <p className='onPageError'>{checkoutError}</p>}
+			<Modal isOpen={modalIsOpen} onRequestClose={closeModal}>
+				<h2>Hello</h2>
+				<button onClick={closeModal}>Close</button>
+			</Modal>
 		</>
 	)
 }
