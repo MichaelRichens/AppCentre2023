@@ -36,7 +36,7 @@ const FlashMessage = () => {
 		}
 	}, [message])
 
-	if (!isInDom) return null
+	if (!isInDom || !message) return null
 
 	let className
 	switch (message?.type) {

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { confirmPasswordReset, verifyPasswordResetCode, signInWithEmailAndPassword } from 'firebase/auth'
 import Page from '../components/page/Page'
+import { FlashMessageContext } from '../components/contexts/FlashMessageContext'
+import MessageType from '../utils/types/enums/MessageType'
 import { auth } from '../utils/firebaseClient'
 import accountStyles from '../styles/Account.shared.module.css'
 
@@ -12,6 +14,8 @@ const AuthAction = () => {
 	const [confirmNewPassword, setConfirmNewPassword] = useState('')
 	const [email, setEmail] = useState(null)
 	const [error, setError] = useState(null)
+
+	const { setMessage } = useContext(FlashMessageContext)
 
 	const router = useRouter()
 
@@ -49,9 +53,10 @@ const AuthAction = () => {
 		try {
 			await confirmPasswordReset(auth, oobCode, newPassword)
 			await signInWithEmailAndPassword(auth, email, newPassword)
+			setMessage({ text: 'Password changed successfully!', type: MessageType.SUCCESS })
 			router.push('/account')
 		} catch (error) {
-			setError(error.message)
+			setError(error)
 		}
 	}
 	switch (mode) {
@@ -59,9 +64,15 @@ const AuthAction = () => {
 			return (
 				<Page title='Password reset'>
 					<div className={accountStyles.signInUpFormWrapper}>
-						{error && <p className='formError'>{error}</p>}
+						{error && <p className='formError'>{error.message}</p>}
 						<form onSubmit={handleSubmit}>
-							<input type='email' value={email} autoComplete='username' readOnly style={{ display: 'none' }} />
+							<input
+								type='email'
+								value={email ? email : ''}
+								autoComplete='username'
+								readOnly
+								style={{ display: 'none' }}
+							/>
 							<input
 								type='password'
 								placeholder='New password'
