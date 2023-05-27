@@ -55,7 +55,9 @@ const FlashMessage = () => {
 
 	return (
 		<aside className={styles.flashMessageWrapper}>
-			<div className={className}>{message.text}</div>
+			<div className={className} aria-live='polite'>
+				{message.text}
+			</div>
 		</aside>
 	)
 }
