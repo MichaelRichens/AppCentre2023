@@ -49,7 +49,12 @@ const CartProvider = ({ children }) => {
 	}, [cart])
 
 	const addToCart = (item) => {
-		dispatch({ type: CartActions.ADD_ITEM, item })
+		if (cart.length < process.env.NEXT_PUBLIC_CART_MAX_ITEMS) {
+			dispatch({ type: CartActions.ADD_ITEM, item })
+			return true
+		} else {
+			return false
+		}
 	}
 
 	const removeFromCart = (id) => {

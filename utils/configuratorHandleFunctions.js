@@ -1,5 +1,6 @@
 import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
+import MessageType from './types/enums/MessageType'
 
 /** @function
  * Handles a generic change in formData, with no validation
@@ -151,14 +152,21 @@ export const createAsyncHandleSubmit =
 					default:
 						throw new Error(`Unexpected pricingType: ${formData.pricingType}`)
 				}
-				addToCart({
+				const addResult = addToCart({
 					id: result.key,
 					name: result.name,
 					pricingType: formData.pricingType,
 					purchaseType: purchaseType,
 					price: result.price,
 				})
-				setMessage({ text: `Added to cart: ${result.name}`, type: 'SUCCESS' })
+				if (addResult) {
+					setMessage({ text: `Added to cart: ${result.name}`, type: MessageType.SUCCESS })
+				} else {
+					setMessage({
+						text: `Cart cannot hold more than ${process.env.NEXT_PUBLIC_CART_MAX_ITEMS} items.`,
+						type: MessageType.ERROR,
+					})
+				}
 			}
 		} catch (error) {
 			console.error('Error submitting form data:', error)
