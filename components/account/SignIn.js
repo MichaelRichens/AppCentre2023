@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../utils/firebaseClient'
+import { auth } from '../../utils/firebaseClient'
 import accountStyles from '../styles/Account.shared.module.css'
 
 function SignIn() {

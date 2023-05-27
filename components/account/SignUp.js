@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { auth } from '../utils/firebaseClient'
+import { auth } from '../../utils/firebaseClient'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import accountStyles from '../styles/Account.shared.module.css'
 

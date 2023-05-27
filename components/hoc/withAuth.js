@@ -1,6 +1,6 @@
 import { LineWave } from 'react-loader-spinner'
 import Page from '../Page'
-import SignInOrSignUp from '../SignInOrSignUp'
+import SignInOrSignUp from '../account/SignInOrSignUp'
 import { useAuth } from '../contexts/AuthContext'
 
 const withAuth = (Component) => {

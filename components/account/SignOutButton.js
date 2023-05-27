@@ -1,5 +1,5 @@
 import { signOut } from 'firebase/auth'
-import { auth } from '../utils/firebaseClient'
+import { auth } from '../../utils/firebaseClient'
 
 const SignOutButton = () => {
 	const handleLogout = async () => {
