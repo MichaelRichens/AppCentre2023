@@ -1,58 +1,70 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { RotatingLines } from 'react-loader-spinner'
+import { FlashMessageContext } from '../components/contexts/FlashMessageContext'
 import Page from '../components/page/Page'
 import CartDisplay from '../components/CartDisplay'
 import { CartContext } from '../components/contexts/CartContext'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
+import MessageType from '../utils/types/enums/MessageType'
+import { formatPriceFromPounds } from '../utils/formatPrice'
 
 const CartPage = () => {
-	const { isCartLoading, clearCart, addToCart } = useContext(CartContext)
+	const { isCartLoading, clearCart, addToCart, getTotalItems, getTotalPrice } = useContext(CartContext)
+	const { setMessage } = useContext(FlashMessageContext)
+	const [quoteError, setQuoteError] = useState(false)
 	const router = useRouter()
 
 	useEffect(() => {
 		const fetchConfigurationGroup = async () => {
 			const { quote } = router.query
 
-			if (quote && typeof quote === 'string' && quote.startsWith('1')) {
-				try {
-					const response = await fetch('/api/get-configuration-group', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({ id: quote }),
-					})
-
-					if (response.ok) {
-						const data = await response.json()
-
-						clearCart()
-
-						Object.entries(data).forEach(([id, item]) => {
-							const configuration = ProductConfiguration.fromRawProperties(item)
-
-							addToCart({
-								id: id,
-								name: configuration.description,
-								pricingType: configuration.pricingType,
-								purchaseType: configuration.type,
-								price: configuration.price,
-								licence: configuration?.licence,
-							})
+			if (quote) {
+				if (typeof quote === 'string' && quote.startsWith('1')) {
+					try {
+						const response = await fetch('/api/get-configuration-group', {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+							},
+							body: JSON.stringify({ id: quote }),
 						})
-					} else if (response.status === 404) {
-						// Handle 404 status code
-						console.log('404 status code')
-					} else if (response.status === 410) {
-						// Handle 410 status code
-						console.log('410 status code')
-					} else {
-						// Handle other status codes
-						console.log('Other status code')
+
+						if (response.ok) {
+							const data = await response.json()
+
+							clearCart()
+
+							Object.entries(data).forEach(([id, item]) => {
+								const configuration = ProductConfiguration.fromRawProperties(item)
+
+								addToCart({
+									id: id,
+									name: configuration.description,
+									pricingType: configuration.pricingType,
+									purchaseType: configuration.type,
+									price: configuration.price,
+									licence: configuration?.licence,
+								})
+								setMessage({
+									text: `Quote Loaded. ${getTotalItems()} item${
+										getTotalItems() !== 1 ? 's' : ''
+									} - ${formatPriceFromPounds(getTotalPrice())}`,
+									type: MessageType.INFO,
+								})
+							})
+						} else if (response.status === 404) {
+							setQuoteError('Very sorry, this quote could not be found.')
+						} else if (response.status === 410) {
+							setQuoteError('Very sorry, this quote is outdated and can not be loaded.')
+						} else {
+							setQuoteError('Very sorry, an unexpected error has occurred loading this quote.')
+						}
+					} catch (error) {
+						setQuoteError('Very sorry, a fault has occurred and this quote could not be loaded.  Please try later.')
 					}
-				} catch (error) {
-					console.error('Error:', error)
+				} else {
+					setQuoteError('Very sorry, this quote link is not valid.')
 				}
 			}
 		}
@@ -75,7 +87,14 @@ const CartPage = () => {
 					/>
 				</div>
 			) : (
-				<CartDisplay />
+				<>
+					{quoteError && (
+						<p className='onPageError' aria-live='polite'>
+							{quoteError}
+						</p>
+					)}
+					<CartDisplay />
+				</>
 			)}
 		</Page>
 	)
