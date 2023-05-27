@@ -38,6 +38,11 @@ const FlashMessage = () => {
 
 	if (!isInDom || !message) return null
 
+	if (!(typeof message === 'object' && message !== null && 'text' in message && message.text !== undefined)) {
+		console.error('Malformed message object without a valid text property - received: ', message)
+		return null
+	}
+
 	let className
 	switch (message?.type) {
 		case MessageType.ERROR:
