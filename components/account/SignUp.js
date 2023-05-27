@@ -24,9 +24,9 @@ function SignUp() {
 	const handleChange = (event) => {
 		const { name, value } = event.currentTarget
 
-		if (name === 'userEmail') {
+		if (name === 'username') {
 			setEmail(value)
-		} else if (name === 'userPassword') {
+		} else if (name === 'password') {
 			setPassword(value)
 		}
 	}
@@ -39,20 +39,20 @@ function SignUp() {
 					Email:
 					<input
 						type='email'
-						name='userEmail'
+						name='username'
 						value={email}
 						onChange={handleChange}
-						placeholder='E.g: it@company.co.uk'
+						placeholder='E.g: email@example.com'
 					/>
 				</label>
 				<label>
 					Password:
 					<input
 						type='password'
-						name='userPassword'
+						name='password'
 						value={password}
 						onChange={handleChange}
-						placeholder='Your Password'
+						placeholder='Choose a Password'
 					/>
 				</label>
 				<button type='submit'>Sign Up</button>

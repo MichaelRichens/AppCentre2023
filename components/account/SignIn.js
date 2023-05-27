@@ -38,11 +38,21 @@ function SignIn() {
 			<form onSubmit={signIn}>
 				<label>
 					Email:
-					<input type='email' onChange={(e) => setEmail(e.target.value)} />
+					<input
+						type='email'
+						name='username'
+						placeholder='E.g: email@example.com'
+						onChange={(e) => setEmail(e.target.value)}
+					/>
 				</label>
 				<label>
 					Password:
-					<input type='password' onChange={(e) => setPassword(e.target.value)} />
+					<input
+						type='password'
+						name='password'
+						placeholder='Your Password'
+						onChange={(e) => setPassword(e.target.value)}
+					/>
 				</label>
 				<button type='submit'>Sign In</button>
 				<button type='button' onClick={resetPassword}>
