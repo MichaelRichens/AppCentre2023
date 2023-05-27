@@ -1,0 +1,36 @@
+.flashMessageWrapper {
+	position: relative;
+}
+
+.flashMessage {
+	position: fixed;
+	left: 50%;
+	top: 10px;
+	width: min(600px, 90vw);
+	transform: translateX(-50%);
+	z-index: 1000;
+	text-align: center;
+	color: white;
+	font-weight: 400;
+	background-color: #444;
+	border-radius: 5px;
+	padding: 0.2em;
+	opacity: 0;
+	transition: opacity 1s ease-out;
+}
+
+.flashMessage.visible {
+	opacity: 1;
+}
+
+.successMessage {
+	background-color: green;
+}
+
+.infoMessage {
+	background-color: rgb(13, 13, 112);
+}
+
+.errorMessage {
+	background-color: rgb(136, 21, 21);
+}

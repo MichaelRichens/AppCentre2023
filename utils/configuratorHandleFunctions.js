@@ -116,7 +116,7 @@ export const createHandleOptionChange = (updateFormData) => (event) => {
 }
 
 export const createAsyncHandleSubmit =
-	(productFamily, productOption, unitName, formData, addToCart, setSubmitInProgress) => async (event) => {
+	(productFamily, productOption, unitName, formData, addToCart, setSubmitInProgress, setMessage) => async (event) => {
 		event.preventDefault()
 
 		setSubmitInProgress(true)
@@ -158,6 +158,7 @@ export const createAsyncHandleSubmit =
 					purchaseType: purchaseType,
 					price: result.price,
 				})
+				setMessage({ text: `Added to cart: ${result.name}`, type: 'SUCCESS' })
 			}
 		} catch (error) {
 			console.error('Error submitting form data:', error)

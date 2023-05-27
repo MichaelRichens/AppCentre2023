@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import useIsAtLeastTwiceChildHeight from '../hooks/useIsAtLeastTwiceChildHeight'
+import FlashMessage from '../FlashMessage'
 import HeaderCartMenu from './HeaderCartMenu'
 import NavLink from '../NavLink'
 import ProductDropdown from '../ProductDropdown'
@@ -19,6 +20,7 @@ const Header = () => {
 
 	return (
 		<header className={headerStyles.header}>
+			<FlashMessage />
 			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
 				<div id='headerMainContent' className={headerStyles.headerMainContent}>
 					<div

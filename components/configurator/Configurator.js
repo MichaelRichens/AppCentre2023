@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react'
 import { useConfiguratorContext } from '../contexts/ConfiguratorContext'
 import { CartContext } from '../contexts/CartContext'
+import { FlashMessageContext } from '../contexts/FlashMessageContext'
 import useFormData from '../hooks/useFormData'
 import ProductOptionSelect from './ProductOptionSelect'
 import ConfiguratorHardSub from './ConfiguratorHardSub'
@@ -26,6 +27,7 @@ import PricingType from '../../utils/types/enums/PricingType'
 const Configurator = ({ productDataArray, unitName }) => {
 	const productFamily = productDataArray[0].productFamily // by definition, all elements of productDataArray have the same productFamily value
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
+	const { setMessage } = useContext(FlashMessageContext)
 
 	// Basic state shared by any possible combination of options
 	// sub components (ie different productOptions) share a single state.
@@ -88,7 +90,8 @@ const Configurator = ({ productDataArray, unitName }) => {
 		unitName,
 		formData,
 		addToCart,
-		setAddingToCart
+		setAddingToCart,
+		setMessage
 	)
 
 	let subConfigurator
