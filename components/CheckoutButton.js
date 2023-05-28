@@ -80,7 +80,10 @@ const CheckoutButton = () => {
 		}
 	}
 
-	const modalInlineStyles = { overlay: { zIndex: 900, backgroundColor: 'rgba(0, 0, 0, 0.54)' } }
+	const modalInlineStyles = {
+		overlay: { zIndex: 900, backgroundColor: 'rgba(0, 0, 0, 0.55)' },
+		content: { backgroundColor: '#fbfbfb' },
+	}
 
 	return (
 		<>
@@ -90,7 +93,7 @@ const CheckoutButton = () => {
 			{checkoutError && <p className='onPageError'>{checkoutError}</p>}
 			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalInlineStyles}>
 				<h2 className={accountStyles.test}>Checkout</h2>
-				<button className='popupCloseButton' onClick={closeModal}>
+				<button className='modalCloseButton' onClick={closeModal}>
 					X
 				</button>
 			</Modal>
