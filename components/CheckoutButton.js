@@ -5,6 +5,7 @@ import { useAuth } from './contexts/AuthContext'
 import { firestore } from '../utils/firebaseClient'
 import { doc, getDoc } from 'firebase/firestore'
 import { CartContext } from './contexts/CartContext'
+import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
 import SignInOrSignUp from './account/SignInOrSignUp'
 import { VersioningError } from '../utils/types/errors'
 import accountStyles from '../styles/Account.shared.module.css'
@@ -12,14 +13,14 @@ import { getModalBaseStyleObject } from '../styles/modalBaseStyleObject'
 
 const CheckoutButton = () => {
 	const { user, isAuthLoading } = useAuth()
+
 	const { cart, isCartLoading, getTotalItems } = useContext(CartContext)
-	const [checkoutError, setCheckoutError] = useState(false)
+
 	const [modalIsOpen, setModalIsOpen] = useState(false)
+
 	const [checkingOut, setCheckingOut] = useState(false)
 
-	useEffect(() => {
-		setCheckoutError(false)
-	}, [cart])
+	const { setMessage } = useContext(FlashMessageContext)
 
 	// Once the user has logged in or created an account, if the checkout modal is open, get them checked out immediately
 	// This flow may not stick around, but try it like this for the moment
@@ -38,7 +39,7 @@ const CheckoutButton = () => {
 	}
 
 	// This function will handle the process of creating a checkout session
-	// by making a request to your server-side route
+	// by making a request to the server-side route
 	async function handleCreateCheckoutSession() {
 		// get user data from firestore
 		if (user) {
@@ -84,7 +85,6 @@ const CheckoutButton = () => {
 	// When the button is clicked, it will trigger the checkout process
 	async function checkout() {
 		setCheckingOut(true)
-		setCheckoutError(false)
 		try {
 			const stripeData = await handleCreateCheckoutSession()
 			if (stripeData?.sessionId) {
@@ -95,11 +95,15 @@ const CheckoutButton = () => {
 		} catch (error) {
 			setCheckingOut(false)
 			if (error instanceof VersioningError) {
-				setCheckoutError(
-					'Error: Very sorry, one or more items in the cart are no longer valid. Please try removing them from your cart and re-adding them.'
-				)
+				setMessage({
+					text: 'Error: Very sorry, one or more items in the cart are no longer valid. Please try removing them from your cart and re-adding them.',
+					type: MessageType.ERROR,
+				})
 			} else {
-				setCheckoutError('Error: Very sorry, an error has occurred that prevented checkout.')
+				setMessage({
+					text: 'Error: Very sorry, an error has occurred that prevented checkout.',
+					type: MessageType.ERROR,
+				})
 			}
 		}
 	}
@@ -121,7 +125,6 @@ const CheckoutButton = () => {
 			<button type='button' disabled={!!(isCartLoading || !getTotalItems())} onClick={handleCheckoutButtonClick}>
 				Checkout
 			</button>
-			{checkoutError && <p className='onPageError'>{checkoutError}</p>}
 			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalStyles}>
 				<div className='modalInnerWrapper'>
 					<button className='modalCloseButton' onClick={closeModal} aria-label='Close checkout'>
