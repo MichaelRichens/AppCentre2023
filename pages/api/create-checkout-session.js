@@ -6,9 +6,12 @@ import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfiguratio
 export default async (req, res) => {
 	if (req.method === 'POST') {
 		try {
-			const cartFromClientSide = req.body
+			const cartFromClientSide = req.body?.items
+			const customerFromClientSide = req.body?.customerDetails
 
-			if (!cartFromClientSide || !Array.isArray(cartFromClientSide.items)) {
+			console.log(customerFromClientSide)
+
+			if (!cartFromClientSide || !Array.isArray(cartFromClientSide)) {
 				console.error('Invalid request body. Expected "items" array.')
 				return res.status(400).json({ message: 'Invalid request.' })
 			}
@@ -16,9 +19,7 @@ export default async (req, res) => {
 			let trustedConfigurations
 			try {
 				trustedConfigurations = Object.fromEntries(
-					await Promise.all(
-						cartFromClientSide.items.map(async (item) => [item.id, await asyncGetConfiguration(item.id)])
-					)
+					await Promise.all(cartFromClientSide.map(async (item) => [item.id, await asyncGetConfiguration(item.id)]))
 				)
 			} catch (error) {
 				if (error instanceof VersioningError) {

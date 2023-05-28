@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { LineWave } from 'react-loader-spinner'
 import { useAuth } from './contexts/AuthContext'
+import { firestore } from '../utils/firebaseClient'
+import { doc, getDoc } from 'firebase/firestore'
 import { CartContext } from './contexts/CartContext'
 import SignInOrSignUp from './account/SignInOrSignUp'
 import { VersioningError } from '../utils/types/errors'
@@ -38,6 +40,22 @@ const CheckoutButton = () => {
 	// This function will handle the process of creating a checkout session
 	// by making a request to your server-side route
 	async function handleCreateCheckoutSession() {
+		// get user data from firestore
+		if (user) {
+			try {
+				const userDocRef = doc(firestore, 'users', user.uid)
+				const docSnap = await getDoc(userDocRef)
+				if (docSnap.exists()) {
+					console.log('Document data:', docSnap.data())
+				} else {
+					console.log('No such document!')
+				}
+			} catch (error) {
+				console.error('Error from Firestore when retrieving user details: ', error)
+			}
+		}
+
+		// call api to get the stripe checkout session
 		try {
 			const response = await fetch('/api/create-checkout-session', {
 				method: 'POST',
