@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Modal from 'react-modal'
 import { Tooltip } from 'react-tooltip'
 import { CartContext } from '../contexts/CartContext'
 import CartDisplay from '../CartDisplay'
@@ -48,8 +49,13 @@ const HeaderCartMenu = () => {
 		}
 	}, [isCartVisible])
 
+	const modalInlineStyles = {
+		overlay: { zIndex: 900, backgroundColor: 'rgba(0, 0, 0, 0.54)' },
+		content: { backgroundColor: '#fbfbfb' },
+	}
+
 	return (
-		<div className={`popupContainer ${headerStyles.headerCartContainer}`}>
+		<div className={headerStyles.headerCartContainer}>
 			<button
 				style={{ visibility: isCartLoading ? 'hidden' : 'visible' }}
 				ref={cartButtonRef}
@@ -71,19 +77,21 @@ const HeaderCartMenu = () => {
 			</button>
 			{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}
 			{isCartVisible && (
-				<div ref={cartRef} className={`popupWrapper ${headerStyles.cartWrapper}`}>
-					{router.pathname !== '/cart' && (
-						<p className={headerStyles.fullSizeCartLink}>
-							<Link href='/cart'>Go to full size cart</Link>
-						</p>
-					)}
-					<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
-						X
-					</button>
-					<div className={headerStyles.cart}>
-						<CartDisplay />
+				<Modal isOpen={isCartVisible} style={modalInlineStyles}>
+					<div ref={cartRef} className={`popupInnerWrapper ${headerStyles.cartWrapper}`}>
+						{router.pathname !== '/cart' && (
+							<p className={headerStyles.fullSizeCartLink}>
+								<Link href='/cart'>Go to full size cart</Link>
+							</p>
+						)}
+						<button onClick={handleCartClose} className='popupCloseButton' aria-label='Close cart'>
+							X
+						</button>
+						<div className={headerStyles.cart}>
+							<CartDisplay />
+						</div>
 					</div>
-				</div>
+				</Modal>
 			)}
 		</div>
 	)

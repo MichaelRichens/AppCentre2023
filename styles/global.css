@@ -37,7 +37,7 @@ body {
 body,
 input,
 select,
-.popupWrapper {
+.popupInnerWrapper {
 	color: black;
 	background-color: #f9f9f9;
 }
@@ -262,17 +262,14 @@ body.userIsTabbing .keyboardNote {
 	position: relative;
 }
 
-.popupWrapper {
-	position: fixed;
-	width: 200px;
-	height: auto;
-	max-height: 50vh;
+.popupInnerWrapper {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
 	padding: 0.5em;
 	padding-top: 1.7em;
-	border: 5px #666 solid;
-	border-radius: 2%;
+
 	overflow-y: auto;
-	z-index: 20;
 }
 
 .popupCloseButton {
