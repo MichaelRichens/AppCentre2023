@@ -44,7 +44,7 @@ function SignUp({ title }) {
 				})
 
 				const { customerId } = await response.json()
-
+				console.log(customerId)
 				// After receiving Stripe customer ID
 				const userDocRef = doc(firestore, 'users', auth.currentUser.uid)
 				await setDoc(userDocRef, { stripeCustomerId: customerId })

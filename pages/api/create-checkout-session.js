@@ -9,7 +9,7 @@ export default async (req, res) => {
 			const cartFromClientSide = req.body?.items
 			const customerFromClientSide = req.body?.customerDetails
 
-			console.log(customerFromClientSide)
+			// Verify product data with backend
 
 			if (!cartFromClientSide || !Array.isArray(cartFromClientSide)) {
 				console.error('Invalid request body. Expected "items" array.')
@@ -41,7 +41,7 @@ export default async (req, res) => {
 				}
 			}
 
-			// Create an array of line items for the Stripe checkout session
+			// Create an array of product line items for the Stripe checkout session
 			const line_items = Object.keys(trustedConfigurations).map((id) => {
 				const configuration = trustedConfigurations[id]
 				const itemName =
@@ -85,6 +85,16 @@ export default async (req, res) => {
 				}
 			})
 
+			// customer details
+
+			let stripeCustomerId = false
+			if (customerFromClientSide) {
+				if (customerFromClientSide?.stripeCustomerId) {
+					stripeCustomerId = customerFromClientSide.stripeCustomerId
+				}
+			}
+
+			// cancel url
 			let cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_URL + '/cart'
 
 			if (req.headers.referer) {
@@ -116,6 +126,10 @@ export default async (req, res) => {
 				sessionCreationObj['shipping_address_collection'] = {
 					allowed_countries: process.env.NEXT_PUBLIC_SHIPPING_COUNTRIES.split(','),
 				}
+			}
+
+			if (stripeCustomerId) {
+				sessionCreationObj.customer = stripeCustomerId
 			}
 
 			let session

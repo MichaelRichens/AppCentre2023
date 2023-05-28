@@ -41,15 +41,17 @@ const CheckoutButton = () => {
 	// This function will handle the process of creating a checkout session
 	// by making a request to the server-side route
 	async function handleCreateCheckoutSession() {
+		const checkoutSessionData = { items: cart }
 		// get user data from firestore
 		if (user) {
 			try {
 				const userDocRef = doc(firestore, 'users', user.uid)
 				const docSnap = await getDoc(userDocRef)
 				if (docSnap.exists()) {
-					console.log('Document data:', docSnap.data())
-				} else {
-					console.log('No such document!')
+					const data = docSnap.data()
+					if (data.stripeCustomerId) {
+						checkoutSessionData.customerDetails = { stripeCustomerId: docSnap.data().stripeCustomerId }
+					}
 				}
 			} catch (error) {
 				console.error('Error from Firestore when retrieving user details: ', error)
@@ -63,7 +65,7 @@ const CheckoutButton = () => {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ items: cart }), // sending the cart details
+				body: JSON.stringify(checkoutSessionData), // sending the cart details
 			})
 
 			if (response.ok) {
@@ -94,6 +96,7 @@ const CheckoutButton = () => {
 			}
 		} catch (error) {
 			setCheckingOut(false)
+			console.error(error)
 			if (error instanceof VersioningError) {
 				setMessage({
 					text: 'Error: Very sorry, one or more items in the cart are no longer valid. Please try removing them from your cart and re-adding them.',
