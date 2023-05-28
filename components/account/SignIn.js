@@ -16,6 +16,7 @@ function SignIn() {
 		setFormError(null) // Clear out any previous errors
 		try {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password)
+			setMessage({ text: 'Logged In Successfully', type: MessageType.SUCCESS })
 		} catch (error) {
 			setFormError(translateFirebaseError(error))
 		}

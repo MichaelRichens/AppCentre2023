@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { auth, translateFirebaseError } from '../../utils/firebaseClient'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
 
 function SignUp() {
@@ -8,11 +9,14 @@ function SignUp() {
 	const [password, setPassword] = useState('')
 	const [formError, setFormError] = useState(null)
 
+	const { setMessage } = useContext(FlashMessageContext)
+
 	const handleSubmit = async (event) => {
 		event.preventDefault()
 
 		try {
 			await createUserWithEmailAndPassword(auth, email, password)
+			setMessage({ text: 'Account Created', type: MessageType.SUCCESS })
 			setEmail('')
 			setPassword('')
 		} catch (error) {

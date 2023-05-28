@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Modal from 'react-modal'
+import { LineWave } from 'react-loader-spinner'
 import { useAuth } from './contexts/AuthContext'
 import { CartContext } from './contexts/CartContext'
+import SignInOrSignUp from './account/SignInOrSignUp'
 import { VersioningError } from '../utils/types/errors'
 import accountStyles from '../styles/Account.shared.module.css'
 import { getModalBaseStyleObject } from '../styles/modalBaseStyleObject'
@@ -11,10 +13,19 @@ const CheckoutButton = () => {
 	const { cart, isCartLoading, getTotalItems } = useContext(CartContext)
 	const [checkoutError, setCheckoutError] = useState(false)
 	const [modalIsOpen, setModalIsOpen] = useState(false)
+	const [checkingOut, setCheckingOut] = useState(false)
 
 	useEffect(() => {
 		setCheckoutError(false)
 	}, [cart])
+
+	// Once the user has logged in or created an account, if the checkout modal is open, get them checked out immediately
+	// This flow may not stick around, but try it like this for the moment
+	useEffect(() => {
+		if (modalIsOpen && !isAuthLoading && user) {
+			checkout()
+		}
+	}, [modalIsOpen, user, isAuthLoading])
 
 	const openModal = () => {
 		setModalIsOpen(true)
@@ -54,6 +65,7 @@ const CheckoutButton = () => {
 
 	// When the button is clicked, it will trigger the checkout process
 	async function checkout() {
+		setCheckingOut(true)
 		setCheckoutError(false)
 		try {
 			const stripeData = await handleCreateCheckoutSession()
@@ -63,6 +75,7 @@ const CheckoutButton = () => {
 				window.location.href = stripeData.url
 			}
 		} catch (error) {
+			setCheckingOut(false)
 			if (error instanceof VersioningError) {
 				setCheckoutError(
 					'Error: Very sorry, one or more items in the cart are no longer valid. Please try removing them from your cart and re-adding them.'
@@ -92,10 +105,28 @@ const CheckoutButton = () => {
 			</button>
 			{checkoutError && <p className='onPageError'>{checkoutError}</p>}
 			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalStyles}>
-				<h2 className={accountStyles.test}>Checkout</h2>
-				<button className='modalCloseButton' onClick={closeModal}>
-					X
-				</button>
+				<div className='modalInnerWrapper'>
+					<button className='modalCloseButton' onClick={closeModal} aria-label='Close checkout'>
+						X
+					</button>
+					<h2 className={accountStyles.test}>Checkout</h2>
+					{!isAuthLoading ? (
+						<div style={{ paddingLeft: '25%' }}>
+							<LineWave width='600' height='600' color='#4fa94d' />
+						</div>
+					) : !checkingOut && !user ? (
+						<>
+							<div className={accountStyles.signInUpFormWrapper}>
+								<form onSubmit={checkout}>
+									<button type='submit'>Checkout As Guest</button>
+								</form>
+							</div>
+							<SignInOrSignUp />
+						</>
+					) : (
+						<p>Checking out order...</p>
+					)}
+				</div>
 			</Modal>
 		</>
 	)
