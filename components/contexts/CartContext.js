@@ -24,9 +24,6 @@ const cartReducer = (state, action) => {
 	}
 }
 
-/**
- * @warning
- */
 const CartProvider = ({ children }) => {
 	const [isCartLoading, setIsCartLoading] = useState(true)
 
