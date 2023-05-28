@@ -1,5 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,10 +13,12 @@ const firebaseConfig = {
 
 let app
 let auth
+let firestore
 
 if (typeof window !== 'undefined' && !getApps().length) {
 	app = initializeApp(firebaseConfig)
 	auth = getAuth(app)
+	firestore = getFirestore(app)
 }
 
 const translateFirebaseError = (error) => {
@@ -32,7 +35,7 @@ const translateFirebaseError = (error) => {
 		// Add more error codes as needed...
 	}
 
-	const lookedUpMessage = errorMessages[error.code] || false
+	const lookedUpMessage = errorMessages[error?.code] || false
 	if (lookedUpMessage) {
 		return lookedUpMessage
 	}
@@ -40,4 +43,4 @@ const translateFirebaseError = (error) => {
 	return 'Sorry, an error occurred. Please try again.'
 }
 
-export { auth, translateFirebaseError }
+export { auth, firestore, translateFirebaseError }
