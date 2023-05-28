@@ -97,11 +97,6 @@
 	}
 }
 
-@media (max-width: 1050px) {
-	.topConfigurator {
-	}
-}
-
 @media (max-width: 850px) {
 	.article > img.smallerImg {
 		max-width: min(40em, 50vw);
