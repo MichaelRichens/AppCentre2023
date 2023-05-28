@@ -29,7 +29,7 @@ const FlashMessage = () => {
 				}, 1000) // This should match the duration of the css fade out transition - 1 second
 
 				setFadeOutTimer(newFadeOutTimer)
-			}, 3000) // stay visible time - 2 seconds
+			}, 2500) // stay visible time - 2.5 seconds
 
 			setTimer(newTimer)
 		}

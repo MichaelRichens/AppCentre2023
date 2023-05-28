@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { CartContext } from './contexts/CartContext'
+import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
 import { Tooltip } from 'react-tooltip'
 import useUniqueId from './hooks/useUniqueId'
 import CheckoutButton from './CheckoutButton'
@@ -24,6 +25,8 @@ const CartDisplay = () => {
 	// A useEffect watching `cart` handles wiping the saved data if the cart is changed.
 	const [savedConfigurationGroup, setSavedConfigurationGroup] = useState({ isValid: false })
 	const setDefaultSavedConfigurationGroup = () => setSavedConfigurationGroup({ isValid: false })
+
+	const { setMessage } = useContext(FlashMessageContext)
 
 	// Changes to the items in the cart
 	useEffect(() => {
@@ -137,9 +140,12 @@ const CartDisplay = () => {
 				await navigator.clipboard.writeText(linkFromId(savedConfigurationGroup.id))
 				let element = document.getElementById(`${cartId}-link-text`)
 
+				//show a bit of feedback on the link that was copied
 				element.classList.remove(styles.copySuccess) // Remove the class if it already present
 				void element.offsetWidth // Trigger a reflow, flushing the CSS changes
 				element.classList.add(styles.copySuccess) // (Re-)add the class
+				// also show a flash message
+				setMessage({ text: 'Link Copied', type: MessageType.INFO })
 
 				// Seems very unlikely we'd have a transient write to clipboard error, but if we have had one, we clear it here.
 				setSavedConfigurationGroup((prevState) => ({ ...prevState, error: undefined }))
