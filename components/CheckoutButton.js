@@ -4,6 +4,7 @@ import { useAuth } from './contexts/AuthContext'
 import { CartContext } from './contexts/CartContext'
 import { VersioningError } from '../utils/types/errors'
 import accountStyles from '../styles/Account.shared.module.css'
+import { getModalBaseStyleObject } from '../styles/modalBaseStyleObject'
 
 const CheckoutButton = () => {
 	const { user, isAuthLoading } = useAuth()
@@ -80,10 +81,9 @@ const CheckoutButton = () => {
 		}
 	}
 
-	const modalInlineStyles = {
-		overlay: { zIndex: 900, backgroundColor: 'rgba(0, 0, 0, 0.55)' },
-		content: { backgroundColor: '#fbfbfb' },
-	}
+	const modalStyles = getModalBaseStyleObject()
+
+	modalStyles.overlay.zIndex = 900
 
 	return (
 		<>
@@ -91,7 +91,7 @@ const CheckoutButton = () => {
 				Checkout
 			</button>
 			{checkoutError && <p className='onPageError'>{checkoutError}</p>}
-			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalInlineStyles}>
+			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalStyles}>
 				<h2 className={accountStyles.test}>Checkout</h2>
 				<button className='modalCloseButton' onClick={closeModal}>
 					X

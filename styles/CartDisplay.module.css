@@ -1,3 +1,9 @@
+.cartContainer {
+	max-width: 1200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .cartContainer h2 {
 	margin: 0;
 	padding: 0;
@@ -6,7 +12,6 @@
 .cartContainer ul {
 	display: flex;
 	flex-direction: column;
-
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -25,7 +30,7 @@
 }
 
 .cartItems ul li:hover {
-	background-color: #e8f3fa;
+	background-color: #d3ebfc;
 }
 
 .cartContainer .cartItems button {
@@ -45,7 +50,6 @@
 .licenceWrapper input {
 	margin-left: 1em;
 	width: 20em;
-	max-width: 70vw;
 }
 
 .checkout {

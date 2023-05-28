@@ -7,6 +7,7 @@ import { Tooltip } from 'react-tooltip'
 import { CartContext } from '../contexts/CartContext'
 import CartDisplay from '../CartDisplay'
 import headerStyles from '../../styles/Header.shared.module.css'
+import { getModalBaseStyleObject } from '../../styles/modalBaseStyleObject'
 
 const HeaderCartMenu = () => {
 	const { isCartLoading, getTotalItems } = useContext(CartContext)
@@ -49,10 +50,7 @@ const HeaderCartMenu = () => {
 		}
 	}, [isCartVisible])
 
-	const modalInlineStyles = {
-		overlay: { zIndex: 900, backgroundColor: 'rgba(0, 0, 0, 0.55)' },
-		content: { maxWidth: '800px', marginLeft: 'auto', marginRight: 'auto', backgroundColor: '#fbfbfb' },
-	}
+	const modalStyles = getModalBaseStyleObject()
 
 	return (
 		<div className={headerStyles.headerCartContainer}>
@@ -77,11 +75,11 @@ const HeaderCartMenu = () => {
 			</button>
 			{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}
 			{isCartVisible && (
-				<Modal isOpen={isCartVisible} style={modalInlineStyles}>
+				<Modal isOpen={isCartVisible} style={modalStyles}>
 					<div ref={cartRef} className={`modalInnerWrapper ${headerStyles.cartWrapper}`}>
 						{router.pathname !== '/cart' && (
 							<p className={headerStyles.fullSizeCartLink}>
-								<Link href='/cart'>Go to full size cart</Link>
+								<Link href='/cart'>Go to cart page</Link>
 							</p>
 						)}
 						<button onClick={handleCartClose} className='modalCloseButton' aria-label='Close cart'>
