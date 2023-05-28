@@ -110,7 +110,7 @@ const CheckoutButton = () => {
 						X
 					</button>
 					<h2 className={accountStyles.test}>Checkout</h2>
-					{!isAuthLoading ? (
+					{isAuthLoading ? (
 						<div style={{ paddingLeft: '25%' }}>
 							<LineWave width='600' height='600' color='#4fa94d' />
 						</div>
