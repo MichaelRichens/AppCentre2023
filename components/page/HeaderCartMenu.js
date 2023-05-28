@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -13,42 +13,15 @@ const HeaderCartMenu = () => {
 	const { isCartLoading, getTotalItems } = useContext(CartContext)
 	const router = useRouter()
 
-	const [isCartVisible, setCartVisible] = useState(false)
-	const cartRef = useRef(null)
-	const cartButtonRef = useRef(null)
+	const [modalIsOpen, setModalIsOpen] = useState(false)
 
-	const handleCartClick = () => {
-		if (getTotalItems() > 0) {
-			setCartVisible(!isCartVisible)
-		}
+	const openModal = () => {
+		setModalIsOpen(true)
 	}
 
-	const handleCartClose = () => {
-		setCartVisible(false)
+	const closeModal = () => {
+		setModalIsOpen(false)
 	}
-
-	const handleClickOutside = (event) => {
-		if (
-			cartButtonRef.current &&
-			!cartRef.current.contains(event.target) &&
-			!cartButtonRef.current.contains(event.target)
-		) {
-			handleCartClose()
-		}
-	}
-
-	useEffect(() => {
-		if (isCartVisible) {
-			document.addEventListener('mousedown', handleClickOutside)
-		} else {
-			document.removeEventListener('mousedown', handleClickOutside)
-		}
-
-		// cleanup function
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside)
-		}
-	}, [isCartVisible])
 
 	const modalStyles = getModalBaseStyleObject()
 
@@ -56,9 +29,8 @@ const HeaderCartMenu = () => {
 		<div className={headerStyles.headerCartContainer}>
 			<button
 				style={{ visibility: isCartLoading ? 'hidden' : 'visible' }}
-				ref={cartButtonRef}
 				className={headerStyles.cartIcon}
-				onClick={handleCartClick}
+				onClick={openModal}
 				aria-label='Open Cart'
 				disabled={isCartLoading || getTotalItems() === 0}
 				data-tooltip-id='open-cart'
@@ -73,24 +45,22 @@ const HeaderCartMenu = () => {
 					{!isCartLoading ? getTotalItems() : 0}
 				</div>
 			</button>
-			{!isCartVisible && getTotalItems() > 0 && <Tooltip id='open-cart' />}
-			{isCartVisible && (
-				<Modal isOpen={isCartVisible} style={modalStyles}>
-					<div ref={cartRef} className={`modalInnerWrapper ${headerStyles.cartWrapper}`}>
-						{router.pathname !== '/cart' && (
-							<p className={headerStyles.fullSizeCartLink}>
-								<Link href='/cart'>Go to cart page</Link>
-							</p>
-						)}
-						<button onClick={handleCartClose} className='modalCloseButton' aria-label='Close cart'>
-							X
-						</button>
-						<div className={headerStyles.cart}>
-							<CartDisplay />
-						</div>
+			<Tooltip id='open-cart' />
+			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalStyles}>
+				<div className={`modalInnerWrapper ${headerStyles.cartWrapper}`}>
+					{router.pathname !== '/cart' && (
+						<p className={headerStyles.fullSizeCartLink}>
+							<Link href='/cart'>Go to cart page</Link>
+						</p>
+					)}
+					<button onClick={closeModal} className='modalCloseButton' aria-label='Close cart'>
+						X
+					</button>
+					<div className={headerStyles.cart}>
+						<CartDisplay />
 					</div>
-				</Modal>
-			)}
+				</div>
+			</Modal>
 		</div>
 	)
 }
