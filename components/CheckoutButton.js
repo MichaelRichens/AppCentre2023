@@ -109,7 +109,7 @@ const CheckoutButton = () => {
 					<button className='modalCloseButton' onClick={closeModal} aria-label='Close checkout'>
 						X
 					</button>
-					<h2 className={accountStyles.test}>Checkout</h2>
+					<h2 className={accountStyles.test}>Checkout Options</h2>
 					{isAuthLoading ? (
 						<div style={{ paddingLeft: '25%' }}>
 							<LineWave width='600' height='600' color='#4fa94d' />
@@ -118,7 +118,7 @@ const CheckoutButton = () => {
 						<>
 							<div className={accountStyles.signInUpFormWrapper}>
 								<form onSubmit={checkout}>
-									<button type='submit'>Checkout As Guest</button>
+									<button type='submit'>Checkout As A Guest</button>
 								</form>
 							</div>
 							<SignInOrSignUp />

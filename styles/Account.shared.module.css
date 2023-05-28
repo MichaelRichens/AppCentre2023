@@ -12,10 +12,13 @@ main.authRequiredForAccess h1 {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	max-width: 50em;
+	margin-left: auto;
+	margin-right: auto;
 	padding: 10px 20px;
 	margin-bottom: 1em;
 	border-radius: 5px;
-	background-color: #e9e9e9;
+	background-color: #b6c4d88a;
 }
 
 .signInUpFormWrapper form {
@@ -28,7 +31,6 @@ main.authRequiredForAccess h1 {
 
 .signInUpFormWrapper form label {
 	font-size: 16px;
-	color: #000000;
 	margin-bottom: 10px;
 	display: flex;
 	flex-direction: column;
