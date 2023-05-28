@@ -59,6 +59,7 @@
 }
 
 .mainLogo {
+	padding-left: 42px; /* should match the actual width of the right side cart container aside, to center the logo */
 	height: 70px;
 	width: 373px;
 }
