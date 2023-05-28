@@ -41,16 +41,17 @@ const CheckoutButton = () => {
 	// This function will handle the process of creating a checkout session
 	// by making a request to the server-side route
 	async function handleCreateCheckoutSession() {
-		const checkoutSessionData = { items: cart }
+		const checkoutSessionData = { items: cart, customerDetails: {} }
 		// get user data from firestore
 		if (user) {
+			checkoutSessionData.customerDetails.firebaseUserId = user.uid
 			try {
 				const userDocRef = doc(firestore, 'users', user.uid)
 				const docSnap = await getDoc(userDocRef)
 				if (docSnap.exists()) {
 					const data = docSnap.data()
 					if (data.stripeCustomerId) {
-						checkoutSessionData.customerDetails = { stripeCustomerId: docSnap.data().stripeCustomerId }
+						checkoutSessionData.customerDetails.stripeCustomerId = docSnap.data().stripeCustomerId
 					}
 				}
 			} catch (error) {

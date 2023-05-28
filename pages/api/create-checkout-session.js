@@ -1,4 +1,5 @@
 import Error from 'next/error'
+import { connectToDatabase } from '../../server-utils/mongodb'
 import { stripe } from '../../server-utils/initStripe'
 import { VersioningError } from '../../utils/types/errors'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
@@ -6,8 +7,23 @@ import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfiguratio
 export default async (req, res) => {
 	if (req.method === 'POST') {
 		try {
+			// product database access is done via a function, but we use this later on
+			let db
+			try {
+				db = await connectToDatabase()
+			} catch (error) {
+				console.error('Failed to connect to mongodb', error)
+				throw error
+			}
+
 			const cartFromClientSide = req.body?.items
 			const customerFromClientSide = req.body?.customerDetails
+
+			// for storing in the orders collection in mongodb
+			let orderObject = {}
+			if (customerFromClientSide?.firebaseUserId) {
+				orderObject.firebaseUserId = customerFromClientSide.firebaseUserId
+			}
 
 			// Verify product data with backend
 
@@ -30,6 +46,8 @@ export default async (req, res) => {
 				}
 			}
 
+			orderObject.line_items = { ...trustedConfigurations }
+
 			// do we have anything to ship
 
 			let isShipping = false
@@ -39,6 +57,12 @@ export default async (req, res) => {
 					isShipping = true
 					break
 				}
+			}
+
+			orderObject.isShipping = isShipping
+
+			if (isShipping) {
+				orderObject.shippingPrice = 0 // free shipping is all we're doing
 			}
 
 			// Create an array of product line items for the Stripe checkout session
@@ -91,6 +115,7 @@ export default async (req, res) => {
 			if (customerFromClientSide) {
 				if (customerFromClientSide?.stripeCustomerId) {
 					stripeCustomerId = customerFromClientSide.stripeCustomerId
+					orderObject.stripeCustomerId = stripeCustomerId
 				}
 			}
 
@@ -141,6 +166,17 @@ export default async (req, res) => {
 				// Handle errors from the Stripe API separately
 				console.error('Stripe API Error:', stripeError)
 				return res.status(500).json({ message: `Stripe API error: ${stripeError.message}` })
+			}
+
+			orderObject.sessionId = session.id
+
+			// store the order with mongodb
+			orderObject.status = 'CHECKOUT'
+			try {
+				await db.collection('orders').insertOne(orderObject)
+			} catch (error) {
+				console.error('Error inserting document in mongodb:', error)
+				throw error
 			}
 
 			// Return the session ID
