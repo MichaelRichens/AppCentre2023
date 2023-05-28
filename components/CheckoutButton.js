@@ -109,18 +109,20 @@ const CheckoutButton = () => {
 					<button className='modalCloseButton' onClick={closeModal} aria-label='Close checkout'>
 						X
 					</button>
-					<h2 className={accountStyles.test}>Checkout Options</h2>
+					<h1 className={accountStyles.test}>Checkout Options</h1>
 					{isAuthLoading ? (
 						<div style={{ paddingLeft: '25%' }}>
 							<LineWave width='600' height='600' color='#4fa94d' />
 						</div>
 					) : !checkingOut && !user ? (
 						<>
+							<h2>Checkout as a guest</h2>
 							<div className={accountStyles.signInUpFormWrapper}>
 								<form onSubmit={checkout}>
-									<button type='submit'>Checkout As A Guest</button>
+									<button type='submit'>Guest Checkout</button>
 								</form>
 							</div>
+							<h2>Or with an account</h2>
 							<SignInOrSignUp />
 						</>
 					) : (

@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
 
-function SignUp() {
+function SignUp({ title }) {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [formError, setFormError] = useState(null)
@@ -36,6 +36,7 @@ function SignUp() {
 
 	return (
 		<div className={accountStyles.signInUpFormWrapper}>
+			<h3>{title}</h3>
 			{formError !== null && (
 				<p className='onPageError' aria-live='polite'>
 					{formError}

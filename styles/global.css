@@ -136,6 +136,10 @@ h1 + .h1SubHeading {
 	margin-block-start: -0.7em;
 }
 
+h1 + h2 {
+	margin-block-start: -0.5em;
+}
+
 legend > small {
 	display: block;
 }
@@ -266,6 +270,19 @@ body.userIsTabbing .keyboardNote {
 	padding-top: 1.7em;
 
 	overflow-y: auto;
+}
+
+.modalInnerWrapper h1 {
+	font-size: 180%;
+	margin-bottom: 1em;
+}
+
+.modalInnerWrapper h2 {
+	font-size: 140%;
+}
+
+.modalInnerWrapper h3 {
+	font-size: 120%;
 }
 
 .modalCloseButton {

@@ -4,7 +4,7 @@ import { auth, translateFirebaseError } from '../../utils/firebaseClient'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
 
-function SignIn() {
+function SignIn({ title }) {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [formError, setFormError] = useState(null)
@@ -34,7 +34,7 @@ function SignIn() {
 
 	return (
 		<div className={accountStyles.signInUpFormWrapper}>
-			<h2>Log In or Reset Password:</h2>
+			<h3>{title}</h3>
 			<form onSubmit={signIn}>
 				<label>
 					Email:

@@ -6,9 +6,8 @@ import accountStyles from '../../styles/Account.shared.module.css'
 function SignInOrSignUp() {
 	return (
 		<div className={accountStyles.SignInOrSignUp}>
-			<SignIn />
-			<h2>Or create an account here:</h2>
-			<SignUp />
+			<SignIn title='Log into your account:' />
+			<SignUp title='Or create an account here:' />
 		</div>
 	)
 }
