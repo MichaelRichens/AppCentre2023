@@ -90,16 +90,19 @@
 	color: blue;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1400px) {
 	.topConfigurator {
 		font-size: 80%;
+		max-width: 40vw;
 	}
 }
-@media (max-width: 850px) {
-	.topConfigurator {
-		width: 30em;
-	}
 
+@media (max-width: 1050px) {
+	.topConfigurator {
+	}
+}
+
+@media (max-width: 850px) {
 	.article > img.smallerImg {
 		max-width: min(40em, 50vw);
 	}

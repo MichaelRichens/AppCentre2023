@@ -19,7 +19,7 @@ const ProductInfoPage = ({ title, subHeading, logoSrc, productDataArray, childre
 	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
 		throw new Error('Invalid productDataArray')
 	}
-	const showTopConfigurator = useMediaQuery('(min-width: 750px)')
+	const showTopConfigurator = useMediaQuery('(min-width: 900px)')
 
 	return (
 		<Page title={title} subHeading={subHeading} logoSrc={logoSrc}>
