@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FlashMessageContext } from './contexts/FlashMessageContext'
-import MessageType from '../utils/types/enums/MessageType'
+import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
 
 import styles from '../styles/FlashMessage.module.css'
 

@@ -1,8 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { auth, translateFirebaseError } from '../../utils/firebaseClient'
-import MessageType from '../../utils/types/enums/MessageType'
-import { FlashMessageContext } from '../contexts/FlashMessageContext'
+import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
 
 function SignIn() {

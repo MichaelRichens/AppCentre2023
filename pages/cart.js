@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { RotatingLines } from 'react-loader-spinner'
-import { FlashMessageContext } from '../components/contexts/FlashMessageContext'
+import { FlashMessageContext, MessageType } from '../components/contexts/FlashMessageContext'
 import Page from '../components/page/Page'
 import CartDisplay from '../components/CartDisplay'
 import { CartContext } from '../components/contexts/CartContext'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
-import MessageType from '../utils/types/enums/MessageType'
-import { formatPriceFromPounds } from '../utils/formatPrice'
 
 const CartPage = () => {
 	const { isCartLoading, clearCart, addToCart, getTotalItems, getTotalPrice } = useContext(CartContext)

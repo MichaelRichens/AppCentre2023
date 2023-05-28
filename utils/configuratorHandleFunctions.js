@@ -1,6 +1,6 @@
 import PricingType from './types/enums/PricingType'
 import PurchaseType from './types/enums/PurchaseType'
-import MessageType from './types/enums/MessageType'
+import { MessageType } from '../components/contexts/FlashMessageContext'
 
 /** @function
  * Handles a generic change in formData, with no validation
