@@ -1,10 +1,24 @@
+import { buffer } from 'micro'
 import { stripe } from '../../server-utils/initStripe'
 
-// Need to add signature verification - see: https://stripe.com/docs/webhooks/signatures
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+}
 
 export default async function handler(req, res) {
 	if (req.method === 'POST') {
-		const event = req.body
+		const buf = await buffer(req)
+		const sig = req.headers['stripe-signature']
+		let event
+
+		try {
+			event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SIGNING_SECRET)
+		} catch (error) {
+			console.log(`Error verifying webhook signature: ${error.message}`)
+			return res.status(400).send(`Webhook Error: ${error.message}`)
+		}
 
 		switch (event.type) {
 			case 'payment_intent.succeeded':
