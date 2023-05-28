@@ -28,7 +28,6 @@ function SignUp({ title }) {
 			setEmail('')
 			setPassword('')
 		} catch (error) {
-			error = true
 			setFormError(translateFirebaseError(error))
 		}
 
