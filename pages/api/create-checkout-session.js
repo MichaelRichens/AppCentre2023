@@ -204,6 +204,8 @@ export default async (req, res) => {
 
 			orderObject.sessionId = session.id
 
+			orderObject.status = OrderStatus.CHECKOUT
+
 			// store the order with firestore
 
 			try {
@@ -213,14 +215,7 @@ export default async (req, res) => {
 				plainObject.updatedAt = firebaseAdmin.firestore.FieldValue.serverTimestamp()
 
 				// add it to orders collection
-				const newOrderRef = await firebaseService.collection('orders').add(plainObject)
-
-				// add a statusHistory object to sub collection
-				const statusRef = newOrderRef.collection('statusHistory').doc()
-				await statusRef.set({
-					status: OrderStatus.CHECKOUT,
-					createdAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
-				})
+				await firebaseService.collection('orders').add(plainObject)
 			} catch (error) {
 				console.error('Error inserting document in firestore:', error)
 				throw error

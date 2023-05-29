@@ -39,7 +39,7 @@ const Account = () => {
 					data.push(order)
 				}
 			})
-
+			console.log(data)
 			setOrders(data)
 		})
 
