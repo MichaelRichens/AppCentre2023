@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 				break
 			case 'checkout.session.completed':
 				const completedSession = event.data.object
-				console.log('checkout.session.completed object:', completedSession)
+				//console.log('checkout.session.completed object:', completedSession)
 				try {
 					const ordersRef = firebaseService.collection('orders')
 
@@ -95,6 +95,11 @@ export default async function handler(req, res) {
 				}
 
 				break
+			case 'customer.created':
+				const createdCustomer = event.data.object
+				//console.log('customer.created object:', createdCustomer)
+				console.log(`Customer was updated! ID: ${createdCustomer.id}, Email: ${createdCustomer.email}`)
+				break
 			case 'customer.deleted':
 				const deletedCustomer = event.data.object
 				try {
@@ -137,7 +142,6 @@ export default async function handler(req, res) {
 			case 'payment_intent.succeeded':
 				const paymentIntent = event.data.object
 				console.log(`PaymentIntent was successful! ID: ${paymentIntent.id}, Amount: ${paymentIntent.amount}`)
-				console.log(paymentIntent)
 				break
 			default:
 				console.log(`Unhandled event type: ${event.type}`)
