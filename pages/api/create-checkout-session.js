@@ -1,6 +1,9 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import Error from 'next/error'
+import * as admin from 'firebase-admin'
 import { connectToDatabase } from '../../server-utils/mongodb'
 import { stripe } from '../../server-utils/initStripe'
+import firebaseService from '../../server-utils/firebaseService'
 import { VersioningError } from '../../utils/types/errors'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 
@@ -164,8 +167,38 @@ export default async (req, res) => {
 				session = await stripe.checkout.sessions.create(sessionCreationObj)
 			} catch (stripeError) {
 				// Handle errors from the Stripe API separately
-				console.error('Stripe API Error:', stripeError)
-				return res.status(500).json({ message: `Stripe API error: ${stripeError.message}` })
+
+				if (
+					stripeError.type === 'StripeInvalidRequestError' &&
+					stripeError.code === 'resource_missing' &&
+					stripeError.param === 'customer' &&
+					stripeError.detail === undefined
+				) {
+					console.log('Stripe customer does not exist.')
+					delete sessionCreationObj.customer
+					delete orderObject.stripeCustomerId
+					if (customerFromClientSide?.firebaseUserId) {
+						// Delete the stripeCustomerId field from this user's firestore record, since this stripe customer record does not seem to exist any more
+						try {
+							const userRef = firebaseService.collection('users').doc(customerFromClientSide.firebaseUserId)
+							userRef.update({
+								stripeCustomerId: admin.firestore.FieldValue.delete(),
+							})
+						} catch (firebaseError) {
+							console.error('Error deleting stripe user id from firebase', firebaseError)
+							// Non fatal error, will continue with checkout
+						}
+					}
+					try {
+						session = await stripe.checkout.sessions.create(sessionCreationObj)
+					} catch (stillStripeError) {
+						console.error('Still get stripe error without passing customer.', stillStripeError)
+						return res.status(500).json({ message: `Stripe API error: ${stillStripeError.message}` })
+					}
+				} else {
+					console.error('Stripe API Error:', stripeError)
+					return res.status(500).json({ message: `Stripe API error: ${stripeError.message}` })
+				}
 			}
 
 			orderObject.sessionId = session.id
