@@ -4,6 +4,7 @@ import { connectToDatabase } from '../../server-utils/mongodb'
 import { stripe } from '../../server-utils/initStripe'
 import firebaseService from '../../server-utils/firebaseService'
 import { VersioningError } from '../../utils/types/errors'
+import OrderStatus from '../../utils/types/enums/OrderStatus'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 
 export default async (req, res) => {
@@ -182,6 +183,7 @@ export default async (req, res) => {
 							const userRef = firebaseService.collection('users').doc(customerFromClientSide.firebaseUserId)
 							userRef.update({
 								stripeCustomerId: firebaseAdmin.firestore.FieldValue.delete(),
+								updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
 							})
 						} catch (firebaseError) {
 							console.error('Error deleting stripe user id from firebase', firebaseError)
@@ -203,10 +205,22 @@ export default async (req, res) => {
 			orderObject.sessionId = session.id
 
 			// store the order with firestore
-			orderObject.status = 'CHECKOUT'
+
 			try {
-				// parse/stringify is just to convert custom objects into plain javascript objects for firestore
-				await firebaseService.collection('orders').add(JSON.parse(JSON.stringify(orderObject)))
+				// parse/stringify is just to convert custom objects into plain javascript objects for firestore (must be done before adding timestamps)
+				const plainObject = JSON.parse(JSON.stringify(orderObject))
+				plainObject.createdAt = firebaseAdmin.firestore.FieldValue.serverTimestamp()
+				plainObject.updatedAt = firebaseAdmin.firestore.FieldValue.serverTimestamp()
+
+				// add it to orders collection
+				const newOrderRef = await firebaseService.collection('orders').add(plainObject)
+
+				// add a statusHistory object to sub collection
+				const statusRef = newOrderRef.collection('statusHistory').doc()
+				await statusRef.set({
+					status: OrderStatus.CHECKOUT,
+					createdAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+				})
 			} catch (error) {
 				console.error('Error inserting document in firestore:', error)
 				throw error

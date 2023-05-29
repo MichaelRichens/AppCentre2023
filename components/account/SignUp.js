@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { auth, firestore, translateFirebaseError } from '../../utils/firebaseClient'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
 
@@ -44,9 +44,13 @@ function SignUp({ title }) {
 
 				const { customerId } = await response.json()
 				console.log(customerId)
-				// After receiving Stripe customer ID
+				// After receiving Stripe customer ID, create a users document and add it there
 				const userDocRef = doc(firestore, 'users', auth.currentUser.uid)
-				await setDoc(userDocRef, { stripeCustomerId: customerId })
+				await setDoc(userDocRef, {
+					stripeCustomerId: customerId,
+					createdAt: serverTimestamp(),
+					updatedAt: serverTimestamp(),
+				})
 			} catch (error) {
 				console.error('Error creating customer with Stripe', error)
 				// This is non-fatal, the firebase customer was created but a matching stripe customer could not be.  Will hopefully be able to create a new stripe customer at checkout, or something.
