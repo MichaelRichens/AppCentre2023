@@ -2,7 +2,7 @@ import { buffer } from 'micro'
 import * as firebaseAdmin from 'firebase-admin'
 import firebaseService from '../../server-utils/firebaseService'
 import { stripe } from '../../server-utils/initStripe'
-import { connectToDatabase } from '../../server-utils/mongodb'
+import OrderStatus from '../../utils/types/enums/OrderStatus'
 
 export const config = {
 	api: {
@@ -30,11 +30,69 @@ export default async function handler(req, res) {
 				break
 			case 'checkout.session.completed':
 				const completedSession = event.data.object
-				console.log(`Checkout session was completed! ID: ${completedSession.id}`)
+				try {
+					const ordersRef = firebaseService.collection('orders')
+
+					const querySnapshot = await ordersRef.where('sessionId', '==', completedSession.id).get()
+
+					if (!querySnapshot.empty) {
+						if (querySnapshot.docs.length > 1) {
+							console.error(
+								`Webhook checkout.session.completed - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${completedSession.id}`
+							)
+						}
+						const doc = querySnapshot.docs[0] // We'll just update the first matching document since there should only be 1
+						await doc.ref.update({
+							status: OrderStatus.PAID,
+							updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+						})
+					} else {
+						console.error(
+							`Webhook checkout.session.completed - No matching order found for stripe session id: ${completedSession.id}`
+						)
+						return res.status(404).json({ error: 'No matching order found' })
+					}
+				} catch (error) {
+					console.error(
+						`Webhook checkout.session.completed - Unable to complete order for stripe session complete webhook with session is: ${completedSession.id}`,
+						error
+					)
+					return res.status(500).json({ error: 'Unable to complete order.' })
+				}
 				break
 			case 'checkout.session.expired':
 				const expiredSession = event.data.object
-				console.log(`Checkout session expired! ID: ${expiredSession.id}`)
+
+				try {
+					const ordersRef = firebaseService.collection('orders')
+
+					const querySnapshot = await ordersRef.where('sessionId', '==', expiredSession.id).get()
+
+					if (!querySnapshot.empty) {
+						if (querySnapshot.docs.length > 1) {
+							console.error(
+								`Webhook: checkout.session.expired - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${expiredSession.id}`
+							)
+						}
+						const doc = querySnapshot.docs[0] // We'll just update the first matching document since there should only be 1
+						await doc.ref.update({
+							status: OrderStatus.EXPIRED,
+							updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+						})
+					} else {
+						console.error(
+							`Webhook: checkout.session.expired - No matching order found for stripe session id: ${expiredSession.id}`
+						)
+						return res.status(404).json({ error: 'No matching order found' })
+					}
+				} catch (error) {
+					console.error(
+						`Webhook: checkout.session.expired - Unable to update order for stripe session id: ${expiredSession.id}`,
+						error
+					)
+					return res.status(500).json({ error: 'Unable to expire order.' })
+				}
+
 				break
 			case 'customer.deleted':
 				const deletedCustomer = event.data.object
@@ -56,7 +114,11 @@ export default async function handler(req, res) {
 					// Wait for all updates to complete
 					await Promise.allSettled(updatePromises)
 				} catch (error) {
-					console.error('Error updating Firestore documents:', error)
+					console.error(
+						`Customer Delete Error for stripe customer id ${deletedCustomer.id}. Error updating Firestore documents:`,
+						error
+					)
+					return res.status(500).json({ error: 'Error deleting customer.' })
 				}
 				break
 			case 'customer.updated':
