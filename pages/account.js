@@ -28,22 +28,22 @@ const Account = () => {
 			const data = []
 			querySnapshot.forEach((doc) => {
 				if (doc.exists) {
-					data.push(doc.data())
+					const order = doc.data()
+
+					if (order.line_items) {
+						for (const key in order.line_items) {
+							order.line_items[key] = ProductConfiguration.fromRawProperties(order.line_items[key])
+						}
+					}
+
+					data.push(order)
 				}
 			})
 
-			for (let i = 0; i < data?.length; i++) {
-				if (data[i]?.line_items) {
-					for (const key in data[i].line_items) {
-						data[i].line_items[key] = ProductConfiguration.fromRawProperties(data[i].line_items[key])
-					}
-				}
-			}
-			console.log(data)
 			setOrders(data)
 		})
 
-		// Clean up subscription on unmount
+		// Clean up subscriptions on unmount
 		return () => {
 			unsubscribeUsers()
 			unsubscribeOrders()
