@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, serverTimestamp, setDoc, updateDoc, doc } from 'firebase/firestore'
 
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -43,4 +43,30 @@ const translateFirebaseError = (error) => {
 	return 'Sorry, an error occurred. Please try again.'
 }
 
-export { auth, firestore, translateFirebaseError }
+// Wrapper function for setDoc
+async function createDocument(path, data) {
+	const docRef = doc(firestore, path)
+	const timestamp = serverTimestamp()
+
+	const docData = {
+		...data,
+		createdAt: timestamp,
+		updatedAt: timestamp,
+	}
+
+	await setDoc(docRef, docData)
+}
+
+// Wrapper function for updateDoc
+async function updateDocument(path, data) {
+	const docRef = doc(firestore, path)
+
+	const docData = {
+		...data,
+		updatedAt: serverTimestamp(),
+	}
+
+	await updateDoc(docRef, docData)
+}
+
+export { auth, firestore, createDocument, updateDocument, translateFirebaseError }
