@@ -42,20 +42,16 @@ const CheckoutButton = () => {
 	// This function will handle the process of creating a checkout session
 	// by making a request to the server-side route
 	async function handleCreateCheckoutSession() {
-		console.log('x1')
 		const checkoutSessionData = { items: cart, customerDetails: {} }
 		// get user data from firestore
 		if (user || anonymousUser) {
-			console.log('x2')
 			checkoutSessionData.customerDetails.firebaseUserId = user?.uid || anonymousUser.uid
 			try {
 				const userDocRef = doc(firestore, 'users', user?.uid || anonymousUser.uid)
 				const docSnap = await getDoc(userDocRef)
 				if (docSnap.exists()) {
-					console.log('x3')
 					const data = docSnap.data()
 					if (data.stripeCustomerId) {
-						console.log('x4')
 						checkoutSessionData.customerDetails.stripeCustomerId = docSnap.data().stripeCustomerId
 					}
 				}
@@ -63,11 +59,9 @@ const CheckoutButton = () => {
 				console.error('Error from Firestore when retrieving user details: ', error)
 			}
 		} else {
-			console.log('x5')
 			// No user is signed in, so sign in anonymously
 			try {
 				const userCredential = await signInAnonymously(auth)
-				console.log('x6')
 				// The anonymous user is signed in. You can access their UID with userCredential.user.uid.
 				const newAnonymousUser = userCredential.user
 				checkoutSessionData.customerDetails.firebaseUserId = newAnonymousUser.uid
@@ -75,7 +69,6 @@ const CheckoutButton = () => {
 				console.error('Error signing in anonymously: ', error)
 			}
 		}
-		console.log('x7')
 
 		// call api to get the stripe checkout session
 		try {
