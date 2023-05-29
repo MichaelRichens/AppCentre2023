@@ -2,6 +2,7 @@ const CartActionsEnum = {
 	CHECKOUT: 'CHECKOUT', //checkout process started with this order (stripe session created basically)
 	EXPIRED: 'EXPIRED', //checkout was not completed and the stripe session has expired
 	PAID: 'PAID', //payment has been made
+	REFUNDED: 'REFUNDED', //Refund has been made
 }
 
 // Use a proxy in dev mode so it throws an error on a non-existent value
