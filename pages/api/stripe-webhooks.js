@@ -21,22 +21,6 @@ export default async function handler(req, res) {
 		}
 
 		switch (event.type) {
-			case 'payment_intent.succeeded':
-				const paymentIntent = event.data.object
-				console.log(`PaymentIntent was successful! ID: ${paymentIntent.id}, Amount: ${paymentIntent.amount}`)
-				break
-			case 'customer.updated':
-				const updatedCustomer = event.data.object
-				console.log(`Customer was updated! ID: ${updatedCustomer.id}, Email: ${updatedCustomer.email}`)
-				break
-			case 'customer.deleted':
-				const deletedCustomer = event.data.object
-				console.log(`Customer was deleted! ID: ${deletedCustomer.id}`)
-				break
-			case 'payment_intent.payment_failed':
-				const failedPaymentIntent = event.data.object
-				console.log(`PaymentIntent failed! ID: ${failedPaymentIntent.id}`)
-				break
 			case 'charge.refunded':
 				const refundedCharge = event.data.object
 				console.log(`Charge was refunded! ID: ${refundedCharge.id}, Amount refunded: ${refundedCharge.amount_refunded}`)
@@ -45,9 +29,29 @@ export default async function handler(req, res) {
 				const completedSession = event.data.object
 				console.log(`Checkout session was completed! ID: ${completedSession.id}`)
 				break
+			case 'checkout.session.expired':
+				const expiredSession = event.data.object
+				console.log(`Checkout session expired! ID: ${expiredSession.id}`)
+				break
+			case 'customer.deleted':
+				const deletedCustomer = event.data.object
+				console.log(`Customer was deleted! ID: ${deletedCustomer.id}`)
+				break
+			case 'customer.updated':
+				const updatedCustomer = event.data.object
+				console.log(`Customer was updated! ID: ${updatedCustomer.id}, Email: ${updatedCustomer.email}`)
+				break
 			case 'dispute.created':
 				const dispute = event.data.object
 				console.log(`A dispute was created! ID: ${dispute.id}`)
+				break
+			case 'payment_intent.payment_failed':
+				const failedPaymentIntent = event.data.object
+				console.log(`PaymentIntent failed! ID: ${failedPaymentIntent.id}`)
+				break
+			case 'payment_intent.succeeded':
+				const paymentIntent = event.data.object
+				console.log(`PaymentIntent was successful! ID: ${paymentIntent.id}, Amount: ${paymentIntent.amount}`)
 				break
 			default:
 				console.log(`Unhandled event type: ${event.type}`)

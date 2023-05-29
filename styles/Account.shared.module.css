@@ -3,6 +3,16 @@ main.authRequiredForAccess h1 {
 	color: #444;
 }
 
+main.accountDetailsPage > section {
+	max-width: 60em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+main.accountDetailsPage ul {
+	list-style-type: square;
+}
+
 .SignInOrSignUp h3 {
 	font-size: 120%;
 }
