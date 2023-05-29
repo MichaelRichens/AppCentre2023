@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import Error from 'next/error'
 import * as firebaseAdmin from 'firebase-admin'
 import { connectToDatabase } from '../../server-utils/mongodb'

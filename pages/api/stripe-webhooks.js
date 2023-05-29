@@ -1,5 +1,8 @@
 import { buffer } from 'micro'
+import * as firebaseAdmin from 'firebase-admin'
+import firebaseService from '../../server-utils/firebaseService'
 import { stripe } from '../../server-utils/initStripe'
+import { connectToDatabase } from '../../server-utils/mongodb'
 
 export const config = {
 	api: {
@@ -35,7 +38,26 @@ export default async function handler(req, res) {
 				break
 			case 'customer.deleted':
 				const deletedCustomer = event.data.object
-				console.log(`Customer was deleted! ID: ${deletedCustomer.id}`)
+				try {
+					// Query Firestore for any users with the deleted customer's ID
+					// Should only ever be 1, but might as well handle duplicates while we're at it
+					const usersSnapshot = await firebaseService
+						.collection('users')
+						.where('stripeCustomerId', '==', deletedCustomer.id)
+						.get()
+
+					// Remove the stripeCustomerId field from each matched user
+					const updatePromises = usersSnapshot.docs.map((doc) => {
+						return firebaseService.collection('users').doc(doc.id).update({
+							stripeCustomerId: firebaseAdmin.firestore.FieldValue.delete(),
+						})
+					})
+
+					// Wait for all updates to complete
+					await Promise.allSettled(updatePromises)
+				} catch (error) {
+					console.error('Error updating Firestore documents:', error)
+				}
 				break
 			case 'customer.updated':
 				const updatedCustomer = event.data.object
