@@ -22,7 +22,6 @@ const Account = () => {
 			}
 		})
 
-		//const orderDocRef = firestore.collection('orders').where('firebaseUserId', '==', user.id)
 		const orderDocRef = query(collection(firestore, 'orders'), where('firebaseUserId', '==', user.uid))
 
 		const unsubscribeOrders = onSnapshot(orderDocRef, (querySnapshot) => {
