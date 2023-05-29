@@ -26,7 +26,7 @@ function SignIn({ title }) {
 		setFormError(null) // Clear out any previous errors
 		try {
 			await sendPasswordResetEmail(auth, email)
-			setMessage({ text: 'Password reset email sent.', type: MessageType.INFO })
+			setMessage({ text: 'Password reset email sent.', type: MessageType.SUCCESS })
 		} catch (error) {
 			setFormError(translateFirebaseError(error))
 		}
