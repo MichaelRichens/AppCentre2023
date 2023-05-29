@@ -36,23 +36,23 @@ export default async function handler(req, res) {
 
 					const querySnapshot = await ordersRef.where('sessionId', '==', completedSession.id).get()
 
-					if (!querySnapshot.empty) {
-						if (querySnapshot.docs.length > 1) {
-							console.error(
-								`Webhook checkout.session.completed - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${completedSession.id}`
-							)
-						}
-						const doc = querySnapshot.docs[0] // We'll just update the first matching document since there should only be 1
-						await doc.ref.update({
-							status: OrderStatus.PAID,
-							updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
-						})
-					} else {
+					if (querySnapshot.empty) {
 						console.error(
 							`Webhook checkout.session.completed - No matching order found for stripe session id: ${completedSession.id}`
 						)
 						return res.status(404).json({ error: 'No matching order found' })
 					}
+					if (querySnapshot.docs.length > 1) {
+						// really should never happen, but non-fatal error
+						console.error(
+							`Webhook checkout.session.completed - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${completedSession.id}`
+						)
+					}
+					const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
+					await doc.ref.update({
+						status: OrderStatus.PAID,
+						updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+					})
 				} catch (error) {
 					console.error(
 						`Webhook checkout.session.completed - Unable to complete order for stripe session complete webhook with session is: ${completedSession.id}`,
@@ -69,23 +69,23 @@ export default async function handler(req, res) {
 
 					const querySnapshot = await ordersRef.where('sessionId', '==', expiredSession.id).get()
 
-					if (!querySnapshot.empty) {
-						if (querySnapshot.docs.length > 1) {
-							console.error(
-								`Webhook: checkout.session.expired - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${expiredSession.id}`
-							)
-						}
-						const doc = querySnapshot.docs[0] // We'll just update the first matching document since there should only be 1
-						await doc.ref.update({
-							status: OrderStatus.EXPIRED,
-							updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
-						})
-					} else {
+					if (querySnapshot.empty) {
 						console.error(
 							`Webhook: checkout.session.expired - No matching order found for stripe session id: ${expiredSession.id}`
 						)
 						return res.status(404).json({ error: 'No matching order found' })
 					}
+					if (querySnapshot.docs.length > 1) {
+						// really should never happen, but non-fatal error
+						console.error(
+							`Webhook: checkout.session.expired - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${expiredSession.id}`
+						)
+					}
+					const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
+					await doc.ref.update({
+						status: OrderStatus.EXPIRED,
+						updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+					})
 				} catch (error) {
 					console.error(
 						`Webhook: checkout.session.expired - Unable to update order for stripe session id: ${expiredSession.id}`,
