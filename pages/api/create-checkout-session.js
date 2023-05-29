@@ -192,7 +192,7 @@ export default async (req, res) => {
 					try {
 						session = await stripe.checkout.sessions.create(sessionCreationObj)
 					} catch (stillStripeError) {
-						console.error('Still get stripe error without passing customer.', stillStripeError)
+						console.error('Still get stripe error after deleting not-found customer id.', stillStripeError)
 						return res.status(500).json({ message: `Stripe API error: ${stillStripeError.message}` })
 					}
 				} else {
