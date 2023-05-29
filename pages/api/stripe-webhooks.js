@@ -27,7 +27,7 @@ export default async function handler(req, res) {
 	}
 
 	// Message has been received and verified - return the received acknowledgement to stripe before processing it (as per their docs)
-	res.status(204).end()
+	res.status(202).end()
 
 	switch (event.type) {
 		case 'charge.refunded':
