@@ -11,4 +11,4 @@ Mongodb - Create indexes on the orders collection in the production database onc
 
 Stripe - go live and put in STRIPE_WEBHOOK_SIGNING_SECRET, NEXT_PUBLIC_STRIPE_PUBLIC_KEY, STRIPE_SECRET_KEY values on netlify
 
-work machine: DB_NAME & NEXT_PUBLIC_STRIPE_PUBLIC_KEY - put into e.v.local
+work machine: DB_NAME & NEXT_PUBLIC_STRIPE_PUBLIC_KEY - put into env.local. possibly firebase vars as well
