@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Error from 'next/error'
-import * as admin from 'firebase-admin'
+import * as firebaseAdmin from 'firebase-admin'
 import { connectToDatabase } from '../../server-utils/mongodb'
 import { stripe } from '../../server-utils/initStripe'
 import firebaseService from '../../server-utils/firebaseService'
@@ -174,7 +174,6 @@ export default async (req, res) => {
 					stripeError.param === 'customer' &&
 					stripeError.detail === undefined
 				) {
-					console.log('Stripe customer does not exist.')
 					delete sessionCreationObj.customer
 					delete orderObject.stripeCustomerId
 					if (customerFromClientSide?.firebaseUserId) {
@@ -182,7 +181,7 @@ export default async (req, res) => {
 						try {
 							const userRef = firebaseService.collection('users').doc(customerFromClientSide.firebaseUserId)
 							userRef.update({
-								stripeCustomerId: admin.firestore.FieldValue.delete(),
+								stripeCustomerId: firebaseAdmin.firestore.FieldValue.delete(),
 							})
 						} catch (firebaseError) {
 							console.error('Error deleting stripe user id from firebase', firebaseError)
