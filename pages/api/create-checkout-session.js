@@ -20,6 +20,7 @@ export default async (req, res) => {
 
 			const cartFromClientSide = req.body?.items
 			const customerFromClientSide = req.body?.customerDetails
+			console.log(customerFromClientSide)
 
 			// for storing in the orders collection in mongodb
 			let orderObject = {}
@@ -201,12 +202,13 @@ export default async (req, res) => {
 
 			orderObject.sessionId = session.id
 
-			// store the order with mongodb
+			// store the order with firestore
 			orderObject.status = 'CHECKOUT'
 			try {
-				await db.collection('orders').insertOne(orderObject)
+				// parse/stringify is just to convert custom objects into plain javascript objects for firestore
+				await firebaseService.collection('orders').add(JSON.parse(JSON.stringify(orderObject)))
 			} catch (error) {
-				console.error('Error inserting document in mongodb:', error)
+				console.error('Error inserting document in firestore:', error)
 				throw error
 			}
 

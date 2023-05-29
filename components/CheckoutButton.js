@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { LineWave } from 'react-loader-spinner'
 import { useAuth } from './contexts/AuthContext'
-import { firestore } from '../utils/firebaseClient'
+import { auth, firestore } from '../utils/firebaseClient'
+import { signInAnonymously } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { CartContext } from './contexts/CartContext'
 import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
@@ -12,7 +13,7 @@ import accountStyles from '../styles/Account.shared.module.css'
 import { getModalBaseStyleObject } from '../styles/modalBaseStyleObject'
 
 const CheckoutButton = () => {
-	const { user, isAuthLoading } = useAuth()
+	const { user, anonymousUser, isAuthLoading } = useAuth()
 
 	const { cart, isCartLoading, getTotalItems } = useContext(CartContext)
 
@@ -41,23 +42,40 @@ const CheckoutButton = () => {
 	// This function will handle the process of creating a checkout session
 	// by making a request to the server-side route
 	async function handleCreateCheckoutSession() {
+		console.log('x1')
 		const checkoutSessionData = { items: cart, customerDetails: {} }
 		// get user data from firestore
-		if (user) {
-			checkoutSessionData.customerDetails.firebaseUserId = user.uid
+		if (user || anonymousUser) {
+			console.log('x2')
+			checkoutSessionData.customerDetails.firebaseUserId = user?.uid || anonymousUser.uid
 			try {
-				const userDocRef = doc(firestore, 'users', user.uid)
+				const userDocRef = doc(firestore, 'users', user?.uid || anonymousUser.uid)
 				const docSnap = await getDoc(userDocRef)
 				if (docSnap.exists()) {
+					console.log('x3')
 					const data = docSnap.data()
 					if (data.stripeCustomerId) {
+						console.log('x4')
 						checkoutSessionData.customerDetails.stripeCustomerId = docSnap.data().stripeCustomerId
 					}
 				}
 			} catch (error) {
 				console.error('Error from Firestore when retrieving user details: ', error)
 			}
+		} else {
+			console.log('x5')
+			// No user is signed in, so sign in anonymously
+			try {
+				const userCredential = await signInAnonymously(auth)
+				console.log('x6')
+				// The anonymous user is signed in. You can access their UID with userCredential.user.uid.
+				const newAnonymousUser = userCredential.user
+				checkoutSessionData.customerDetails.firebaseUserId = newAnonymousUser.uid
+			} catch (error) {
+				console.error('Error signing in anonymously: ', error)
+			}
 		}
+		console.log('x7')
 
 		// call api to get the stripe checkout session
 		try {

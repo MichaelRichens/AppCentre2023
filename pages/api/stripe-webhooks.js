@@ -74,6 +74,7 @@ export default async function handler(req, res) {
 			case 'payment_intent.succeeded':
 				const paymentIntent = event.data.object
 				console.log(`PaymentIntent was successful! ID: ${paymentIntent.id}, Amount: ${paymentIntent.amount}`)
+				console.log(paymentIntent)
 				break
 			default:
 				console.log(`Unhandled event type: ${event.type}`)

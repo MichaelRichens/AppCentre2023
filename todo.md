@@ -20,4 +20,6 @@ NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL
 FIREBASE_CLIENT_ID
 FIREBASE_CLIENT_CERT_URL
 
-Remove stripe customer id displayed in account page
+Remove testing data displayed in account page
+
+Handle all stripe webhooks
