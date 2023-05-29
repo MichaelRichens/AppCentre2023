@@ -30,6 +30,7 @@ export default async function handler(req, res) {
 				break
 			case 'checkout.session.completed':
 				const completedSession = event.data.object
+				console.log('checkout.session.completed object:', completedSession)
 				try {
 					const ordersRef = firebaseService.collection('orders')
 

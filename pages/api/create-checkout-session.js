@@ -21,7 +21,6 @@ export default async (req, res) => {
 
 			const cartFromClientSide = req.body?.items
 			const customerFromClientSide = req.body?.customerDetails
-			console.log(customerFromClientSide)
 
 			// for storing in the orders collection in mongodb
 			let orderObject = {}
