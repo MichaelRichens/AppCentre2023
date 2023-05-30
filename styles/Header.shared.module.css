@@ -117,47 +117,47 @@
 	color: lightblue;
 }
 
-.headerMainContent .topLinks {
+.topLinks {
 	display: flex;
 	flex-wrap: wrap;
 	padding-right: 2em;
 }
 
-.headerMainContent .topLinks nav {
+.topLinks nav {
 	margin: 0;
 	padding: 0;
 	display: inline-block;
 }
 
-.headerMainContent .topLinks nav.infoMenu {
+.topLinks nav.infoMenu {
 	flex-grow: 2;
 	margin-right: 2em;
 }
 
-.headerMainContent .topLinks nav.accountMenu {
+.topLinks .accountMenu {
 	flex-grow: 1;
 }
 
-.headerMainContent .topLinks ul {
+.topLinks ul {
 	column-gap: 2em;
 	row-gap: 0;
 	width: 100%;
 }
 
-.headerMainContent .topLinks .accountMenu ul {
+.topLinks .accountMenu ul {
 	justify-content: flex-end;
 }
 
-.headerMainContent .multiRowTopLinks .accountMenu ul {
+.multiRowTopLinks .accountMenu ul {
 	justify-content: flex-start;
 }
 
-.headerMainContent .topLinks a:active,
-.headerMainContent .topLinks button:active {
+.topLinks a:active,
+.topLinks button:active {
 	transform: scale(0.99);
 }
 
-.headerMainContent .topLinks button {
+.topLinks button {
 	background: none;
 	border: none;
 	font-family: inherit;
@@ -169,11 +169,11 @@
 	cursor: pointer;
 }
 
-.headerMainContent .productMenu ul {
+.productMenu ul {
 	column-gap: 2em;
 }
 
-.headerMainContent .productMenu .multiRowProductNav {
+.productMenu .multiRowProductNav {
 	row-gap: 0.2em;
 	column-gap: 1em;
 }
@@ -268,7 +268,7 @@
 }
 
 @media (max-width: 1300px) {
-	.headerMainContent .productMenu ul {
+	.productMenu ul {
 		column-gap: 1em;
 	}
 }
@@ -297,7 +297,7 @@
 	.headerMainContent {
 		font-size: 14px;
 	}
-	.headerMainContent .productMenu li {
+	.productMenu li {
 		width: 9em;
 	}
 	.cartWrapper {
@@ -321,9 +321,72 @@
 }
 
 @media (max-width: 500px) {
+	.header {
+		background-color: black;
+		background-image: none;
+	}
+
 	.mainLogo {
 		height: 40px;
 		width: 213px;
+	}
+
+	.topLinks {
+		flex-direction: column;
+	}
+
+	.topLinks nav.infoMenu,
+	.topLinks nav.accountMenu {
+		margin: 0;
+		padding: 0;
+	}
+
+	.topLinks nav.infoMenu {
+		margin-bottom: 0.5em;
+	}
+
+	.topLinks nav ul {
+		flex-direction: column;
+		row-gap: 0.3em;
+	}
+
+	.topLinks li,
+	.topLinks li {
+		width: 100%;
+		height: 100%;
+	}
+
+	.topLinks a,
+	.topLinks button {
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgb(38, 38, 93);
+		justify-content: center;
+		border: 3px white solid;
+		border-radius: 7px;
+	}
+
+	.productMenu {
+		margin-right: -40px;
+	}
+
+	.productMenu > ul,
+	.productMenu > ul.multiRowProductNav {
+		justify-content: center;
+	}
+
+	.productMenu li {
+		width: 35vw;
+	}
+
+	.productMenu button {
+		width: 90%;
+		background-color: rgb(38, 38, 93);
+		padding-left: 0.5em;
+		border: 2px white solid;
+		border-radius: 5px;
 	}
 }
 
