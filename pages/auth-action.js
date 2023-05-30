@@ -91,7 +91,7 @@ const AuthAction = () => {
 			)
 		}
 		default:
-			console.error(`Unknown mode:`, mode)
+			console.error(`Unknown mode query string at page auth-action:`, mode)
 	}
 }
 
