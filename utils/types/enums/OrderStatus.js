@@ -4,7 +4,8 @@ const CartActionsEnum = {
 	PAID: 'PAID', //payment has been made
 	COMPLETE_NO_PAYMENT: 'COMPLETE_NO_PAYMENT', //order was completed an no payment required (its a status stripe can provide if we create a checkout with 0 cost)
 	FAILED: 'FAILED', //payment was attempted but declined (or failed for some reason anyway)
-	REFUNDED: 'REFUNDED', //Refund has been made
+	FULLY_REFUNDED: 'REFUNDED', // Full refund has been made
+	PARTIALLY_REFUNDED: 'PARTIALLY_REFUNDED', // A partial refund has been made
 	UPDATE_ERROR: 'UPDATE_ERROR', //We don't know, something went wrong and we don't have anything better value to set.
 }
 

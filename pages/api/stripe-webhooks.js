@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 		event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SIGNING_SECRET)
 	} catch (error) {
 		console.log(`Error verifying webhook signature: ${error.message}`)
-		return res.status(400).send(`Webhook Error: ${error.message}`)
+		return res.status(401).send(`Webhook Verification Error: ${error.message}`)
 	}
 
 	// Message has been received and verified - return the received acknowledgement to stripe before processing it (as per their docs)
@@ -33,18 +33,64 @@ export default async function handler(req, res) {
 	switch (event.type) {
 		case 'charge.refunded':
 			const refundedCharge = event.data.object
-			console.log(
-				`Unhandled webhook received: Charge was refunded! ID: ${refundedCharge.id}, Amount refunded: ${refundedCharge.amount_refunded}`
-			)
+
+			if (!refundedCharge?.payment_intent) {
+				console.error('Webhook: charge.refunded - refundedCharge.payment_intent not set:', refundedCharge)
+				return
+			}
+
+			if (refundedCharge?.refunded === undefined) {
+				console.error('Webhook: charge.refunded - did not have a refunded property:', refundedCharge)
+				return
+			}
+
+			if (refundedCharge?.amount_refunded === undefined) {
+				console.error('Webhook: charge.refunded - did not have a amount_refunded property:', refundedCharge)
+				return
+			}
+
+			if (refundedCharge.amount_refunded <= 0) {
+				console.warn('Webhook: charge.refunded - had a non-positive amount_refunded property:', refundedCharge)
+				return
+			}
+
+			const ordersRef = firebaseService.collection('orders')
+
+			const querySnapshot = await ordersRef.where('paymentIntentId', '==', refundedCharge.payment_intent).get()
+
+			if (querySnapshot.empty) {
+				console.error(
+					'Webhook charge.refunded - No matching order found for payment_intent on this charge:',
+					refundedCharge
+				)
+				return
+			}
+
+			if (querySnapshot.docs.length > 1) {
+				// really should never happen, but non-fatal error
+				console.error(
+					`Webhook charge.refunded - More than one order with the paymentIntentId found (${querySnapshot.docs.length} found). paymentIntentId: ${paymentIntentId}`
+				)
+			}
+
+			const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
+
+			let newOrderStatus = refundedCharge.refunded ? OrderStatus.FULLY_REFUNDED : OrderStatus.PARTIALLY_REFUNDED
+
+			await doc.ref.update({
+				status: newOrderStatus,
+				updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
+			})
+
 			break
-		case 'completedSession.id':
+		case 'checkout.session.completed':
 			const completedSession = event.data.object
 
 			// update customer details (if needed) with current stripe id no matter what - this event is just a helpful method of linking them
 			await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
 
 			if (!completedSession?.id) {
-				console.error('webhook: completedSession.id - completedSession.id not set')
+				console.error('Webhook: completedSession.id - completedSession.id not set')
 				return
 			}
 
@@ -67,6 +113,8 @@ export default async function handler(req, res) {
 				}
 				const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
 
+				const paymentIntentId = completedSession?.payment_intent
+				console.log('paymentIntentId', paymentIntentId)
 				// I'm not sure if stripe actually completes checkouts if the card doesn't go through, but we'll handle the possible statuses just in case
 				let newOrderStatus
 				switch (completedSession?.payment_status) {
@@ -85,6 +133,7 @@ export default async function handler(req, res) {
 
 				await doc.ref.update({
 					status: newOrderStatus,
+					paymentIntentId: paymentIntentId,
 					updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
 				})
 			} catch (error) {
