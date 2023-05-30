@@ -11,6 +11,13 @@ export const config = {
 	},
 }
 
+// This handler processes stripe webhook events, which are used to update orders and customers.
+// There is a division of responsibility between these handlers and the success page the user gets sent to after checkout.
+// These events are used for updating order statuses, and also for managing linking of stripe customers with firebase users
+// (ie adding the stripe customer if into the users firebase document in the users collection)
+// The checkout success page handles clearing the cart, and also merging user details (eg addresses) that might have been given/updated during checkout back with our system
+// Avoid duplicating responsibilities to avoid race conditions since many events will fire as the user is handed back to our site (also its less work...)
+
 export default async function handler(req, res) {
 	if (req.method !== 'POST') {
 		res.setHeader('Allow', 'POST')
@@ -208,12 +215,6 @@ export default async function handler(req, res) {
 				)
 				return
 			}
-			break
-		case 'customer.updated':
-			const updatedCustomer = event.data.object
-			console.log(
-				`Unhandled webhook received: Customer was updated! ID: ${updatedCustomer.id}, Email: ${updatedCustomer.email}`
-			)
 			break
 		case 'dispute.created':
 			const dispute = event.data.object

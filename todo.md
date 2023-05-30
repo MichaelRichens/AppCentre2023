@@ -22,4 +22,4 @@ FIREBASE_CLIENT_CERT_URL
 
 Remove testing data displayed in account page
 
-Handle all stripe webhooks
+Stripe dispute.created webhook event needs to be handled (or possibly ignored, but need to decide...)
