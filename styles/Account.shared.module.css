@@ -76,3 +76,9 @@ main.accountDetailsPage ul {
 	margin-top: -15px;
 	margin-bottom: 15px;
 }
+
+.orderList button {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
