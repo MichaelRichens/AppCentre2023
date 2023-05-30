@@ -45,6 +45,7 @@ const Account = () => {
 				</ul>
 			</section>
 			<section>
+				<h2>Orders</h2>
 				<CustomerOrders user={user} />
 			</section>
 		</Page>
