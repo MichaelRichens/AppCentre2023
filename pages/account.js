@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import Page from '../components/page/Page'
 import withAuth from '../components/hoc/withAuth'
 import { useAuth } from '../components/contexts/AuthContext'
-import ProductConfiguration from '../utils/types/ProductConfiguration'
+import CustomerOrders from '../components/account/CustomerOrders'
 import { firestore } from '../utils/firebaseClient'
-import { doc, onSnapshot, collection, where, query } from 'firebase/firestore'
+import { doc, onSnapshot } from 'firebase/firestore'
 import accountStyles from '../styles/Account.shared.module.css'
 
 const Account = () => {
@@ -22,31 +22,9 @@ const Account = () => {
 			}
 		})
 
-		const orderDocRef = query(collection(firestore, 'orders'), where('firebaseUserId', '==', user.uid))
-
-		const unsubscribeOrders = onSnapshot(orderDocRef, (querySnapshot) => {
-			const data = []
-			querySnapshot.forEach((doc) => {
-				if (doc.exists) {
-					const order = doc.data()
-
-					if (order.line_items) {
-						for (const key in order.line_items) {
-							order.line_items[key] = ProductConfiguration.fromRawProperties(order.line_items[key])
-						}
-					}
-
-					data.push(order)
-				}
-			})
-
-			setOrders(data)
-		})
-
 		// Clean up subscriptions on unmount
 		return () => {
 			unsubscribeUsers()
-			unsubscribeOrders()
 		}
 	}, [user])
 
@@ -67,16 +45,7 @@ const Account = () => {
 				</ul>
 			</section>
 			<section>
-				<h2>Orders</h2>
-				{orders?.length ? (
-					<ul>
-						{orders.map((order) => (
-							<li key={order.sessionId}>{order.status}</li>
-						))}
-					</ul>
-				) : (
-					<p>No orders yet!</p>
-				)}
+				<CustomerOrders user={user} />
 			</section>
 		</Page>
 	)
