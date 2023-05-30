@@ -156,11 +156,10 @@ export default async (req, res) => {
 				}
 			}
 
+			// include the user's stripe customer id if they have one, or their email if not and we have that
 			if (stripeCustomerId) {
 				sessionCreationObj.customer = stripeCustomerId
-			}
-
-			if (customerFromClientSide?.email) {
+			} else if (customerFromClientSide?.email) {
 				sessionCreationObj.customer_email = customerFromClientSide.email
 			}
 
