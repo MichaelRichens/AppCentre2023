@@ -150,6 +150,10 @@ export default async (req, res) => {
 				submit_type: 'pay',
 			}
 
+			if (customerFromClientSide?.firebaseUserId) {
+				sessionCreationObj.client_reference_id = customerFromClientSide.firebaseUserId
+			}
+
 			if (isShipping) {
 				sessionCreationObj['shipping_address_collection'] = {
 					allowed_countries: process.env.NEXT_PUBLIC_SHIPPING_COUNTRIES.split(','),
@@ -159,6 +163,7 @@ export default async (req, res) => {
 			// include the user's stripe customer id if they have one, or their email if not and we have that
 			if (stripeCustomerId) {
 				sessionCreationObj.customer = stripeCustomerId
+				sessionCreationObj.customer_update = { address: 'auto', name: 'auto', shipping: 'auto' }
 			} else if (customerFromClientSide?.email) {
 				sessionCreationObj.customer_email = customerFromClientSide.email
 			}
