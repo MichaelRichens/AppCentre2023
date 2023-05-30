@@ -42,7 +42,7 @@ const CustomerOrders = ({ user }) => {
 		return (
 			<ul>
 				{orders.map((order) => (
-					<li key={order.sessionId}>{order.status}</li>
+					<li key={order.sessionId}>{`${order.sessionId} ${order.status}`}</li>
 				))}
 			</ul>
 		)
