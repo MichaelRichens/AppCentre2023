@@ -1,3 +1,5 @@
+import React from 'react'
+
 function SimpleRadio({ name, onChange, value, options }) {
 	return (
 		<div>
