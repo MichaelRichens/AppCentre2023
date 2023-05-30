@@ -5,6 +5,7 @@ import ProductConfiguration from '../../utils/types/ProductConfiguration'
 
 /**
  * Displays the orders for the passed in firebase user object.
+ * Should only be used on pages served by withAuth HOC
  */
 const CustomerOrders = ({ user }) => {
 	const [orders, setOrders] = useState([])
@@ -37,20 +38,16 @@ const CustomerOrders = ({ user }) => {
 		}
 	}, [user])
 
-	return (
-		<>
-			<h2>Orders</h2>
-			{orders?.length ? (
-				<ul>
-					{orders.map((order) => (
-						<li key={order.sessionId}>{order.status}</li>
-					))}
-				</ul>
-			) : (
-				<p>No orders yet!</p>
-			)}
-		</>
-	)
+	if (orders.length) {
+		return (
+			<ul>
+				{orders.map((order) => (
+					<li key={order.sessionId}>{order.status}</li>
+				))}
+			</ul>
+		)
+	}
+	return <p>No orders yet!</p>
 }
 
 export default CustomerOrders
