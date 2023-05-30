@@ -27,7 +27,7 @@ const OrderSuccess = () => {
 
 	useEffect(() => {
 		if (sessionIdState) {
-			console.log(sessionIdState)
+			//console.log(sessionIdState)
 			const asyncProcessCheckoutSession = async () => {
 				try {
 					const response = await fetch('/api/process-successful-checkout', {

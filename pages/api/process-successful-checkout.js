@@ -10,10 +10,10 @@ export default async function handler(req, res) {
 
 			try {
 				const session = await stripe.checkout.sessions.retrieve(sessionId)
-				console.log(session)
+				//console.log(session)
 
 				const { invoice } = session
-				console.log(invoice)
+				//console.log(invoice)
 
 				res.status(200).json({ session }) // Respond with the session data
 			} catch (error) {
