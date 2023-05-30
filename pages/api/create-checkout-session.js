@@ -8,7 +8,7 @@ import OrderStatus from '../../utils/types/enums/OrderStatus'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 
 export default async (req, res) => {
-	if (req.method === 'POST') {
+	if (req.method !== 'POST') {
 		res.setHeader('Allow', 'POST')
 		return res.status(405).end('Method Not Allowed - must be POST')
 	}
