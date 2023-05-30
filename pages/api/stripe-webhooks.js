@@ -37,12 +37,17 @@ export default async function handler(req, res) {
 				`Unhandled webhook received: Charge was refunded! ID: ${refundedCharge.id}, Amount refunded: ${refundedCharge.amount_refunded}`
 			)
 			break
-		case 'checkout.session.completed':
+		case 'completedSession.id':
 			const completedSession = event.data.object
 
-			await asyncLinkStripeCustomerUsingSession(completedSession.id, completedSession.customer)
+			// update customer details (if needed) with current stripe id no matter what - this event is just a helpful method of linking them
+			await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
 
-			//console.log('checkout.session.completed object:', completedSession)
+			if (!completedSession?.id) {
+				console.error('webhook: completedSession.id - completedSession.id not set')
+				return
+			}
+
 			try {
 				const ordersRef = firebaseService.collection('orders')
 
@@ -61,8 +66,25 @@ export default async function handler(req, res) {
 					)
 				}
 				const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
+
+				// I'm not sure if stripe actually completes checkouts if the card doesn't go through, but we'll handle the possible statuses just in case
+				let newOrderStatus
+				switch (completedSession?.payment_status) {
+					case 'paid':
+						newOrderStatus = OrderStatus.PAID
+						break
+					case 'unpaid':
+						newOrderStatus = OrderStatus.FAILED
+						break
+					case 'no_payment_required':
+						newOrderStatus = OrderStatus.COMPLETE_NO_PAYMENT
+						break
+					default:
+						newOrderStatus = OrderStatus.UPDATE_ERROR
+				}
+
 				await doc.ref.update({
-					status: OrderStatus.PAID,
+					status: newOrderStatus,
 					updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
 				})
 			} catch (error) {
@@ -107,13 +129,6 @@ export default async function handler(req, res) {
 			}
 
 			break
-		case 'customer.created':
-			const createdCustomer = event.data.object
-			//console.log('customer.created object:', createdCustomer)
-			console.log(
-				`Unhandled webhook received: Customer was updated! ID: ${createdCustomer.id}, Email: ${createdCustomer.email}`
-			)
-			break
 		case 'customer.deleted':
 			const deletedCustomer = event.data.object
 			try {
@@ -150,16 +165,6 @@ export default async function handler(req, res) {
 		case 'dispute.created':
 			const dispute = event.data.object
 			console.log(`Unhandled webhook received: A dispute was created! ID: ${dispute.id}`)
-			break
-		case 'payment_intent.payment_failed':
-			const failedPaymentIntent = event.data.object
-			console.log(`Unhandled webhook received: PaymentIntent failed! ID: ${failedPaymentIntent.id}`)
-			break
-		case 'payment_intent.succeeded':
-			const paymentIntent = event.data.object
-			console.log(
-				`Unhandled webhook received: PaymentIntent was successful! ID: ${paymentIntent.id}, Amount: ${paymentIntent.amount}`
-			)
 			break
 		default:
 			console.log(`Unhandled event type: ${event.type}`)
