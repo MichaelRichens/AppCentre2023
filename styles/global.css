@@ -42,6 +42,10 @@ select,
 	background-color: #f9f9f9;
 }
 
+button {
+	box-sizing: content-box;
+}
+
 strong {
 	font-weight: 600;
 }
