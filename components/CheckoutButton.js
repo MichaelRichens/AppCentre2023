@@ -46,6 +46,7 @@ const CheckoutButton = () => {
 		// get user data from firestore
 		if (user || anonymousUser) {
 			checkoutSessionData.customerDetails.firebaseUserId = user?.uid || anonymousUser.uid
+			checkoutSessionData.customerDetails.email = user?.email || anonymousUser?.email // can't imagine we have anonymousUser.email, but give it a try
 			try {
 				const userDocRef = doc(firestore, 'users', user?.uid || anonymousUser.uid)
 				const docSnap = await getDoc(userDocRef)

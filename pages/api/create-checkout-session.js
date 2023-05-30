@@ -160,6 +160,10 @@ export default async (req, res) => {
 				sessionCreationObj.customer = stripeCustomerId
 			}
 
+			if (customerFromClientSide?.email) {
+				sessionCreationObj.customer_email = customerFromClientSide.email
+			}
+
 			let session
 
 			try {
@@ -210,6 +214,8 @@ export default async (req, res) => {
 			try {
 				// parse/stringify is just to convert custom objects into plain javascript objects for firestore (must be done before adding timestamps)
 				const plainObject = JSON.parse(JSON.stringify(orderObject))
+
+				// must do after the conversion to a plain object
 				plainObject.createdAt = firebaseAdmin.firestore.FieldValue.serverTimestamp()
 				plainObject.updatedAt = firebaseAdmin.firestore.FieldValue.serverTimestamp()
 
