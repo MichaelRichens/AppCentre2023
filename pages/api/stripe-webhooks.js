@@ -3,6 +3,7 @@ import * as firebaseAdmin from 'firebase-admin'
 import firebaseService from '../../server-utils/firebaseService'
 import { stripe } from '../../server-utils/initStripe'
 import OrderStatus from '../../utils/types/enums/OrderStatus'
+import asyncLinkStripeCustomerUsingSession from '../../server-utils/asyncLinkStripeCustomerUsingSession'
 
 export const config = {
 	api: {
@@ -32,10 +33,15 @@ export default async function handler(req, res) {
 	switch (event.type) {
 		case 'charge.refunded':
 			const refundedCharge = event.data.object
-			console.log(`Charge was refunded! ID: ${refundedCharge.id}, Amount refunded: ${refundedCharge.amount_refunded}`)
+			console.log(
+				`Unhandled webhook received: Charge was refunded! ID: ${refundedCharge.id}, Amount refunded: ${refundedCharge.amount_refunded}`
+			)
 			break
 		case 'checkout.session.completed':
 			const completedSession = event.data.object
+
+			await asyncLinkStripeCustomerUsingSession(completedSession.id, completedSession.customer)
+
 			//console.log('checkout.session.completed object:', completedSession)
 			try {
 				const ordersRef = firebaseService.collection('orders')
@@ -104,7 +110,9 @@ export default async function handler(req, res) {
 		case 'customer.created':
 			const createdCustomer = event.data.object
 			//console.log('customer.created object:', createdCustomer)
-			console.log(`Customer was updated! ID: ${createdCustomer.id}, Email: ${createdCustomer.email}`)
+			console.log(
+				`Unhandled webhook received: Customer was updated! ID: ${createdCustomer.id}, Email: ${createdCustomer.email}`
+			)
 			break
 		case 'customer.deleted':
 			const deletedCustomer = event.data.object
@@ -135,19 +143,23 @@ export default async function handler(req, res) {
 			break
 		case 'customer.updated':
 			const updatedCustomer = event.data.object
-			console.log(`Customer was updated! ID: ${updatedCustomer.id}, Email: ${updatedCustomer.email}`)
+			console.log(
+				`Unhandled webhook received: Customer was updated! ID: ${updatedCustomer.id}, Email: ${updatedCustomer.email}`
+			)
 			break
 		case 'dispute.created':
 			const dispute = event.data.object
-			console.log(`A dispute was created! ID: ${dispute.id}`)
+			console.log(`Unhandled webhook received: A dispute was created! ID: ${dispute.id}`)
 			break
 		case 'payment_intent.payment_failed':
 			const failedPaymentIntent = event.data.object
-			console.log(`PaymentIntent failed! ID: ${failedPaymentIntent.id}`)
+			console.log(`Unhandled webhook received: PaymentIntent failed! ID: ${failedPaymentIntent.id}`)
 			break
 		case 'payment_intent.succeeded':
 			const paymentIntent = event.data.object
-			console.log(`PaymentIntent was successful! ID: ${paymentIntent.id}, Amount: ${paymentIntent.amount}`)
+			console.log(
+				`Unhandled webhook received: PaymentIntent was successful! ID: ${paymentIntent.id}, Amount: ${paymentIntent.amount}`
+			)
 			break
 		default:
 			console.log(`Unhandled event type: ${event.type}`)
