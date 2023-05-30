@@ -90,7 +90,7 @@ const CartDisplay = () => {
 						},
 						body: JSON.stringify({ id: itemId, licence: newLicence }),
 					})
-					const data = await response.json()
+					const data = await response.json() // do I need this line?
 					updateItem(itemId, { licence: newLicence })
 				} catch (error) {
 					console.error('Error updating licence.')

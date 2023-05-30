@@ -1,11 +1,13 @@
 import Error from 'next/error'
 import * as firebaseAdmin from 'firebase-admin'
-import { connectToDatabase } from '../../server-utils/mongodb'
 import { stripe } from '../../server-utils/initStripe'
 import firebaseService from '../../server-utils/firebaseService'
 import { VersioningError } from '../../utils/types/errors'
 import OrderStatus from '../../utils/types/enums/OrderStatus'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
+import { ensureFirebaseInitialized } from '../../server-utils/firebaseAdminSDKInit'
+
+ensureFirebaseInitialized()
 
 export default async (req, res) => {
 	if (req.method !== 'POST') {
@@ -13,19 +15,10 @@ export default async (req, res) => {
 		return res.status(405).end('Method Not Allowed - must be POST')
 	}
 	try {
-		// product database access is done via a function, but we use this later on
-		let db
-		try {
-			db = await connectToDatabase()
-		} catch (error) {
-			console.error('Failed to connect to mongodb', error)
-			throw error
-		}
-
 		const cartFromClientSide = req.body?.items
 		const customerFromClientSide = req.body?.customerDetails
 
-		// for storing in the orders collection in mongodb
+		// for storing in the orders collection in firestore
 		let orderObject = {}
 		if (customerFromClientSide?.firebaseUserId) {
 			orderObject.firebaseUserId = customerFromClientSide.firebaseUserId
