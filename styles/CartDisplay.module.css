@@ -79,6 +79,11 @@
 	animation: fadeColor 1s forwards;
 }
 
+.total {
+	font-size: 80%;
+	font-weight: 500;
+}
+
 @keyframes fadeColor {
 	to {
 		color: initial;
