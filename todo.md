@@ -23,3 +23,5 @@ FIREBASE_CLIENT_CERT_URL
 Remove testing data displayed in account page
 
 Stripe dispute.created webhook event needs to be handled (or possibly ignored, but need to decide...)
+
+Can I add authentication into any api routes? For ones that need to come from a logged in user, even just checking that a firebase authentication token is valid at all would be well worth doing.
