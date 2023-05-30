@@ -30,6 +30,8 @@ export default async function handler(req, res) {
 	// Message has been received and verified - return the received acknowledgement to stripe before processing it (as per their docs)
 	res.status(202).end()
 
+	//console.log(event.type, event.data.object)
+
 	switch (event.type) {
 		case 'charge.refunded':
 			const refundedCharge = event.data.object
@@ -114,7 +116,6 @@ export default async function handler(req, res) {
 				const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
 
 				const paymentIntentId = completedSession?.payment_intent
-				console.log('paymentIntentId', paymentIntentId)
 				// I'm not sure if stripe actually completes checkouts if the card doesn't go through, but we'll handle the possible statuses just in case
 				let newOrderStatus
 				switch (completedSession?.payment_status) {
@@ -146,6 +147,9 @@ export default async function handler(req, res) {
 			break
 		case 'checkout.session.expired':
 			const expiredSession = event.data.object
+
+			// update customer details (if needed) with current stripe id no matter what - this event is just a helpful method of linking them
+			await asyncLinkStripeCustomerUsingSession(expiredSession?.id, expiredSession?.customer)
 
 			try {
 				const ordersRef = firebaseService.collection('orders')
