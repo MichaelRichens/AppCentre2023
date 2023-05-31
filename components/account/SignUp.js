@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { auth, firestore, translateFirebaseError } from '../../utils/firebaseClient'
 import { createUserWithEmailAndPassword, EmailAuthProvider } from 'firebase/auth'
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useAuth } from '../contexts/AuthContext'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
@@ -20,7 +20,6 @@ function SignUp({ title, prefillEmail = '' }) {
 		// This will hold the new or upgraded user that we create
 		let newOrUpgradedUser
 
-		console.log(anonymousUser.uid)
 		// If the user has an existing anonymous account, we need to upgrade that.  Otherwise create a brand new account
 		// Note that an upgraded user will have the same uid as their anonymous account, with any linked firestore data (but no firebase auth held personal data, since anon accounts don't store it)
 		try {
@@ -38,14 +37,13 @@ function SignUp({ title, prefillEmail = '' }) {
 		} catch (error) {
 			// TODO handling of 'auth/credential-already-in-use' is a bit rough here - it indicates a user (who has probably just placed an order) trying to upgrade an anonymous account to a full one, but they already have one.
 			// This error will definitely be coming from the upgrade path (auth/email-already-in-use is the new user path).
-			// As-is their just placed anonymous order is going to get lost in the void as far as their existing user account is concerned.
+			// As-is their just placed anonymous order is going to get lost in the void as far as their existing user account is concerned, unless they create a new account with a different email.
 			// Would be nice to provide a method to transfer any order they may have just placed anonymously into their existing account, if they log in
 			// Logic for this is probably better situated with the log in logic, but at time of writing we don't have anything there (would be a fairly large job to implement).
 			// If it ever gets added, we could trigger the SignIn component to render in now if error === 'auth/credential-already-in-use'.
 			setFormError(translateFirebaseError(error))
 			return
 		}
-		console.log(newOrUpgradedUser.uid)
 
 		// Reporting success at this point since firebase account is created - if stripe account creation fails, the user still has an account that will work on our website.
 		// So cannot assume that all users will have a stripe account linked to their firebase account.
@@ -57,7 +55,32 @@ function SignUp({ title, prefillEmail = '' }) {
 
 		// Now we need to see if the user already has a stripe account linked to their user account - very possible in the case of an upgraded anonymous user
 		// Since they may well be creating an account just after checkout
-		//TODO NEXT ^^^
+
+		// Get a reference to their users document
+		const userDocRef = doc(firestore, 'users', newOrUpgradedUser.uid)
+
+		// Will need to know this if we need to write to it
+		let doesUserDocumentExist = false
+
+		// Do they have a stripe account?
+		try {
+			const docSnap = await getDoc(userDocRef)
+			if (docSnap.exists()) {
+				doesUserDocumentExist = true
+				const data = docSnap.data()
+				if (data?.stripeCustomerId?.length > 0) {
+					// yes they do, we are done with this user
+					return
+				}
+			}
+		} catch (error) {
+			// Given that we've just created or linked a user so firebase is working, getting here is probably a coding screw up somewhere close by.
+			// Exit early since there isn't much we can do.  Technically non fatal since a stripe account can be created during checkout, though if firestore is really unavailable then there are bigger issues.
+			console.error('Error retrieving data from users', error)
+			return
+		}
+
+		// No linked stripe account - we need to create one
 
 		try {
 			// get a token for the api route
@@ -76,12 +99,18 @@ function SignUp({ title, prefillEmail = '' }) {
 			const { customerId } = await response.json()
 
 			// After receiving Stripe customer ID, create a users document and add it there
-			const userDocRef = doc(firestore, 'users', auth.currentUser.uid)
-			await setDoc(userDocRef, {
-				stripeCustomerId: customerId,
-				createdAt: serverTimestamp(),
-				updatedAt: serverTimestamp(),
-			})
+			if (doesUserDocumentExist) {
+				await updateDoc(userDocRef, {
+					stripeCustomerId: customerId,
+					updatedAt: serverTimestamp(),
+				})
+			} else {
+				await setDoc(userDocRef, {
+					stripeCustomerId: customerId,
+					createdAt: serverTimestamp(),
+					updatedAt: serverTimestamp(),
+				})
+			}
 		} catch (error) {
 			console.error('Error creating customer with Stripe', error)
 			// This is non-fatal, the firebase customer was created but a matching stripe customer could not be.  There is a checkout flow without an existing stripe customer, and later linking the one stripe creates at checkout up with the user (its used by anonymous checkout). So we'll let this logged in user go through that.
