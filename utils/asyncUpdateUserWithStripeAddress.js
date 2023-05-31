@@ -62,37 +62,32 @@ async function asyncUpdateUserWithStripeAddress(user, address, isBillingAddress 
 
 		// Easy enough if they don't have any addresses at all, set the new address as their only address, and point both billing and shipping addresses at it
 		if (addressesSnapshot.size === 0) {
-			try {
-				await runTransaction(firestore, async (transaction) => {
-					const userDocSnap = await transaction.get(userDocRef)
+			await runTransaction(firestore, async (transaction) => {
+				const userDocSnap = await transaction.get(userDocRef)
 
-					// Create a new address document
-					const newAddressRef = doc(addressesCollectionRef)
-					transaction.set(newAddressRef, address)
+				// Create a new address document
+				const newAddressRef = doc(addressesCollectionRef)
+				transaction.set(newAddressRef, address)
 
-					// If the user document exists, update it. Otherwise, set it.
-					if (userDocSnap.exists()) {
-						transaction.update(userDocRef, {
-							billingAddress: newAddressRef,
-							shippingAddress: newAddressRef,
-							updatedAt: serverTimestamp(),
-						})
-					} else {
-						transaction.set(userDocRef, {
-							billingAddress: newAddressRef,
-							shippingAddress: newAddressRef,
-							createdAt: serverTimestamp(),
-							updatedAt: serverTimestamp(),
-						})
-					}
-				})
+				// If the user document exists, update it. Otherwise, set it.
+				if (userDocSnap.exists()) {
+					transaction.update(userDocRef, {
+						billingAddress: newAddressRef,
+						shippingAddress: newAddressRef,
+						updatedAt: serverTimestamp(),
+					})
+				} else {
+					transaction.set(userDocRef, {
+						billingAddress: newAddressRef,
+						shippingAddress: newAddressRef,
+						createdAt: serverTimestamp(),
+						updatedAt: serverTimestamp(),
+					})
+				}
+			})
 
-				// We're done with all cases where the address book was empty, exit function
-				return
-			} catch (error) {
-				console.error('Error when adding address to user who had an empty address book')
-				throw error
-			}
+			// We're done with all cases where the address book was empty, exit function
+			return
 		}
 
 		// Now handle the more complex cases - we will only have users which have at least one document in their addresses subcollection
