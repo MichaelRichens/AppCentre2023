@@ -5,9 +5,9 @@ import firebaseService from '../../server-utils/firebaseService'
 import { VersioningError } from '../../utils/types/errors'
 import OrderStatus from '../../utils/types/enums/OrderStatus'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
-import { ensureFirebaseInitialized } from '../../server-utils/firebaseAdminSDKInit'
+import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKInit'
 
-ensureFirebaseInitialized()
+ensureFirebaseInitialised()
 
 export default async (req, res) => {
 	if (req.method !== 'POST') {

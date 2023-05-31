@@ -4,9 +4,9 @@ import firebaseService from '../../server-utils/firebaseService'
 import { stripe } from '../../server-utils/initStripe'
 import OrderStatus from '../../utils/types/enums/OrderStatus'
 import asyncLinkStripeCustomerUsingSession from '../../server-utils/asyncLinkStripeCustomerUsingSession'
-import { ensureFirebaseInitialized } from '../../server-utils/firebaseAdminSDKInit'
+import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKInit'
 
-ensureFirebaseInitialized()
+ensureFirebaseInitialised()
 
 export const config = {
 	api: {
