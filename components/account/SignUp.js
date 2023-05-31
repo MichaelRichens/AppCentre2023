@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { auth, firestore, translateFirebaseError } from '../../utils/firebaseClient'
-import { createUserWithEmailAndPassword, EmailAuthProvider, linkWithCredential } from 'firebase/auth'
+import { createUserWithEmailAndPassword, EmailAuthProvider } from 'firebase/auth'
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { useAuth } from '../contexts/AuthContext'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
