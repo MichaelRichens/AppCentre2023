@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 		})
 
 		return () => unsubscribe()
-	}, [user, anonymousUser])
+	}, [])
 
 	return <AuthContext.Provider value={{ user, anonymousUser, isAuthLoading }}>{children}</AuthContext.Provider>
 }
