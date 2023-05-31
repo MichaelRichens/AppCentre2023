@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { onAuthStateChanged } from 'firebase/auth'
+import { onIdTokenChanged } from 'firebase/auth'
 import { auth } from '../../utils/firebaseClient'
 
 const AuthContext = createContext({ user: null, anonymousUser: null, isAuthLoading: true })
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
 	const [isAuthLoading, setIsAuthLoading] = useState(true)
 
 	useEffect(() => {
-		const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+		const unsubscribe = onIdTokenChanged(auth, (firebaseUser) => {
 			if (firebaseUser) {
 				if (firebaseUser.isAnonymous) {
 					setAnonymousUser(firebaseUser)
@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
 		})
 
 		return () => unsubscribe()
-	}, [])
+	}, [user, anonymousUser])
 
 	return <AuthContext.Provider value={{ user, anonymousUser, isAuthLoading }}>{children}</AuthContext.Provider>
 }

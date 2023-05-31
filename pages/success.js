@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react'
+import { updateEmail } from 'firebase/auth'
 import { CartContext } from '../components/contexts/CartContext'
 import Page from '../components/page/Page'
 import { useAuth } from '../components/contexts/AuthContext'
+import SignUp from '../components/account/SignUp'
 
 // This page is where the user arrives back at our site after a successful checkout, and handles clean up of the cart and some data updating (though not marking the order as complete).
 // There is a division of responsibility between this success page the user gets sent to after checkout, and the webhook handlers in pages/api/stripe-webhooks.
@@ -13,14 +15,22 @@ const OrderSuccess = () => {
 	const { user, anonymousUser, isAuthLoading } = useAuth()
 	const { clearCart } = useContext(CartContext)
 	const [sessionIdState, setSessionIdState] = useState(null)
+	const [sessionDataState, setSessionDataState] = useState(null)
 
+	// On first render, check that this is a valid fresh return from a successful stripe checkout, and clean if so, and store the stripe session id is sessionIdState
 	useEffect(() => {
+		/** Helper function to perform removal of sessionStorage checkout data and clear the user's cart */
+		function cleanUpAfterCheckout() {
+			sessionStorage.removeItem('checkoutSessionId')
+			clearCart()
+		}
+
 		// Check that the url has a stripe session id parameter and that the user has the same one stored in sessionStorage
 		const urlParams = new URLSearchParams(window.location.search)
 		const urlSessionId = urlParams.get('session_id')
 		const sessionStorageSessionId = sessionStorage.getItem('checkoutSessionId')
 
-		// For testing only!!
+		// For testing only!!  Lets us repeatedly reload page and rerun logic  TODO DELETE THIS!!!
 		if (urlSessionId) {
 			setSessionIdState(urlSessionId)
 		}
@@ -31,57 +41,79 @@ const OrderSuccess = () => {
 		// Wouldn't work for anonymous users though, so maybe just display the order here is long as their firebase user id matches it?
 		if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
 			setSessionIdState(urlSessionId)
-			sessionStorage.removeItem('checkoutSessionId')
-			clearCart()
+			cleanUpAfterCheckout()
 		}
 
-		// Basic cleanup to account for someone closing the page without giving it time to do its thing - they won;t get their details updated from stripe, but we can at least clear their cart.
+		// Basic cleanup to account for someone closing the page without giving it time to do its thing - they won't get their details updated from stripe, but we can at least clear their cart.
 		return () => {
 			if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
-				sessionStorage.removeItem('checkoutSessionId')
-				clearCart()
+				cleanUpAfterCheckout()
 			}
 		}
 	}, [])
 
+	// Once auth is available and if a fresh stripe sessionId has been set, fetch full session data from stripe and put into sessionDataState
 	useEffect(() => {
-		// Process fresh return from checkout once auth is available and if a fresh stripe sessionId has been set.
-		if (!isAuthLoading && sessionIdState) {
-			// Can be either an anonymous or logged in user
-			const returnedUser = user || anonymousUser
+		if (isAuthLoading || !sessionIdState) {
+			return
+		}
+		// Can be either an anonymous or logged in user
+		const returnedUser = user || anonymousUser
 
-			if (returnedUser) {
-				const asyncProcessCheckoutSession = async () => {
-					const idToken = await returnedUser.getIdToken()
+		if (!returnedUser) {
+			console.error('Cannot find user.')
+			return
+		}
 
-					try {
-						const response = await fetch('/api/get-stripe-checkout-session', {
-							method: 'POST',
-							headers: {
-								Authorization: `Bearer ${idToken}`,
-								'Content-Type': 'application/json',
-							},
-							body: JSON.stringify({
-								sessionId: sessionIdState,
-							}),
-						})
+		const asyncProcessCheckoutSession = async () => {
+			// fetch the stripe session from the sessionId we have for the completed order
+			try {
+				// get a token for the api route
+				const idToken = await returnedUser.getIdToken()
+				console.log(idToken)
+				const response = await fetch('/api/get-stripe-checkout-session', {
+					method: 'POST',
+					headers: {
+						Authorization: `Bearer ${idToken}`,
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						sessionId: sessionIdState,
+					}),
+				})
 
-						const data = await response.json()
-						console.log(data)
-					} catch (error) {
-						console.error('There was an error handing sessionIdState: ', error)
-					}
+				const data = await response.json()
+				const session = data?.session
+
+				// We do not update the order - handled by even sent from stripe - but we want to update the user details with anything they entered on stripe.
+				if (!session) {
+					console.error('Did not receive a valid session')
+					return
 				}
-				asyncProcessCheckoutSession()
-			} else {
-				console.error('No user found - need to handle this.')
+
+				setSessionDataState(session)
+			} catch (error) {
+				console.error('There was an error receiving sessionIdState: ', error)
+				return
 			}
 		}
+
+		asyncProcessCheckoutSession()
 	}, [sessionIdState, isAuthLoading])
+
+	// Once we have sessionDataState, and if we have (or get from SignUp component being used) a logged in user, we can merge stripe data into customer data
+	useEffect(() => {
+		if (user && sessionDataState) {
+			console.log(sessionDataState)
+		}
+	}, [sessionDataState, user])
 
 	return (
 		<Page title='Order Success'>
 			<p>Thank you for your purchase!</p>
+			{anonymousUser && sessionDataState && (
+				<SignUp title='Would you like to create an account?' prefillEmail={sessionDataState?.customer_details?.email} />
+			)}
 		</Page>
 	)
 }

@@ -23,6 +23,7 @@ if (typeof window !== 'undefined' && !getApps().length) {
 
 const translateFirebaseError = (error) => {
 	const errorMessages = {
+		'auth/credential-already-in-use': 'We already have an account with this email.',
 		'auth/wrong-password': 'The password you entered is incorrect. Please try again.',
 		'auth/missing-password': 'Please enter your password.',
 		'auth/user-not-found': 'There is no user associated with this email address.',
