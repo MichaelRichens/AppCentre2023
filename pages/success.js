@@ -68,9 +68,7 @@ const OrderSuccess = () => {
 		const asyncProcessCheckoutSession = async () => {
 			// fetch the stripe session from the sessionId we have for the completed order
 			try {
-				// get a token for the api route
 				const idToken = await returnedUser.getIdToken()
-				console.log(idToken)
 				const response = await fetch('/api/get-stripe-checkout-session', {
 					method: 'POST',
 					headers: {
@@ -85,7 +83,9 @@ const OrderSuccess = () => {
 				const data = await response.json()
 				const session = data?.session
 
-				// We do not update the order - handled by even sent from stripe - but we want to update the user details with anything they entered on stripe.
+				// We do not update the order - this is handled by the event handler side of things - but we will want to update the user details with anything they entered on stripe.
+				// So put the session data into a state variable which will allow another useEffect if they are logged into a full account
+				// and if the user checked out anonymously, the showing of a log in screen which can upgrade them to a full account which if they use it, will then trigger the next use effect
 				if (!session) {
 					console.error('Did not receive a valid session')
 					return
@@ -99,13 +99,22 @@ const OrderSuccess = () => {
 		}
 
 		asyncProcessCheckoutSession()
+		// when complete, unset this state to prevent any chance of doing this useEffect logic again
+		setSessionDataState(null)
 	}, [sessionIdState, isAuthLoading])
 
 	// Once we have sessionDataState, and if we have (or get from SignUp component being used) a logged in user, we can merge stripe data into customer data
 	useEffect(() => {
-		if (user && sessionDataState) {
-			console.log(sessionDataState)
+		// this logic is only for logged in users and session data stored in state
+		if (!user || !sessionDataState) {
+			return
 		}
+		console.log(sessionDataState)
+		// probably customer_details for billing address, and maybe shipping_details if there is a shipping address
+		// TODO NEXT
+
+		// when complete, unset this state to prevent any chance of doing this useEffect logic again
+		setSessionDataState(null)
 	}, [sessionDataState, user])
 
 	return (
