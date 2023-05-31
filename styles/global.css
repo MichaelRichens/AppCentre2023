@@ -203,7 +203,8 @@ fieldset legend {
 	font-size: 1.1em;
 }
 
-main button {
+main button,
+form button {
 	height: 35px;
 	padding-left: 1em;
 	padding-right: 1em;
@@ -217,24 +218,29 @@ main button {
 	transition: background-color 0.3s, transform 0.1s;
 }
 
-main button:hover {
+main button:hover,
+form button:hover {
 	background-color: #5a5a5a;
 }
 
-main button:active {
+main button:active,
+form button:active {
 	transform: scale(0.96);
 }
 
-main button:disabled {
+main button:disabled,
+form button:disabled {
 	cursor: not-allowed;
 	opacity: 0.2;
 }
 
-main button:disabled:hover {
+main button:disabled:hover,
+form button:disabled:hover {
 	background-color: #3a3a3a;
 }
 
-main button:disabled:active {
+main button:disabled:active,
+form button:disabled:active {
 	transform: scale(1);
 }
 
