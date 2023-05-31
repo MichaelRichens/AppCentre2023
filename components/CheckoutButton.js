@@ -43,12 +43,15 @@ const CheckoutButton = () => {
 	// by making a request to the server-side route
 	async function handleCreateCheckoutSession() {
 		const checkoutSessionData = { items: cart, customerDetails: {} }
+		let actualUser = user || anonymousUser
 		// get user data from firestore
-		if (user || anonymousUser) {
-			checkoutSessionData.customerDetails.firebaseUserId = user?.uid || anonymousUser.uid
-			checkoutSessionData.customerDetails.email = user?.email || anonymousUser?.email // can't imagine we have anonymousUser.email, but give it a try
+		if (actualUser) {
+			// we have an existing user, either logged in or anonymous.  Populate checkoutSessionData with their email
+			checkoutSessionData.customerDetails.email = actualUser?.email
+
+			// And if the have one, their stripe customer id.  (If not, one will be created during checkout and linked up afterwards)
 			try {
-				const userDocRef = doc(firestore, 'users', user?.uid || anonymousUser.uid)
+				const userDocRef = doc(firestore, 'users', actualUser.uid)
 				const docSnap = await getDoc(userDocRef)
 				if (docSnap.exists()) {
 					const data = docSnap.data()
@@ -63,19 +66,25 @@ const CheckoutButton = () => {
 			// No user is signed in, so sign in anonymously
 			try {
 				const userCredential = await signInAnonymously(auth)
-				// The anonymous user is signed in. You can access their UID with userCredential.user.uid.
-				const newAnonymousUser = userCredential.user
-				checkoutSessionData.customerDetails.firebaseUserId = newAnonymousUser.uid
+
+				actualUser = userCredential.user
 			} catch (error) {
 				console.error('Error signing in anonymously: ', error)
 			}
 		}
+
+		// populate checkoutSessionData with the uid of either the existing or newly created user
+		checkoutSessionData.customerDetails.firebaseUserId = actualUser.uid
+
+		// and generate a token with the uid
+		const idToken = await actualUser.getIdToken()
 
 		// call api to get the stripe checkout session
 		try {
 			const response = await fetch('/api/create-checkout-session', {
 				method: 'POST',
 				headers: {
+					Authorization: `Bearer ${idToken}`,
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(checkoutSessionData), // sending the cart details
