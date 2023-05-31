@@ -87,7 +87,7 @@ async function asyncUpdateUserWithStripeAddress(user, address, isBillingAddress 
 					}
 				})
 
-				// We're done with all cases where the address bok was empty, exit function
+				// We're done with all cases where the address book was empty, exit function
 				return
 			} catch (error) {
 				console.error('Error when adding address to user who had an empty address book')
