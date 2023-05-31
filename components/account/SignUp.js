@@ -16,15 +16,19 @@ function SignUp({ title }) {
 		event.preventDefault()
 
 		let firebaseAccountCreatedOk = false
+		let newUser
 
 		try {
 			// Create firebase customer
-			await createUserWithEmailAndPassword(auth, email, password)
+			const newUserCredentials = await createUserWithEmailAndPassword(auth, email, password)
+			newUser = newUserCredentials.user
 			firebaseAccountCreatedOk = true
 
 			// For the moment, reporting success at this point since firebase account is created - if stripe account creation fails, the user still has an account that will work on our website.
 			// So cannot assume that all users will have a stripe account linked to their firebase account.
 			setMessage({ text: 'Account Created', type: MessageType.SUCCESS })
+
+			// these are the state variables looking after the values in the sign up form - blank them after account creation
 			setEmail('')
 			setPassword('')
 		} catch (error) {
@@ -33,17 +37,21 @@ function SignUp({ title }) {
 
 		if (firebaseAccountCreatedOk) {
 			try {
+				// get a token for the api route
+				const idToken = await newUser.getIdToken()
+
 				// Create stripe customer
 				const response = await fetch('/api/create-stripe-customer', {
 					method: 'POST',
 					headers: {
+						Authorization: `Bearer ${idToken}`,
 						'Content-Type': 'application/json',
 					},
-					body: JSON.stringify({ email }), // send the user's email
+					body: JSON.stringify({ email: newUser.email }), // send the user's email
 				})
 
 				const { customerId } = await response.json()
-				console.log(customerId)
+
 				// After receiving Stripe customer ID, create a users document and add it there
 				const userDocRef = doc(firestore, 'users', auth.currentUser.uid)
 				await setDoc(userDocRef, {

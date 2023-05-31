@@ -1,10 +1,22 @@
 import { stripe } from '../../server-utils/initStripe'
+import asyncDecodeFirebaseToken from '../../server-utils/asyncDecodeFirebaseToken'
 
 export default async function handler(req, res) {
 	// Check request method
 	if (req.method !== 'POST') {
 		res.status(405).json({ error: 'Method not allowed. This endpoint accepts POST requests only.' })
 		return
+	}
+
+	// Check the token is valid - don't have a user id to check it matches, but we can validate it was issued by us and isn't expired.
+	const decodedToken = asyncDecodeFirebaseToken(req?.headers?.authorization)
+	if (!decodedToken) {
+		if (decodedToken === null) {
+			console.error('create-stripe-customer endpoint. Invalid authorization header format.')
+			return res.status(401).end('Not Authorised.')
+		}
+		console.error('create-stripe-customer endpoint. Error when verifying token with firebase')
+		return res.status(403).end('Forbidden')
 	}
 
 	// Validate email
