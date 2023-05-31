@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { updateEmail } from 'firebase/auth'
 import { CartContext } from '../components/contexts/CartContext'
 import Page from '../components/page/Page'
 import { useAuth } from '../components/contexts/AuthContext'
 import SignUp from '../components/account/SignUp'
+import asyncUpdateUserWithStripeAddress from '../utils/asyncUpdateUserWithStripeAddress'
 
 // This page is where the user arrives back at our site after a successful checkout, and handles clean up of the cart and some data updating (though not marking the order as complete).
 // There is a division of responsibility between this success page the user gets sent to after checkout, and the webhook handlers in pages/api/stripe-webhooks.
@@ -112,6 +112,8 @@ const OrderSuccess = () => {
 		console.log(sessionDataState)
 		// probably customer_details for billing address, and maybe shipping_details if there is a shipping address
 		// TODO NEXT
+
+		asyncUpdateUserWithStripeAddress(user, sessionDataState.customer_details.address, true)
 
 		// when complete, unset this state to prevent any chance of doing this useEffect logic again
 		setSessionDataState(null)
