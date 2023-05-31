@@ -7,7 +7,7 @@ import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContex
 import accountStyles from '../../styles/Account.shared.module.css'
 
 function SignUp({ title, prefillEmail = '' }) {
-	const { anonymousUser, setUser, setAnonymousUser } = useAuth()
+	const { anonymousUser, asyncUpgradeUser } = useAuth()
 	const [email, setEmail] = useState(prefillEmail)
 	const [password, setPassword] = useState('')
 	const [formError, setFormError] = useState(null)
@@ -18,19 +18,22 @@ function SignUp({ title, prefillEmail = '' }) {
 		event.preventDefault()
 
 		// This will hold the new or upgraded user that we create
-		let newUser
+		let newOrUpgradedUser
 
 		console.log(anonymousUser.uid)
 		// If the user has an existing anonymous account, we need to upgrade that.  Otherwise create a brand new account
+		// Note that an upgraded user will have the same uid as their anonymous account, with any linked firestore data (but no firebase auth held personal data, since anon accounts don't store it)
 		try {
 			if (anonymousUser) {
 				const credentials = EmailAuthProvider.credential(email, password)
-				const upgradedUserCredential = await linkWithCredential(anonymousUser, credentials)
-				newUser = upgradedUserCredential.user
+				newOrUpgradedUser = await asyncUpgradeUser(credentials)
+				if (!newOrUpgradedUser) {
+					throw new Error('Unable to create user account.')
+				}
 			} else {
 				// Create firebase customer
 				const newUserCredentials = await createUserWithEmailAndPassword(auth, email, password)
-				newUser = newUserCredentials.user
+				newOrUpgradedUser = newUserCredentials.user
 			}
 		} catch (error) {
 			// TODO handling of 'auth/credential-already-in-use' is a bit rough here - it indicates a user (who has probably just placed an order) trying to upgrade an anonymous account to a full one, but they already have one.
@@ -42,7 +45,7 @@ function SignUp({ title, prefillEmail = '' }) {
 			setFormError(translateFirebaseError(error))
 			return
 		}
-		console.log(newUser.uid)
+		console.log(newOrUpgradedUser.uid)
 
 		// Reporting success at this point since firebase account is created - if stripe account creation fails, the user still has an account that will work on our website.
 		// So cannot assume that all users will have a stripe account linked to their firebase account.
@@ -58,7 +61,7 @@ function SignUp({ title, prefillEmail = '' }) {
 
 		try {
 			// get a token for the api route
-			const idToken = await newUser.getIdToken()
+			const idToken = await newOrUpgradedUser.getIdToken()
 
 			// Create stripe customer
 			const response = await fetch('/api/create-stripe-customer', {
@@ -67,7 +70,7 @@ function SignUp({ title, prefillEmail = '' }) {
 					Authorization: `Bearer ${idToken}`,
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ email: newUser.email }), // send the user's email
+				body: JSON.stringify({ email: newOrUpgradedUser.email }), // send the user's email
 			})
 
 			const { customerId } = await response.json()
