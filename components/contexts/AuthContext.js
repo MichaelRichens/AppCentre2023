@@ -31,6 +31,10 @@ export const AuthProvider = ({ children }) => {
 		return () => unsubscribe()
 	}, [])
 
+	/**
+	 *  Upgrades the current anonymousUser to full user with the passed credentials and returns upgraded user on success, or false upon failure
+	 *  Handles updating user/anonymousUser state variables (onAuthStateChanged listener that is set up ignores this, so has to be done manually)
+	 */
 	const asyncUpgradeUser = async (credential) => {
 		if (anonymousUser) {
 			const userCredential = await linkWithCredential(anonymousUser, credential)
@@ -38,8 +42,8 @@ export const AuthProvider = ({ children }) => {
 			if (upgradedUser) {
 				setUser(upgradedUser)
 				setAnonymousUser(null)
+				return upgradedUser
 			}
-			return upgradedUser
 		}
 		return false
 	}
