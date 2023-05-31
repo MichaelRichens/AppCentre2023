@@ -15,6 +15,7 @@ const OrderSuccess = () => {
 	const [sessionIdState, setSessionIdState] = useState(null)
 
 	useEffect(() => {
+		// Check that the url has a stripe session id parameter and that the user has the same one stored in sessionStorage
 		const urlParams = new URLSearchParams(window.location.search)
 		const urlSessionId = urlParams.get('session_id')
 		const sessionStorageSessionId = sessionStorage.getItem('checkoutSessionId')
@@ -24,12 +25,17 @@ const OrderSuccess = () => {
 			setSessionIdState(urlSessionId)
 		}
 
+		// If so, set it in a state variable and removed it from their sessionStorage so this won't get processed again if they return to this page.
+		// TODO, might want to redirect the order if a customer does return here, or visits without the session id parameter
+		// The order page (not created yet) will be withAuth, so will handle them not being logged in
+		// Wouldn't work for anonymous users though, so maybe just display the order here is long as their firebase user id matches it?
 		if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
 			setSessionIdState(urlSessionId)
 			sessionStorage.removeItem('checkoutSessionId')
 			clearCart()
 		}
 
+		// Basic cleanup to account for someone closing the page without giving it time to do its thing - they won;t get their details updated from stripe, but we can at least clear their cart.
 		return () => {
 			if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
 				sessionStorage.removeItem('checkoutSessionId')
@@ -39,7 +45,9 @@ const OrderSuccess = () => {
 	}, [])
 
 	useEffect(() => {
+		// Process fresh return from checkout once auth is available and if a fresh stripe sessionId has been set.
 		if (!isAuthLoading && sessionIdState) {
+			// Can be either an anonymous or logged in user
 			const returnedUser = user || anonymousUser
 
 			if (returnedUser) {
