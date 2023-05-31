@@ -10,7 +10,9 @@ ensureFirebaseInitialised()
  */
 async function asyncDecodeFirebaseToken(authorization) {
 	authorization = authorization || ''
+
 	const components = authorization.split(' ')
+
 	if (components.length !== 2 || components[0] !== 'Bearer') {
 		console.warn('Invalid authorization header format. Expecting "Bearer <token>".')
 		return null
