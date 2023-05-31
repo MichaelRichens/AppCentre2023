@@ -61,7 +61,7 @@ function SignUp({ title }) {
 				})
 			} catch (error) {
 				console.error('Error creating customer with Stripe', error)
-				// This is non-fatal, the firebase customer was created but a matching stripe customer could not be.  There is a checkout flow without an existing stripe customer, and linking the one stripe creates at checkout up with the user (used by anonymous checkout). So we'll let this logged in user go through that.
+				// This is non-fatal, the firebase customer was created but a matching stripe customer could not be.  There is a checkout flow without an existing stripe customer, and later linking the one stripe creates at checkout up with the user (its used by anonymous checkout). So we'll let this logged in user go through that.
 			}
 		}
 	}
