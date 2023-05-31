@@ -61,8 +61,8 @@ async function asyncUpdateUserWithStripeAddress(user, address, isBillingAddress 
 		const addressesSnapshot = await getDocs(addressesCollectionRef)
 
 		// Easy enough if they don't have any addresses at all, set the new address as their only address, and point both billing and shipping addresses at it
-		try {
-			if (addressesSnapshot.size === 0) {
+		if (addressesSnapshot.size === 0) {
+			try {
 				await runTransaction(firestore, async (transaction) => {
 					const userDocSnap = await transaction.get(userDocRef)
 
@@ -89,10 +89,10 @@ async function asyncUpdateUserWithStripeAddress(user, address, isBillingAddress 
 
 				// We're done with all cases where the address bok was empty, exit function
 				return
+			} catch (error) {
+				console.error('Error when adding address to user who had an empty address book')
+				throw error
 			}
-		} catch (error) {
-			console.error('Error when adding address to user who had an empty address book')
-			throw error
 		}
 
 		// Now handle the more complex cases - we will only have users which have at least one document in their addresses subcollection
