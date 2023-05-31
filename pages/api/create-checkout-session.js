@@ -5,6 +5,7 @@ import firebaseService from '../../server-utils/firebaseService'
 import { VersioningError } from '../../utils/types/errors'
 import OrderStatus from '../../utils/types/enums/OrderStatus'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
+import asyncDecodeFirebaseToken from '../../server-utils/asyncDecodeFirebaseToken'
 import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKInit'
 
 ensureFirebaseInitialised()
@@ -14,6 +15,18 @@ export default async (req, res) => {
 		res.setHeader('Allow', 'POST')
 		return res.status(405).end('Method Not Allowed - must be POST')
 	}
+
+	const decodedToken = await asyncDecodeFirebaseToken(req?.headers?.authorization)
+
+	if (!decodedToken) {
+		if (decodedToken === null) {
+			console.error('create-checkout-session endpoint. Invalid authorization header format.')
+			return res.status(401).end('Not Authorised.')
+		}
+		console.error('create-checkout-session endpoint. Error when verifying token with firebase')
+		return res.status(403).end('Forbidden')
+	}
+
 	try {
 		const cartFromClientSide = req.body?.items
 		const customerFromClientSide = req.body?.customerDetails
@@ -21,6 +34,11 @@ export default async (req, res) => {
 		// for storing in the orders collection in firestore
 		let orderObject = {}
 		if (customerFromClientSide?.firebaseUserId) {
+			if (decodedToken.uid !== customerFromClientSide.firebaseUserId) {
+				console.error('create-checkout-session endpoint. Error token did not match passed user id.')
+				return res.status(403).end('Forbidden')
+			}
+
 			orderObject.firebaseUserId = customerFromClientSide.firebaseUserId
 		}
 
