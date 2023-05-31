@@ -93,6 +93,7 @@ function SignUp({ title }) {
 						value={email}
 						onChange={handleChange}
 						placeholder='E.g: email@example.com'
+						autoComplete='email'
 					/>
 				</label>
 				<label>
@@ -103,6 +104,7 @@ function SignUp({ title }) {
 						value={password}
 						onChange={handleChange}
 						placeholder='Choose a Password'
+						autoComplete='new-password'
 					/>
 				</label>
 				<button type='submit'>Sign Up</button>

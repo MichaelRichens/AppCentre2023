@@ -43,6 +43,7 @@ function SignIn({ title }) {
 						name='username'
 						placeholder='E.g: email@example.com'
 						onChange={(e) => setEmail(e.target.value)}
+						autoComplete='username'
 					/>
 				</label>
 				<label>
@@ -52,6 +53,7 @@ function SignIn({ title }) {
 						name='password'
 						placeholder='Your Password'
 						onChange={(e) => setPassword(e.target.value)}
+						autoComplete='current-password'
 					/>
 				</label>
 				<button type='submit'>Sign In</button>
