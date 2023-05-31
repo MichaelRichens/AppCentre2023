@@ -14,7 +14,7 @@ export default async (req, res) => {
 		res.status(400).end('Bad Request')
 	}
 
-	const decodedToken = await asyncDecodeFirebaseToken(req.headers.authorization)
+	const decodedToken = await asyncDecodeFirebaseToken(req?.headers?.authorization)
 
 	if (!decodedToken) {
 		if (decodedToken === null) {
