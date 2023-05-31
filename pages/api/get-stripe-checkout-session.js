@@ -1,8 +1,5 @@
 import { stripe } from '../../server-utils/initStripe'
-import * as firebaseAdmin from 'firebase-admin'
-import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKInit'
-
-ensureFirebaseInitialised()
+import asyncDecodeFirebaseToken from '../../server-utils/asyncDecodeFirebaseToken'
 
 export default async (req, res) => {
 	if (req.method !== 'POST') {
@@ -17,23 +14,14 @@ export default async (req, res) => {
 		res.status(400).end('Bad Request')
 	}
 
-	// Get the authorisation token, which was generated with the users id
-	const authorization = req.headers.authorization || ''
-	const components = authorization.split(' ')
-	if (components.length !== 2 || components[0] !== 'Bearer') {
-		console.error('get-stripe-checkout endpoint. Invalid authorization header format. Expecting "Bearer <token>".')
-		return res.status(401).end('Not Authorised.')
-	}
+	const decodedToken = await asyncDecodeFirebaseToken(req.headers.authorization)
 
-	const token = components[1]
-
-	let decodedToken
-
-	try {
-		// Verify the ID token using the Firebase Admin SDK
-		decodedToken = await firebaseAdmin.auth().verifyIdToken(token)
-	} catch (error) {
-		console.error('get-stripe-checkout endpoint. Error when verifying token with firebase', error)
+	if (!decodedToken) {
+		if (decodedToken === null) {
+			console.error('get-stripe-checkout endpoint. Invalid authorization header format.')
+			return res.status(401).end('Not Authorised.')
+		}
+		console.error('get-stripe-checkout endpoint. Error when verifying token with firebase')
 		return res.status(403).end('Forbidden')
 	}
 
