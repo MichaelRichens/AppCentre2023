@@ -1,5 +1,6 @@
 import { asyncUpdateRecord } from '../../server-utils/mongodb'
 
+// This api is unsecured since we do not create an anonymous user for non logged in users before using it - maybe this should be changed
 export default async function handler(req, res) {
 	const { id, licence } = req.body
 
