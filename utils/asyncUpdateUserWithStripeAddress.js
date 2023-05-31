@@ -52,6 +52,7 @@ async function asyncUpdateUserWithStripeAddress(user, address, isBillingAddress 
 		return
 	}
 
+	// Main logic - this catch block goes around everything
 	try {
 		// Get a reference to the user's document.
 		const userDocRef = doc(firestore, 'users', user.uid)
