@@ -21,8 +21,8 @@ const Header = () => {
 	return (
 		<header className={headerStyles.header}>
 			<FlashMessage />
-			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
-				<div id='headerMainContent' className={headerStyles.headerMainContent}>
+			<div className={headerStyles.headerInnerWrapper}>
+				<div className={headerStyles.headerMainContent}>
 					<div
 						ref={topLinksRef}
 						id='topLinks'
@@ -99,7 +99,7 @@ const Header = () => {
 						</ul>
 					</nav>
 				</div>
-				<aside id='headerRightSide'>
+				<aside className='cartSection'>
 					<HeaderCartMenu />
 					<div className={headerStyles.gfiPartnerLogoContainer}>
 						<img src='images/logos/gfi-gold-partner.svg' alt='GFI Gold Partner' />
