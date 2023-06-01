@@ -1,0 +1,28 @@
+ul.address {
+	list-style-type: none;
+}
+
+.address li {
+	display: grid;
+	grid-template-columns: 15em auto;
+	align-items: start;
+	gap: 1em;
+}
+
+.address strong {
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.address span {
+	text-align: left;
+	word-wrap: break-word;
+}
+
+@media (max-width: 700px) {
+	.address li {
+		grid-template-columns: 10em auto;
+	}
+}

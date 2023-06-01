@@ -54,7 +54,7 @@ const Account = () => {
 				<CustomerOrders user={user} />
 			</section>
 			{showAddress && (
-				<section className={accountStyles.address}>
+				<section>
 					<div>
 						<h2>{showShippingAddress ? 'Billing Address' : 'Address'}</h2>
 						<Address addressRef={userDetails.billingAddress} />

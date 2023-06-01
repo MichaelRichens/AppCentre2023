@@ -3,7 +3,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 import { firestore } from '../../utils/firebaseClient'
 import { countryCodeToName } from '../../utils/countryLookup'
 
-import accountStyles from '../../styles/Account.shared.module.css'
+import styles from '../../styles/Address.module.css'
 
 const Address = ({ addressRef }) => {
 	const [addressData, setAddressData] = useState({})
@@ -32,7 +32,7 @@ const Address = ({ addressRef }) => {
 	}, [addressRef])
 
 	return (
-		<ul>
+		<ul className={styles.address}>
 			<li>
 				<strong>Address Line 1:</strong> <span>{addressData?.line1}</span>
 			</li>
