@@ -14,3 +14,9 @@
 	max-width: 300px;
 	white-space: pre-wrap;
 }
+
+@media (max-width: 550px) {
+	.infoTooltipContainer .tooltipText {
+		max-width: 50vw;
+	}
+}

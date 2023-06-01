@@ -272,6 +272,10 @@ body.userIsTabbing .keyboardNote {
 	clear: both;
 }
 
+.react-tooltip {
+	text-align: left;
+}
+
 .modalInnerWrapper {
 	margin-left: auto;
 	margin-right: auto;
@@ -416,6 +420,10 @@ body.userIsTabbing .keyboardNote {
 	.titleWrapper > img {
 		display: none;
 	}
+
+	.react-tooltip {
+		max-width: 60vw;
+	}
 }
 
 @media (max-width: 500px) {
@@ -441,6 +449,12 @@ body.userIsTabbing .keyboardNote {
 	}
 	.h1SubHeading {
 		font-size: 1.2em;
+	}
+
+	main button,
+	form button {
+		height: 50px;
+		font-size: 16px;
 	}
 }
 
