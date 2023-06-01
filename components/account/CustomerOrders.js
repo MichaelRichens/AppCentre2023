@@ -53,10 +53,12 @@ const CustomerOrders = ({ user }) => {
 			<div className={accountStyles.orderList}>
 				<ul>
 					{orders.slice(0, limitOrdersShown ? 5 : orders.length).map((order) => (
-						<li
-							key={order.sessionId}>{`${order.createdAt.toLocaleDateString()} ${order.createdAt.toLocaleTimeString()} ${
-							order.sessionId
-						} ${formatPriceFromPounds(order.price)} ${order.status}`}</li>
+						<li key={order.sessionId}>
+							{`${order.createdAt.toLocaleDateString()} ${order.createdAt.toLocaleTimeString()} ${
+								order?.fullName || ''
+							} ${order?.businessName || ''} ${formatPriceFromPounds(order.price)} ${order.status}`}
+							<br />${order.sessionId}
+						</li>
 					))}
 				</ul>
 				{orders.length > 5 && (
