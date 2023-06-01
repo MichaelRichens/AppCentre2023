@@ -109,21 +109,21 @@ export default async function handler(req, res) {
 			try {
 				const ordersRef = firebaseService.collection('orders')
 
-				const orderDocSnap = await ordersRef.where('sessionId', '==', completedSession.id).get()
+				const orderDocsSnap = await ordersRef.where('sessionId', '==', completedSession.id).get()
 
-				if (orderDocSnap.empty) {
+				if (orderDocsSnap.empty) {
 					console.error(
 						`Webhook checkout.session.completed - No matching order found for stripe session id: ${completedSession.id}`
 					)
 					return
 				}
-				if (orderDocSnap.docs.length > 1) {
+				if (orderDocsSnap.docs.length > 1) {
 					// really should never happen, but non-fatal error
 					console.error(
-						`Webhook checkout.session.completed - More than one order with the same stripe session id found (${orderDocSnap.docs.length} found). Session id: ${completedSession.id}`
+						`Webhook checkout.session.completed - More than one order with the same stripe session id found (${orderDocsSnap.docs.length} found). Session id: ${completedSession.id}`
 					)
 				}
-				const doc = orderDocSnap.docs[0] // We'll just update the first matching document since there REALLY should only be 1
+				const orderDocSnap = orderDocsSnap.docs[0] // We'll just update the first matching document since there REALLY should only be 1
 
 				const paymentIntentId = completedSession?.payment_intent
 				// I'm not sure if stripe actually completes checkouts if the card doesn't go through, but we'll handle the possible statuses just in case
@@ -142,11 +142,20 @@ export default async function handler(req, res) {
 						newOrderStatus = OrderStatus.UPDATE_ERROR
 				}
 
-				await doc.ref.update({
+				const orderDocUpdateObj = {
 					status: newOrderStatus,
 					paymentIntentId: paymentIntentId,
 					updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
-				})
+				}
+
+				const orderData = orderDocSnap.data()
+
+				// If the order doesn't have any name details on it (ie it was an anonymous order), then we add the stripe name field as the full name
+				if (!orderData?.fullName || !orderData?.businessName) {
+					orderDocUpdateObj.fullName = completedSession?.customer_details?.name
+				}
+
+				await orderDocSnap.ref.update(orderDocUpdateObj)
 			} catch (error) {
 				console.error(
 					`Webhook checkout.session.completed - Unable to complete order for stripe session complete webhook with session is: ${completedSession.id}`,
