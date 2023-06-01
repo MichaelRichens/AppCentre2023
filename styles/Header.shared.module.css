@@ -34,6 +34,8 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
+	padding-inline-start: 1em;
+	padding-inline-end: 1em;
 }
 
 .headerMainContent {
@@ -333,6 +335,8 @@
 		flex-direction: column;
 		margin-top: 5px;
 		margin-bottom: 10px;
+		padding-inline-start: 0;
+		padding-inline-end: 0;
 	}
 
 	.mainLogo {
@@ -393,6 +397,7 @@
 	.productMenu > ul.multiRowProductNav {
 		justify-content: space-between;
 		column-gap: 0;
+		row-gap: 0.5em;
 	}
 
 	.productMenu li {
@@ -408,7 +413,7 @@
 	}
 
 	.navDropdownNoFixedOpen > div {
-		background-color: rgb(38, 38, 93);
+		background-color: rgb(50, 50, 123);
 	}
 }
 
