@@ -3,12 +3,11 @@ import { CartContext } from '../components/contexts/CartContext'
 import Page from '../components/page/Page'
 import { useAuth } from '../components/contexts/AuthContext'
 import SignUp from '../components/account/SignUp'
-import asyncUpdateUserWithStripeAddress from '../utils/asyncUpdateUserWithStripeAddress'
 
 // This page is where the user arrives back at our site after a successful checkout, and handles clean up of the cart and some data updating (though not marking the order as complete).
 // There is a division of responsibility between this success page the user gets sent to after checkout, and the webhook handlers in pages/api/stripe-webhooks.
-// This success page handles clearing the cart, and also merging user details (eg addresses) that might have been given/updated during checkout back with our system
-// The webhook events are used for updating order statuses, and also for managing linking of stripe customers with firebase users (ie adding the stripe customer id into the users firebase document in the users collection)
+// This success page handles clearing the cart, and merging anon users into a full one
+// The webhook events are used for updating orders documents, and also for managing linking of stripe customers with firebase users (ie adding the stripe customer id into the users firebase document in the users collection)
 // Avoid duplicating responsibilities to avoid race conditions since many events will fire as the user is handed back to our site. (also its less work...)
 
 const OrderSuccess = () => {
@@ -103,17 +102,13 @@ const OrderSuccess = () => {
 		setSessionDataState(null)
 	}, [sessionIdState, isAuthLoading])
 
-	// Once we have sessionDataState, and if we have (or get from SignUp component being used) a logged in user, we can merge stripe data into customer data
+	// Once we have sessionDataState, and if we have (or get from SignUp component being used) a logged in user, we display order details
 	useEffect(() => {
 		// this logic is only for logged in users and session data stored in state
 		if (!user || !sessionDataState) {
 			return
 		}
 		console.log(sessionDataState)
-		// probably customer_details for billing address, and maybe shipping_details if there is a shipping address
-		// TODO NEXT
-
-		asyncUpdateUserWithStripeAddress(user, sessionDataState.customer_details.address, true)
 
 		// when complete, unset this state to prevent any chance of doing this useEffect logic again
 		setSessionDataState(null)

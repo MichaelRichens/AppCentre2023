@@ -48,7 +48,6 @@ const CheckoutButton = () => {
 		if (actualUser) {
 			// we have an existing user, either logged in or anonymous.  Populate checkoutSessionData with info
 			// Stripe customer id - to go to stripe
-			//  Billing and, if relevant shipping, address - were going to go to stripe, but apparently it won't accept them.  Leaving them for the moment here, but they are vestigial and are ignored by our api route
 			// Name fields - will be populated into the orders document
 			checkoutSessionData.customerDetails.email = actualUser?.email
 			checkoutSessionData.customerDetails.fullName = actualUser?.displayName
@@ -63,34 +62,6 @@ const CheckoutButton = () => {
 					// data from the orders document
 					checkoutSessionData.customerDetails.stripeCustomerId = data?.stripeCustomerId
 					checkoutSessionData.customerDetails.businessName = data?.businessName
-
-					//data from the addresses subcollection - at references held in orders document
-					if (data?.billingAddress) {
-						try {
-							const addressSnap = await getDoc(data.billingAddress)
-							if (addressSnap.exists()) {
-								checkoutSessionData.customerDetails.billingAddress = addressSnap.data()
-							}
-						} catch (error) {
-							console.error('Problem with billing address reference stored for customer:', actualUser.uid)
-						}
-					}
-
-					// we'll provide shipping address details, I don;t think we've got easy access to whether this order has anything to ship here without going through the cart
-					// the api we're sending it to has to do that anyway, so we'll let it worry about it
-					if (data?.shippingAddress) {
-						try {
-							const addressSnap = await getDoc(data.shippingAddress)
-							if (addressSnap.exists()) {
-								checkoutSessionData.customerDetails.shippingAddress = addressSnap.data()
-							}
-						} catch (error) {
-							console.error('Problem with shipping address reference stored for customer:', actualUser.uid)
-						}
-					} else {
-						// don't have a separate shipping address specified, so use billing address
-						checkoutSessionData.customerDetails.shippingAddress = checkoutSessionData.customerDetails?.billingAddress
-					}
 				}
 			} catch (error) {
 				console.error('Error from Firestore when retrieving user details: ', error)

@@ -292,7 +292,7 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, fo
 	// Shipping
 	// Going to ignore the charges and use free shipping, mainly because I'm not sure two to combine the shipping charges if multiple products are ordered
 	// across different line items, and it seems like a lot of work for little benefit.
-	// Just need to set a flag so we know that there is something being shipped, and we need to collect a shipping address.
+	// Just need to set a flag so we know that there is something being shipped, and we need to tell stripe
 
 	if (formData.hsType === PurchaseType.NEW || formData.hsType === PurchaseType.SPARE) {
 		isShipping = true

@@ -152,7 +152,7 @@ export default async function handler(req, res) {
 
 				// cannot pass undefined fields to firestore update (according to error message I got anyway), hence all these if statements
 
-				// we use address details from stripe for the order, since customer may have edited them (and if its an anon order, we won't have provided any anyway)
+				// we use address details from stripe for the order, since we don't handle these ourselves
 				if (completedSession?.customer_details?.address) {
 					orderDocUpdateObj.billingAddress = completedSession.customer_details.address
 				}
