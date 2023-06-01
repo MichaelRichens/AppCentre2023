@@ -305,17 +305,9 @@
 	.productMenu li {
 		width: 9em;
 	}
-	.cartWrapper {
-		width: 500px;
-	}
 }
 
 @media (max-width: 600px) {
-	.cartWrapper {
-		right: 3vw;
-		width: 85vw;
-	}
-
 	.productMenu {
 		margin-right: -20%;
 	}

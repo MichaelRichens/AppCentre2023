@@ -273,7 +273,6 @@ body.userIsTabbing .keyboardNote {
 }
 
 .modalInnerWrapper {
-	width: 90%;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 0.5em;

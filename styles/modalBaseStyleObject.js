@@ -1,6 +1,14 @@
 const modalBaseStyleObject = {
 	overlay: { zIndex: 100, backgroundColor: 'rgba(0, 0, 0, 0.55)' },
-	content: { maxWidth: '800px', marginLeft: 'auto', marginRight: 'auto', backgroundColor: '#fbfbfb' },
+	content: {
+		right: 'initial',
+		position: 'absolute',
+		left: '50%',
+		transform: 'translateX(-50%)',
+		width: 'min(800px, 80vw)',
+
+		backgroundColor: '#fbfbfb',
+	},
 }
 
 Object.freeze(modalBaseStyleObject.overlay)

@@ -89,3 +89,15 @@
 		color: initial;
 	}
 }
+
+@media (max-width: 650px) {
+	.licenceWrapper input {
+		width: 15em;
+	}
+}
+
+@media (max-width: 500px) {
+	.licenceWrapper input {
+		width: 90%;
+	}
+}
