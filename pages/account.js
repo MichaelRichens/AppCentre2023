@@ -39,7 +39,13 @@ const Account = () => {
 				<h2>Details</h2>
 				<ul>
 					<li>
+						<strong>Your Name:</strong> {user.displayName || 'Not Set'}
+					</li>
+					<li>
 						<strong>Your Email:</strong> {user.email || 'Not Set'}
+					</li>
+					<li>
+						<strong>Company Name:</strong> {userDetails.businessName || 'Not Set'}
 					</li>
 					<li>
 						<strong>Firebase User ID:</strong> {user.uid || 'Not Set'}

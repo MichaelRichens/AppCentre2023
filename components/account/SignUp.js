@@ -1,15 +1,17 @@
 import React, { useState, useContext } from 'react'
 import { auth, firestore, translateFirebaseError } from '../../utils/firebaseClient'
-import { createUserWithEmailAndPassword, EmailAuthProvider } from 'firebase/auth'
+import { createUserWithEmailAndPassword, EmailAuthProvider, updateProfile } from 'firebase/auth'
 import { doc, setDoc, getDoc, updateDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useAuth } from '../contexts/AuthContext'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 import accountStyles from '../../styles/Account.shared.module.css'
 
-function SignUp({ title, prefillEmail = '' }) {
+function SignUp({ title, prefillEmail = '', prefillFullName = '' }) {
 	const { anonymousUser, asyncUpgradeUser } = useAuth()
 	const [email, setEmail] = useState(prefillEmail)
 	const [password, setPassword] = useState('')
+	const [fullName, setFullName] = useState(prefillFullName)
+	const [businessName, setBusinessName] = useState('')
 	const [formError, setFormError] = useState(null)
 
 	const { setMessage } = useContext(FlashMessageContext)
@@ -19,6 +21,12 @@ function SignUp({ title, prefillEmail = '' }) {
 
 		// This will hold the new or upgraded user that we create
 		let newOrUpgradedUser
+
+		// validate the full name is at least 2 characters
+		if (!fullName || fullName.length <= 2) {
+			setFormError('Your name must be at least 2 characters long.')
+			return
+		}
 
 		// If the user has an existing anonymous account, we need to upgrade that.  Otherwise create a brand new account
 		// Note that an upgraded user will have the same uid as their anonymous account, with any linked firestore data (but no firebase auth held personal data, since anon accounts don't store it)
@@ -45,28 +53,56 @@ function SignUp({ title, prefillEmail = '' }) {
 			return
 		}
 
+		try {
+			await updateProfile(newOrUpgradedUser, { displayName: fullName })
+		} catch (error) {
+			console.error("Error updating user's name", error)
+		}
+
 		// Reporting success at this point since firebase account is created - if stripe account creation fails, the user still has an account that will work on our website.
 		// So cannot assume that all users will have a stripe account linked to their firebase account.
 		setMessage({ text: 'Account Created', type: MessageType.SUCCESS })
 
-		// these are the state variables looking after the values in the sign up form - blank them after account creation
-		setEmail('')
-		setPassword('')
-
 		// Now we need to see if the user already has a stripe account linked to their user account - very possible in the case of an upgraded anonymous user
 		// Since they may well be creating an account just after checkout
 
-		// Get a reference to their users document
+		// Get a reference and snapshot to their users document
 		const userDocRef = doc(firestore, 'users', newOrUpgradedUser.uid)
+		const docSnap = await getDoc(userDocRef)
 
 		// Will need to know this if we need to write to it
-		let doesUserDocumentExist = false
+		let doesUserDocumentExist = docSnap.exists()
+
+		// If user has set a business name, we need to save this
+		if (businessName) {
+			try {
+				if (doesUserDocumentExist) {
+					await updateDoc(userDocRef, {
+						businessName: businessName,
+						updatedAt: serverTimestamp(),
+					})
+				} else {
+					await setDoc(userDocRef, {
+						businessName: businessName,
+						createdAt: serverTimestamp(),
+						updatedAt: serverTimestamp(),
+					})
+					doesUserDocumentExist = true
+				}
+			} catch (error) {
+				console.error('Error setting business name', error)
+			}
+		}
+
+		// these are the state variables looking after the values in the sign up form - blank we've used everything we need for account creation
+		setEmail('')
+		setPassword('')
+		setFullName('')
+		setBusinessName('')
 
 		// Do they have a stripe account?
 		try {
-			const docSnap = await getDoc(userDocRef)
-			if (docSnap.exists()) {
-				doesUserDocumentExist = true
+			if (doesUserDocumentExist) {
 				const data = docSnap.data()
 				if (data?.stripeCustomerId?.length > 0) {
 					// yes they do, we are done with this user
@@ -119,11 +155,20 @@ function SignUp({ title, prefillEmail = '' }) {
 
 	const handleChange = (event) => {
 		const { name, value } = event.currentTarget
-
-		if (name === 'username') {
-			setEmail(value)
-		} else if (name === 'password') {
-			setPassword(value)
+		setFormError('')
+		switch (name) {
+			case 'username':
+				setEmail(value)
+				break
+			case 'password':
+				setPassword(value)
+				break
+			case 'fullName':
+				setFullName(value)
+				break
+			case 'businessName':
+				setBusinessName(value)
+				break
 		}
 	}
 
@@ -156,6 +201,28 @@ function SignUp({ title, prefillEmail = '' }) {
 						onChange={handleChange}
 						placeholder='Choose a Password'
 						autoComplete='new-password'
+					/>
+				</label>
+				<label>
+					Your Name:
+					<input
+						type='text'
+						name='fullName'
+						value={fullName}
+						onChange={handleChange}
+						placeholder='E.g: John Smith'
+						autoComplete='fullname'
+					/>
+				</label>
+				<label>
+					Business Name:
+					<input
+						type='text'
+						name='businessName'
+						value={businessName}
+						onChange={handleChange}
+						placeholder='(Optional)'
+						autoComplete='organization'
 					/>
 				</label>
 				<button type='submit'>Sign Up</button>

@@ -123,7 +123,11 @@ const OrderSuccess = () => {
 		<Page title='Order Success'>
 			<p>Thank you for your purchase!</p>
 			{anonymousUser && sessionDataState && (
-				<SignUp title='Would you like to create an account?' prefillEmail={sessionDataState?.customer_details?.email} />
+				<SignUp
+					title='Would you like to create an account?'
+					prefillEmail={sessionDataState?.customer_details?.email}
+					prefillFullName={sessionDataState?.customer_details?.name}
+				/>
 			)}
 		</Page>
 	)
