@@ -89,7 +89,6 @@ export default async function handler(req, res) {
 
 			let newOrderStatus = refundedCharge.refunded ? OrderStatus.FULLY_REFUNDED : OrderStatus.PARTIALLY_REFUNDED
 
-			console.log(refundedCharge.amount_refunded / 100)
 			await doc.ref.update({
 				status: newOrderStatus,
 				refundedAmount: refundedCharge.amount_refunded / 100,
