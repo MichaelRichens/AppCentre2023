@@ -18,3 +18,5 @@ Can I add authentication into any api routes? For ones that need to come from a 
 Cache expiry is set to immediate - change when going live
 
 Success page should mre gracefully handle someone who visits it twice - see todo on that page
+
+Fix cart modal on mobile
