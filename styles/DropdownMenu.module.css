@@ -91,6 +91,10 @@ button.menuTitleOpen img {
 		font-size: 130%;
 	}
 
+	.link:not(:last-child) {
+		border-right: 1px white solid;
+	}
+
 	.link > a {
 		padding: 0.5em;
 	}
