@@ -150,9 +150,19 @@ export default async function handler(req, res) {
 
 				const orderData = orderDocSnap.data()
 
+				// cannot pass undefined fields to firestore update (according to error message I got anyway), hence all these if statements
+
+				// we use address details from stripe for the order, since customer may have edited them (and if its an anon order, we won't have provided any anyway)
+				if (completedSession?.customer_details?.address) {
+					orderDocUpdateObj.billingAddress = completedSession.customer_details.address
+				}
+				if (completedSession?.shipping_details?.address) {
+					orderDocUpdateObj.shippingAddress = completedSession.shipping_details.address
+				}
+
 				// If the order doesn't have any name details on it (ie it was an anonymous order), then we add the stripe name field as the full name
-				if (!orderData?.fullName || !orderData?.businessName) {
-					orderDocUpdateObj.fullName = completedSession?.customer_details?.name
+				if ((!orderData?.fullName || !orderData?.businessName) && completedSession?.customer_details?.name) {
+					orderDocUpdateObj.fullName = completedSession.customer_details.name
 				}
 
 				await orderDocSnap.ref.update(orderDocUpdateObj)
