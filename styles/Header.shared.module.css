@@ -322,12 +322,14 @@
 
 @media (max-width: 500px) {
 	.header {
-		background-color: black;
+		background-color: rgb(2, 8, 34);
 		background-image: none;
 	}
 
 	.headerInnerWrapper {
 		flex-direction: column;
+		margin-top: 5px;
+		margin-bottom: 10px;
 	}
 
 	.mainLogo {
@@ -401,10 +403,26 @@
 		border: 2px white solid;
 		border-radius: 5px;
 	}
+
+	.navDropdownNoFixedOpen > div {
+		background-color: rgb(38, 38, 93);
+	}
 }
 
 @media (max-width: 400px) {
 	.headerMainContent {
 		font-size: 12px;
+	}
+}
+
+@media (max-width: 350px) {
+	.productMenu {
+		font-size: 100%;
+	}
+}
+
+@media (max-width: 300px) {
+	.productMenu {
+		font-size: 90%;
 	}
 }
