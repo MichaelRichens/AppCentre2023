@@ -73,8 +73,13 @@ function SignUp({ title, prefillEmail = '', prefillFullName = '' }) {
 		// Will need to know this if we need to write to it
 		let doesUserDocumentExist = docSnap.exists()
 
+		// Stripe only gives us a single name field.  We will use business name for preference, with fullName as the fallback
+		// Honestly not sure why we bother sending stripe a name - stripe ask them for a cardholders name no  matter what, and then overwrite what we send them
+		let stripeCustomerName = fullName
+
 		// If user has set a business name, we need to save this
 		if (businessName) {
+			stripeCustomerName = businessName
 			try {
 				if (doesUserDocumentExist) {
 					await updateDoc(userDocRef, {
@@ -129,7 +134,7 @@ function SignUp({ title, prefillEmail = '', prefillFullName = '' }) {
 					Authorization: `Bearer ${idToken}`,
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({ email: newOrUpgradedUser.email }), // send the user's email
+				body: JSON.stringify({ email: newOrUpgradedUser.email, name: stripeCustomerName }), // send the user's email and name
 			})
 
 			const { customerId } = await response.json()

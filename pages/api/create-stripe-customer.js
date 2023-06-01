@@ -19,15 +19,16 @@ export default async function handler(req, res) {
 		return res.status(403).end('Forbidden')
 	}
 
+	const { email, name } = req.body
+
 	// Validate email
-	const { email } = req.body
 	if (!email || !email.includes('@')) {
 		res.status(400).json({ error: 'Invalid email address.' })
 		return
 	}
 
 	try {
-		const customer = await stripe.customers.create({ email })
+		const customer = await stripe.customers.create({ email, name })
 		res.status(200).json({ customerId: customer.id })
 	} catch (error) {
 		console.error('Failed to create Stripe customer for email:', email, error)
