@@ -109,21 +109,21 @@ export default async function handler(req, res) {
 			try {
 				const ordersRef = firebaseService.collection('orders')
 
-				const querySnapshot = await ordersRef.where('sessionId', '==', completedSession.id).get()
+				const orderDocSnap = await ordersRef.where('sessionId', '==', completedSession.id).get()
 
-				if (querySnapshot.empty) {
+				if (orderDocSnap.empty) {
 					console.error(
 						`Webhook checkout.session.completed - No matching order found for stripe session id: ${completedSession.id}`
 					)
 					return
 				}
-				if (querySnapshot.docs.length > 1) {
+				if (orderDocSnap.docs.length > 1) {
 					// really should never happen, but non-fatal error
 					console.error(
-						`Webhook checkout.session.completed - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${completedSession.id}`
+						`Webhook checkout.session.completed - More than one order with the same stripe session id found (${orderDocSnap.docs.length} found). Session id: ${completedSession.id}`
 					)
 				}
-				const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
+				const doc = orderDocSnap.docs[0] // We'll just update the first matching document since there REALLY should only be 1
 
 				const paymentIntentId = completedSession?.payment_intent
 				// I'm not sure if stripe actually completes checkouts if the card doesn't go through, but we'll handle the possible statuses just in case
