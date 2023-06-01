@@ -34,6 +34,8 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
+	padding-inline-start: 1em;
+	padding-inline-end: 1em;
 }
 
 .headerMainContent {
@@ -251,7 +253,7 @@
 .gfiPartnerLogoContainer img {
 	position: absolute;
 	top: 2em;
-	right: -1em;
+	right: 1em;
 	height: 50%;
 	max-width: 25vw;
 }
@@ -268,7 +270,7 @@
 }
 
 @media (max-width: 1300px) {
-	.headerMainContent .productMenu ul {
+	.productMenu ul {
 		column-gap: 1em;
 	}
 }
@@ -284,12 +286,15 @@
 		height: 50px;
 		width: 266px;
 	}
+
+	.gfiPartnerLogoContainer img {
+		top: 1em;
+	}
 }
 
 @media (max-width: 850px) {
 	.gfiPartnerLogoContainer img {
 		max-width: 20vw;
-		right: 0;
 	}
 }
 
@@ -297,7 +302,7 @@
 	.headerMainContent {
 		font-size: 14px;
 	}
-	.headerMainContent .productMenu li {
+	.productMenu li {
 		width: 9em;
 	}
 	.cartWrapper {
@@ -321,9 +326,116 @@
 }
 
 @media (max-width: 500px) {
+	.header {
+		background-color: rgb(2, 8, 34);
+		background-image: none;
+	}
+
+	.headerInnerWrapper {
+		flex-direction: column;
+		margin-top: 5px;
+		margin-bottom: 10px;
+		padding-inline-start: 0;
+		padding-inline-end: 0;
+	}
+
 	.mainLogo {
+		margin-top: 1em;
+		padding-left: 0;
 		height: 40px;
 		width: 213px;
+	}
+
+	.topLinks {
+		flex-direction: column;
+		padding-left: 1em;
+		padding-right: 1.3em;
+	}
+
+	.topLinks nav.infoMenu,
+	.topLinks nav.accountMenu {
+		margin: 0;
+		padding: 0;
+	}
+
+	.topLinks nav.infoMenu {
+		margin-bottom: 0.5em;
+	}
+
+	.topLinks nav ul {
+		flex-direction: column;
+		row-gap: 0.3em;
+	}
+
+	.topLinks li,
+	.topLinks li {
+		width: 100%;
+		height: 100%;
+	}
+
+	.topLinks a,
+	.topLinks button {
+		font-size: 150%;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgb(38, 38, 93);
+		justify-content: center;
+		border: 3px white solid;
+		border-radius: 7px;
+	}
+
+	.productMenu {
+		font-size: 120%;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.productMenu > ul,
+	.productMenu > ul.multiRowProductNav {
+		justify-content: space-between;
+		column-gap: 0;
+		row-gap: 0.5em;
+	}
+
+	.productMenu li {
+		width: 39vw;
+	}
+
+	.headerMainContent .productMenu button {
+		width: 100%;
+		height: 60px;
+		background-color: rgb(38, 38, 93);
+		padding-left: 0.2em;
+		border: 2px white solid;
+		border-radius: 5px;
+	}
+
+	.navDropdownNoFixedOpen > div {
+		background-color: rgb(50, 50, 123);
+	}
+
+	.headerCartContainer {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+	}
+
+	.headerCartContainer button {
+		background-color: rgb(38, 38, 93);
+		border-radius: 15px;
+		padding: 10px;
+		width: 150px;
+		border: 2px white solid;
+	}
+
+	.cartCount {
+		font-size: 26px;
+		bottom: 20%;
+		left: 65%;
+		padding: 8px;
 	}
 }
 
@@ -331,16 +443,16 @@
 	.headerMainContent {
 		font-size: 12px;
 	}
-	.cartWrapper {
-		left: 1vw;
-		right: 3vw;
-		width: auto;
-	}
 }
 
 @media (max-width: 350px) {
-	.mainLogo {
-		height: 30px;
-		width: 160px;
+	.productMenu {
+		font-size: 100%;
+	}
+}
+
+@media (max-width: 300px) {
+	.productMenu {
+		font-size: 90%;
 	}
 }

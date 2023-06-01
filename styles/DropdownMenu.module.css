@@ -75,3 +75,22 @@ button.menuTitleOpen img {
 	align-items: center;
 	padding: 0.5em 1em;
 }
+
+@media (max-width: 500px) {
+	.dropdown {
+		left: -5px;
+		right: -10px;
+	}
+
+	.dropdownIsDefaultClosed > div {
+		border: 2px white solid;
+		border-radius: 10px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		justify-content: space-around;
+		font-size: 130%;
+	}
+
+	.link > a {
+		padding: 0.5em;
+	}
+}
