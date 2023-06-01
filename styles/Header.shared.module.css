@@ -431,6 +431,10 @@
 		border: 2px white solid;
 	}
 
+	.headerCartContainer button[disabled] {
+		border: none;
+	}
+
 	.cartCount {
 		font-size: 26px;
 		bottom: 20%;
