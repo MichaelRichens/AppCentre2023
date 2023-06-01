@@ -133,6 +133,8 @@ export default async (req, res) => {
 				stripeCustomerId = customerFromClientSide.stripeCustomerId
 				orderObject.stripeCustomerId = stripeCustomerId
 			}
+			orderObject.fullName = customerFromClientSide?.fullName
+			orderObject.businessName = customerFromClientSide?.businessName
 		}
 
 		// cancel url

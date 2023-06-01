@@ -46,18 +46,20 @@ const CheckoutButton = () => {
 		let actualUser = user || anonymousUser
 		// get user data from firestore
 		if (actualUser) {
-			// we have an existing user, either logged in or anonymous.  Populate checkoutSessionData with their email
+			// we have an existing user, either logged in or anonymous.  Populate checkoutSessionData with their email and displayName (fullName)
+			// Note the full/business names we are collecting here are for use creating the orders document - they don't go to stripe (who basically ignore our name fields, though we do send one when we create a stripe customer)
 			checkoutSessionData.customerDetails.email = actualUser?.email
+			checkoutSessionData.customerDetails.fullName = actualUser?.displayName
 
-			// And if the have one, their stripe customer id.  (If not, one will be created during checkout and linked up afterwards)
+			// And if the have one, their business name and stripe customer id.  (If it doesn't exist, a stripe customer id will be created during checkout and linked up afterwards)
 			try {
 				const userDocRef = doc(firestore, 'users', actualUser.uid)
 				const docSnap = await getDoc(userDocRef)
 				if (docSnap.exists()) {
 					const data = docSnap.data()
-					if (data.stripeCustomerId) {
-						checkoutSessionData.customerDetails.stripeCustomerId = docSnap.data().stripeCustomerId
-					}
+
+					checkoutSessionData.customerDetails.stripeCustomerId = data?.stripeCustomerId
+					checkoutSessionData.customerDetails.businessName = data?.businessName
 				}
 			} catch (error) {
 				console.error('Error from Firestore when retrieving user details: ', error)
