@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import Page from '../components/page/Page'
 import withAuth from '../components/hoc/withAuth'
+import { updateProfile } from 'firebase/auth'
 import { useAuth } from '../components/contexts/AuthContext'
 import CustomerOrders from '../components/account/CustomerOrders'
 import { firestore } from '../utils/firebaseClient'
 import { doc, onSnapshot } from 'firebase/firestore'
+import EditableField from '../components/EditableField'
 import accountStyles from '../styles/Account.shared.module.css'
+import { setTimeout } from 'timers'
 
 const Account = () => {
 	const { user } = useAuth()
 	const [userDetails, setUserDetails] = useState({})
-	const [orders, setOrders] = useState([])
+	const [updateCount, setUpdateCount] = useState(0)
+
+	// Empty useEffect to trigger rerender when updateCount change lets us know about a change to the user profile.
+	useEffect(() => {}, [updateCount])
 
 	useEffect(() => {
 		const userDocRef = doc(firestore, 'users', user.uid)
@@ -28,19 +34,42 @@ const Account = () => {
 		}
 	}, [user])
 
+	const handleDisplayNameChange = async (value) => {
+		try {
+			await updateProfile(user, { displayName: value })
+			setTimeout(async () => {
+				if (user?.displayName === value || (!user?.displayName && !value)) {
+					setUpdateCount((count) => count + 1) // increment the updateCount
+				}
+			}, 500)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
 	return (
 		<Page title='My Account' mainClassName={accountStyles.accountDetailsPage}>
 			<section>
 				<h2>Details</h2>
 				<ul>
 					<li>
-						<strong>Your Name:</strong> {user.displayName || 'Not Set'}
+						<strong>Your Name:</strong>{' '}
+						<EditableField
+							value={user?.displayName}
+							validationError={(value) => {
+								if (typeof value !== 'string' || value.length < 2) {
+									return 'Must be at least 2 characters.'
+								}
+								return false
+							}}
+							onChange={handleDisplayNameChange}
+						/>
 					</li>
 					<li>
-						<strong>Your Email:</strong> {user.email || 'Not Set'}
+						<strong>Your Email:</strong> <EditableField type='email' value={user?.email} />
 					</li>
 					<li>
-						<strong>Company Name:</strong> {userDetails.businessName || 'Not Set'}
+						<strong>Company Name:</strong> <EditableField value={'TODO'} />
 					</li>
 					<li>
 						<strong>Firebase User ID:</strong> {user.uid || 'Not Set'}

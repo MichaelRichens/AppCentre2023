@@ -1,0 +1,36 @@
+button.editButton {
+	position: relative;
+	top: 0.15em;
+	background-color: transparent;
+	display: inline;
+	margin: 0;
+	padding: 0;
+	height: initial;
+}
+
+button.editButton:hover {
+	background-color: transparent;
+}
+
+button.editButton img {
+	height: 1.2em;
+}
+
+input.editField {
+	width: min(20em, 60vw);
+}
+
+button.confirm {
+	background-color: green;
+	border: 1px black solid;
+	margin-right: 1em;
+	margin-left: 1em;
+	height: 1.2em;
+}
+
+button.cancel {
+	background-color: white;
+	color: black;
+	border: 1px black solid;
+	height: 1.2em;
+}
