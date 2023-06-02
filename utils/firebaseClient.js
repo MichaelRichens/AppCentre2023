@@ -24,16 +24,16 @@ if (typeof window !== 'undefined' && !getApps().length) {
 const translateFirebaseError = (error) => {
 	const errorMessages = {
 		'auth/credential-already-in-use': 'We already have an account with this email.',
-		'auth/wrong-password': 'The password you entered is incorrect. Please try again.',
-		'auth/missing-password': 'Please enter your password.',
-		'auth/user-not-found': 'There is no user associated with this email address.',
-		'auth/invalid-email': 'The email address you entered is not valid. Please enter a valid email address.',
 		'auth/email-already-in-use': 'This email address is already in use. Please use a different email address.',
-		'auth/user-disabled': 'This user account has been disabled. Please contact support for assistance.',
-		'auth/weak-password': 'The password you entered is too weak. Please choose a stronger password.',
+		'auth/invalid-email': 'The email address you entered is not valid. Please enter a valid email address.',
+		'auth/missing-password': 'Please enter your password.',
 		'auth/operation-not-allowed': 'This operation is not allowed. Please contact support for assistance.',
+		'auth/requires-recent-login': 'Sorry, to perform this operation you must log out and log back in.',
 		'auth/too-many-requests': 'We have detected too many requests from your device. Please try again later.',
-		// Add more error codes as needed...
+		'auth/user-disabled': 'This user account has been disabled. Please contact support for assistance.',
+		'auth/user-not-found': 'There is no user associated with this email address.',
+		'auth/weak-password': 'The password you entered is too weak. Please choose a stronger password.',
+		'auth/wrong-password': 'The password you entered is incorrect. Please try again.',
 	}
 
 	const lookedUpMessage = errorMessages[error?.code] || false

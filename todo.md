@@ -22,3 +22,5 @@ Cache expiry is set to immediate - change when going live
 Success page should mre gracefully handle someone who visits it twice - see todo on that page
 
 Fix cart modal on mobile
+
+Handle email address change better than telling user to log out and log back in (pages/account.js)

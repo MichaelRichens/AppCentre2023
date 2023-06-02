@@ -20,17 +20,20 @@ input.editField {
 	width: min(20em, 60vw);
 }
 
+button.confirm,
+button.cancel {
+	border: 1px black solid;
+	height: 1.2em;
+}
+
 button.confirm {
 	background-color: green;
-	border: 1px black solid;
 	margin-right: 1em;
 	margin-left: 1em;
-	height: 1.2em;
 }
 
 button.cancel {
 	background-color: white;
-	color: black;
-	border: 1px black solid;
 	height: 1.2em;
+	color: black;
 }

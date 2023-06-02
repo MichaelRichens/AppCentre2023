@@ -21,6 +21,7 @@ function EditableField({
 	}
 
 	const inputRef = useRef(null)
+	const confirmRef = useRef(null)
 	const [editing, setEditing] = useState(false)
 	const [confirming, setConfirming] = useState(false)
 	const [liveValue, setLiveValue] = useState(value || '')
@@ -31,6 +32,8 @@ function EditableField({
 	useEffect(() => {
 		if (editing && !confirming) {
 			inputRef.current.focus()
+		} else if (editing && confirming) {
+			confirmRef.current.focus()
 		}
 	}, [editing, confirming])
 
@@ -92,7 +95,14 @@ function EditableField({
 						/>
 					</button>
 					<Tooltip id={tooltipId} />
-					{!!error && <span className='onPageError'>{error}</span>}
+					{!!error && (
+						<>
+							{' '}
+							<span className='onPageError' aria-live='polite'>
+								{error}
+							</span>
+						</>
+					)}
 				</>
 			) : !confirming ? (
 				<input
@@ -107,7 +117,7 @@ function EditableField({
 			) : (
 				<>
 					Change to: <strong>{liveValue}</strong>
-					<button type='button' className={styles.confirm} onClick={handleConfirm}>
+					<button ref={confirmRef} type='submit' className={styles.confirm} onClick={handleConfirm}>
 						Confirm
 					</button>{' '}
 					<button type='button' className={styles.cancel} onClick={handleCancel}>
