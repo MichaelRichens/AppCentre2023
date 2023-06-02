@@ -24,3 +24,5 @@ Success page should mre gracefully handle someone who visits it twice - see todo
 Fix cart modal on mobile
 
 Handle email address change better than telling user to log out and log back in (pages/account.js)
+
+Must implement auth-action?mode=recoverEmail - emails linking to this are generated on email change automatically
