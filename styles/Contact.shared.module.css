@@ -1,8 +1,35 @@
+.contactDetails {
+	display: flex;
+	flex-direction: row-reverse;
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 110%;
+}
+
+.details {
+	flex: 1;
+}
+
+.text {
+	flex: 2;
+}
+
+.details p {
+	margin-left: 3em;
+	margin-top: 0.1em;
+	margin-bottom: 0.3em;
+}
+
+.details li:not(:last-child) {
+	margin-bottom: 1em;
+}
+
 .contactForm {
 	display: flex;
 	flex-direction: column;
-	width: 100%;
-	max-width: 600px;
+
+	width: min(600px, 80vw);
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #f8f8f8;
@@ -56,4 +83,26 @@
 	font-size: 18px;
 	margin-bottom: 5px;
 	display: block;
+}
+
+@media (max-width: 900px) {
+	.details p {
+		margin-left: 2em;
+	}
+}
+
+@media (max-width: 750px) {
+	.contactDetails {
+		flex-direction: column;
+		margin-left: 5vw;
+		margin-right: 5vw;
+	}
+
+	.details {
+		flex: initial;
+	}
+
+	.text {
+		flex: initial;
+	}
 }

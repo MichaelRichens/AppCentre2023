@@ -39,6 +39,11 @@ const Header = () => {
 										About Us
 									</NavLink>
 								</li>
+								<li>
+									<NavLink href='/contact' currentPageStyle={headerStyles.currentPageStyle}>
+										Contact Us
+									</NavLink>
+								</li>
 							</ul>
 						</nav>
 						<nav className={headerStyles.accountMenu} aria-label='Account Menu'>

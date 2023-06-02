@@ -4,7 +4,7 @@ import { auth, firestore } from '../utils/firebaseClient'
 import { signInAnonymously } from 'firebase/auth'
 import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
 
-import styles from '../styles/ContactForm.module.css'
+import contactStyles from '../styles/Contact.shared.module.css'
 
 function useDebounce(value, delay) {
 	const [debouncedValue, setDebouncedValue] = useState(value)
@@ -62,6 +62,8 @@ const ContactForm = () => {
 
 		if (emailBody?.length < 10) {
 			setError('Message too short.')
+			// Can't trust the general if (error) return below, since getState isn't synchronous
+			return
 		}
 
 		if (error) return
@@ -122,7 +124,7 @@ const ContactForm = () => {
 	// the business field is a honeypot for bots - if anything is filled into it, the form will be rejected by our api route
 	return (
 		<div>
-			<form className={styles.contactForm} onSubmit={handleSubmit}>
+			<form className={contactStyles.contactForm} onSubmit={handleSubmit}>
 				<input type='text' name='business' onChange={handleChange} style={{ display: 'none' }} />
 				<input
 					type='text'
@@ -154,7 +156,11 @@ const ContactForm = () => {
 				<button type='submit' disabled={isAuthLoading}>
 					Send Email
 				</button>
-				{error && <p className='onPageError'>{error}</p>}
+				{error && (
+					<p className='onPageError' aria-live='polite'>
+						{error}
+					</p>
+				)}
 			</form>
 		</div>
 	)
