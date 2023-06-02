@@ -37,7 +37,7 @@ const ContactForm = () => {
 	const { user, anonymousUser, isAuthLoading } = useAuth()
 	const { setMessage } = useContext(FlashMessageContext)
 
-	const debouncedEmail = useDebounce(email, 500)
+	const debouncedEmail = useDebounce(email, 1500)
 
 	// Populate the form if the user is logged in - checking name and email aren't filled just in case this gets triggered late by a slow auth load or something
 	// - don't want to wipe out anything the user has started typing
@@ -49,7 +49,7 @@ const ContactForm = () => {
 	}, [isAuthLoading, user])
 
 	useEffect(() => {
-		const emailPattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 		if (debouncedEmail && !emailPattern.test(debouncedEmail)) {
 			setError('Please enter a valid email address')
 		} else {
@@ -153,7 +153,7 @@ const ContactForm = () => {
 					value={emailBody}
 					onChange={handleChange}></textarea>
 
-				<button type='submit' disabled={isAuthLoading}>
+				<button type='submit' disabled={isAuthLoading || error}>
 					Send Email
 				</button>
 				{error && (
