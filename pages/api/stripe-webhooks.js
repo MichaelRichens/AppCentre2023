@@ -146,6 +146,9 @@ export default async function handler(req, res) {
 				const orderDocUpdateObj = {
 					status: newOrderStatus,
 					paymentIntentId: paymentIntentId,
+					// Stripe prices are in pennies, so divide by 100.  Will end up with -1 as an error flag if field is not present
+					priceSubTotal: (completedSession?.amount_subtotal || -100) / 100, // Stripe definition: Total of all items before discounts or taxes are applied.
+					priceInc: (completedSession?.amount_total || -100) / 100, // Stripe definition: Total of all items after discounts and taxes are applied.
 					updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
 				}
 
