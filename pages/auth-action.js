@@ -68,7 +68,7 @@ const AuthAction = () => {
 					} catch (error) {
 						console.log(error)
 						if (error.code === 'auth/email-already-in-use') {
-							// This is a problem - the original account email has another account associated with it.  Given we don't verify emails on account creation or email address change, this is something that technically could happen
+							// This is a problem - the original account email has another account associated with it.  Given we don't verify emails on account creation or email address change, this is something that technically could happen.
 							// Someone gets access to an account, changes the email, then creates another account with the first email to prevent reversion.
 							// Can't image *why* anyone would want to do it to an account on our website...
 							// The best resolution would be to enable email verification on account creation, but don't want to since it seems overkill to inconvenience every customer over something like this.
@@ -87,7 +87,8 @@ const AuthAction = () => {
 				break
 			}
 			default: {
-				console.error(`Unknown mode query string at page auth-action:`, modeState)
+				// We do not use email verification, so there is no handling for verifyEmail here.
+				console.error(`Unknown mode query string at page auth-action:`, mode)
 			}
 		}
 	}, [])
