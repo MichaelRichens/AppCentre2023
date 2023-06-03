@@ -69,12 +69,18 @@ class TableData {
 
 	/**
 	 * Generates a JSX element containing a thead and tbody based on the rows, columns, and data.
+	 * @param {Number|false} rowLimit - Can be passed a number to limit the numbers of rows displayed, if desired.
 	 * @throws {Error} If rows or columns are undefined, empty, or if any data is missing.
 	 * @returns {JSX.Element} The generated table structure.
 	 */
-	generate() {
+	generate(rowLimit = false) {
 		if (!this.rows || !this.columns || this.rows.length === 0 || this.columns.length === 0) {
 			throw new Error('Rows or columns are undefined or empty.')
+		}
+
+		let rowsToIterate = this.rows
+		if (rowLimit) {
+			rowsToIterate = this.rows.slice(0, rowLimit)
 		}
 
 		return (
@@ -90,7 +96,7 @@ class TableData {
 					</tr>
 				</thead>
 				<tbody>
-					{this.rows.map((row, rowIndex) => (
+					{rowsToIterate.map((row, rowIndex) => (
 						<tr key={rowIndex}>
 							<th scope='row'>{row}</th>
 							{this.columns.map((col, colIndex) => {
