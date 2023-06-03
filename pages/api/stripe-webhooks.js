@@ -2,7 +2,7 @@ import { buffer } from 'micro'
 import * as firebaseAdmin from 'firebase-admin'
 import firebaseService from '../../server-utils/firebaseService'
 import { stripe } from '../../server-utils/initStripe'
-import OrderStatus from '../../utils/types/enums/OrderStatus'
+import { OrderStatus } from '../../utils/types/enums/OrderStatus'
 import asyncLinkStripeCustomerUsingSession from '../../server-utils/asyncLinkStripeCustomerUsingSession'
 import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKInit'
 

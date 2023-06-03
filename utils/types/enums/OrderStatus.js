@@ -10,7 +10,7 @@ const CartActionsEnum = {
 }
 
 // Use a proxy in dev mode so it throws an error on a non-existent value
-const OrderStatus =
+export const OrderStatus =
 	process.env.NODE_ENV === 'development'
 		? new Proxy(CartActionsEnum, {
 				get(target, name) {
@@ -23,4 +23,23 @@ const OrderStatus =
 		  })
 		: CartActionsEnum
 
-export default OrderStatus
+export const OrderStatusDisplay = (status) => {
+	switch (status) {
+		case OrderStatus.CHECKOUT:
+			return 'Payment in Progress'
+		case OrderStatus.EXPIRED:
+			return 'Not Completed'
+		case OrderStatus.PAID:
+			return 'Complete'
+		case OrderStatus.COMPLETE_NO_PAYMENT:
+			return 'Complete'
+		case OrderStatus.FAILED:
+			return 'Not Complete'
+		case OrderStatus.FULLY_REFUNDED:
+			return 'Refunded'
+		case OrderStatus.PARTIALLY_REFUNDED:
+			return 'Complete - Partially Refunded'
+		default:
+			return 'Order Error'
+	}
+}
