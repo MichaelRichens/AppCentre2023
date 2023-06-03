@@ -7,6 +7,7 @@ main.accountDetailsPage > section {
 	max-width: 60em;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 2em;
 }
 
 main.accountDetailsPage ul {
@@ -55,7 +56,8 @@ main.accountDetailsPage ul {
 	margin-bottom: 20px;
 }
 
-.signInUpFormWrapper form button {
+.signInUpFormWrapper form button,
+.passwordChange button {
 	height: 40px;
 	font-size: 16px;
 	border: none;
@@ -69,7 +71,8 @@ main.accountDetailsPage ul {
 	margin-top: 10px;
 }
 
-.signInUpFormWrapper button:hover {
+.signInUpFormWrapper button:hover,
+.passwordChange button:hover {
 	background-color: #384a80;
 }
 
@@ -77,6 +80,10 @@ main.accountDetailsPage ul {
 	font-size: 14px;
 	margin-top: -15px;
 	margin-bottom: 15px;
+}
+
+.passwordChange {
+	text-align: center;
 }
 
 .orderList button {

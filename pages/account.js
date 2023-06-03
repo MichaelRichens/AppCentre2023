@@ -11,6 +11,7 @@ import { translateFirebaseError } from '../utils/firebaseClient'
 import { doc, onSnapshot, getDoc, setDoc, updateDoc, deleteField, serverTimestamp } from 'firebase/firestore'
 import EditableField from '../components/EditableField'
 import ReauthenticatePassword from '../components/account/ReauthenticatePassword'
+import ChangePassword from '../components/account/ChangePassword'
 
 import accountStyles from '../styles/Account.shared.module.css'
 
@@ -20,6 +21,8 @@ const Account = () => {
 	// The reauthState object has two properties - `needed`, which is boolean, and is a flag for whether the user needs to reauthenticate their account be re-entering their password to perform a sensitive operation
 	// And `function` which is only ever used when `needed` is truthy, and is the function to pass as the onSuccess parameter of the ReauthenticatePassword component. (Pass it setReauthState({ needed: false })) for its onCancel)
 	const [reauthState, setReauthState] = useState({ needed: false })
+
+	const [changePassword, setChangePassword] = useState(false)
 
 	const [userDocRef, setUserDocRef] = useState(null)
 
@@ -145,31 +148,6 @@ const Account = () => {
 		}
 	}
 
-	const handlePasswordChange = async (value) => {
-		try {
-			await updatePassword(user, value)
-			console.log('Password updated successfully!')
-		} catch (error) {
-			if (error?.code === 'auth/requires-recent-login') {
-				setReauthState({
-					needed: true,
-					function: async () => {
-						await handlePasswordChange(value)
-					},
-				})
-				return
-			} else {
-				console.error('An error occurred while updating password:', error)
-				setMessage({
-					text: translateFirebaseError(error),
-					type: MessageType.ERROR,
-				})
-				return
-			}
-		}
-		setMessage({ text: 'Password changed', type: MessageType.INFO })
-	}
-
 	// Validation functions for user details changes - these are passed to the EditableField components for immediate validation to give user feedback while editing.
 
 	const fullNameVal = (value) => {
@@ -203,18 +181,7 @@ const Account = () => {
 		return false
 	}
 
-	// Just implementing firebase's rules here
-	const passwordVal = (value) => {
-		if (typeof value !== 'string' || value.length < 6) {
-			return 'Must be at least 6 characters.'
-		}
-		if (passwordVal.length > 4096) {
-			return 'Password too long.'
-		}
-		return false
-	}
-
-	// If reauthState has been set as needed, just render in a page with a component to handle reauthentication
+	// If reauthState object has been set as needed == true, render in a page with a component to handle reauthentication, passing it a function to call when complete (to finish the operation that needed reauthentication)
 	if (reauthState.needed) {
 		return (
 			<Page title='Please confirm your password'>
@@ -227,12 +194,19 @@ const Account = () => {
 				/>
 			</Page>
 		)
-	} else {
-		// If reauthState has not been set as needed, render the page
+	} else if (changePassword) {
+		// if changePassword state boolean is true, render in a page to handle password change, passing it a simple function which just sets the state back to false when the user exits - password change logic happens within this component
 		return (
-			<Page title='My Account' mainClassName={accountStyles.accountDetailsPage}>
+			<Page title='Change Password' mainClassName={accountStyles.accountDetailsPage}>
+				<ChangePassword onExit={() => setChangePassword(false)} />
+			</Page>
+		)
+	} else {
+		//Otherwise, render the normal page
+		return (
+			<Page title='Account' mainClassName={accountStyles.accountDetailsPage}>
 				<section>
-					<h2>My Details</h2>
+					<h2>Account Details</h2>
 					<ul>
 						<li>
 							<strong>Your Name:</strong>{' '}
@@ -241,16 +215,6 @@ const Account = () => {
 								emptyValueText='ERROR'
 								validationError={fullNameVal}
 								onChange={handleDisplayNameChange}
-							/>
-						</li>
-						<li>
-							<strong>Your Email:</strong>{' '}
-							<EditableField
-								type='email'
-								value={user?.email}
-								emptyValueText='ERROR'
-								validationError={emailAddressVal}
-								onChange={handleEmailChange}
 							/>
 						</li>
 						<li>
@@ -263,15 +227,16 @@ const Account = () => {
 							/>
 						</li>
 						<li>
-							<strong>Password: </strong>
+							<strong>Email Address:</strong>{' '}
 							<EditableField
-								value=''
-								type='password'
-								emptyValueText='[**...**]'
-								validationError={passwordVal}
-								onChange={handlePasswordChange}
+								type='email'
+								value={user?.email}
+								emptyValueText='ERROR'
+								validationError={emailAddressVal}
+								onChange={handleEmailChange}
 							/>
 						</li>
+
 						<li>
 							<strong>Firebase User ID:</strong> {user.uid || 'Not Set'}
 						</li>
@@ -279,9 +244,15 @@ const Account = () => {
 							<strong>Stripe Customer ID:</strong> {userDetails.stripeCustomerId || 'Not Set'}
 						</li>
 					</ul>
+					<h3>Change Password</h3>
+					<div className={accountStyles.passwordChange}>
+						<button type='button' onClick={() => setChangePassword(true)}>
+							Click Here To Change Password
+						</button>
+					</div>
 				</section>
 				<section>
-					<h2>My Orders</h2>
+					<h2>Order History</h2>
 					<CustomerOrders user={user} />
 				</section>
 			</Page>
