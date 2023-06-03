@@ -10,7 +10,7 @@ import PurchaseType from './enums/PurchaseType'
  * It relates to a new purchase of, or modification of an existing, product (eg Kerio Connect)
  */
 
-export class ProductConfiguration {
+class ProductConfiguration {
 	/**
 	 * @param {PricingType} pricingType - The PricingType (.UNIT, .HARDSUB, etc) that this instance holds.
 	 * @param {PurchaseType} type - The type of the configuration - 'new', 'sub' ect.
