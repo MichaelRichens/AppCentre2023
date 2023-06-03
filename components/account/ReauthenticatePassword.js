@@ -67,7 +67,7 @@ const ReauthenticatePassword = ({ onSuccess, onCancel }) => {
 							autoComplete='current-password'
 						/>
 					</label>
-					<button type='submit'>Sign In</button>
+					<button type='submit'>Submit</button>
 					<button type='button' onClick={onCancel}>
 						Cancel
 					</button>
