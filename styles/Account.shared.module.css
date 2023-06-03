@@ -85,9 +85,3 @@ main.accountDetailsPage ul {
 .passwordChange {
 	text-align: center;
 }
-
-.orderList button {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
