@@ -54,8 +54,10 @@ const ChangePassword = ({ onExit }) => {
 			setNewPassword('')
 			setMessage({ text: 'Password Changed', type: MessageType.SUCCESS })
 			onExit()
+			return
 		} catch (error) {
 			setMessage({ text: translateFirebaseError(error), type: MessageType.ERROR })
+			return
 		}
 	}
 
