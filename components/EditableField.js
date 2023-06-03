@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
 import { Tooltip } from 'react-tooltip'
 import useUniqueId from './hooks/useUniqueId'
 
