@@ -236,13 +236,6 @@ const Account = () => {
 								onChange={handleEmailChange}
 							/>
 						</li>
-
-						<li>
-							<strong>Firebase User ID:</strong> {user.uid || 'Not Set'}
-						</li>
-						<li>
-							<strong>Stripe Customer ID:</strong> {userDetails.stripeCustomerId || 'Not Set'}
-						</li>
 					</ul>
 					<h3>Change Password</h3>
 					<div className={accountStyles.passwordChange}>
