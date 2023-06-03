@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { setTimeout } from 'timers'
 import Page from '../components/page/Page'
 import withAuth from '../components/hoc/withAuth'
-import { updateProfile, updateEmail } from 'firebase/auth'
+import { updateProfile, updateEmail, updatePassword } from 'firebase/auth'
 import { useAuth } from '../components/contexts/AuthContext'
 import { FlashMessageContext, MessageType } from '../components/contexts/FlashMessageContext'
 import CustomerOrders from '../components/account/CustomerOrders'
@@ -145,6 +145,31 @@ const Account = () => {
 		}
 	}
 
+	const handlePasswordChange = async (value) => {
+		try {
+			await updatePassword(user, value)
+			console.log('Password updated successfully!')
+		} catch (error) {
+			if (error?.code === 'auth/requires-recent-login') {
+				setReauthState({
+					needed: true,
+					function: async () => {
+						await handlePasswordChange(value)
+					},
+				})
+				return
+			} else {
+				console.error('An error occurred while updating password:', error)
+				setMessage({
+					text: translateFirebaseError(error),
+					type: MessageType.ERROR,
+				})
+				return
+			}
+		}
+		setMessage({ text: 'Password changed', type: MessageType.INFO })
+	}
+
 	// Validation functions for user details changes - these are passed to the EditableField components for immediate validation to give user feedback while editing.
 
 	const fullNameVal = (value) => {
@@ -174,6 +199,17 @@ const Account = () => {
 		}
 		if (value.length > 50) {
 			return '50 characters max.'
+		}
+		return false
+	}
+
+	// Just implementing firebase's rules here
+	const passwordVal = (value) => {
+		if (typeof value !== 'string' || value.length < 6) {
+			return 'Must be at least 6 characters.'
+		}
+		if (passwordVal.length > 4096) {
+			return 'Password too long.'
 		}
 		return false
 	}
@@ -224,6 +260,16 @@ const Account = () => {
 								emptyValueText='(None)'
 								validationError={businessNameVal}
 								onChange={handleBusinessNameChange}
+							/>
+						</li>
+						<li>
+							<strong>Password: </strong>
+							<EditableField
+								value=''
+								type='password'
+								emptyValueText='[**...**]'
+								validationError={passwordVal}
+								onChange={handlePasswordChange}
 							/>
 						</li>
 						<li>
