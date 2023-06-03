@@ -8,7 +8,7 @@ import { FlashMessageContext, MessageType } from '../components/contexts/FlashMe
 import CustomerOrders from '../components/account/CustomerOrders'
 import { firestore } from '../utils/firebaseClient'
 import { translateFirebaseError } from '../utils/firebaseClient'
-import { doc, onSnapshot } from 'firebase/firestore'
+import { doc, onSnapshot, getDoc, setDoc, updateDoc, deleteField, serverTimestamp } from 'firebase/firestore'
 import EditableField from '../components/EditableField'
 import ReauthenticatePassword from '../components/account/ReauthenticatePassword'
 
@@ -21,6 +21,8 @@ const Account = () => {
 	// And `function` which is only ever used when `needed` is truthy, and is the function to pass as the onSuccess parameter of the ReauthenticatePassword component. (Pass it setReauthState({ needed: false })) for its onCancel)
 	const [reauthState, setReauthState] = useState({ needed: false })
 
+	const [userDocRef, setUserDocRef] = useState(null)
+
 	// userDetails is used to hold an updating firebase snapshot of the user's document in the firestore `users` collection
 	const [userDetails, setUserDetails] = useState({})
 
@@ -32,22 +34,32 @@ const Account = () => {
 	// Empty useEffect to trigger rerender when updateCount change lets us know about a change to the user profile.
 	useEffect(() => {}, [updateCount])
 
-	// Hold an updating snapshot of the user's `users` document in the userDetails state object
+	// Hold an updating snapshot of the user's `users` document in the userDetails state object, and keep their docRef as well in the userDocRef state object for future edits
 	useEffect(() => {
-		const userDocRef = doc(firestore, 'users', user.uid)
+		let unsubscribeUsers
+		try {
+			const docRef = doc(firestore, 'users', user.uid)
+			setUserDocRef(docRef)
 
-		const unsubscribeUsers = onSnapshot(userDocRef, (docSnap) => {
-			if (docSnap.exists()) {
-				const data = docSnap.data()
-				setUserDetails(data)
-			}
-		})
+			unsubscribeUsers = onSnapshot(docRef, (docSnap) => {
+				if (docSnap.exists()) {
+					const data = docSnap.data()
+					setUserDetails(data)
+				}
+			})
+		} catch (error) {
+			setMessage({ text: translateFirebaseError(error), value: MessageType.ERROR })
+			unsubscribeUsers = () => {}
+			return
+		}
 
 		// Clean up subscriptions on unmount
 		return () => {
 			unsubscribeUsers()
 		}
 	}, [user])
+
+	// Handlers for user details changes
 
 	// Updating the firebase profile displayName requires two hacks.
 	// 1. updateCount state variable is incremented to manually trigger a rerender that would not otherwise happen when the user's firebase profile is called.
@@ -66,6 +78,7 @@ const Account = () => {
 				text: translateFirebaseError(error),
 				type: MessageType.ERROR,
 			})
+			return
 		}
 	}
 
@@ -98,7 +111,74 @@ const Account = () => {
 		}, 500)
 	}
 
-	// If reauthState has been set, just render in a page with a component to handle reauthentication
+	const handleBusinessNameChange = async (value) => {
+		if (!userDocRef) {
+			setMessage({ text: 'Business Name update failed.', type: MessageType.ERROR })
+			console.error('Missing reference to users document.')
+			return
+		}
+		try {
+			if (!value || typeof value !== 'string') {
+				if (!userDetails?.businessName) {
+					// They didn't have a business name to begin with - no change
+					return
+				}
+				await updateDoc(userDocRef, { businessName: deleteField(), updatedAt: serverTimestamp() })
+				return
+			}
+			// The validation function should stop this, but we'll check here as well and truncate.
+			value = value.substring(0, 50)
+
+			const docSnap = await getDoc(userDocRef)
+			if (docSnap.exists()) {
+				await updateDoc(userDocRef, { businessName: value, updatedAt: serverTimestamp() })
+			} else {
+				await setDoc(userDocRef, { businessName: value, createdAt: serverTimestamp(), updatedAt: serverTimestamp() })
+			}
+			return
+		} catch (error) {
+			setMessage({
+				text: translateFirebaseError(error),
+				type: MessageType.ERROR,
+			})
+			return
+		}
+	}
+
+	// Validation functions for user details changes - these are passed to the EditableField components for immediate validation to give user feedback while editing.
+
+	const fullNameVal = (value) => {
+		if (typeof value !== 'string' || value.length < 2) {
+			return 'Must be at least 2 characters.'
+		}
+		if (value.length > 40) {
+			return '40 characters max.'
+		}
+		return false
+	}
+
+	const emailAddressVal = (value) => {
+		const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+		if (typeof value !== 'string' || value.length < 5 || !emailPattern.test(value)) {
+			return 'Must be a valid email address.'
+		}
+		if (value.length > 50) {
+			return '50 characters max.'
+		}
+		return false
+	}
+
+	const businessNameVal = (value) => {
+		if (value && typeof value !== 'string') {
+			return 'Must be text.  Leave empty to remove business name from your account.'
+		}
+		if (value.length > 50) {
+			return '50 characters max.'
+		}
+		return false
+	}
+
+	// If reauthState has been set as needed, just render in a page with a component to handle reauthentication
 	if (reauthState.needed) {
 		return (
 			<Page title='Please confirm your password'>
@@ -112,23 +192,18 @@ const Account = () => {
 			</Page>
 		)
 	} else {
-		// Otherwise show the page
+		// If reauthState has not been set as needed, render the page
 		return (
 			<Page title='My Account' mainClassName={accountStyles.accountDetailsPage}>
 				<section>
-					<h2>Details</h2>
+					<h2>My Details</h2>
 					<ul>
 						<li>
 							<strong>Your Name:</strong>{' '}
 							<EditableField
 								value={user?.displayName}
 								emptyValueText='ERROR'
-								validationError={(value) => {
-									if (typeof value !== 'string' || value.length < 2) {
-										return 'Must be at least 2 characters.'
-									}
-									return false
-								}}
+								validationError={fullNameVal}
 								onChange={handleDisplayNameChange}
 							/>
 						</li>
@@ -138,18 +213,18 @@ const Account = () => {
 								type='email'
 								value={user?.email}
 								emptyValueText='ERROR'
-								validationError={(value) => {
-									const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-									if (!emailPattern.test(value)) {
-										return 'Must be a valid email address.'
-									}
-									return false
-								}}
+								validationError={emailAddressVal}
 								onChange={handleEmailChange}
 							/>
 						</li>
 						<li>
-							<strong>Company Name:</strong> <EditableField value={'TODO'} emptyValueText='(None)' />
+							<strong>Business Name:</strong>{' '}
+							<EditableField
+								value={userDetails?.businessName}
+								emptyValueText='(None)'
+								validationError={businessNameVal}
+								onChange={handleBusinessNameChange}
+							/>
 						</li>
 						<li>
 							<strong>Firebase User ID:</strong> {user.uid || 'Not Set'}
@@ -160,7 +235,7 @@ const Account = () => {
 					</ul>
 				</section>
 				<section>
-					<h2>Orders</h2>
+					<h2>My Orders</h2>
 					<CustomerOrders user={user} />
 				</section>
 			</Page>

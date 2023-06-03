@@ -20,7 +20,9 @@ const withAuth = (Component) => {
 		}
 
 		// Render the component only if the user is authenticated
-		if (user) {
+		// `user` ia a full logged in user, useAuth has a separate anonymousUser variable for them
+		// but we'll check anyway, in case its possible somehow for a downgrade to happen that we haven't spotted
+		if (user && !user?.isAnonymous) {
 			return <Component {...props} />
 		}
 

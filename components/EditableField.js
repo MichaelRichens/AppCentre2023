@@ -58,7 +58,7 @@ const EditableField = ({
 			// But without it, if we perform a change that is accepted by the passed in validation function, but is then reverted (eg an email address change that firebase rejects)
 			// then if the user clicks to edit again, they get the rejected string rather than the current string to edit.  I would have thought the change to the value prop should have triggered a rerender, including regenerating liveValue back to value
 			// But apparently not...  Setting liveValue to value at this point resolves the problem.
-			setLiveValue(value)
+			setLiveValue(value || '')
 			inputRef.current.focus()
 		} else if (editing && confirming) {
 			confirmRef.current.focus()
@@ -68,18 +68,21 @@ const EditableField = ({
 	// Handler for when a field edit has been finalised by the user
 	// This is where any passed in validation function is executed, and its result, if truthy treated both as a failure and as a text string to display to the user.
 	const handleBlur = () => {
-		if (liveValue === value) {
-			setEditing(false)
+		const validationResult = validationError(liveValue)
+		// validationResult === false is a pass
+		if (!validationResult) {
+			// check they aren't still the same, cancel edit if they are (and don't trust === for empty values since we may get a mix of undefined and empty strings)
+			if ((!liveValue && !value) || liveValue === value) {
+				setEditing(false)
+				return
+			}
+			setConfirming(true)
 			return
 		}
-		const validationResult = validationError(liveValue)
-		if (!validationResult) {
-			setConfirming(true)
-		} else {
-			setLiveValue(value)
-			setEditing(false)
-			setError(validationResult)
-		}
+		// failed validation
+		setLiveValue(value)
+		setEditing(false)
+		setError(validationResult)
 	}
 
 	// Handler for text changes during a field edit
@@ -143,14 +146,14 @@ const EditableField = ({
 					className={styles.editField}
 					ref={inputRef}
 					type={type}
-					value={liveValue}
+					value={liveValue || ''}
 					onChange={handleOnChange}
 					onKeyDown={handleKeyDown}
 					onBlur={handleBlur}
 				/>
 			) : (
 				<>
-					Change to: <strong>{liveValue}</strong>
+					Change to: <strong>{liveValue ? liveValue : emptyValueText}</strong>
 					<button ref={confirmRef} type='submit' className={styles.confirm} onClick={handleConfirm}>
 						Confirm
 					</button>{' '}
