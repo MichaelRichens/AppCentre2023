@@ -58,7 +58,7 @@ const CartDisplay = () => {
 		}
 	}, [cart])
 
-	const linkFromId = (groupId) => process.env.NEXT_PUBLIC_DEPLOY_URL + '/cart?quote=' + groupId
+	const linkFromId = (groupId) => process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL + '/cart?quote=' + groupId
 
 	const handleRemoveItem = (id) => {
 		removeFromCart(id)

@@ -149,18 +149,18 @@ export default async (req, res) => {
 		}
 
 		// cancel url
-		let cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_URL + '/cart'
+		let cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL + '/cart'
 
 		if (req.headers.referer) {
 			const url = new URL(req.headers.referer)
-			cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_URL + url.pathname + url.search + url.hash
+			cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL + url.pathname + url.search + url.hash
 		}
 
 		let sessionCreationObj = {
 			payment_method_types: ['card'],
 			line_items,
 			mode: 'payment',
-			success_url: `${process.env.NEXT_PUBLIC_DEPLOY_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+			success_url: `${process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
 			cancel_url: cancelUrl,
 			billing_address_collection: 'required',
 			invoice_creation: {
