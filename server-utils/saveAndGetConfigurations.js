@@ -5,8 +5,6 @@ import { VersioningError } from '../utils/types/errors'
 import { generateAlphaId } from '../utils/generateId'
 import { connectToDatabase } from './mongodb'
 
-const currentConfigVersion = Number(process.env.CONFIGURATION_VERSION)
-
 /**
  * Save a product configuration object to the MongoDB 'configurations' collection.
  * @param {ProductConfiguration} configuration - The product configuration object to save.
@@ -26,7 +24,7 @@ async function asyncSaveConfiguration(configuration) {
 			existingConfig = await collection.findOne({ _id: uniqueKey })
 		}
 
-		configuration.configuration_version = currentConfigVersion
+		configuration.configuration_version = Number(process.env.CONFIGURATION_VERSION)
 
 		await collection.insertOne({ ...configuration, _id: uniqueKey })
 
@@ -60,8 +58,15 @@ async function asyncGetConfiguration(uniqueKey) {
 
 		const receivedConfigVersion = configurationData?.configuration_version
 
-		if (!(typeof receivedConfigVersion === 'number') || receivedConfigVersion < currentConfigVersion) {
-			throw new VersioningError('Configuration version mismatch', receivedConfigVersion, currentConfigVersion)
+		if (
+			!(typeof receivedConfigVersion === 'number') ||
+			receivedConfigVersion < Number(process.env.CONFIGURATION_VERSION)
+		) {
+			throw new VersioningError(
+				'Configuration version mismatch',
+				receivedConfigVersion,
+				Number(process.env.CONFIGURATION_VERSION)
+			)
 		}
 
 		return ProductConfiguration.fromRawProperties(configurationData)
