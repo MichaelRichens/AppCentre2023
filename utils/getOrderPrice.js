@@ -14,7 +14,6 @@ import { formatPriceFromPounds } from './formatPrice'
  * @returns {Object} An object which has .priceEx and .priceInc values, which are Numbers in pounds giving the inc and ex vat prices.  And priceExFormatted and .priceIncFormatted which are strings for user output.
  */
 function getOrderPrice(orderData) {
-	console.log(orderData?.priceInc)
 	// get sum of line items.  These are the ex vat prices we generated prior to the order being placed, and what the total we passed to stripe to charge was generated from.
 	// We only do free shipping, so not considering that.
 	let price = 0
@@ -34,8 +33,9 @@ function getOrderPrice(orderData) {
 		priceEx: price,
 		priceInc: orderData.priceInc,
 		priceExFormatted: formatPriceFromPounds(price),
-		priceIncFormatted: formatPriceFromPounds(orderData.priceInc),
+		priceIncFormatted: formatPriceFromPounds(orderData.priceInc, false),
 	}
+	console.log(orderData.priceInc, formatPriceFromPounds(orderData.priceInc, false))
 	return result
 }
 

@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { onSnapshot, collection, where, query } from 'firebase/firestore'
+import { useAuth } from '../contexts/AuthContext'
+import SimpleTable from '../SimpleTable'
 import { firestore } from '../../utils/firebaseClient'
 import TableData from '../../utils/types/TableData'
 import { OrderStatus, OrderStatusDisplay } from '../../utils/types/enums/OrderStatus'
 import { formatPriceFromPounds } from '../../utils/formatPrice'
 import getOrderPrice from '../../utils/getOrderPrice'
 
-import accountStyles from '../../styles/Account.shared.module.css'
-
 /**
- * Displays the orders for the passed in firebase user object.
+ * Displays the orders for the current logged in firebase user.
  * Should only be used on pages served by withAuth HOC
  */
-const CustomerOrders = ({ user }) => {
+const CustomerOrders = ({}) => {
+	const { user, isAuthLoading } = useAuth()
+
 	const [orders, setOrders] = useState(null)
 	const [limitOrdersShown, setLimitOrdersShown] = useState(true)
 
 	useEffect(() => {
+		if (!user || isAuthLoading) {
+			return
+		}
+
 		// Create a reference to the user's documents in the orders collection.
 		const orderDocRef = query(collection(firestore, 'orders'), where('firebaseUserId', '==', user.uid))
 
@@ -38,14 +45,25 @@ const CustomerOrders = ({ user }) => {
 					// Date/time placed
 					const date = orderData.createdAt.toDate()
 					// Date for display
-					order.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`
+					order.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString(undefined, {
+						hour: '2-digit',
+						minute: '2-digit',
+					})}`
 					// Date for sorting
 					order.sortOrder = date
 
+					let name
+					if (orderData?.businessName) {
+						name = `${orderData.businessName} - ${orderData?.fullName}`
+					} else {
+						name = orderData?.fullName
+					}
+					order.name = name
+
 					// Price - always use this function for prices
 					const orderPrice = getOrderPrice(orderData)
-					order.priceEx = orderPrice.priceExFormatted
-					order.priceInc = formatPriceFromPounds(orderData.priceIncFormatted)
+					order.priceEx = formatPriceFromPounds(orderPrice.priceEx, false) // Not using priceExFormatted because I don't want the '+ vat' text
+					order.priceInc = orderPrice.priceIncFormatted
 
 					order.status = OrderStatusDisplay(orderData.status)
 
@@ -57,19 +75,13 @@ const CustomerOrders = ({ user }) => {
 			ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
 
 			// And create a TableData instance from them
-			const columns = ['Name', 'Price Ex', 'Price Inc', 'Status']
+			const columns = ['Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
 			const rows = ordersArray.map((order) => order.date)
 			const tableData = new TableData(rows, columns, 'Date')
-			ordersArray.forEach((order, index) => {
-				let name
-				if (order?.businessName) {
-					name += `${order.businessName} - ${order.fullName}`
-				} else {
-					name = order.fullName
-				}
-				tableData.setData(order.date, 'Name', name || '')
-				tableData.setData(order.date, 'Price Ex', order.priceEx || '')
-				tableData.setData(order.date, 'Price Inc', order.priceInc || '')
+			ordersArray.forEach((order) => {
+				tableData.setData(order.date, 'Name', order.name || '')
+				tableData.setData(order.date, 'Price Ex Vat', order.priceEx || '')
+				tableData.setData(order.date, 'Price Inc Vat', order.priceInc || '')
 				tableData.setData(order.date, 'Status', order.status || '')
 			})
 
@@ -80,19 +92,25 @@ const CustomerOrders = ({ user }) => {
 		return () => {
 			unsubscribeOrders()
 		}
-	}, [user])
+	}, [user, isAuthLoading])
+
+	if (!user || isAuthLoading) {
+		return null
+	}
 
 	if (orders) {
 		return (
-			<table>
-				{orders.generate(limitOrdersShown ? 5 : false)}
-
-				{orders.length > 5 && (
+			<>
+				<table>
+					<caption>{orders.rows.length > 5 ? (limitOrdersShown ? 'Last 5 Orders' : 'All Orders') : 'Orders'}</caption>
+					{orders.generate(limitOrdersShown ? 5 : false)}
+				</table>
+				{orders.rows.length > 5 && (
 					<button type='button' onClick={() => setLimitOrdersShown(!limitOrdersShown)}>{`${
 						limitOrdersShown ? 'Show All' : 'Show Less'
 					} Orders`}</button>
 				)}
-			</table>
+			</>
 		)
 	}
 	return <p>No orders yet!</p>

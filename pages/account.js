@@ -244,9 +244,9 @@ const Account = () => {
 						</button>
 					</div>
 				</section>
-				<section>
+				<section className={accountStyles.orderHistory}>
 					<h2>Order History</h2>
-					<CustomerOrders user={user} />
+					<CustomerOrders />
 				</section>
 			</Page>
 		)
