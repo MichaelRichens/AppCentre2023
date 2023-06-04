@@ -205,7 +205,7 @@ const Account = () => {
 		//Otherwise, render the normal page
 		return (
 			<Page title='Account' mainClassName={accountStyles.accountDetailsPage}>
-				<section>
+				<section className={accountStyles.accountDetails}>
 					<h2>Account Details</h2>
 					<ul>
 						<li>

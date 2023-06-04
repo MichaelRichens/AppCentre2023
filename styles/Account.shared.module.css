@@ -127,3 +127,17 @@ main.accountDetailsPage > section.orderHistory {
 .orderHistoryTable td:nth-of-type(4) {
 	text-align: center;
 }
+
+@media (max-width: 500px) {
+	.accountDetails {
+		font-size: 130%;
+	}
+
+	.accountDetails li:not(:last-child) {
+		margin-bottom: 1em;
+	}
+
+	.accountDetails li strong {
+		display: block;
+	}
+}

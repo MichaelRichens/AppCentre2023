@@ -37,3 +37,16 @@ button.cancel {
 	height: 1.2em;
 	color: black;
 }
+
+@media (max-width: 500px) {
+	input.editField {
+		font-size: 120%;
+		width: 95%;
+	}
+	button.editButton {
+		top: 0.3em;
+	}
+	button.editButton img {
+		height: 1.6em;
+	}
+}
