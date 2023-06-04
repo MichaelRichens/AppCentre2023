@@ -31,7 +31,13 @@ export default async function handler(req, res) {
 		}
 
 		if (record?.configuration_version !== Number(process.env.CONFIGURATION_VERSION)) {
-			res.status(410).json({ error: 'Configuration group version mismatch' })
+			res
+				.status(410)
+				.json({
+					error: `Configuration group version mismatch.  Found ${record?.configuration_version} but needed ${Number(
+						process.env.CONFIGURATION_VERSION
+					)}`,
+				})
 			return
 		}
 
