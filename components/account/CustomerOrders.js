@@ -76,7 +76,7 @@ const CustomerOrders = ({}) => {
 					ordersArray.push(order)
 				}
 			})
-			console.log(ordersArray)
+
 			// Sort the orders into most recent first
 			ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
 
