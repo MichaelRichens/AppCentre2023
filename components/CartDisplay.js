@@ -122,7 +122,7 @@ const CartDisplay = () => {
 					const data = await response.json()
 					setSavedConfigurationGroup({ id: data.id, itemIds: cart.map((item) => item.id), isValid: true })
 				} else if (response.status === 410) {
-					console.error(response.error)
+					console.error(response)
 					setSavedConfigurationGroup({
 						error:
 							'Very sorry, one or more items in the cart is outdated. Please try removing and re-adding the items.',
