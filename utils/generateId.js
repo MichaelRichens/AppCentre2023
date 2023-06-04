@@ -22,7 +22,7 @@ export function generateAlphaId(length) {
 	}
 
 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-	const unwantedStrings = ['FUCK', 'SHIT', 'CUNT', 'ARSE', 'FOOL', 'PRAT', 'ASS'] // Should really add some more of these
+	const unwantedStrings = ['ARSE', 'ASS', 'CUNT', 'ERROR', 'FOOL', 'FUCK', 'PRAT', 'SHIT'] // Should really add some more of these
 	let result = ''
 
 	do {
