@@ -16,7 +16,7 @@ const ConnectPricing = (props) => {
 	const { productDataArray } = props
 	return (
 		<PricingPage
-			logoSrc='images/logos/kerio-connect-logo.svg'
+			logoSrc='/images/logos/kerio-connect-logo.svg'
 			productIntro={<p>Kerio Connect is licenced on a per-user yearly subscription basis.</p>}
 			productDataArray={productDataArray}></PricingPage>
 	)

@@ -64,7 +64,7 @@ const Header = () => {
 
 					<div className={headerStyles.logoContainer}>
 						<NavLink href='/' currentPageStyle={headerStyles.mainLogoLinkCurrent}>
-							<img className={headerStyles.mainLogo} src='images/logos/appcentre-logo.svg' alt='AppCentre' />
+							<img className={headerStyles.mainLogo} src='/images/logos/appcentre-logo.svg' alt='AppCentre' />
 						</NavLink>
 					</div>
 
@@ -106,7 +106,7 @@ const Header = () => {
 				<aside className='cartSection'>
 					<HeaderCartMenu />
 					<div className={headerStyles.gfiPartnerLogoContainer}>
-						<img src='images/logos/gfi-gold-partner.svg' alt='GFI Gold Partner' />
+						<img src='/images/logos/gfi-gold-partner.svg' alt='GFI Gold Partner' />
 					</div>
 				</aside>
 			</div>

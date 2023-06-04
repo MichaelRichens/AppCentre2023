@@ -15,7 +15,7 @@ const ControlPricing = (props) => {
 	const { productDataArray } = props
 	return (
 		<PricingPage
-			logoSrc='images/logos/kerio-control-logo.svg'
+			logoSrc='/images/logos/kerio-control-logo.svg'
 			productIntro={
 				<p>
 					Kerio Control is available as software, licenced on a per-user yearly subscription basis with optional

@@ -17,7 +17,7 @@ const LanGuardPricing = (props) => {
 		<PricingPage
 			productIntro={<p>GFI Languard is licenced on a per-node yearly subscription basis.</p>}
 			productDataArray={productDataArray}
-			logoSrc='images/logos/gfi-languard-logo.svg'></PricingPage>
+			logoSrc='/images/logos/gfi-languard-logo.svg'></PricingPage>
 	)
 }
 

@@ -21,7 +21,7 @@ const HelpDesk = (props) => {
 		<ProductInfoPage
 			title='GFI HelpDesk'
 			subHeading='A Comprehensive, Integrated Helpdesk Solution'
-			logoSrc='images/logos/gfi-helpdesk-logo.svg'
+			logoSrc='/images/logos/gfi-helpdesk-logo.svg'
 			productDataArray={productDataArray}>
 			<section>
 				<p>

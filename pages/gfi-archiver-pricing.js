@@ -17,7 +17,7 @@ const ArchiverPricing = (props) => {
 		<PricingPage
 			productIntro={<p>GFI Archiver is licenced on a per-mailbox yearly subscription basis.</p>}
 			productDataArray={productDataArray}
-			logoSrc='images/logos/gfi-archiver-logo.svg'></PricingPage>
+			logoSrc='/images/logos/gfi-archiver-logo.svg'></PricingPage>
 	)
 }
 

@@ -25,7 +25,7 @@ const MailEssentialsPricing = (props) => {
 					subscription basis with optional extensions.
 				</p>
 			}
-			logoSrc='images/logos/gfi-mailessentials-logo.svg'
+			logoSrc='/images/logos/gfi-mailessentials-logo.svg'
 			productDataArray={productDataArray}></PricingPage>
 	)
 }

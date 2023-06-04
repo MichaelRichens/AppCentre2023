@@ -29,7 +29,7 @@ const MailEssentials = (props) => {
 		<ProductInfoPage
 			title='GFI MailEssentials'
 			subHeading='Your Ultimate Email Security Solution'
-			logoSrc='images/logos/gfi-mailessentials-logo.svg'
+			logoSrc='/images/logos/gfi-mailessentials-logo.svg'
 			productDataArray={productDataArray}>
 			<section>
 				<p>
