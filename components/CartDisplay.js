@@ -7,6 +7,7 @@ import CheckoutButton from './CheckoutButton'
 import InfoTooltip from './InfoTooltip'
 import PricingType from '../utils/types/enums/PricingType'
 import PurchaseType from '../utils/types/enums/PurchaseType'
+import { getBaseUrlFromLocation } from '../utils/baseUrl'
 import { formatPriceFromPounds } from '../utils/formatPrice'
 import styles from '../styles/CartDisplay.module.css'
 
@@ -20,6 +21,9 @@ const CartDisplay = () => {
 	// backing field arrays for debouncing licence key input from the user
 	const [licenceLiveUpdate, setLicenceLiveUpdate] = useState({})
 
+	// For holding the base url this page is running on - requires window.location to be available, so need state populated inside a useEffect
+	const [baseUrl, setBaseUrl] = useState(null)
+
 	// Don't want to store a new config group if someone clicks the button multiple times, so when the config group is created, we'll save its id and an array
 	// of the cart item ids, and if the button is clicked again we'll just use the same group id.  Just local state, so doesn't do any more than prevent button spamming issues in currently open form.
 	// A useEffect watching `cart` handles wiping the saved data if the cart is changed.
@@ -27,6 +31,10 @@ const CartDisplay = () => {
 	const setDefaultSavedConfigurationGroup = () => setSavedConfigurationGroup({ isValid: false })
 
 	const { setMessage } = useContext(FlashMessageContext)
+
+	useEffect(() => {
+		setBaseUrl(getBaseUrlFromLocation(window.location))
+	}, [])
 
 	// Changes to the items in the cart
 	useEffect(() => {
@@ -58,7 +66,7 @@ const CartDisplay = () => {
 		}
 	}, [cart])
 
-	const linkFromId = (groupId) => process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL + '/cart?quote=' + groupId
+	const linkFromId = (groupId) => baseUrl + '/cart?quote=' + groupId
 
 	const handleRemoveItem = (id) => {
 		removeFromCart(id)

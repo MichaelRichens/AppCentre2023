@@ -2,8 +2,9 @@ const withFonts = require('next-fonts')
 
 module.exports = {
 	env: {
-		NEXT_PUBLIC_DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || process.env.DEVELOPMENT_URL,
-		NEXT_PUBLIC_DEPLOY_URL: process.env.DEPLOY_URL || process.env.DEVELOPMENT_URL,
+		NEXT_PUBLIC_URL: process.env.URL || process.env.LOCALHOST_URL,
+		NEXT_PUBLIC_DEPLOY_PRIME_URL: process.env.DEPLOY_PRIME_URL || process.env.LOCALHOST_URL,
+		NEXT_PUBLIC_DEPLOY_URL: process.env.DEPLOY_URL || process.env.LOCALHOST_URL,
 		NEXT_PUBLIC_CURRENCY_LC: process.env.NEXT_PUBLIC_CURRENCY_UC.toLowerCase(),
 	},
 	async headers() {

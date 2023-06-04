@@ -3,6 +3,7 @@ import * as firebaseAdmin from 'firebase-admin'
 import { stripe } from '../../server-utils/initStripe'
 import firebaseService from '../../server-utils/firebaseService'
 import { VersioningError } from '../../utils/types/errors'
+import { baseUrlFromReq } from '../../utils/baseUrl'
 import { OrderStatus } from '../../utils/types/enums/OrderStatus'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 import asyncDecodeFirebaseToken from '../../server-utils/asyncDecodeFirebaseToken'
@@ -16,6 +17,8 @@ export default async (req, res) => {
 		res.setHeader('Allow', 'POST')
 		return res.status(405).end('Method Not Allowed - must be POST')
 	}
+
+	const baseUrl = baseUrlFromReq(req)
 
 	const decodedToken = await asyncDecodeFirebaseToken(req?.headers?.authorization)
 
@@ -149,18 +152,18 @@ export default async (req, res) => {
 		}
 
 		// cancel url
-		let cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL + '/cart'
+		let cancelUrl = baseUrl + '/cart'
 
 		if (req.headers.referer) {
 			const url = new URL(req.headers.referer)
-			cancelUrl = process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL + url.pathname + url.search + url.hash
+			cancelUrl = baseUrl + url.pathname + url.search + url.hash
 		}
 
 		let sessionCreationObj = {
 			payment_method_types: ['card'],
 			line_items,
 			mode: 'payment',
-			success_url: `${process.env.NEXT_PUBLIC_DEPLOY_PRIME_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
+			success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
 			cancel_url: cancelUrl,
 			billing_address_collection: 'required',
 			invoice_creation: {
