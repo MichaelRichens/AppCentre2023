@@ -11,7 +11,7 @@ import { formatPriceFromPounds } from './formatPrice'
  * Need to keep all the logic for this in one place, and that place is here...
  *
  * @param {Object} orderData - This should be the .data() of a document in the orders table - we use the .line_items and .priceIncVat fields
- * @returns {Object} An object which has .priceEx and .priceInc values, which are Numbers in pounds giving the inc and ex vat prices.  And priceExFormatted and .priceIncFormatted which are strings for user output.
+ * @returns {Object} An object which has .priceEx and .priceInc values, which are Numbers in pounds giving the inc and ex vat prices.  And priceExFormatted and .priceIncFormatted which are strings for user output.  Sets bad values to 'ERROR'
  */
 function getOrderPrice(orderData) {
 	// get sum of line items.  These are the ex vat prices we generated prior to the order being placed, and what the total we passed to stripe to charge was generated from.
