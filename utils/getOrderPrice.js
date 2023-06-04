@@ -36,7 +36,7 @@ function getOrderPrice(orderData) {
 		priceIncFormatted:
 			typeof orderData?.priceInc === 'number' ? formatPriceFromPounds(orderData.priceInc, false) : 'ERROR',
 	}
-	console.log(orderData.priceInc, formatPriceFromPounds(orderData.priceInc, false))
+
 	return result
 }
 
