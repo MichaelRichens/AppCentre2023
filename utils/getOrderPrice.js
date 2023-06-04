@@ -31,9 +31,10 @@ function getOrderPrice(orderData) {
 	// (though it also will NOT have any discounts applied if we ever use their discount system)
 	const result = {
 		priceEx: price,
-		priceInc: orderData.priceInc,
+		priceInc: typeof orderData?.priceInc === 'number' ? orderData.priceInc : 'ERROR',
 		priceExFormatted: formatPriceFromPounds(price),
-		priceIncFormatted: formatPriceFromPounds(orderData.priceInc, false),
+		priceIncFormatted:
+			typeof orderData?.priceInc === 'number' ? formatPriceFromPounds(orderData.priceInc, false) : 'ERROR',
 	}
 	console.log(orderData.priceInc, formatPriceFromPounds(orderData.priceInc, false))
 	return result
