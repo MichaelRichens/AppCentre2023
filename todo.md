@@ -26,3 +26,5 @@ Fix cart modal on mobile
 Handle email address change better than telling user to log out and log back in (pages/account.js)
 
 Must implement auth-action?mode=recoverEmail - emails linking to this are generated on email change automatically
+
+Figure out which URL env variable to use for final production version on appcentre domain - seems like a complete nightmare to figure out
