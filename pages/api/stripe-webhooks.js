@@ -164,7 +164,7 @@ export default async function handler(req, res) {
 					orderDocUpdateObj.shippingAddress = completedSession.shipping_details.address
 				}
 
-				// If the order doesn't have any name details on it (ie it was an anonymous order), then we add the stripe name field as the full name
+				// If the order wasn't created (prior to checkout) with any name details on it (ie it was an anonymous order), then we add the stripe name field as the full name
 				if ((!orderData?.fullName || !orderData?.businessName) && completedSession?.customer_details?.name) {
 					orderDocUpdateObj.fullName = completedSession.customer_details.name
 				}
