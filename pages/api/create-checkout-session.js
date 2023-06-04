@@ -7,6 +7,7 @@ import { OrderStatus } from '../../utils/types/enums/OrderStatus'
 import { asyncGetConfiguration } from '../../server-utils/saveAndGetConfigurations'
 import asyncDecodeFirebaseToken from '../../server-utils/asyncDecodeFirebaseToken'
 import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKInit'
+import { generateAlphaId } from '../../utils/generateId'
 
 ensureFirebaseInitialised()
 
@@ -31,8 +32,18 @@ export default async (req, res) => {
 		const cartFromClientSide = req.body?.items
 		const customerFromClientSide = req.body?.customerDetails
 
-		// for storing in the orders collection in firestore
-		let orderObject = {}
+		// generate our order ref - random 6 uppercase letters starting with an 'A', and check it is unique in the orders collection
+		let orderId
+		const ordersRef = firebaseService.collection('orders')
+		let orderWithSameIdSnap
+		do {
+			orderId = 'A' + generateAlphaId(5)
+			orderWithSameIdSnap = await ordersRef.where('orderId', '==', orderId).get()
+		} while (!orderWithSameIdSnap.empty)
+
+		// create an object for storing in the orders collection in firestore
+		const orderObject = { orderId: orderId, status: OrderStatus.CHECKOUT }
+
 		if (customerFromClientSide?.firebaseUserId) {
 			if (decodedToken.uid !== customerFromClientSide.firebaseUserId) {
 				console.error('create-checkout-session endpoint. Error token did not match passed user id.')
@@ -163,6 +174,7 @@ export default async (req, res) => {
 				},
 			},
 			submit_type: 'pay',
+			metadata: { orderId: orderId },
 		}
 
 		if (customerFromClientSide?.firebaseUserId) {
@@ -224,9 +236,8 @@ export default async (req, res) => {
 			}
 		}
 
+		// add newly generated session id to orders collection object
 		orderObject.sessionId = session.id
-
-		orderObject.status = OrderStatus.CHECKOUT
 
 		// store the order with firestore
 
