@@ -1,7 +1,8 @@
-import { LineWave } from 'react-loader-spinner'
 import Page from '../page/Page'
 import SignInOrSignUp from '../account/SignInOrSignUp'
 import { useAuth } from '../contexts/AuthContext'
+import LoadingPage from '../page/LoadingPage'
+
 import accountStyles from '../../styles/Account.shared.module.css'
 
 const withAuth = (Component) => {
@@ -10,13 +11,7 @@ const withAuth = (Component) => {
 
 		// Render a loading page while waiting for hydration to check auth status
 		if (isAuthLoading) {
-			return (
-				<Page title='Loading...'>
-					<div style={{ paddingLeft: '30%' }}>
-						<LineWave width='600' height='600' color='#4fa94d' />
-					</div>
-				</Page>
-			)
+			return <LoadingPage />
 		}
 
 		// Render the component only if the user is authenticated
