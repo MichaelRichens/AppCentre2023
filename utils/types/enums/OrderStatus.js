@@ -26,7 +26,7 @@ export const OrderStatus =
 export const OrderStatusDisplay = (status) => {
 	switch (status) {
 		case OrderStatus.CHECKOUT:
-			return 'Payment in Progress'
+			return 'Awaiting Payment'
 		case OrderStatus.EXPIRED:
 			return 'Not Completed'
 		case OrderStatus.PAID:
@@ -38,7 +38,7 @@ export const OrderStatusDisplay = (status) => {
 		case OrderStatus.FULLY_REFUNDED:
 			return 'Refunded'
 		case OrderStatus.PARTIALLY_REFUNDED:
-			return 'Complete - Partially Refunded'
+			return 'Partially Refunded'
 		default:
 			return 'Order Error'
 	}

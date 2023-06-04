@@ -106,25 +106,44 @@ main.accountDetailsPage > section.orderHistory {
 	width: 100%;
 }
 
+.orderHistoryTable th,
+.orderHistoryTable td {
+	padding: 0.4em;
+}
+
+.orderHistoryTable th[scope='col'] {
+	background-color: #9acef0;
+}
+
 .orderHistoryTable th[scope='row'] {
 	font-weight: normal;
 }
 
-/* Don't like using column position for styling tables, since it tends to get forgotten about when changes happen, but TableData class hasn't had any className functionality added, so here we are.. */
+.orderHistoryTable tbody tr:nth-child(even) {
+	background-color: #e0e0e0;
+}
+
+/* Don't like using column position for styling tables, since it tends to get forgotten about when changes happen, but TableData class hasn't had any className functionality added, so here we are.. 
+   Note: these are used in low width styles as well, and need to be kept up to date*/
+
+/* Date */
+.orderHistoryTable td:nth-child(2) {
+	text-align: left;
+}
 
 /* Customer name */
-.orderHistoryTable td:first-of-type {
+.orderHistoryTable td:nth-child(3) {
 	text-align: left;
 }
 
 /* ex and inc prices */
-.orderHistoryTable td:nth-of-type(2),
-.orderHistoryTable td:nth-of-type(3) {
+.orderHistoryTable td:nth-child(4),
+.orderHistoryTable td:nth-child(5) {
 	text-align: right;
 }
 
 /* Order status */
-.orderHistoryTable td:nth-of-type(4) {
+.orderHistoryTable td:nth-child(6) {
 	text-align: center;
 }
 
@@ -139,5 +158,11 @@ main.accountDetailsPage > section.orderHistory {
 
 	.accountDetails li strong {
 		display: block;
+	}
+
+	/* Hide name column entirely at low widths */
+	.orderHistoryTable th[scope='col']:nth-child(3),
+	.orderHistory td:nth-child(3) {
+		display: none;
 	}
 }

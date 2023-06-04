@@ -44,8 +44,12 @@ const CustomerOrders = ({}) => {
 					// The data we want to display for this order goes here, formatted for user display
 					const order = {}
 
+					// id
+					order.orderId = orderData.orderId
+
 					// Date/time placed
 					const date = orderData.createdAt.toDate()
+
 					// Date for display
 					order.date = `${date.toLocaleDateString()} ${date.toLocaleTimeString(undefined, {
 						hour: '2-digit',
@@ -72,20 +76,21 @@ const CustomerOrders = ({}) => {
 					ordersArray.push(order)
 				}
 			})
-
+			console.log(ordersArray)
 			// Sort the orders into most recent first
 			ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
 
 			// And create a TableData instance from them
 			// NOTE: Styles are applied to this table by column position, so need to update Account.shared.module.css .orderHistoryTable when changing column layout
-			const columns = ['Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
-			const rows = ordersArray.map((order) => order.date)
-			const tableData = new TableData(rows, columns, 'Date')
+			const columns = ['Date', 'Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
+			const rows = ordersArray.map((order) => order.orderId)
+			const tableData = new TableData(rows, columns, 'Order ID')
 			ordersArray.forEach((order) => {
-				tableData.setData(order.date, 'Name', order.name || '')
-				tableData.setData(order.date, 'Price Ex Vat', order.priceEx || '')
-				tableData.setData(order.date, 'Price Inc Vat', order.priceInc || '')
-				tableData.setData(order.date, 'Status', order.status || '')
+				tableData.setData(order.orderId, 'Date', order.date || '')
+				tableData.setData(order.orderId, 'Name', order.name || '')
+				tableData.setData(order.orderId, 'Price Ex Vat', order.priceEx || '')
+				tableData.setData(order.orderId, 'Price Inc Vat', order.priceInc || '')
+				tableData.setData(order.orderId, 'Status', order.status || '')
 			})
 
 			setOrders(ordersArray.length ? tableData : null)
