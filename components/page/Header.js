@@ -21,11 +21,10 @@ const Header = () => {
 	return (
 		<header className={headerStyles.header}>
 			<FlashMessage />
-			<div className={headerStyles.headerInnerWrapper}>
+			<div id='headerInnerWrapper' className={headerStyles.headerInnerWrapper}>
 				<div className={headerStyles.headerMainContent}>
 					<div
 						ref={topLinksRef}
-						id='topLinks'
 						className={`${headerStyles.topLinks} ${topLinksIsMultiRow ? headerStyles.multiRowTopLinks : ''}`}>
 						<nav className={headerStyles.infoMenu} aria-label='Info'>
 							<ul>
