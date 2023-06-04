@@ -98,32 +98,32 @@ main.accountDetailsPage > section.orderHistory {
 	row-gap: 1em;
 }
 
-.orderHistory table {
+.orderHistory button {
+	width: fit-content;
+}
+
+.orderHistoryTable {
 	width: 100%;
 }
 
-.orderHistory th[scope='row'] {
+.orderHistoryTable th[scope='row'] {
 	font-weight: normal;
 }
 
-/* Don't like using column position for styling tables, since it tends to get out of date, but doing it anyway.. */
+/* Don't like using column position for styling tables, since it tends to get forgotten about when changes happen, but TableData class hasn't had any className functionality added, so here we are.. */
 
 /* Customer name */
-.orderHistory td:first-of-type {
+.orderHistoryTable td:first-of-type {
 	text-align: left;
 }
 
 /* ex and inc prices */
-.orderHistory td:nth-of-type(2),
-.orderHistory td:nth-of-type(3) {
+.orderHistoryTable td:nth-of-type(2),
+.orderHistoryTable td:nth-of-type(3) {
 	text-align: right;
 }
 
 /* Order status */
-.orderHistory td:nth-of-type(4) {
+.orderHistoryTable td:nth-of-type(4) {
 	text-align: center;
-}
-
-.orderHistory button {
-	width: fit-content;
 }

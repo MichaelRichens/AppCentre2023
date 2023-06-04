@@ -9,6 +9,8 @@ import { OrderStatus, OrderStatusDisplay } from '../../utils/types/enums/OrderSt
 import { formatPriceFromPounds } from '../../utils/formatPrice'
 import getOrderPrice from '../../utils/getOrderPrice'
 
+import accountStyles from '../../styles/Account.shared.module.css'
+
 /**
  * Displays the orders for the current logged in firebase user.
  * Should only be used on pages served by withAuth HOC
@@ -75,6 +77,7 @@ const CustomerOrders = ({}) => {
 			ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
 
 			// And create a TableData instance from them
+			// NOTE: Styles are applied to this table by column position, so need to update Account.shared.module.css .orderHistoryTable when changing column layout
 			const columns = ['Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
 			const rows = ordersArray.map((order) => order.date)
 			const tableData = new TableData(rows, columns, 'Date')
@@ -101,7 +104,7 @@ const CustomerOrders = ({}) => {
 	if (orders) {
 		return (
 			<>
-				<table>
+				<table className={accountStyles.orderHistoryTable}>
 					<caption>{orders.rows.length > 5 ? (limitOrdersShown ? 'Last 5 Orders' : 'All Orders') : 'Orders'}</caption>
 					{orders.generate(limitOrdersShown ? 5 : false)}
 				</table>
