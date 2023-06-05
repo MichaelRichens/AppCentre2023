@@ -42,7 +42,7 @@ export default async function handler(req, res) {
 	const newGroup = {
 		_id: id,
 		configurations: configurations,
-		configuration_version: currentConfigVersion,
+		configuration_version: Number(process.env.NEXT_PUBLIC_CONFIGURATION_VERSION),
 	}
 
 	try {
