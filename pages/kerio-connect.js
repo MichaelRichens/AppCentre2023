@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import ProductInfoPage from '../components/page/ProductInfoPage'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
-import productInfoStyles from '../styles/ProductInfo.shared.module.css'
+import productInfoStyles from '/styles/ProductInfo.shared.module.css'
 
 export async function getStaticProps() {
 	try {

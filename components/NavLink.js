@@ -1,7 +1,7 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import styles from '../styles/NavLink.module.css'
+import styles from '/styles/NavLink.module.css'
 
 /**
  * NavLink component wraps the passed element in a Next.js Link.

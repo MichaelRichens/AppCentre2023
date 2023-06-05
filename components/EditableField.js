@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Tooltip } from 'react-tooltip'
 import useUniqueId from './hooks/useUniqueId'
 
-import styles from '../styles/EditableField.module.css'
+import styles from '/styles/EditableField.module.css'
 
 /**
  * An editable field component that allows in-place editing of its value.

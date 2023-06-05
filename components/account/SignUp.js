@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, EmailAuthProvider, updateProfile } from
 import { doc, setDoc, getDoc, updateDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useAuth } from '../contexts/AuthContext'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
-import accountStyles from '../../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 function SignUp({ title, prefillEmail = '', prefillFullName = '' }) {
 	const { anonymousUser, asyncUpgradeUser } = useAuth()

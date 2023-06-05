@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import styles from '../styles/DropdownMenu.module.css'
+import styles from '/styles/DropdownMenu.module.css'
 import NavLink from './NavLink'
 
 /**

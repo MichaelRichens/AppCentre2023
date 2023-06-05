@@ -11,7 +11,7 @@ import {
 import Page from '../components/page/Page'
 import { FlashMessageContext, MessageType } from '../components/contexts/FlashMessageContext'
 import { auth, translateFirebaseError } from '../utils/firebaseClient'
-import accountStyles from '../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 const AuthAction = () => {
 	const [oobState, setOobState] = useState(null)

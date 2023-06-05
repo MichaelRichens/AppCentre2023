@@ -13,7 +13,7 @@ import PurchaseType from '../../utils/types/enums/PurchaseType'
 import { createAsyncHandleSubmit } from '../../utils/configuratorHandleFunctions'
 import processConfiguration from '../../utils/processConfiguration'
 
-import configuratorStyles from '../../styles/Configurator.shared.module.css'
+import configuratorStyles from '/styles/Configurator.shared.module.css'
 import PricingType from '../../utils/types/enums/PricingType'
 
 /**

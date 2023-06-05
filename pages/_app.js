@@ -5,8 +5,8 @@ import { FlashMessageProvider } from '../components/contexts/FlashMessageContext
 import { CartProvider } from '../components/contexts/CartContext'
 import { ConfiguratorProvider } from '../components/contexts/ConfiguratorContext'
 
-import '../styles/font-face.css'
-import '../styles/global.css'
+import '/styles/font-face.css'
+import '/styles/global.css'
 import 'react-tooltip/dist/react-tooltip.css'
 
 function App({ Component, pageProps }) {

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
 
-import styles from '../styles/FlashMessage.module.css'
+import styles from '/styles/FlashMessage.module.css'
 
 const FlashMessage = () => {
 	const { message, setMessage } = useContext(FlashMessageContext)

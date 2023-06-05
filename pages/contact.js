@@ -2,7 +2,7 @@ import React from 'react'
 import Page from '../components/page/Page'
 import ContactForm from '../components/ContactForm'
 
-import contactStyles from '../styles/Contact.shared.module.css'
+import contactStyles from '/styles/Contact.shared.module.css'
 
 const Contact = () => {
 	return (

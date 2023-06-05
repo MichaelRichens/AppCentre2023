@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { translateFirebaseError } from '../../utils/firebaseClient'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 
-import accountStyles from '../../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 /**
  * `ReauthenticatePassword` is a component that prompts the user to re-authenticate by entering their password.

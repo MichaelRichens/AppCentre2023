@@ -1,6 +1,6 @@
 import React from 'react'
 import DropdownMenu from './DropdownMenu'
-import headerStyles from '../styles/Header.shared.module.css'
+import headerStyles from '/styles/Header.shared.module.css'
 
 /**
  * @component

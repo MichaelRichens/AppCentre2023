@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import SimpleSelect from '../SimpleSelect'
-import configuratorStyles from '../../styles/Configurator.shared.module.css'
+import configuratorStyles from '/styles/Configurator.shared.module.css'
 
 const MonthsRemainingSelect = ({ value, onChange, maxYears }) => {
 	const [renewalDate, setRenewalDate] = useState('')

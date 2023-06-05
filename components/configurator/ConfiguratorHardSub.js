@@ -15,7 +15,7 @@ import {
 	createHandleHSTypeChange,
 } from '../../utils/configuratorHandleFunctions'
 
-import configuratorStyles from '../../styles/Configurator.shared.module.css'
+import configuratorStyles from '/styles/Configurator.shared.module.css'
 
 /**
  * @component

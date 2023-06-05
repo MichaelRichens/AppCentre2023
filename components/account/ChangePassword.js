@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { translateFirebaseError } from '../../utils/firebaseClient'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
 
-import accountStyles from '../../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 /**
  * `ChangePassword` is a component for changing the password of a currently logged in user.

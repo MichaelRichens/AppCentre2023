@@ -13,7 +13,7 @@ import EditableField from '../components/EditableField'
 import ReauthenticatePassword from '../components/account/ReauthenticatePassword'
 import ChangePassword from '../components/account/ChangePassword'
 
-import accountStyles from '../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 const Account = () => {
 	const { user } = useAuth()

@@ -3,7 +3,7 @@ import SignInOrSignUp from '../account/SignInOrSignUp'
 import { useAuth } from '../contexts/AuthContext'
 import LoadingPage from '../page/LoadingPage'
 
-import accountStyles from '../../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 const withAuth = (Component) => {
 	return (props) => {

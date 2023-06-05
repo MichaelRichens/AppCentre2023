@@ -10,7 +10,7 @@ import PricingType from '../utils/types/enums/PricingType'
 import PurchaseType from '../utils/types/enums/PurchaseType'
 import { getBaseUrlFromLocation } from '../utils/baseUrl'
 import { formatPriceFromPounds } from '../utils/formatPrice'
-import styles from '../styles/CartDisplay.module.css'
+import styles from '/styles/CartDisplay.module.css'
 
 const CartDisplay = () => {
 	const { cart, isCartLoading, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } =

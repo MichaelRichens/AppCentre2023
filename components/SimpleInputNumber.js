@@ -2,7 +2,7 @@ import React from 'react'
 import useUniqueId from './hooks/useUniqueId'
 import InfoTooltip from './InfoTooltip'
 
-import styles from '../styles/SimpleInputNumber.module.css'
+import styles from '/styles/SimpleInputNumber.module.css'
 
 /**
  * SimpleInputNumber component.

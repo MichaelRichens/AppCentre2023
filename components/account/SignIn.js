@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { auth, translateFirebaseError } from '../../utils/firebaseClient'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
-import accountStyles from '../../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 function SignIn({ title }) {
 	const [email, setEmail] = useState('')

@@ -8,7 +8,7 @@ import CheckoutButton from '../CheckoutButton'
 import SignOutButton from '../account/SignOutButton'
 import { useAuth } from '../contexts/AuthContext'
 import { CartContext } from '../contexts/CartContext'
-import headerStyles from '../../styles/Header.shared.module.css'
+import headerStyles from '/styles/Header.shared.module.css'
 
 const Header = () => {
 	const topLinksRef = useRef(null)

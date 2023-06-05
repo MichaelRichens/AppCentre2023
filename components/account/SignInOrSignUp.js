@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import SignIn from './SignIn'
 import SignUp from './SignUp'
-import accountStyles from '../../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 function SignInOrSignUp() {
 	return (

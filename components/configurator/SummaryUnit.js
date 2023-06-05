@@ -1,7 +1,7 @@
 import React from 'react'
 import { ConfigurationSummaryUnit } from '../../utils/types/ConfigurationSummary'
 
-import configuratorStyles from '../../styles/Configurator.shared.module.css'
+import configuratorStyles from '/styles/Configurator.shared.module.css'
 
 /**
  * SummaryUnit provides an element which summaries a PricingType.UNIT style configuration

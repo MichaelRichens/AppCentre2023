@@ -4,7 +4,7 @@ import { auth, firestore } from '../utils/firebaseClient'
 import { signInAnonymously } from 'firebase/auth'
 import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
 
-import contactStyles from '../styles/Contact.shared.module.css'
+import contactStyles from '/styles/Contact.shared.module.css'
 
 function useDebounce(value, delay) {
 	const [debouncedValue, setDebouncedValue] = useState(value)

@@ -9,7 +9,7 @@ import { OrderStatus, OrderStatusDisplay } from '../../utils/types/enums/OrderSt
 import { formatPriceFromPounds } from '../../utils/formatPrice'
 import getOrderPrice from '../../utils/getOrderPrice'
 
-import accountStyles from '../../styles/Account.shared.module.css'
+import accountStyles from '/styles/Account.shared.module.css'
 
 /**
  * Displays the orders for the current logged in firebase user.

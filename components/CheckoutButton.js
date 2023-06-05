@@ -10,8 +10,8 @@ import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext
 import SignInOrSignUp from './account/SignInOrSignUp'
 import BusyButton from './BusyButton'
 import { VersioningError } from '../utils/types/errors'
-import accountStyles from '../styles/Account.shared.module.css'
-import { getModalBaseStyleObject } from '../styles/modalBaseStyleObject'
+import accountStyles from '/styles/Account.shared.module.css'
+import { getModalBaseStyleObject } from '/styles/modalBaseStyleObject'
 
 const CheckoutButton = () => {
 	const { user, anonymousUser, isAuthLoading } = useAuth()

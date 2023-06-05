@@ -6,8 +6,8 @@ import Modal from 'react-modal'
 import { Tooltip } from 'react-tooltip'
 import { CartContext } from '../contexts/CartContext'
 import CartDisplay from '../CartDisplay'
-import headerStyles from '../../styles/Header.shared.module.css'
-import { getModalBaseStyleObject } from '../../styles/modalBaseStyleObject'
+import headerStyles from '/styles/Header.shared.module.css'
+import { getModalBaseStyleObject } from '/styles/modalBaseStyleObject'
 
 const HeaderCartMenu = () => {
 	const { isCartLoading, getTotalItems } = useContext(CartContext)

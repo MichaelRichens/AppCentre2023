@@ -3,7 +3,7 @@ import SimpleTable from './SimpleTable'
 import TableData from '../utils/types/TableData'
 import { formatPriceFromPounds } from '../utils/formatPrice'
 import { yearsGen, unitRangeGen } from '../utils/textSnippetFuncs'
-import priceTableStyles from '../styles/PriceTable.shared.module.css'
+import priceTableStyles from '/styles/PriceTable.shared.module.css'
 
 const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 	if (!extensionsData || !extensionsData?.length) {

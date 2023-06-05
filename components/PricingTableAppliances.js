@@ -1,8 +1,8 @@
 import React from 'react'
 import { formatPriceFromPounds } from '../utils/formatPrice'
 import { yearsGen } from '../utils/textSnippetFuncs'
-import priceTableStyles from '../styles/PriceTable.shared.module.css'
-import styles from '../styles/PricingTableAppliances.module.css'
+import priceTableStyles from '/styles/PriceTable.shared.module.css'
+import styles from '/styles/PricingTableAppliances.module.css'
 
 const PricingTableAppliances = ({ productName, applianceDataObject, subscriptionDataObject }) => {
 	const yearOptions = Object.keys(Object.values(subscriptionDataObject || {})[0] || {}).sort(
