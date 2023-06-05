@@ -7,7 +7,7 @@ import ProductOptionSelect from './ProductOptionSelect'
 import ConfiguratorHardSub from './ConfiguratorHardSub'
 import ConfiguratorUnit from './ConfiguratorUnit'
 import SummaryUnit from './SummaryUnit'
-import ConfiguratorCheckout from './ConfiguratorCheckout'
+import ConfiguratorAddToCart from './ConfiguratorAddToCart'
 
 import PurchaseType from '../../utils/types/enums/PurchaseType'
 import { createAsyncHandleSubmit } from '../../utils/configuratorHandleFunctions'
@@ -149,7 +149,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 						) : currentConfiguration.pricingType === PricingType.HARDSUB ? (
 							<p>{currentConfiguration.summary.product}</p>
 						) : null}
-						<ConfiguratorCheckout
+						<ConfiguratorAddToCart
 							allowAddToCart={
 								!formData.currentlyEditingField &&
 								!(formData.unType === PurchaseType.EXT && formData?.unitCheckedExtensions?.length === 0)

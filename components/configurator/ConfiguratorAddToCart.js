@@ -1,7 +1,7 @@
 import React from 'react'
 import { RotatingLines } from 'react-loader-spinner'
 
-const ConfiguratorCheckout = ({ haveJustChangedType, displayPrice, addToCartInProgress, allowAddToCart }) => {
+const ConfiguratorAddToCart = ({ haveJustChangedType, displayPrice, addToCartInProgress, allowAddToCart }) => {
 	if (allowAddToCart === undefined) {
 		allowAddToCart = true
 	}
@@ -25,4 +25,4 @@ const ConfiguratorCheckout = ({ haveJustChangedType, displayPrice, addToCartInPr
 	)
 }
 
-export default ConfiguratorCheckout
+export default ConfiguratorAddToCart
