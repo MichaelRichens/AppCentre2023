@@ -119,6 +119,11 @@
 	color: lightblue;
 }
 
+.topLinks,
+.productMenu {
+	z-index: 2;
+}
+
 .topLinks {
 	display: flex;
 	flex-wrap: wrap;
