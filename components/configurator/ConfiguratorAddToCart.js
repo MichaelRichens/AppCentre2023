@@ -1,5 +1,6 @@
 import React from 'react'
 import { RotatingLines } from 'react-loader-spinner'
+import BusyButton from '../BusyButton'
 
 const ConfiguratorAddToCart = ({ haveJustChangedType, displayPrice, addToCartInProgress, allowAddToCart }) => {
 	if (allowAddToCart === undefined) {
@@ -8,19 +9,9 @@ const ConfiguratorAddToCart = ({ haveJustChangedType, displayPrice, addToCartInP
 	return (
 		<>
 			<p aria-live={haveJustChangedType ? 'off' : 'polite'}>{displayPrice}</p>
-			{addToCartInProgress ? (
-				<RotatingLines
-					width='32'
-					animationDuration='1.5'
-					strokeColor='#666'
-					color='#243059'
-					ariaLabel='Adding to Cart'
-				/>
-			) : (
-				<button type='submit' disabled={!allowAddToCart}>
-					Add to Cart
-				</button>
-			)}
+			<BusyButton isBusy={addToCartInProgress} type='submit' disabled={!allowAddToCart} busyAriaLabel='Adding to Cart'>
+				Add to Cart
+			</BusyButton>
 		</>
 	)
 }
