@@ -4,6 +4,7 @@ import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext
 import { Tooltip } from 'react-tooltip'
 import useUniqueId from './hooks/useUniqueId'
 import CheckoutButton from './CheckoutButton'
+import BusyButton from './BusyButton'
 import InfoTooltip from './InfoTooltip'
 import PricingType from '../utils/types/enums/PricingType'
 import PurchaseType from '../utils/types/enums/PurchaseType'
@@ -29,6 +30,9 @@ const CartDisplay = () => {
 	// A useEffect watching `cart` handles wiping the saved data if the cart is changed.
 	const [savedConfigurationGroup, setSavedConfigurationGroup] = useState({ isValid: false })
 	const setDefaultSavedConfigurationGroup = () => setSavedConfigurationGroup({ isValid: false })
+
+	// Are we currently in the process of generating a link (for button busy status)
+	const [generatingLink, setGeneratingLink] = useState(false)
 
 	const { setMessage } = useContext(FlashMessageContext)
 
@@ -110,6 +114,7 @@ const CartDisplay = () => {
 	const asyncSaveConfigOnClickHandler = async () => {
 		const configurations = cart.map((item) => item.id)
 		if (configurations.length) {
+			setGeneratingLink(true)
 			try {
 				const response = await fetch('/api/save-configuration-group', {
 					method: 'POST',
@@ -134,7 +139,9 @@ const CartDisplay = () => {
 						isValid: false,
 					})
 				}
+				setGeneratingLink(false)
 			} catch (error) {
+				setGeneratingLink(false)
 				setSavedConfigurationGroup({
 					error: 'Very sorry, an error occurred when generating a quote for these items.',
 					isValid: false,
@@ -269,15 +276,16 @@ const CartDisplay = () => {
 									{savedConfigurationGroup.error}
 								</span>
 							)}
-							<button
+							<BusyButton
 								type='button'
+								isBusy={generatingLink}
 								disabled={!getTotalItems()}
 								onClick={asyncSaveConfigOnClickHandler}
-								data-tooltip-id={`create-link-${cartId}`}
-								data-tooltip-content='Creates a link that can be used to restore the current contents of the cart - for sharing this quote.'
+								dataTooltipId={`create-link-${cartId}`}
+								dataTooltipContent='Creates a link that can be used to restore the current contents of the cart - for sharing this quote.'
 								aria-describedby={`create-link-sr-${cartId}`}>
 								Create Link
-							</button>
+							</BusyButton>
 							<Tooltip id={`create-link-${cartId}`} />
 							<span id={`create-link-sr-${cartId}`} className='sr-only'>
 								Creates a link that can be used to restore the current contents of the cart - for sharing this quote.
