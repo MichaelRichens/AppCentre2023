@@ -80,47 +80,49 @@ const OrderDetails = ({ orderId }) => {
 	}
 
 	return (
-		<ul id='orderDetailsContent'>
-			<li>
-				<strong>Order ID:</strong> {order.orderId}
-			</li>
-			<li className={accountStyles.addresses}>
-				<div>
-					<strong>Billing Address:</strong>
-					<ul className={accountStyles.address}>
-						{!!order.businessName && <li>{order.businessName}</li>}
-						<li>{order.fullName}</li>
-						<li>{order.billingAddress.line1}</li>
-						{!!order.billingAddress?.line2 && <li>{order.billingAddress.line2}</li>}
-						<li>{order.billingAddress.city}</li>
-						{!!order.billingAddress?.state && <li>{order.billingAddress.state}</li>}
-						<li>{order.billingAddress.postal_code}</li>
-						<li>{countryCodeToName(order.billingAddress.country)}</li>
-					</ul>
-				</div>
-				{order.isShipping && !!order?.shippingAddress && (
+		<div id='orderDetailsContent'>
+			<ul>
+				<li>
+					<strong>Order ID:</strong> {order.orderId}
+				</li>
+				<li className={accountStyles.addresses}>
 					<div>
-						<strong>Shipping Address:</strong>
+						<strong>Billing Address:</strong>
 						<ul className={accountStyles.address}>
-							{order.shippingAddress?.name ? (
-								<li>{order.shippingAddress.name}</li>
-							) : (
-								<>
-									{!!order.businessName && <li>{order.businessName}</li>}
-									<li>{order.fullName}</li>
-								</>
-							)}
-							<li>{order.shippingAddress.line1}</li>
-							{!!order.shippingAddress?.line2 && <li>{order.shippingAddress.line2}</li>}
-							<li>{order.shippingAddress.city}</li>
-							{!!order.shippingAddress?.state && <li>{order.shippingAddress.state}</li>}
-							<li>{order.shippingAddress.postal_code}</li>
-							<li>{countryCodeToName(order.shippingAddress.country)}</li>
+							{!!order.businessName && <li>{order.businessName}</li>}
+							<li>{order.fullName}</li>
+							<li>{order.billingAddress.line1}</li>
+							{!!order.billingAddress?.line2 && <li>{order.billingAddress.line2}</li>}
+							<li>{order.billingAddress.city}</li>
+							{!!order.billingAddress?.state && <li>{order.billingAddress.state}</li>}
+							<li>{order.billingAddress.postal_code}</li>
+							<li>{countryCodeToName(order.billingAddress.country)}</li>
 						</ul>
 					</div>
-				)}
-			</li>
-		</ul>
+					{order.isShipping && !!order?.shippingAddress && (
+						<div>
+							<strong>Shipping Address:</strong>
+							<ul className={accountStyles.address}>
+								{order.shippingAddress?.name ? (
+									<li>{order.shippingAddress.name}</li>
+								) : (
+									<>
+										{!!order.businessName && <li>{order.businessName}</li>}
+										<li>{order.fullName}</li>
+									</>
+								)}
+								<li>{order.shippingAddress.line1}</li>
+								{!!order.shippingAddress?.line2 && <li>{order.shippingAddress.line2}</li>}
+								<li>{order.shippingAddress.city}</li>
+								{!!order.shippingAddress?.state && <li>{order.shippingAddress.state}</li>}
+								<li>{order.shippingAddress.postal_code}</li>
+								<li>{countryCodeToName(order.shippingAddress.country)}</li>
+							</ul>
+						</div>
+					)}
+				</li>
+			</ul>
+		</div>
 	)
 }
 

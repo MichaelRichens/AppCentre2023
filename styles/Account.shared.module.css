@@ -167,6 +167,10 @@ section.orderHistory {
 	column-gap: 8em;
 }
 
+.pdfReceipt {
+	font-size: 12px;
+}
+
 @media (max-width: 650px) {
 	.addresses {
 		flex-direction: column;
