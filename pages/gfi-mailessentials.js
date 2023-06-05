@@ -14,7 +14,7 @@ export async function getStaticProps() {
 
 		return {
 			props: { productDataArray },
-			revalidate: 60 * 60 * process.env.PRODUCT_DATA_REVALIDATION_HOURS,
+			revalidate: 60 * 60 * process.env.NEXT_PUBLIC_PRODUCT_DATA_REVALIDATION_HOURS,
 		}
 	} catch (error) {
 		console.error('Failed to fetch static props', error)
