@@ -47,6 +47,17 @@ const CustomerOrders = ({}) => {
 					// id
 					order.orderId = orderData.orderId
 
+					// We only provide a link to the order details page for orders with some kind of completed status
+					let generateLink
+					switch (orderData.status) {
+						case OrderStatus.FULLY_REFUNDED:
+						case OrderStatus.PAID:
+						case OrderStatus.PARTIALLY_REFUNDED: {
+							generateLink = true
+						}
+					}
+					order.generateLink = generateLink
+
 					// Date/time placed
 					const date = orderData.createdAt.toDate()
 
@@ -74,6 +85,7 @@ const CustomerOrders = ({}) => {
 					order.status = OrderStatusDisplay(orderData.status)
 
 					ordersArray.push(order)
+					console.log(order.orderId, order.date)
 				}
 			})
 
@@ -82,15 +94,19 @@ const CustomerOrders = ({}) => {
 
 			// And create a TableData instance from them
 			// NOTE: Styles are applied to this table by column position, so need to update Account.shared.module.css .orderHistoryTable when changing column layout
-			const columns = ['Date', 'Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
-			const rows = ordersArray.map((order) => order.orderId)
-			const tableData = new TableData(rows, columns, 'Order ID')
+			const columns = ['Order', 'Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
+			const rows = ordersArray.map((order) => order.date)
+			const tableData = new TableData(rows, columns, 'Date')
 			ordersArray.forEach((order) => {
-				tableData.setData(order.orderId, 'Date', order.date || '')
-				tableData.setData(order.orderId, 'Name', order.name || '')
-				tableData.setData(order.orderId, 'Price Ex Vat', order.priceEx || '')
-				tableData.setData(order.orderId, 'Price Inc Vat', order.priceInc || '')
-				tableData.setData(order.orderId, 'Status', order.status || '')
+				tableData.setData(
+					order.date,
+					'Order',
+					(order.generateLink ? <Link href={'/order/' + order.orderId}>{order.orderId}</Link> : order.orderId) || ''
+				)
+				tableData.setData(order.date, 'Name', order.name || '')
+				tableData.setData(order.date, 'Price Ex Vat', order.priceEx || '')
+				tableData.setData(order.date, 'Price Inc Vat', order.priceInc || '')
+				tableData.setData(order.date, 'Status', order.status || '')
 			})
 
 			setOrders(ordersArray.length ? tableData : null)

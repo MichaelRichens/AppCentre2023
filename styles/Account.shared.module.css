@@ -131,6 +131,11 @@ main.accountDetailsPage > section.orderHistory {
    Note: these are used in low width styles as well, and need to be kept up to date*/
 
 /* Date */
+.orderHistoryTable th[scope='row'] {
+	text-align: left;
+}
+
+/* Order ID */
 .orderHistoryTable td:nth-child(2) {
 	text-align: left;
 }
