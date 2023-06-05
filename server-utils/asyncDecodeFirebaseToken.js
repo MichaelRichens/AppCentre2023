@@ -6,7 +6,7 @@ ensureFirebaseInitialised()
 /**
  * Helper function to decode the firebase token passed in a request authorisation header.
  * @param {string} authorization The authorisation header
- * @returns {Promise<string|false|null>} The decoded token if successful, null if the authorisation header was malformed, false if the authorisation token failed verification
+ * @returns {Promise<Object|false|null>} The decoded token if successful, null if the authorisation header was malformed, false if the authorisation token failed verification
  */
 async function asyncDecodeFirebaseToken(authorization) {
 	authorization = authorization || ''
