@@ -1,16 +1,16 @@
-main.authRequiredForAccess h1 {
+.authRequiredForAccess h1 {
 	font-size: 1.5em;
 	color: #444;
 }
 
-main.accountDetailsPage > section {
+.accountDetailsPage > section {
 	max-width: 60em;
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom: 2em;
 }
 
-main.accountDetailsPage ul {
+.accountDetailsPage ul {
 	list-style-type: square;
 }
 
@@ -90,8 +90,8 @@ main.accountDetailsPage ul {
 	text-align: center;
 }
 
-/* Specificity needed to override style placed on main.accountDetailsPage > section */
-main.accountDetailsPage > section.orderHistory {
+/* Specificity needed to override style placed on .accountDetailsPage > section */
+section.orderHistory {
 	max-width: 120em;
 }
 
@@ -154,6 +154,25 @@ main.accountDetailsPage > section.orderHistory {
 /* Order status */
 .orderHistoryTable td:nth-child(6) {
 	text-align: center;
+}
+
+.orderDetails ul {
+	list-style-type: none;
+}
+
+.addresses {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	column-gap: 8em;
+}
+
+@media (max-width: 650px) {
+	.addresses {
+		flex-direction: column;
+		column-gap: 0;
+		row-gap: 2em;
+	}
 }
 
 @media (max-width: 500px) {
