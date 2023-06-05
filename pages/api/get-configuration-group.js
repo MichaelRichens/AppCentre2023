@@ -30,10 +30,10 @@ export default async function handler(req, res) {
 			return
 		}
 
-		if (record?.configuration_version !== Number(process.env.CONFIGURATION_VERSION)) {
+		if (record?.configuration_version !== Number(process.env.NEXT_PUBLIC_CONFIGURATION_VERSION)) {
 			res.status(410).json({
 				error: `Configuration group version mismatch.  Found ${record?.configuration_version} but needed ${Number(
-					process.env.CONFIGURATION_VERSION
+					process.env.NEXT_PUBLIC_CONFIGURATION_VERSION
 				)}`,
 			})
 			return

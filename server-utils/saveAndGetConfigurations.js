@@ -24,7 +24,7 @@ async function asyncSaveConfiguration(configuration) {
 			existingConfig = await collection.findOne({ _id: uniqueKey })
 		}
 
-		configuration.configuration_version = Number(process.env.CONFIGURATION_VERSION)
+		configuration.configuration_version = Number(process.env.NEXT_PUBLIC_CONFIGURATION_VERSION)
 
 		await collection.insertOne({ ...configuration, _id: uniqueKey })
 
@@ -60,12 +60,12 @@ async function asyncGetConfiguration(uniqueKey) {
 
 		if (
 			!(typeof receivedConfigVersion === 'number') ||
-			receivedConfigVersion < Number(process.env.CONFIGURATION_VERSION)
+			receivedConfigVersion < Number(process.env.NEXT_PUBLIC_CONFIGURATION_VERSION)
 		) {
 			throw new VersioningError(
 				'Configuration version mismatch',
 				receivedConfigVersion,
-				Number(process.env.CONFIGURATION_VERSION)
+				Number(process.env.NEXT_PUBLIC_CONFIGURATION_VERSION)
 			)
 		}
 
