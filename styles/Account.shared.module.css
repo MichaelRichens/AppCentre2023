@@ -156,23 +156,107 @@ section.orderHistory {
 	text-align: center;
 }
 
+.orderDetails {
+	margin: 1em;
+	padding: 2em;
+	border: 1px black solid;
+	display: flex;
+	flex-direction: column;
+	row-gap: 2em;
+}
+
+.orderDetails > section {
+	border-bottom: 1px black solid;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
 .orderDetails ul {
 	list-style-type: none;
 }
 
-.addresses {
+.orderDetails .receiptTitle {
+	margin-top: -2em;
+	border-bottom: none;
+	font-size: 180%;
+	color: #666;
+}
+
+.orderDetails .receiptTitle h2 {
+	margin: 0;
+	padding: 0;
+}
+
+.orderDetails .notReceipt {
+	opacity: 0.3;
+}
+
+.orderDetails .receiptHeader {
+	display: flex;
+	flex-direction: row;
+	column-gap: 5em;
+}
+
+.orderDetails .logoContainer {
+	background-color: #1d2747;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 70px;
+	width: 350px;
+	flex: 1;
+}
+
+.orderDetails .logoContainer img {
+	height: 50px;
+}
+
+.orderDetails .addresses {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
 	column-gap: 8em;
 }
 
+.orderDetails .addresses ul {
+	width: 20em;
+	padding-left: 0;
+}
+
+.orderDetails .addresses ul > li {
+	width: 90%;
+}
+
 .pdfReceipt {
-	font-size: 12px;
+	font-size: 12px !important;
+	border: none !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	padding-right: 10em !important;
+	width: 60em !important;
+}
+
+.pdfReceipt > * {
+	padding: 1em 3em !important;
+	width: 100% !important;
+}
+
+.pdfReceipt .receiptTitle {
+	margin-top: 0 !important;
+}
+
+.pdfReceipt .receiptHeader {
+	width: 45em !important;
+}
+
+.pdfReceipt .addresses {
+	flex-direction: row !important;
+	column-gap: 5em !important;
+	row-gap: initial !important;
 }
 
 @media (max-width: 650px) {
-	.addresses {
+	.orderDetails .addresses {
 		flex-direction: column;
 		column-gap: 0;
 		row-gap: 2em;

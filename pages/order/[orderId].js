@@ -45,7 +45,7 @@ const Order = () => {
 			const imgData = canvas.toDataURL('image/png')
 			const pdf = new jsPDF()
 			pdf.addImage(imgData, 'JPEG', 0, 0)
-			pdf.save(`appcentre-receipt${orderId}.pdf`)
+			pdf.save(`AppCentre Receipt - ${orderId}.pdf`)
 		} catch (error) {
 			setGeneratingPdf(false)
 		}
@@ -65,7 +65,7 @@ const Order = () => {
 
 	return (
 		<Page mainClassName={accountStyles.accountDetailsPage} title='Order Details'>
-			<section className={accountStyles.orderDetails}>
+			<section>
 				<OrderDetails orderId={orderId} />
 				{pdfReady !== false && (
 					<BusyButton isBusy={!pdfReady || generatingPdf} onClick={printDocument}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { onSnapshot, collection, where, query, getDocs, doc } from 'firebase/firestore'
 import { useAuth } from '/components/contexts/AuthContext'
+import { OrderStatus } from '../../utils/types/enums/OrderStatus'
 import { firestore } from '/utils/firebaseClient'
 import { countryCodeToName } from '/utils/countryLookup'
 
@@ -79,49 +80,77 @@ const OrderDetails = ({ orderId }) => {
 		)
 	}
 
+	let isReceipt = false
+	switch (order.status) {
+		case OrderStatus.FULLY_REFUNDED:
+		case OrderStatus.PAID:
+		case OrderStatus.PARTIALLY_REFUNDED: {
+			isReceipt = true
+		}
+	}
+
+	console.log(order)
+
 	return (
-		<div id='orderDetailsContent'>
-			<ul>
-				<li>
-					<strong>Order ID:</strong> {order.orderId}
-				</li>
-				<li className={accountStyles.addresses}>
+		<div className={accountStyles.orderDetails} id='orderDetailsContent'>
+			<section className={accountStyles.receiptTitle}>
+				{isReceipt ? <h2>Receipt</h2> : <h2 className={accountStyles.notReceipt}>This is Not a Receipt</h2>}
+			</section>
+			<section className={accountStyles.receiptHeader}>
+				<div>
 					<div>
-						<strong>Billing Address:</strong>
+						<strong>Date:</strong>{' '}
+						{order.createdAt
+							.toDate()
+							.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+					</div>
+					<div>
+						<strong>Order ID:</strong> {order.orderId}
+					</div>
+				</div>
+				<div className={accountStyles.logoContainer}>
+					<img src='/images/logos/appcentre-logo.svg' alt='' />
+				</div>
+			</section>
+			<section className={accountStyles.addresses}>
+				<div>
+					<strong>Billing Address:</strong>
+					<ul className={accountStyles.address}>
+						{!!order.businessName && <li>{order.businessName}</li>}
+						<li>{order?.fullName}</li>
+						<li>{order?.billingAddress?.line1}</li>
+						{!!order.billingAddress?.line2 && <li>{order.billingAddress.line2}</li>}
+						<li>{order?.billingAddress?.city}</li>
+						{!!order?.billingAddress?.state && <li>{order.billingAddress.state}</li>}
+						<li>{order?.billingAddress?.postal_code}</li>
+						<li>{countryCodeToName(order?.billingAddress?.country)}</li>
+					</ul>
+				</div>
+				{order.isShipping && !!order?.shippingAddress && (
+					<div>
+						<strong>Shipping Address:</strong>
 						<ul className={accountStyles.address}>
-							{!!order.businessName && <li>{order.businessName}</li>}
-							<li>{order.fullName}</li>
-							<li>{order.billingAddress.line1}</li>
-							{!!order.billingAddress?.line2 && <li>{order.billingAddress.line2}</li>}
-							<li>{order.billingAddress.city}</li>
-							{!!order.billingAddress?.state && <li>{order.billingAddress.state}</li>}
-							<li>{order.billingAddress.postal_code}</li>
-							<li>{countryCodeToName(order.billingAddress.country)}</li>
+							{order.shippingAddress?.name ? (
+								<li>{order.shippingAddress.name}</li>
+							) : (
+								<>
+									{!!order.businessName && <li>{order.businessName}</li>}
+									<li>{order.fullName}</li>
+								</>
+							)}
+							<li>{order.shippingAddress?.line1}</li>
+							{!!order.shippingAddress?.line2 && <li>{order.shippingAddress.line2}</li>}
+							<li>{order.shippingAddress?.city}</li>
+							{!!order.shippingAddress?.state && <li>{order.shippingAddress.state}</li>}
+							<li>{order.shippingAddress?.postal_code}</li>
+							<li>{countryCodeToName(order.shippingAddress?.country)}</li>
 						</ul>
 					</div>
-					{order.isShipping && !!order?.shippingAddress && (
-						<div>
-							<strong>Shipping Address:</strong>
-							<ul className={accountStyles.address}>
-								{order.shippingAddress?.name ? (
-									<li>{order.shippingAddress.name}</li>
-								) : (
-									<>
-										{!!order.businessName && <li>{order.businessName}</li>}
-										<li>{order.fullName}</li>
-									</>
-								)}
-								<li>{order.shippingAddress.line1}</li>
-								{!!order.shippingAddress?.line2 && <li>{order.shippingAddress.line2}</li>}
-								<li>{order.shippingAddress.city}</li>
-								{!!order.shippingAddress?.state && <li>{order.shippingAddress.state}</li>}
-								<li>{order.shippingAddress.postal_code}</li>
-								<li>{countryCodeToName(order.shippingAddress.country)}</li>
-							</ul>
-						</div>
-					)}
-				</li>
-			</ul>
+				)}
+			</section>
+			<section>
+				<ul></ul>
+			</section>
 		</div>
 	)
 }
