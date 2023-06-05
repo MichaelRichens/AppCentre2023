@@ -19,14 +19,6 @@ const Order = () => {
 	const [pdfReady, setPdfReady] = useState(null)
 	const [generatingPdf, setGeneratingPdf] = useState(false)
 
-	const modalStyles = getModalBaseStyleObject()
-	modalStyles.content.left = '20px'
-	modalStyles.content.right = '20px'
-	modalStyles.content.top = '20px'
-	modalStyles.content.bottom = '20px'
-	modalStyles.content.transform = 'initial'
-	modalStyles.content.width = 'initial'
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (document.getElementById('orderDetailsContent')) {
@@ -62,6 +54,14 @@ const Order = () => {
 	if (!orderId === null) {
 		return <LoadingPage />
 	}
+
+	const modalStyles = getModalBaseStyleObject()
+	modalStyles.content.left = '20px'
+	modalStyles.content.right = '20px'
+	modalStyles.content.top = '20px'
+	modalStyles.content.bottom = '20px'
+	modalStyles.content.transform = 'initial'
+	modalStyles.content.width = 'initial'
 
 	return (
 		<Page mainClassName={accountStyles.accountDetailsPage} title='Order Details'>
