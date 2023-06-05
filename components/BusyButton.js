@@ -1,9 +1,12 @@
 import React from 'react'
 import { RotatingLines } from 'react-loader-spinner'
 
+import styles from '../styles/BusyButton.module.css'
+
 const BusyButton = ({
 	isBusy,
 	type,
+	onClick,
 	disabled,
 	ariaLabel,
 	ariaDescribedBy,
@@ -17,15 +20,22 @@ const BusyButton = ({
 	return (
 		<>
 			{isBusy ? (
-				<RotatingLines
-					width={busyWidth}
-					animationDuration={busyDuration}
-					strokeColor={busyStrokeColour}
-					color={busyColour}
-					ariaLabel={busyAriaLabel}
-				/>
+				<div className={styles.spinnerWrapper}>
+					<RotatingLines
+						width={busyWidth}
+						animationDuration={busyDuration}
+						strokeColor={busyStrokeColour}
+						color={busyColour}
+						ariaLabel={busyAriaLabel}
+					/>
+				</div>
 			) : (
-				<button aria-label={ariaLabel} aria-describedby={ariaDescribedBy} type={type} disabled={disabled}>
+				<button
+					type={type}
+					disabled={disabled}
+					onClick={onClick}
+					aria-label={ariaLabel}
+					aria-describedby={ariaDescribedBy}>
 					{children}
 				</button>
 			)}

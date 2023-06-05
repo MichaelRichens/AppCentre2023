@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { CartContext } from './contexts/CartContext'
 import { FlashMessageContext, MessageType } from './contexts/FlashMessageContext'
 import SignInOrSignUp from './account/SignInOrSignUp'
+import BusyButton from './BusyButton'
 import { VersioningError } from '../utils/types/errors'
 import accountStyles from '../styles/Account.shared.module.css'
 import { getModalBaseStyleObject } from '../styles/modalBaseStyleObject'
@@ -150,10 +151,14 @@ const CheckoutButton = () => {
 	modalStyles.overlay.zIndex = 900
 
 	return (
-		<>
-			<button type='button' disabled={!!(isCartLoading || !getTotalItems())} onClick={handleCheckoutButtonClick}>
+		<div className={accountStyles.checkoutButtonWrapper}>
+			<BusyButton
+				isBusy={checkingOut}
+				type='button'
+				disabled={!!(isCartLoading || !getTotalItems())}
+				onClick={handleCheckoutButtonClick}>
 				Checkout
-			</button>
+			</BusyButton>
 			<Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={modalStyles}>
 				<div className='modalInnerWrapper'>
 					<button className='modalCloseButton' onClick={closeModal} aria-label='Close checkout'>
@@ -180,7 +185,7 @@ const CheckoutButton = () => {
 					)}
 				</div>
 			</Modal>
-		</>
+		</div>
 	)
 }
 

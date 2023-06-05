@@ -81,6 +81,12 @@
 	opacity: 0.3;
 }
 
+.summaryInnerWrapper button {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .configurator label.monthsRemaining {
 	display: flex;
 	flex-direction: row;
