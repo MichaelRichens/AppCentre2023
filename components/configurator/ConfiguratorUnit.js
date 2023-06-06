@@ -41,8 +41,6 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 	const handleTypeChange = createHandleUnitTypeChange(updateFormData, formData, productData)
 
-	const handleUnitsExistingChange = createHandleInputChange(updateFormData, 'unitsExistingLiveUpdate')
-
 	const handleUnitsExistingBlur = createHandleInputNumberBlur(
 		updateFormData,
 		formData,
@@ -54,7 +52,11 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 		productData.minUnitsStep
 	)
 
-	const handleUnitsChangeChange = createHandleInputChange(updateFormData, 'unitsChangeLiveUpdate')
+	const handleUnitsExistingChange = createHandleInputChange(
+		updateFormData,
+		'unitsExistingLiveUpdate',
+		handleUnitsExistingBlur
+	)
 
 	const handleUnitsChangeBlur = createHandleInputNumberBlur(
 		updateFormData,
@@ -65,6 +67,12 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 		minUnitsChange,
 		maxUnitsChange,
 		productData.minUnitsStep
+	)
+
+	const handleUnitsChangeChange = createHandleInputChange(
+		updateFormData,
+		'unitsChangeLiveUpdate',
+		handleUnitsChangeBlur
 	)
 
 	const handleExtensionCheckboxChange = createHandleCheckboxChange(updateFormData, formData, 'unitCheckedExtensions')

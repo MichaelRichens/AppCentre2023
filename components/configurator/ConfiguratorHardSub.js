@@ -27,7 +27,7 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 	const handleHsTypeChange = createHandleHSTypeChange(updateFormData, formData, productData)
 	const handleHsSubFamilyChange = createHandleHSSubFamilyChange(updateFormData, productData)
 	const handleApplianceTypeChange = createHandleHSApplianceChange(updateFormData, productData)
-	const handleApplianceQuantityChange = createHandleInputChange(updateFormData, 'hsHardwareQuantityLiveUpdate')
+
 	const handleApplianceQuantityBlur = createHandleInputNumberBlur(
 		updateFormData,
 		formData,
@@ -37,6 +37,13 @@ const ConfiguratorHardSub = ({ updateFormData, formData, productData }) => {
 		1,
 		productData.maxHardwareUnits
 	)
+
+	const handleApplianceQuantityChange = createHandleInputChange(
+		updateFormData,
+		'hsHardwareQuantityLiveUpdate',
+		handleApplianceQuantityBlur
+	)
+
 	const handleHSYearsChange = createUpdateFormValueWithFloat(updateFormData, 'hsYears')
 	const handleWarrantyChange = createUpdateFormValue(updateFormData, 'hsWarranty')
 
