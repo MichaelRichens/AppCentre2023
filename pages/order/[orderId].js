@@ -45,7 +45,7 @@ const Order = () => {
 			const imgData = canvas.toDataURL('image/png')
 			const pdf = new jsPDF()
 			pdf.addImage(imgData, 'JPEG', 0, 0)
-			pdf.save(`AppCentre Receipt - ${orderId}.pdf`)
+			pdf.save(`AppCentre Order - ${orderId}.pdf`)
 		} catch (error) {
 			setGeneratingPdf(false)
 		}

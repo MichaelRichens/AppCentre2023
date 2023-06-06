@@ -171,6 +171,10 @@ section.orderHistory {
 	padding-bottom: 1em;
 }
 
+.orderDetails > section:last-child {
+	border-bottom: none;
+}
+
 .orderDetails ul {
 	list-style-type: none;
 }

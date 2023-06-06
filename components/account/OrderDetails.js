@@ -182,6 +182,14 @@ const OrderDetails = ({ orderId }) => {
 					</li>
 				</ul>
 			</section>
+			<section>
+				<p>AppCentre is a part of Second Chance PC Ltd.</p>
+				<p>
+					Company Number: {process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT:{' '}
+					{process.env.NEXT_PUBLIC_VAT_NUMBER}.
+				</p>
+				<p>W: www.appcentre.co.uk E: info@appcentre.co.uk</p>
+			</section>
 		</div>
 	)
 }
