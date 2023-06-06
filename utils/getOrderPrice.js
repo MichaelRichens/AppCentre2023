@@ -24,6 +24,9 @@ function getOrderPrice(orderData) {
 			price += line.price
 		}
 	}
+
+	price = Math.round(price * 100) / 100 // precision artefacts keep creeping in from somewhere
+
 	// Want both inc and ex vat.  Calculating ex vat by the sum of the line items, and inc by what stripe actually charged
 	// This seems the most robust. It allows for us to completely ignore stripes tax calculations and send them the inc vat price
 	// and manage vat receipts entirely at our end, or have them do it, without changing logic.  Things will get more complicated if we do customer specific taxes though.
