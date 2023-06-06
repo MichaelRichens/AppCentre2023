@@ -76,19 +76,6 @@ const CartDisplay = () => {
 		removeFromCart(id)
 	}
 
-	const createLicenceChangeHandler = (itemId) => {
-		return (event) => {
-			let newLicence = event.target.value
-			if (newLicence.length > process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH) {
-				newLicence = newLicence.substring(0, process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH)
-			}
-			setLicenceLiveUpdate((prevState) => ({
-				...prevState,
-				[itemId]: newLicence,
-			}))
-		}
-	}
-
 	const createLicenceOnBlurHandler = (itemId) => {
 		return async () => {
 			const newLicence = licenceLiveUpdate?.[itemId] || ''
@@ -108,6 +95,19 @@ const CartDisplay = () => {
 					console.error('Error updating licence.')
 				}
 			}
+		}
+	}
+
+	const createLicenceChangeHandler = (itemId) => {
+		return (event) => {
+			let newLicence = event.target.value
+			if (newLicence.length > process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH) {
+				newLicence = newLicence.substring(0, process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH)
+			}
+			setLicenceLiveUpdate((prevState) => ({
+				...prevState,
+				[itemId]: newLicence,
+			}))
 		}
 	}
 
