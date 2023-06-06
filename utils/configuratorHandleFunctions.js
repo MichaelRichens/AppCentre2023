@@ -41,13 +41,13 @@ export const createHandleInputChange =
 	(updateFormData, updateField, blurHandler = (event) => {}) =>
 	(event) => {
 		let value = event.target.value
-		console.log(event.target, document.activeElement)
+
 		updateFormData({
 			[updateField]: value,
 		})
 
-		if (event.target !== document.activeElement) {
-			blurFunction(event)
+		if (event?.target !== document?.activeElement) {
+			blurHandler(event)
 		}
 	}
 

@@ -87,6 +87,9 @@ const EditableField = ({
 	// Handler for text changes during a field edit
 	const handleOnChange = (event) => {
 		setLiveValue(event?.target?.value)
+		if (event?.target !== document?.activeElement) {
+			handleBlur(event)
+		}
 	}
 
 	// Handler to catch the enter key during a field edit, and treat it as a blur event (and will not pass it up to any parent form element)
