@@ -27,6 +27,7 @@ export default async function handler(req, res) {
 		res.setHeader('Allow', 'POST')
 		res.status(405).end('Method Not Allowed')
 	}
+	console.log('post request received')
 	const buf = await buffer(req)
 	const sig = req.headers['stripe-signature']
 	let event
@@ -38,8 +39,12 @@ export default async function handler(req, res) {
 		return res.status(401).send(`Webhook Verification Error: ${error.message}`)
 	}
 
+	console.log('verified webhook')
+
 	// Message has been received and verified - return the received acknowledgement to stripe before processing it (as per their docs)
 	res.status(202).end()
+
+	console.log('received: ', event.type)
 
 	switch (event.type) {
 		case 'charge.refunded':
@@ -96,16 +101,17 @@ export default async function handler(req, res) {
 
 			break
 		case 'checkout.session.completed':
+			console.log('started handling checkout.session.completed')
 			const completedSession = event.data.object
 
 			// update customer details (if needed) with current stripe id no matter what - this event is just a helpful method of linking them
 			await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
-
+			console.log('updated customer stripe id')
 			if (!completedSession?.id) {
 				console.error('Webhook: completedSession.id - completedSession.id not set')
 				return
 			}
-
+			console.log('is a completed session')
 			try {
 				const ordersRef = firebaseService.collection('orders')
 
@@ -123,6 +129,7 @@ export default async function handler(req, res) {
 						`Webhook checkout.session.completed - More than one order with the same stripe session id found (${orderDocsSnap.docs.length} found). Session id: ${completedSession.id}`
 					)
 				}
+				console.log('found the order')
 				const orderDocSnap = orderDocsSnap.docs[0] // We'll just update the first matching document since there REALLY should only be 1
 
 				const paymentIntentId = completedSession?.payment_intent
@@ -170,8 +177,9 @@ export default async function handler(req, res) {
 				if ((!orderData?.fullName || !orderData?.businessName) && completedSession?.customer_details?.name) {
 					orderDocUpdateObj.fullName = completedSession.customer_details.name
 				}
-
+				console.log('preparing to save the order')
 				await orderDocSnap.ref.update(orderDocUpdateObj)
+				console.log('saved the order')
 			} catch (error) {
 				console.error(
 					`Webhook checkout.session.completed - Unable to complete order for stripe session complete webhook with session is: ${completedSession.id}`,

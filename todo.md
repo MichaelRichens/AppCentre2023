@@ -13,4 +13,4 @@ Success page should mre gracefully handle someone who visits it twice - see todo
 
 Handle email address change better than telling user to log out and log back in (pages/account.js)
 
-Fix issue with onblur events not being fired in some circumstances
+Have some kind of pending status for when customer's arrive back before the webhook update their order?
