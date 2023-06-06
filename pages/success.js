@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react'
+import Link from 'next/link'
 import { CartContext } from '../components/contexts/CartContext'
 import Page from '../components/page/Page'
 import { useAuth } from '../components/contexts/AuthContext'
 import SignUp from '../components/account/SignUp'
+import { getBaseUrlFromLocation } from '../utils/baseUrl'
 
 // This page is where the user arrives back at our site after a successful checkout, and handles clean up of the cart and some data updating (though not marking the order as complete).
 // There is a division of responsibility between this success page the user gets sent to after checkout, and the webhook handlers in pages/api/stripe-webhooks.
@@ -14,7 +16,14 @@ const OrderSuccess = () => {
 	const { user, anonymousUser, isAuthLoading } = useAuth()
 	const { clearCart } = useContext(CartContext)
 	const [sessionIdState, setSessionIdState] = useState(null)
+	const [orderId, setOrderId] = useState(null)
 	const [sessionDataState, setSessionDataState] = useState(null)
+
+	// For holding the base url this page is running on - requires window.location to be available, so need state populated inside a useEffect
+	const [baseUrl, setBaseUrl] = useState(null)
+	useEffect(() => {
+		setBaseUrl(getBaseUrlFromLocation(window.location))
+	}, [])
 
 	// On first render, check that this is a valid fresh return from a successful stripe checkout, and clean if so, and store the stripe session id is sessionIdState
 	useEffect(() => {
@@ -28,11 +37,6 @@ const OrderSuccess = () => {
 		const urlParams = new URLSearchParams(window.location.search)
 		const urlSessionId = urlParams.get('session_id')
 		const sessionStorageSessionId = sessionStorage.getItem('checkoutSessionId')
-
-		// For testing only!!  Lets us repeatedly reload page and rerun logic  TODO DELETE THIS!!!
-		if (urlSessionId) {
-			setSessionIdState(urlSessionId)
-		}
 
 		// If so, set it in a state variable and removed it from their sessionStorage so this won't get processed again if they return to this page.
 		// TODO, might want to redirect the order if a customer does return here, or visits without the session id parameter
@@ -102,17 +106,19 @@ const OrderSuccess = () => {
 		setSessionDataState(null)
 	}, [sessionIdState, isAuthLoading])
 
-	// Once we have sessionDataState, and if we have (or get from SignUp component being used) a logged in user, we display order details
 	useEffect(() => {
 		// this logic is only for logged in users and session data stored in state
-		if (!user || !sessionDataState) {
+		if (!(user || anonymousUser) || !sessionDataState) {
 			return
 		}
-		console.log(sessionDataState)
+
+		setOrderId(sessionDataState?.metadata?.orderId)
 
 		// when complete, unset this state to prevent any chance of doing this useEffect logic again
 		setSessionDataState(null)
 	}, [sessionDataState, user])
+
+	console.log(user, sessionDataState)
 
 	return (
 		<Page title='Order Success'>
@@ -124,7 +130,11 @@ const OrderSuccess = () => {
 					prefillFullName={sessionDataState?.customer_details?.name}
 				/>
 			)}
-			{user && sessionDataState && <p></p>}
+			{orderId && (
+				<p>
+					To see you order and download a receipt, <Link href={`order/${orderId}`}>click here</Link>.
+				</p>
+			)}
 		</Page>
 	)
 }
