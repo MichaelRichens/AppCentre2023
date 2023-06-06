@@ -105,7 +105,7 @@ export default async function handler(req, res) {
 			const completedSession = event.data.object
 
 			// update customer details (if needed) with current stripe id no matter what - this event is just a helpful method of linking them
-			await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
+			//await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
 			console.log('updated customer stripe id')
 			if (!completedSession?.id) {
 				console.error('Webhook: completedSession.id - completedSession.id not set')
