@@ -61,8 +61,7 @@ const Connect = (props) => {
 				<h3>Effortless Deployment and User-friendly Management</h3>
 				<p>
 					Kerio Connect stands out with its rapid deployment capability. A full installation can be completed in just
-					about 10 minutes, letting your users get started almost immediately. Whether you prefer an on-premises setup
-					or a partner-hosted cloud environment, Kerio Connect has you covered.
+					about 10 minutes, letting your users get started almost immediately.
 				</p>
 				<p>
 					The software supports Mac, Windows, or Linux, and provides full support for Outlook (Windows and Mac) and many
