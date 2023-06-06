@@ -18,15 +18,16 @@ async function asyncLinkStripeCustomerUsingSession(sessionId, stripeCustomerId) 
 		return
 	}
 	try {
+		console.log('x1')
 		// See if we can find the order from the session id
 		const ordersRef = firebaseService.collection('orders')
 		const querySnapshot = await ordersRef.where('sessionId', '==', sessionId).get()
-
+		console.log('x2')
 		// If not, exit
 		if (querySnapshot.empty) {
 			return
 		}
-
+		console.log('x3')
 		if (querySnapshot.docs.length > 1) {
 			// Multiple order with the same session id... Something is badly broken, just exit.
 			console.error(
@@ -34,11 +35,11 @@ async function asyncLinkStripeCustomerUsingSession(sessionId, stripeCustomerId) 
 			)
 			return
 		}
-
+		console.log('x4')
 		// Get the document
 		const orderDoc = querySnapshot.docs[0]
 		const orderData = orderDoc.data()
-
+		console.log('x5')
 		// Check if the order does not have a matching customer id, and update it in this case
 		if (orderData.stripeCustomerId !== stripeCustomerId) {
 			if (orderData.stripeCustomerId !== undefined) {
@@ -52,6 +53,7 @@ async function asyncLinkStripeCustomerUsingSession(sessionId, stripeCustomerId) 
 				updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
 			})
 		}
+		console.log('x6')
 
 		// Now see if we need to update the user
 		const firebaseUserId = orderData.firebaseUserId
@@ -60,7 +62,7 @@ async function asyncLinkStripeCustomerUsingSession(sessionId, stripeCustomerId) 
 		const usersRef = firebaseService.collection('users')
 		const userDocRef = usersRef.doc(firebaseUserId)
 		const userDocSnapshot = await userDocRef.get()
-
+		console.log('x7')
 		// If the user document doesn't exist, create a new one and we're done
 		if (!userDocSnapshot.exists) {
 			await userDocRef.set({
@@ -70,7 +72,7 @@ async function asyncLinkStripeCustomerUsingSession(sessionId, stripeCustomerId) 
 			})
 			return
 		}
-
+		console.log('x8')
 		// Get the user data
 		const userData = userDocSnapshot.data()
 
@@ -84,6 +86,7 @@ async function asyncLinkStripeCustomerUsingSession(sessionId, stripeCustomerId) 
 			stripeCustomerId: stripeCustomerId,
 			updatedAt: firebaseAdmin.firestore.FieldValue.serverTimestamp(),
 		})
+		console.log('x9')
 	} catch (error) {
 		console.error('Error in asyncLinkStripeCustomerUsingSession:', error)
 	}
