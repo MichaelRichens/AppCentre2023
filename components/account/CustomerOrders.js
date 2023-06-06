@@ -5,7 +5,7 @@ import { useAuth } from '../contexts/AuthContext'
 import SimpleTable from '../SimpleTable'
 import { firestore } from '../../utils/firebaseClient'
 import TableData from '../../utils/types/TableData'
-import { OrderStatus, OrderStatusDisplay } from '../../utils/types/enums/OrderStatus'
+import { OrderStatus, OrderStatusDisplay, isCompleteOrder } from '../../utils/types/enums/OrderStatus'
 import { formatPriceFromPounds } from '../../utils/formatPrice'
 import getOrderPrice from '../../utils/getOrderPrice'
 
@@ -48,15 +48,7 @@ const CustomerOrders = ({}) => {
 					order.orderId = orderData.orderId
 
 					// We only provide a link to the order details page for orders with some kind of completed status
-					let generateLink
-					switch (orderData.status) {
-						case OrderStatus.FULLY_REFUNDED:
-						case OrderStatus.PAID:
-						case OrderStatus.PARTIALLY_REFUNDED: {
-							generateLink = true
-						}
-					}
-					order.generateLink = generateLink
+					order.generateLink = isCompleteOrder(orderData.status)
 
 					// Date/time placed
 					const date = orderData.createdAt.toDate()

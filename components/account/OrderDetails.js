@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { onSnapshot, collection, where, query, getDocs, doc } from 'firebase/firestore'
 import { useAuth } from '/components/contexts/AuthContext'
-import { OrderStatus } from '../../utils/types/enums/OrderStatus'
+import { OrderStatus, isCompleteOrder } from '../../utils/types/enums/OrderStatus'
 import { firestore } from '/utils/firebaseClient'
 import { countryCodeToName } from '/utils/countryLookup'
 
@@ -80,14 +80,7 @@ const OrderDetails = ({ orderId }) => {
 		)
 	}
 
-	let isReceipt = false
-	switch (order.status) {
-		case OrderStatus.FULLY_REFUNDED:
-		case OrderStatus.PAID:
-		case OrderStatus.PARTIALLY_REFUNDED: {
-			isReceipt = true
-		}
-	}
+	const isReceipt = isCompleteOrder(order.status)
 
 	console.log(order)
 

@@ -43,3 +43,15 @@ export const OrderStatusDisplay = (status) => {
 			return 'Order Error'
 	}
 }
+
+export const isCompleteOrder = (status) => {
+	switch (status) {
+		case OrderStatus.FULLY_REFUNDED:
+		case OrderStatus.PAID:
+		case OrderStatus.PARTIALLY_REFUNDED:
+		case OrderStatus.COMPLETE_NO_PAYMENT: {
+			return true
+		}
+	}
+	return false
+}
