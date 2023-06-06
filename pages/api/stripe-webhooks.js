@@ -41,9 +41,6 @@ export default async function handler(req, res) {
 
 	console.log('verified webhook')
 
-	// Message has been received and verified - return the received acknowledgement to stripe before processing it (as per their docs)
-	res.status(202).end()
-
 	console.log('received: ', event.type)
 
 	switch (event.type) {
@@ -105,7 +102,7 @@ export default async function handler(req, res) {
 			const completedSession = event.data.object
 
 			// update customer details (if needed) with current stripe id no matter what - this event is just a helpful method of linking them
-			//await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
+			await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
 			console.log('updated customer stripe id')
 			if (!completedSession?.id) {
 				console.error('Webhook: completedSession.id - completedSession.id not set')
@@ -253,4 +250,6 @@ export default async function handler(req, res) {
 			}
 			break
 	}
+
+	res.status(200).end()
 }
