@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "appcentre-6e7e9"
-  }
+    "default": "appcentre-6e7e9",
+    "dev": "appcentre-6e7e9",
+    "prod": "appcentre-c8b4f"
+  },
+  "targets": {},
+  "etags": {}
 }
