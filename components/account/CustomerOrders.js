@@ -71,7 +71,7 @@ const CustomerOrders = ({}) => {
 
 					// Price - always use this function for prices
 					const orderPrice = getOrderPrice(orderData)
-					order.priceEx = formatPriceFromPounds(orderPrice.priceEx, false) // Not using priceExFormatted because I don't want the '+ vat' text
+					order.priceEx = orderPrice.priceExFormatted
 					order.priceInc = orderPrice.priceIncFormatted
 
 					order.status = OrderStatusDisplay(orderData.status)

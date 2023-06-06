@@ -227,6 +227,46 @@ section.orderHistory {
 	width: 90%;
 }
 
+.orderDetails .pricing ul,
+.orderDetails .pricing li {
+	padding: 0;
+	margin: 0;
+}
+
+.orderDetails .pricing > ul > li:nth-of-type(even) {
+	background-color: #eee;
+}
+
+.orderDetails ul.lineItem {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+}
+
+.orderDetails ul.lineItem > li {
+	padding: 0.5em;
+}
+
+.orderDetails .lineItem > li:first-child {
+	width: 80%;
+	border-right: 1px black solid;
+}
+
+.orderDetails .lineItem > li:last-child {
+	width: 20%;
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+}
+
+.orderDetails .subTotal {
+	font-weight: 500;
+}
+
+.orderDetails .total {
+	font-weight: 600;
+}
+
 .pdfReceipt {
 	font-size: 12px !important;
 	border: none !important;
@@ -253,6 +293,18 @@ section.orderHistory {
 	flex-direction: row !important;
 	column-gap: 5em !important;
 	row-gap: initial !important;
+}
+
+.pdfReceipt .lineItem > ul {
+	width: 50em !important;
+}
+
+.pdfReceipt .lineItem > li:first-child {
+	width: 41em !important;
+}
+
+.pdfReceipt .lineItem > li:last-child {
+	width: 7em !important;
 }
 
 @media (max-width: 650px) {

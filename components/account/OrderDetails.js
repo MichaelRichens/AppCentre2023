@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { onSnapshot, collection, where, query, getDocs, doc } from 'firebase/firestore'
 import { useAuth } from '/components/contexts/AuthContext'
+import ProductConfiguration from '/utils/types/ProductConfiguration'
 import { OrderStatus, isCompleteOrder } from '../../utils/types/enums/OrderStatus'
 import { firestore } from '/utils/firebaseClient'
+import { formatPriceFromPounds } from '/utils/formatPrice'
+import getOrderPrice from '/utils/getOrderPrice'
 import { countryCodeToName } from '/utils/countryLookup'
 
 import accountStyles from '/styles/Account.shared.module.css'
@@ -44,7 +47,13 @@ const OrderDetails = ({ orderId }) => {
 
 			// And setup a listener on it
 			unsubscribeOrders = onSnapshot(docRef, (doc) => {
-				setOrder(doc.data())
+				const data = doc.data()
+
+				for (let key in data?.line_items) {
+					data.line_items[key] = ProductConfiguration.fromRawProperties(data.line_items[key])
+					console.log(data.line_items[key])
+				}
+				setOrder(data)
 			})
 		}
 
@@ -81,6 +90,8 @@ const OrderDetails = ({ orderId }) => {
 	}
 
 	const isReceipt = isCompleteOrder(order.status)
+
+	const orderTotals = getOrderPrice(order)
 
 	console.log(order)
 
@@ -141,8 +152,35 @@ const OrderDetails = ({ orderId }) => {
 					</div>
 				)}
 			</section>
-			<section>
-				<ul></ul>
+			<section className={accountStyles.pricing}>
+				<ul>
+					{Object.entries(order?.line_items || {}).map(([key, line]) => (
+						<li key={key}>
+							<ul className={accountStyles.lineItem}>
+								<li>{line?.summary?.product}</li>
+								<li>{formatPriceFromPounds(line?.price, false)}</li>
+							</ul>
+						</li>
+					))}
+					<li className={accountStyles.subTotal}>
+						<ul className={accountStyles.lineItem}>
+							<li>SubTotal</li>
+							<li>{orderTotals.priceExFormatted}</li>
+						</ul>
+					</li>
+					<li className={accountStyles.subTotal}>
+						<ul className={accountStyles.lineItem}>
+							<li>VAT</li>
+							<li>{orderTotals.taxFormatted}</li>
+						</ul>
+					</li>
+					<li className={accountStyles.total}>
+						<ul className={accountStyles.lineItem}>
+							<li>Total</li>
+							<li>{orderTotals.priceIncFormatted}</li>
+						</ul>
+					</li>
+				</ul>
 			</section>
 		</div>
 	)

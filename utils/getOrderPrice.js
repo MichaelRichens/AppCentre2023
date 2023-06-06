@@ -35,9 +35,16 @@ function getOrderPrice(orderData) {
 	const result = {
 		priceEx: price,
 		priceInc: typeof orderData?.priceInc === 'number' ? orderData.priceInc : 'ERROR',
-		priceExFormatted: formatPriceFromPounds(price),
+		priceExFormatted: formatPriceFromPounds(price, false),
 		priceIncFormatted:
 			typeof orderData?.priceInc === 'number' ? formatPriceFromPounds(orderData.priceInc, false) : 'ERROR',
+	}
+	if (result.priceInc !== 'ERROR') {
+		result.tax = result.priceInc - result.priceEx
+		result.taxFormatted = formatPriceFromPounds(result.priceInc - result.priceEx, false)
+	} else {
+		result.tax = 'ERROR'
+		result.taxFormatted = 'ERROR'
 	}
 
 	return result
