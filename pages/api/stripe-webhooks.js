@@ -15,8 +15,9 @@ export const config = {
 }
 
 // This handler processes stripe webhook events, which are used to update orders and customers.
-// There is a division of responsibility between these handlers and the success page the user gets sent to after checkout.
-// These events are used for updating order statuses, and also for managing linking of stripe customers with firebase users
+
+// There is a division of responsibility between the 'checkout.session.completed' handler and the success page the user gets sent to after checkout.
+// 'checkout.session.completed' is for updating order statuses, and also for managing linking of stripe customers with firebase users
 // (ie adding the stripe customer if into the users firebase document in the users collection)
 // The checkout success page handles clearing the cart
 // Avoid duplicating responsibilities to avoid race conditions since many events will fire as the user is handed back to our site (also its less work...)
@@ -39,8 +40,6 @@ export default async function handler(req, res) {
 
 	// Message has been received and verified - return the received acknowledgement to stripe before processing it (as per their docs)
 	res.status(202).end()
-
-	//console.log(event.type, event.data.object)
 
 	switch (event.type) {
 		case 'charge.refunded':
