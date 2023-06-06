@@ -245,11 +245,5 @@ export default async function handler(req, res) {
 				return
 			}
 			break
-		case 'dispute.created':
-			const dispute = event.data.object
-			console.log(`Unhandled webhook received: A dispute was created! ID: ${dispute.id}`)
-			break
-		default:
-			console.log(`Unhandled event type: ${event.type}`)
 	}
 }
