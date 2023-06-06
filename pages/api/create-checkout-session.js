@@ -133,6 +133,7 @@ export default async (req, res) => {
 						name: itemName,
 						metadata,
 					},
+					tax_behavior: 'exclusive',
 					unit_amount: priceInPence,
 				},
 				quantity,
@@ -161,6 +162,9 @@ export default async (req, res) => {
 
 		let sessionCreationObj = {
 			payment_method_types: ['card'],
+			automatic_tax: {
+				enabled: true,
+			},
 			line_items,
 			mode: 'payment',
 			success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
