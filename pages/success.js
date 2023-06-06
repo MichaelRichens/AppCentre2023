@@ -124,6 +124,7 @@ const OrderSuccess = () => {
 					prefillFullName={sessionDataState?.customer_details?.name}
 				/>
 			)}
+			{user && sessionDataState && <p></p>}
 		</Page>
 	)
 }
