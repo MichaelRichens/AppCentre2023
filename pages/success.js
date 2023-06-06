@@ -39,7 +39,7 @@ const OrderSuccess = () => {
 		const sessionStorageSessionId = sessionStorage.getItem('checkoutSessionId')
 
 		/*
-		// For testing only!!  Lets us repeatedly reload page and rerun logic  TODO DELETE THIS!!!
+		// For testing only!!  Lets us repeatedly reload page and rerun logic  - LEAVE COMMENTED OUT FOR PROD!!
 		if (urlSessionId) {
 			setSessionIdState(urlSessionId)
 		}
