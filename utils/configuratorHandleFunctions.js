@@ -34,14 +34,22 @@ export const createUpdateFormValueWithFloat = (updateFormData, key) => (event) =
 /**
  * This creates an onChange handler for an Input, that handles updates while the filed is being edited, before being confirmed separately with onBlur
  * Therefore it has no validation.
+ * Also pass it the blur handler (where the validation is) - the function will check that the event.target is still the active element, and call the blur handler if it isn't
+ * - this catches things like Firefox not making an input number the active element if the user clicks on just the arrow icons, and therefore never firing the onblur
  */
-export const createHandleInputChange = (updateFormData, updateField) => (event) => {
-	let value = event.target.value
+export const createHandleInputChange =
+	(updateFormData, updateField, blurHandler = (event) => {}) =>
+	(event) => {
+		let value = event.target.value
+		console.log(event.target, document.activeElement)
+		updateFormData({
+			[updateField]: value,
+		})
 
-	updateFormData({
-		[updateField]: value,
-	})
-}
+		if (event.target !== document.activeElement) {
+			blurFunction(event)
+		}
+	}
 
 // An onBlur handler for an Input type number field which has been blurred and needs to be committed to its formData `mainField`, which has had its onChanges handled into a temporary formData `liveUpdateField`
 // Not bothering to check things like min < max or min % step === 0
