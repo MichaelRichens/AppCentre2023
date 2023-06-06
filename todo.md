@@ -20,3 +20,5 @@ Success page should mre gracefully handle someone who visits it twice - see todo
 Handle email address change better than telling user to log out and log back in (pages/account.js)
 
 For testing, will need to configure stripe webhooks to point to public url (which one?)
+
+Check whether stripe has separate test and live webhook endpoint settings and secrets
