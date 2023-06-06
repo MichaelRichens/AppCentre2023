@@ -160,7 +160,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 						}
 						toolTip={
 							formData.unType === PurchaseType.SUB
-								? `If you want to renew for more or less ${productData.unitName.pluralLC} then your currently have, please enter the adjustment here.`
+								? `If you want to renew for more or less ${productData.unitName.pluralLC} then your currently have, please enter a positive or negative number here.`
 								: formData.unType === PurchaseType.NEW
 								? `Please input how many ${productData.unitName.pluralLC} you wish to purchase a subscription for.`
 								: formData.unType === PurchaseType.ADD

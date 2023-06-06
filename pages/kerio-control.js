@@ -86,8 +86,8 @@ const Control = (props) => {
 			<section>
 				<h2>Easy Deployment and Management</h2>
 				<p>
-					Kerio Control can be deployed as a software appliance, a virtual machine, or as a hardware appliance. It
-					offers three hardware options:
+					Kerio Control can be deployed as a software appliance, a virtual machine, or as a Control Box hardware
+					appliance. It offers three hardware options:
 				</p>
 				<ul>
 					<li>NG110 - perfect for small businesses, remote and home offices, yachts</li>

@@ -20,7 +20,7 @@ const ControlPricing = (props) => {
 				<p>
 					Kerio Control is available as software, licenced on a per-user yearly subscription basis with optional
 					extensions. And as the Control Box hardware appliance, licenced on an unlimited users yearly subscription,
-					with all extensions included.
+					with all extensions included. The Control Box can have its 1 year warranty upgraded to 3 years.
 				</p>
 			}
 			productDataArray={productDataArray}></PricingPage>
