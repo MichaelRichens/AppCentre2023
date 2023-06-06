@@ -294,10 +294,7 @@ const CartDisplay = () => {
 					)}
 				</div>
 				<div className={styles.checkout}>
-					<p className={styles.total}>{`Total: ${formatPriceFromPounds(getTotalPrice())} (${formatPriceFromPounds(
-						getTotalPrice() * Number(process.env.NEXT_PUBLIC_VAT_MULTIPLIER),
-						false
-					)})`}</p>
+					<p className={styles.total}>{`Total: ${formatPriceFromPounds(getTotalPrice())}`}</p>
 					<CheckoutButton />
 				</div>
 			</fieldset>

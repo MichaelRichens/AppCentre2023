@@ -38,6 +38,13 @@ const OrderSuccess = () => {
 		const urlSessionId = urlParams.get('session_id')
 		const sessionStorageSessionId = sessionStorage.getItem('checkoutSessionId')
 
+		/*
+		// For testing only!!  Lets us repeatedly reload page and rerun logic  TODO DELETE THIS!!!
+		if (urlSessionId) {
+			setSessionIdState(urlSessionId)
+		}
+		*/
+
 		// If so, set it in a state variable and removed it from their sessionStorage so this won't get processed again if they return to this page.
 		// TODO, might want to redirect the order if a customer does return here, or visits without the session id parameter
 		// The order page (not created yet) will be withAuth, so will handle them not being logged in
