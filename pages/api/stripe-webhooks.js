@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 	}
 
 	// Message has been received and verified - return the received acknowledgement to stripe before processing it (as per their docs)
-	res.status(202).end()
+	//res.status(202).end()
 
 	switch (event.type) {
 		case 'charge.refunded':
@@ -103,6 +103,7 @@ export default async function handler(req, res) {
 
 			if (!completedSession?.id) {
 				console.error('Webhook: completedSession.id - completedSession.id not set')
+				res.status(501).end()
 				return
 			}
 
@@ -113,14 +114,18 @@ export default async function handler(req, res) {
 
 				if (orderDocsSnap.empty) {
 					console.error(
-						`Webhook checkout.session.completed - No matching order found for stripe session id: ${completedSession.id}`
+						res
+							.status(502)
+							.end()`Webhook checkout.session.completed - No matching order found for stripe session id: ${completedSession.id}`
 					)
 					return
 				}
 				if (orderDocsSnap.docs.length > 1) {
 					// really should never happen, but non-fatal error
 					console.error(
-						`Webhook checkout.session.completed - More than one order with the same stripe session id found (${orderDocsSnap.docs.length} found). Session id: ${completedSession.id}`
+						res
+							.status(503)
+							.end()`Webhook checkout.session.completed - More than one order with the same stripe session id found (${orderDocsSnap.docs.length} found). Session id: ${completedSession.id}`
 					)
 				}
 				const orderDocSnap = orderDocsSnap.docs[0] // We'll just update the first matching document since there REALLY should only be 1
@@ -173,6 +178,7 @@ export default async function handler(req, res) {
 
 				await orderDocSnap.ref.update(orderDocUpdateObj)
 			} catch (error) {
+				res.status(504).end()
 				console.error(
 					`Webhook checkout.session.completed - Unable to complete order for stripe session complete webhook with session is: ${completedSession.id}`,
 					error
@@ -245,4 +251,5 @@ export default async function handler(req, res) {
 			}
 			break
 	}
+	res.status(202).end()
 }
