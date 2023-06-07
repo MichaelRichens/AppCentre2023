@@ -40,7 +40,7 @@ const Configurator = ({ productDataArray, unitName }) => {
 	const hsDefaultSubFamily = hsIndex !== -1 ? productDataArray[hsIndex].subFamilies[0] : undefined
 	const hsDefaultAppliance =
 		hsIndex !== -1 ? productDataArray[hsIndex].appliances[hsDefaultSubFamily][0].sku : undefined
-	const hsMinYears = unitIndex !== -1 ? productDataArray[unitIndex].minYears : undefined
+	const hsMinYears = hsIndex !== -1 ? productDataArray[hsIndex].minYears : undefined
 
 	const savedData = configuratorData[productFamily] || {
 		optionIndex: 0,
