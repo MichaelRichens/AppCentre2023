@@ -10,7 +10,7 @@ export const formatPriceFromPounds = (price, showVatText = true) => {
 		style: 'currency',
 		currency: process.env.NEXT_PUBLIC_CURRENCY_UC,
 	}).format(price)
-	return `${formattedPrice}${showVatText ? ' + vat' : ''}`
+	return `${formattedPrice}${showVatText ? ' (ex vat)' : ''}`
 }
 
 /**
