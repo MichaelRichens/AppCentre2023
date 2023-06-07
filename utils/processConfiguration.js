@@ -233,7 +233,6 @@ function processConfigurationHardSub(productName, appliances, unlimitedUsers, fo
 
 	// subscriptions
 	if (formData.hsType === PurchaseType.SUB || formData.hsType === PurchaseType.NEW) {
-		console.log('formData', formData)
 		const sku = unlimitedUsers[formData.hsSubFamily][formData.hsYears].sku
 
 		if (skus.hasOwnProperty(sku)) {

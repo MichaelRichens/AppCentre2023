@@ -77,7 +77,6 @@ const CustomerOrders = ({}) => {
 					order.status = OrderStatusDisplay(orderData.status)
 
 					ordersArray.push(order)
-					console.log(order.orderId, order.date)
 				}
 			})
 

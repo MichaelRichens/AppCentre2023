@@ -121,10 +121,6 @@ const OrderSuccess = () => {
 		setOrderId(sessionDataState?.metadata?.orderId)
 	}, [sessionDataState, user])
 
-	console.log('user', user)
-	console.log('anonymousUser', anonymousUser)
-	console.log(sessionDataState)
-
 	return (
 		<Page title='Order Success'>
 			<p>Thank you for your purchase!</p>

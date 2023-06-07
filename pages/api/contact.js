@@ -35,9 +35,6 @@ export default async function handler(req, res) {
 		await sgMail.send(content)
 		return res.status(200).send('Message sent successfully.')
 	} catch (error) {
-		console.error('SendGrid Error:', error)
-		console.log('Errors Array:')
-		error?.response?.body?.errors.forEach((error) => console.log(error))
-		return res.status(400).send('Message not sent.')
+		return res.status(400).send('Error: Very sorry, message not sent.')
 	}
 }
