@@ -17,7 +17,7 @@ import { getModalBaseStyleObject } from '/styles/modalBaseStyleObject'
 import accountStyles from '/styles/Account.shared.module.css'
 
 const OrderDetails = ({ orderId }) => {
-	const { user } = useAuth()
+	const { user, anonymousUser } = useAuth()
 
 	// Holds the details of the order looked up in firestore, or false if not found.
 	// Initial state of null indicates that the lookup is in progress.
@@ -37,7 +37,11 @@ const OrderDetails = ({ orderId }) => {
 
 			// Find the matching document
 			// Doing a query by firebaseUserId first is required by the permissions that are on the orders collection
-			const q = query(ordersRef, where('firebaseUserId', '==', user.uid), where('orderId', '==', orderId))
+			const q = query(
+				ordersRef,
+				where('firebaseUserId', '==', user?.uid || anonymousUser?.uid),
+				where('orderId', '==', orderId)
+			)
 			const querySnapshot = await getDocs(q)
 
 			if (querySnapshot.size !== 1) {
@@ -60,7 +64,6 @@ const OrderDetails = ({ orderId }) => {
 
 				for (let key in data?.line_items) {
 					data.line_items[key] = ProductConfiguration.fromRawProperties(data.line_items[key])
-					console.log(data.line_items[key])
 				}
 				setOrder(data)
 			})
@@ -142,10 +145,13 @@ const OrderDetails = ({ orderId }) => {
 
 	const orderTotals = getOrderPrice(order)
 
-	console.log(order)
-
 	return (
 		<>
+			{pdfReady !== false && (
+				<BusyButton isBusy={!pdfReady || generatingPdf} onClick={printDocument}>
+					Download PDF
+				</BusyButton>
+			)}
 			<div className={accountStyles.orderDetails} id='orderDetailsContent'>
 				<section className={accountStyles.receiptTitle}>
 					{isReceipt ? <h2>Receipt</h2> : <h2 className={accountStyles.notReceipt}>This is Not a Receipt</h2>}

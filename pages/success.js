@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react'
 import Link from 'next/link'
 import { CartContext } from '../components/contexts/CartContext'
 import Page from '../components/page/Page'
+import OrderDetails from '../components/account/OrderDetails'
 import { useAuth } from '../components/contexts/AuthContext'
 import SignUp from '../components/account/SignUp'
 import { getBaseUrlFromLocation } from '../utils/baseUrl'
@@ -109,8 +110,6 @@ const OrderSuccess = () => {
 		}
 
 		asyncProcessCheckoutSession()
-		// when complete, unset this state to prevent any chance of doing this useEffect logic again
-		setSessionDataState(null)
 	}, [sessionIdState, isAuthLoading])
 
 	useEffect(() => {
@@ -120,26 +119,37 @@ const OrderSuccess = () => {
 		}
 
 		setOrderId(sessionDataState?.metadata?.orderId)
-
-		// when complete, unset this state to prevent any chance of doing this useEffect logic again
-		setSessionDataState(null)
 	}, [sessionDataState, user])
 
-	console.log(user, sessionDataState)
+	console.log('user', user)
+	console.log('anonymousUser', anonymousUser)
+	console.log(sessionDataState)
 
 	return (
 		<Page title='Order Success'>
 			<p>Thank you for your purchase!</p>
-			{anonymousUser && sessionDataState && (
+			{!!(anonymousUser && sessionDataState) && (
 				<SignUp
 					title='Would you like to create an account?'
 					prefillEmail={sessionDataState?.customer_details?.email}
 					prefillFullName={sessionDataState?.customer_details?.name}
 				/>
 			)}
+
 			{orderId && (
+				<>
+					{!!anonymousUser && (
+						<p>
+							If you do not create an account, please download a copy of your receipt now since it will not be available
+							to you online after you leave this page (though we can provide you with a copy if you contact us later).
+						</p>
+					)}
+					<OrderDetails orderId={orderId} />
+				</>
+			)}
+			{user && (
 				<p>
-					To see you order and download a receipt, <Link href={`order/${orderId}`}>click here</Link>.
+					See this order in your account:, <Link href={`order/${orderId}`}>click here</Link>.
 				</p>
 			)}
 		</Page>
