@@ -63,12 +63,6 @@ main,
 	margin-right: 2em;
 }
 
-article > section {
-	max-width: 60em;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 h1,
 h2,
 h3,
@@ -184,11 +178,16 @@ main a:active {
 	transform: scale(0.98);
 }
 
-article > section {
+article > section,
+section.text {
+	max-width: 60em;
+	margin-left: auto;
+	margin-right: auto;
 	margin-block-end: 3em;
 }
 
-article > section:last-child {
+article > section:last-child,
+section.text:last-child {
 	margin-block-end: 0;
 }
 
@@ -248,12 +247,6 @@ form button:disabled:hover {
 main button:disabled:active,
 form button:disabled:active {
 	transform: scale(1);
-}
-
-section.text {
-	max-width: 60em;
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .onPageError {
