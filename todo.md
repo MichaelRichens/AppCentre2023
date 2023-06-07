@@ -15,6 +15,9 @@ Handle email address change better than telling user to log out and log back in 
 
 Have some kind of pending status for when customer's arrive back before the webhook update their order?
 
+Control Box specs
+https://www.gfi.com/products-and-solutions/network-security-solutions/keriocontrol/resources/documentation/system-requirements
+
 --- Update Gav
 
 1. Contact us page - Can the address / phone etc be beside the contact form rather than below ?
@@ -31,7 +34,7 @@ Have some kind of pending status for when customer's arrive back before the webh
 
 4. Kerio control - bandwidth limitation for each box or max throughput this is more of a limit than users. Might be worth putting in.
 
-- Where?
+- How about putting some specs for the control boxes, which should give an idea of their capability. We don't really emphasise the Unlimited Users thing all that much.
 
 5. Adjust Number of Users by - needs something to tell the user to use a minus sign for reducing user count - I worked it out but some might not. (On all adjust boxes)
 
