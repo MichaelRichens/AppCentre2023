@@ -35,12 +35,15 @@ body {
 }
 
 body,
-input,
-select,
-textarea,
 .modalInnerWrapper {
 	color: black;
-	background-color: #fafafa;
+	background-color: #f9f9f9;
+}
+
+input,
+select,
+textarea {
+	background-color: #fff;
 }
 
 button {
