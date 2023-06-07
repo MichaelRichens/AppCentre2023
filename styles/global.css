@@ -169,8 +169,10 @@ ul {
 	padding-inline-start: 2em;
 }
 
-main a:link {
+main a:link,
+.linkSub {
 	color: blue;
+	text-decoration: underline;
 }
 
 main a:hover {
