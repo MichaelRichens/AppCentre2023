@@ -37,9 +37,10 @@ body {
 body,
 input,
 select,
+textarea,
 .modalInnerWrapper {
 	color: black;
-	background-color: #f9f9f9;
+	background-color: #fafafa;
 }
 
 button {
@@ -172,6 +173,8 @@ main a:link,
 
 main a:hover {
 	color: SteelBlue;
+	background-color: #f6f6f6;
+	border-radius: 5px;
 }
 
 main a:active {
