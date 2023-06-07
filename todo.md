@@ -17,3 +17,5 @@ Have some kind of pending status for when customer's arrive back before the webh
 
 Control Box specs
 https://www.gfi.com/products-and-solutions/network-security-solutions/keriocontrol/resources/documentation/system-requirements
+
+Email us on order being placed

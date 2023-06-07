@@ -71,12 +71,12 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
 				return { ...item, _id: item._id.toString() }
 			})
 
-			// Clean up items that may have prices that aren't properly rounded to 2 decimal places (they keep sneaking in)
+			// Multiply the prices in the database stored in USD with whatever divisor we are using to calculate GBP pricing.  Also round to 2 decimal places.
 			const dataWithRoundedPrices = dataWithStringIds.map((item) => {
 				if (item.price !== undefined && item.price !== null) {
 					return {
 						...item,
-						price: parseFloat(item.price.toFixed(2)),
+						price: parseFloat((item.price / process.env.NEXT_PUBLIC_PRICE_DIVISOR).toFixed(2)),
 					}
 				} else {
 					return {
