@@ -1,0 +1,33 @@
+.products > ul {
+	list-style-type: none;
+	display: flex;
+	flex-direction: row;
+	row-gap: 4em;
+	column-gap: 4em;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.products > ul > li {
+	width: 45%;
+	max-width: 600px;
+}
+
+ul.prodLinks {
+	list-style-type: none;
+	display: flex;
+	flex-direction: row;
+	column-gap: 3em;
+	padding-left: 0;
+}
+
+@media (max-width: 800px) {
+	.products > ul {
+		justify-content: center;
+	}
+
+	.products > ul > li {
+		width: 95%;
+		font-size: 110%;
+	}
+}
