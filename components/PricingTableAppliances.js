@@ -6,7 +6,7 @@ import styles from '/styles/PricingTableAppliances.module.css'
 
 const PricingTableAppliances = ({ productName, applianceDataObject, subscriptionDataObject }) => {
 	const yearOptions = Object.keys(Object.values(subscriptionDataObject || {})[0] || {}).sort(
-		(a, b) => Number(a) < Number(b)
+		(a, b) => Number(a) - Number(b)
 	)
 
 	const numCols = 3 + yearOptions.length

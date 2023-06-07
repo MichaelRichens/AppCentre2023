@@ -55,13 +55,13 @@ const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 	} else {
 		const extensionTables = Object.values(organisedExtensions).map((ext) => {
 			const rows = Object.keys(ext.years)
-				.sort((a, b) => a < b)
+				.sort((a, b) => a - b)
 				.map((year) => yearsGen(year))
 
 			const anyYearKey = Object.keys(ext.years)[0]
 
 			const columns = Object.values(ext.years[anyYearKey].skus)
-				.sort((a, b) => a.units_from < b.units_from)
+				.sort((a, b) => a.units_from - b.units_from)
 				.map((sku) => unitRangeGen(sku.units_from, sku.units_to, unitName))
 
 			const tableData = new TableData(rows, columns, 'Subscription Length')
