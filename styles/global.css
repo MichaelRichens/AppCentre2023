@@ -167,6 +167,7 @@ main a:link,
 .linkSub {
 	color: blue;
 	text-decoration: underline;
+	cursor: pointer;
 }
 
 main a:hover {
