@@ -43,7 +43,7 @@ const PricingTableAppliances = ({ productName, applianceDataObject, subscription
 				{`${productName} Pricing (excludes vat)`}
 				<small>
 					Hardware and a subscription required.
-					{!!extendedWarrantyYears && ` Standard warranty 1 Year, Extended Warranty ${extendedWarrantyYears + 1} Years`}
+					{!!extendedWarrantyYears && ` Standard Warranty 1 Year, Extended Warranty ${extendedWarrantyYears + 1} Years`}
 				</small>
 			</caption>
 			<colgroup>
