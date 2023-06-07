@@ -1,4 +1,10 @@
+.products {
+	padding: 1em;
+}
+
 .products > ul {
+	margin: 0;
+	padding: 0;
 	list-style-type: none;
 	display: flex;
 	flex-direction: row;
@@ -9,11 +15,24 @@
 }
 
 .products > ul > li {
-	width: 45%;
+	background-color: #fff;
+	padding: 1em;
+	width: 40%;
 	max-width: 600px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.products img {
+	height: 3.5em;
+	max-width: min(375px, 45vw);
+	width: auto;
 }
 
 ul.prodLinks {
+	margin-top: auto;
 	list-style-type: none;
 	display: flex;
 	flex-direction: row;
@@ -29,5 +48,9 @@ ul.prodLinks {
 	.products > ul > li {
 		width: 95%;
 		font-size: 110%;
+	}
+
+	.products img {
+		max-width: min(375px, 100%);
 	}
 }
