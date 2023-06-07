@@ -62,8 +62,8 @@
 
 .mainLogo {
 	padding-left: 42px; /* should match the actual width of the right side cart container aside, to center the logo (very noticeable at low widths if this is missing) */
-	height: 70px;
-	width: 373px;
+	height: 60px;
+	width: 320px;
 }
 
 .headerMainContent nav {
@@ -282,7 +282,7 @@
 @media (max-width: 1200px) {
 	.mainLogo {
 		height: 60px;
-		width: 316px;
+		width: 320px;
 	}
 }
 
