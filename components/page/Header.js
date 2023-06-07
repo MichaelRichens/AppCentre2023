@@ -4,6 +4,7 @@ import FlashMessage from '../FlashMessage'
 import HeaderCartMenu from './HeaderCartMenu'
 import NavLink from '../NavLink'
 import ProductDropdown from '../ProductDropdown'
+import DropdownMenu from '../DropdownMenu'
 import CheckoutButton from '../CheckoutButton'
 import SignOutButton from '../account/SignOutButton'
 import { useAuth } from '../contexts/AuthContext'
@@ -76,9 +77,26 @@ const Header = () => {
 								</ProductDropdown>
 							</li>
 							<li>
-								<ProductDropdown hrefStart='/kerio-control' navIsSingleRow={!productNavIsMultiRow}>
-									Kerio Control
-								</ProductDropdown>
+								<DropdownMenu
+									title='Kerio Control'
+									linkData={[
+										{ linkText: 'Info', href: '/kerio-control', currentPageStyle: headerStyles.currentPageStyle },
+										{
+											linkText: 'Pricing',
+											href: '/kerio-control-pricing',
+											currentPageStyle: headerStyles.currentPageStyle,
+										},
+										{
+											linkText: 'Hardware',
+											href: '/kerio-control-box',
+											currentPageStyle: headerStyles.currentPageStyle,
+										},
+									]}
+									className={`${headerStyles.navDropdown} ${
+										productNavIsMultiRow ? headerStyles.navDropdownNoFixedOpen : ''
+									}`}
+									navIsSingleRow={!productNavIsMultiRow}
+								/>
 							</li>
 							<li>
 								<ProductDropdown hrefStart='/gfi-archiver' navIsSingleRow={!productNavIsMultiRow}>

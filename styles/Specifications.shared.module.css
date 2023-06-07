@@ -1,0 +1,31 @@
+.specPage section:not(:last-child) {
+	margin-bottom: 3em;
+}
+
+.specPage section.text {
+	max-width: 60em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table.specifications {
+	border-collapse: collapse;
+}
+
+table.specifications th,
+table.specifications td {
+	padding: 0.3em;
+}
+
+table.specifications th {
+	background-color: rgba(0, 0, 0, 0.2);
+	font-weight: 600;
+}
+
+table.specifications tbody > tr:nth-child(even) {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+table.specifications td {
+	font-size: 90%;
+}
