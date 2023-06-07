@@ -11,11 +11,40 @@ const PricingTableAppliances = ({ productName, applianceDataObject, subscription
 
 	const numCols = 3 + yearOptions.length
 
+	// Want to know how long the extended warranty is.
+	// Check that it is the same for every appliance
+	// extendedWarrantyYears will hold the figure, or false if it could not be determined due to not being set the same (or at all) for all appliances.
+	let extendedWarrantyYears = -1
+	for (const subFamily in applianceDataObject) {
+		for (let i = 0; i < applianceDataObject[subFamily].length; i++) {
+			if (applianceDataObject[subFamily][i]?.extendedWarranty?.years) {
+				if (extendedWarrantyYears === -1) {
+					extendedWarrantyYears = applianceDataObject[subFamily][i]?.extendedWarranty?.years
+				} else if (extendedWarrantyYears !== applianceDataObject[subFamily][i]?.extendedWarranty?.years) {
+					extendedWarrantyYears = false
+					break
+				}
+			} else {
+				extendedWarrantyYears = false
+				break
+			}
+		}
+		if (extendedWarrantyYears === false) {
+			break
+		}
+	}
+	if (extendedWarrantyYears === -1 || extendedWarrantyYears === 0) {
+		extendedWarrantyYears = false
+	}
+
 	return (
 		<table className={`${priceTableStyles.priceTable} ${styles.applianceTable}`}>
 			<caption>
 				{`${productName} Pricing (excludes vat)`}
-				<small>(Hardware and a subscription required)</small>
+				<small>
+					Hardware and a subscription required.
+					{!!extendedWarrantyYears && ` Standard warranty 1 Year, Extended Warranty ${extendedWarrantyYears + 1} Years`}
+				</small>
 			</caption>
 			<colgroup>
 				<col />
