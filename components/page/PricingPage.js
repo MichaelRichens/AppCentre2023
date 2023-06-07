@@ -71,7 +71,7 @@ const PricingPage = ({ logoSrc, productIntro, productDataArray, unitName, childr
 
 	return (
 		<Page title={`${familyName} Pricing`} logoSrc={logoSrc} mainClassName={styles.pricingPage}>
-			<section>{productIntro}</section>
+			<section className='text'>{productIntro}</section>
 			<section className={styles.priceTables}>
 				<h2 id='pricingHeading'>{familyName} Pricing</h2>
 				{productDataArray.map((productData, index) => (

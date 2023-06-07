@@ -250,6 +250,12 @@ form button:disabled:active {
 	transform: scale(1);
 }
 
+section.text {
+	max-width: 60em;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .onPageError {
 	color: #ff4136;
 }

@@ -27,7 +27,7 @@ const LanGuardPricing = (props) => {
 			}
 			productDataArray={productDataArray}
 			logoSrc='/images/logos/gfi-languard-logo.svg'>
-			<section id='nodeDefinition'>
+			<section id='nodeDefinition' className='text'>
 				<h2>What is and what is not a Node?</h2>
 				<p>
 					For the purposes of a GFI LanGuard subscription, a node is defined as a device with an active/assigned IP

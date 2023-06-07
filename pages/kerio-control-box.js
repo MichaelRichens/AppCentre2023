@@ -25,7 +25,7 @@ const ControlBox = (props) => {
 	const productData = productDataArray[0]
 	return (
 		<Page title='Kerio Control Box' subHeading='Hardware Appliance' mainClassName={specStyles.specPage}>
-			<section className={specStyles.text}>
+			<section className='text'>
 				<p>
 					In addition to the popular Kerio Control software subscriptions, we also provide various versions of the Kerio
 					Control Box hardware appliances. Rather than being licenced on a per-user basis, these appliances are licenced
