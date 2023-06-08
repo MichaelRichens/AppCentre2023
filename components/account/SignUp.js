@@ -23,7 +23,7 @@ function SignUp({ title, prefillEmail = '', prefillFullName = '' }) {
 		let newOrUpgradedUser
 
 		// validate the full name is at least 2 characters
-		if (!fullName || fullName.length <= 2) {
+		if (!fullName || fullName.length < 2) {
 			setFormError('Your name must be at least 2 characters long.')
 			return
 		}
