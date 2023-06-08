@@ -21,10 +21,9 @@ import PricingType from '../../utils/types/enums/PricingType'
  * The top level configurator form component that handles an entire product family with multiple options, which can be of different PricingType
  * @param {Object} props - The component props.
  * @param {Object[]} props.productDataArray - An array of product data object, one for each product option to be displayed, and chosen from in the options control.
- * @param {Object} props.unitName - If units are used, the Word instance which is used to represent them.  TODO don't pass this in at this level, since it prevents multiple types of units being used within a productFamily.  Should be part of the productDataArray objects, but *shrug*, isn't an issue at present.
  * @returns The Configurator form element.
  */
-const Configurator = ({ productDataArray, unitName }) => {
+const Configurator = ({ productDataArray }) => {
 	const productFamily = productDataArray[0].productFamily // by definition, all elements of productDataArray have the same productFamily value
 	const { configuratorData, saveConfiguratorData } = useConfiguratorContext()
 	const { setMessage } = useContext(FlashMessageContext)
@@ -80,14 +79,13 @@ const Configurator = ({ productDataArray, unitName }) => {
 	}, [formData])
 
 	const currentConfiguration = useMemo(
-		() => processConfiguration(productDataArray[formData.optionIndex], formData, unitName),
-		[productFamily, productDataArray, formData, unitName]
+		() => processConfiguration(productDataArray[formData.optionIndex], formData),
+		[productFamily, productDataArray, formData]
 	)
 
 	const asyncHandleSubmit = createAsyncHandleSubmit(
 		productFamily,
 		productDataArray[formData.optionIndex].productOption,
-		unitName,
 		formData,
 		addToCart,
 		setAddingToCart,
@@ -102,7 +100,6 @@ const Configurator = ({ productDataArray, unitName }) => {
 				<ConfiguratorUnit
 					productFamily={productFamily}
 					productData={productDataArray[formData.optionIndex]}
-					unitName={unitName}
 					formData={formData}
 					updateFormData={updateFormData}
 				/>

@@ -125,7 +125,7 @@ export const createHandleOptionChange = (updateFormData) => (event) => {
 }
 
 export const createAsyncHandleSubmit =
-	(productFamily, productOption, unitName, formData, addToCart, setSubmitInProgress, setMessage) => async (event) => {
+	(productFamily, productOption, formData, addToCart, setSubmitInProgress, setMessage) => async (event) => {
 		event.preventDefault()
 
 		setSubmitInProgress(true)
@@ -138,7 +138,6 @@ export const createAsyncHandleSubmit =
 				body: JSON.stringify({
 					productFamily: productFamily,
 					productOption: productOption,
-					unitName: unitName,
 					formData: formData,
 				}),
 			})
