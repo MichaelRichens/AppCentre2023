@@ -35,8 +35,8 @@ const Header = () => {
 									</NavLink>
 								</li>
 								<li>
-									<NavLink href='/about-us' currentPageStyle={headerStyles.currentPageStyle}>
-										About Us
+									<NavLink href='/ordering' currentPageStyle={headerStyles.currentPageStyle}>
+										Ordering
 									</NavLink>
 								</li>
 								<li>
