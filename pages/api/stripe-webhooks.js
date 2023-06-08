@@ -171,7 +171,13 @@ export default async function handler(req, res) {
 
 				// Send us an email when order placed successfully
 				if (orderDocUpdateObj.status === OrderStatus.PAID) {
-					const emailBody = `AppCentre order: ${orderData.orderId} placed for £${orderDocUpdateObj.priceInc}.\n\nStripe session ID: ${orderData.sessionId}\n\nStripe Payment Intent ID: ${orderDocUpdateObj.paymentIntentId}\n\nCustomer Name: ${orderData.fullName}\n\nUser ID: ${orderData.firebaseUserId}\n\nStripe Customer ID: ${orderData.stripeCustomerId}`
+					const emailBody = `AppCentre order: ${orderData.orderId} placed for £${orderDocUpdateObj.priceInc?.toFixed(
+						2
+					)}.\n\nStripe session ID: ${orderData.sessionId}\n\nStripe Payment Intent ID: ${
+						orderDocUpdateObj.paymentIntentId
+					}\n\nCustomer Name: ${orderData.fullName}\n\nUser ID: ${orderData.firebaseUserId}\n\nStripe Customer ID: ${
+						orderData.stripeCustomerId
+					}`
 
 					const content = {
 						to: 'info@appcentre.co.uk',
