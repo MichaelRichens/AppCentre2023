@@ -144,7 +144,9 @@ const OrderDetails = ({ orderId }) => {
 	const isReceipt = isCompleteOrder(order.status)
 
 	const orderTotals = getOrderPrice(order)
-
+	Object.values(order.line_items).map((line) => {
+		console.log(line.summary.product)
+	})
 	return (
 		<>
 			{pdfReady !== false && (
@@ -213,7 +215,7 @@ const OrderDetails = ({ orderId }) => {
 						{Object.entries(order?.line_items || {}).map(([key, line]) => (
 							<li key={key}>
 								<ul className={accountStyles.lineItem}>
-									<li>{line?.summary?.product}</li>
+									<li>{line?.description + (line?.licence.length ? ` (${line.licence})` : '')}</li>
 									<li>{formatPriceFromPounds(line?.price, false)}</li>
 								</ul>
 							</li>
