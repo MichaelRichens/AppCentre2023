@@ -168,30 +168,35 @@ export default async function handler(req, res) {
 					orderDocUpdateObj.fullName = completedSession.customer_details.name
 				}
 				await orderDocSnap.ref.update(orderDocUpdateObj)
+
+				// Send us an email when order placed successfully
+				if (orderDocUpdateObj.status === OrderStatus.PAID) {
+					const emailBody = `AppCentre order: ${orderData.orderId} placed for £${orderDocUpdateObj.priceInc}.\n\nStripe session ID: ${orderData.sessionId}\n\nStripe Payment Intent ID: ${orderDocUpdateObj.paymentIntentId}\n\nCustomer Name: ${orderData.fullName}\n\nUser ID: ${orderData.firebaseUserId}\n\nStripe Customer ID: ${orderData.stripeCustomerId}`
+
+					const content = {
+						to: 'info@appcentre.co.uk',
+						from: 'info@appcentre.co.uk',
+						subject: `${process.env.NEXT_PUBLIC_INTERNAL_SITE_NAME} - Order Placed`,
+						text: emailBody,
+					}
+
+					try {
+						await sgMail.send(content)
+					} catch (error) {
+						console.error('Failed to send order email (to us)', error)
+						console.log('Errors array:')
+						const errArray = error?.body?.errors || []
+						errArray.forEach((err) => {
+							console.log(err)
+						})
+					}
+				}
 			} catch (error) {
 				console.error(
 					`Webhook checkout.session.completed - Unable to complete order for stripe session complete webhook with session is: ${completedSession.id}`,
 					error
 				)
 				return res.status(500).end()
-			}
-
-			// Send us an email when order placed successfully
-			if (newOrderStatus === OrderStatus.PAID) {
-				const emailBody = `AppCentre order: ${orderData.orderID} placed for £${orderDocUpdateObj.priceInc}.\n\nStripe session ID: ${orderData.sessionId}\n\nStripe Payment Intent ID: ${orderData.paymentIntentId}\n\nCustomer Name: ${orderData.fullName}\n\nUser ID: ${orderData.firebaseUserId}\n\nStripe Customer ID: ${orderData.stripeCustomerId}`
-
-				const content = {
-					to: 'info@appcentre.co.uk',
-					from: 'info@appcentre.co.uk',
-					subject: `${process.env.NEXT_PUBLIC_INTERNAL_SITE_NAME} - Order Placed`,
-					text: emailBody,
-				}
-
-				try {
-					await sgMail.send(content)
-				} catch (error) {
-					console.error('Failed to send order email (to us)', error)
-				}
 			}
 
 			break
