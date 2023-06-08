@@ -176,12 +176,24 @@ const OrderSuccess = () => {
 	return (
 		<Page title='Order Success'>
 			<p>Thank you for your purchase!</p>
+			<p>We will process your order with GFI, it normally takes around 2 working days for subscriptions to go live.</p>
+			<p>
+				For renewals or changes to existing subscriptions, your server should update automatically as soon as GFI
+				completes processing.
+			</p>
+			<p>For new subscriptions you will receive your licence details be email as soon as they are available.</p>
 			{!!(anonymousUser && sessionDataState) && (
-				<SignUp
-					title='Would you like to create an account?'
-					prefillEmail={sessionDataState?.customer_details?.email}
-					prefillFullName={sessionDataState?.customer_details?.name}
-				/>
+				<>
+					<p>
+						If you do not choose to create an account, emails will be sent to the email address you entered while making
+						payment.
+					</p>
+					<SignUp
+						title='Would you like to create an account?'
+						prefillEmail={sessionDataState?.customer_details?.email}
+						prefillFullName={sessionDataState?.customer_details?.name}
+					/>
+				</>
 			)}
 
 			{orderId && (
