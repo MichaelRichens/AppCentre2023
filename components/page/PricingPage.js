@@ -158,7 +158,7 @@ const PricingPage = ({ logoSrc, productIntro, productDataArray, children }) => {
 					<p>
 						If you need to add more during a renewal period, this is done for the period up until the renewal date, with
 						pricing done on a pro-rata basis over 3 month blocks - ie if you are within 3 months of your renewal date
-						you pay 25% of the full cost, between 3 - 6 months its 50%, etc.
+						you pay 25% of the yearly cost, between 3 - 6 months its 50%, etc.
 					</p>
 					<p>
 						Pricing tiers take effect on a volume tier model - that is the price per unit is decided by the number of
