@@ -21,8 +21,8 @@ const Ordering = () => {
 					<p>
 						UK VAT is charged on all UK orders and a VAT receipt is provided. Customers outside the UK who are not
 						liable for UK VAT can purchase VAT exempt - tax is calculated after you input your address during the
-						checkout process. Orders are accepted worldwide for software subscriptions, and from Europe for hardware
-						appliances.
+						checkout process. All prices on the website are in GBP and are exclusive of VAT. Orders are accepted
+						worldwide for software subscriptions, and from Europe for hardware appliances.
 					</p>
 					<p>Once the order is placed, GFI will need to process it - this normally takes around 2 working days.</p>
 					<p>
