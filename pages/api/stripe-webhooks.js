@@ -6,6 +6,7 @@ import { stripe } from '../../server-utils/initStripe'
 import { OrderStatus } from '../../utils/types/enums/OrderStatus'
 import asyncLinkStripeCustomerUsingSession from '../../server-utils/asyncLinkStripeCustomerUsingSession'
 import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKInit'
+import { baseUrlFromReq } from '../../utils/baseUrl'
 
 ensureFirebaseInitialised()
 
@@ -41,6 +42,8 @@ export default async function handler(req, res) {
 		console.log(`Error verifying webhook signature: ${error.message}`)
 		return res.status(401).send(`Webhook Verification Error: ${error.message}`)
 	}
+
+	const baseUrl = baseUrlFromReq(req)
 
 	switch (event.type) {
 		case 'charge.refunded':
@@ -188,6 +191,10 @@ ${
 		? 'Please note that delivery normally takes around 7 - 10 working days.'
 		: 'Please note that it normally takes around 2 working days for subscription changes to be processed.'
 }
+
+If you have an account on our website, you can download a copy of your receipt here:
+${baseUrl + '/order/' + orderData.orderId}
+If you do not have an account, or unable to access your receipt for any reason, please reply to this email and we will provide you with a copy.
 
 Thank you again for your order.
 
