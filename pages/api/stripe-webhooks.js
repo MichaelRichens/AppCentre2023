@@ -9,6 +9,8 @@ import { ensureFirebaseInitialised } from '../../server-utils/firebaseAdminSDKIn
 
 ensureFirebaseInitialised()
 
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 export const config = {
 	api: {
 		bodyParser: false,
