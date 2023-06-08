@@ -176,18 +176,18 @@ export default async function handler(req, res) {
 						const toThemEmailBody = `
 Dear ${orderData.fullName},
 
-Thank you for your order. We appreciate your business.
+Thank you for your order with AppCentre. We appreciate your business.
 
 Order Reference: ${orderData.orderId}
 Order Total: £${orderDocUpdateObj.priceInc.toFixed(2)}
 
 ${
 	orderData.isShipping
-		? 'Please note that delivery will take 7 - 10 working days.'
+		? 'Please note that delivery normally takes around 7 - 10 working days.'
 		: 'Please note that it normally takes around 2 working days for subscription changes to be processed.'
 }
 
-Thank you again for your order. We appreciate your business.
+Thank you again for your order.
 
 Kind regards,
 The AppCentre Team`
