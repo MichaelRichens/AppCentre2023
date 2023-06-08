@@ -189,7 +189,7 @@ Order Total: £${orderDocUpdateObj.priceInc.toFixed(2)}
 ${
 	orderData.isShipping
 		? 'Please note that delivery normally takes around 7 - 10 working days.'
-		: 'Please note that it normally takes around 2 working days for subscription changes to be processed.'
+		: 'Please note that it normally takes around 2 working days for subscriptions to be processed.'
 }
 
 If you have an account on our website, you can download a copy of your receipt here:
