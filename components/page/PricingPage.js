@@ -13,11 +13,10 @@ import styles from '/styles/PricingPage.module.css'
  * @param {string=} props.logoSrc - Optional.  The path to an image file to display as a logo beside the title
  * @param {JSX.Element} props.productIntro - A short intro to the product to be displayed at the top of the page, before the product configurator. HTML allowed, and should be included (will render inside a &lt;section&gt;).
  * @param {Object[]} props.productDataArray - The product data pulled from the database, one object for each option (or just one element if there are no options).
- * @param {Object} props.unitName - A createUnitName object representing the unit name in singular and plural forms.
  * @param {React.ReactNode} props.children - The child components to render within the page.*
  * @returns {JSX.Element} The PricingPage component.
  */
-const PricingPage = ({ logoSrc, productIntro, productDataArray, unitName, children }) => {
+const PricingPage = ({ logoSrc, productIntro, productDataArray, children }) => {
 	if (!Array.isArray(productDataArray) || productDataArray.length === 0) {
 		throw new Error('Invalid productDataArray')
 	}
@@ -110,7 +109,7 @@ const PricingPage = ({ logoSrc, productIntro, productDataArray, unitName, childr
 			)}
 			<section className={styles.Configurator}>
 				<h2>{familyName} Configurator</h2>
-				<Configurator productDataArray={productDataArray} unitName={unitName} />
+				<Configurator productDataArray={productDataArray} />
 			</section>
 			{children}
 		</Page>
