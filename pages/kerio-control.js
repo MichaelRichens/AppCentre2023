@@ -21,7 +21,6 @@ export async function getStaticProps() {
 
 const Control = (props) => {
 	const { productDataArray } = props
-
 	return (
 		<ProductInfoPage
 			title='Kerio Control'
