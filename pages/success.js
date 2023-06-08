@@ -17,6 +17,8 @@ const OrderSuccess = () => {
 	const { user, anonymousUser, isAuthLoading } = useAuth()
 	const { clearCart } = useContext(CartContext)
 	const [sessionIdState, setSessionIdState] = useState(null)
+	const [noUrlSessionId, setNoUrlSessionId] = useState(false)
+	const [notFirstVisitToPage, setNotFirstVisitToPage] = useState(false)
 	const [orderId, setOrderId] = useState(null)
 	const [sessionDataState, setSessionDataState] = useState(null)
 
@@ -46,6 +48,10 @@ const OrderSuccess = () => {
 		}
 		*/
 
+		if (!urlSessionId && window?.location) {
+			setNoUrlSessionId(true)
+		}
+
 		// If so, set it in a state variable and removed it from their sessionStorage so this won't get processed again if they return to this page.
 		// TODO, might want to redirect the order if a customer does return here, or visits without the session id parameter
 		// The order page (not created yet) will be withAuth, so will handle them not being logged in
@@ -53,6 +59,8 @@ const OrderSuccess = () => {
 		if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
 			setSessionIdState(urlSessionId)
 			cleanUpAfterCheckout()
+		} else {
+			setNotFirstVisitToPage(true)
 		}
 
 		// Basic cleanup to account for someone closing the page without giving it time to do its thing - they won't get their details updated from stripe, but we can at least clear their cart.
@@ -120,6 +128,53 @@ const OrderSuccess = () => {
 
 		setOrderId(sessionDataState?.metadata?.orderId)
 	}, [sessionDataState, user])
+
+	if (noUrlSessionId) {
+		return (
+			<Page title='Invalid Url'>
+				<p>This url is not valid.</p>
+			</Page>
+		)
+	}
+
+	if (notFirstVisitToPage) {
+		return (
+			<Page title='Page No Longer Valid'>
+				<p>
+					Sorry, this page is no longer valid.{' '}
+					{user ? (
+						<span>
+							You can find details of your orders in your <Link href='/account'>account</Link>.
+						</span>
+					) : anonymousUser ? (
+						<span>
+							If you <Link href='/account'>create an account</Link> you can get access to your receipt.
+						</span>
+					) : (
+						<span>
+							Please <Link href='/account'>login to your account</Link> to see details of your previous orders.
+						</span>
+					)}
+				</p>
+			</Page>
+		)
+	}
+
+	if (!sessionDataState) {
+		return (
+			<Page title='Checking Order'>
+				<p>Please wait...</p>
+			</Page>
+		)
+	}
+
+	if (sessionDataState?.status !== 'complete') {
+		return (
+			<Page title='Order Error'>
+				<p>Very sorry, there has been a problem.</p>
+			</Page>
+		)
+	}
 
 	return (
 		<Page title='Order Success'>
