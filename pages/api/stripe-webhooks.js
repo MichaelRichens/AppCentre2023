@@ -43,6 +43,8 @@ export default async function handler(req, res) {
 		return res.status(401).send(`Webhook Verification Error: ${error.message}`)
 	}
 
+	// can be confusing when testing on localhost but using the dev site to process webhooks - it'll get the domain from the req, so test--orn...etc or wherever we have the stripe test webhook set up to
+	// presumably will correctly provide localhost if using stripe's cli, but haven't tested, and the test--orn... ones will likely happen as well
 	const baseUrl = baseUrlFromReq(req)
 
 	switch (event.type) {
