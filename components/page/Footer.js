@@ -14,7 +14,7 @@ const Footer = () => {
 							MacUpgrades
 						</Link>{' '}
 						/ Second Chance PC Ltd. Company Number: {process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT:{' '}
-						{process.env.NEXT_PUBLIC_VAT_NUMBER}.
+						{process.env.NEXT_PUBLIC_VAT_NUMBER}. See our <Link href='/privacy'>privacy policy</Link>.
 					</small>
 				</div>
 			</footer>
