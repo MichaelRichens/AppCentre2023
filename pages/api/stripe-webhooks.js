@@ -169,25 +169,73 @@ export default async function handler(req, res) {
 				}
 				await orderDocSnap.ref.update(orderDocUpdateObj)
 
-				// Send us an email when order placed successfully
+				// Send emails on success
 				if (orderDocUpdateObj.status === OrderStatus.PAID) {
-					const emailBody = `AppCentre order: ${orderData.orderId} placed for £${orderDocUpdateObj.priceInc?.toFixed(
-						2
-					)}.\n\nStripe session ID: ${orderData.sessionId}\n\nStripe Payment Intent ID: ${
-						orderDocUpdateObj.paymentIntentId
-					}\n\nCustomer Name: ${orderData.fullName}\n\nUser ID: ${orderData.firebaseUserId}\n\nStripe Customer ID: ${
-						orderData.stripeCustomerId
-					}`
+					// Send email to them
+					if (completedSession?.customer_details?.email) {
+						const toThemEmailBody = `
+Dear ${orderData.fullName},
 
-					const content = {
+Thank you for your order. We appreciate your business.
+
+Order Reference: ${orderData.orderId}
+Order Total: £${orderDocUpdateObj.priceInc.toFixed(2)}
+
+${
+	orderData.isShipping
+		? 'Please note that delivery will take 7 - 10 working days.'
+		: 'Please note that it normally takes around 2 working days for subscription changes to be processed.'
+}
+
+Thank you again for your order. We appreciate your business.
+
+Kind regards,
+The AppCentre Team`
+						const toThemContent = {
+							to: completedSession.customer_details.email,
+							from: 'info@appcentre.co.uk',
+							subject: `${process.env.NEXT_PUBLIC_INTERNAL_SITE_NAME} - Order Placed`,
+							text: toThemEmailBody,
+						}
+
+						try {
+							await sgMail.send(toThemContent)
+						} catch (error) {
+							console.error('Failed to send order email (to customer)', error)
+							console.log('Errors array:')
+							const errArray = error?.response?.body?.errors || []
+							errArray.forEach((err) => {
+								console.log(err)
+							})
+						}
+					}
+
+					// send email to us
+					const toUsEmailBody = `
+AppCentre order: ${orderData.orderId} placed for £${orderDocUpdateObj.priceInc?.toFixed(2)}.
+
+Stripe session ID: ${orderData.sessionId}
+
+Stripe Payment Intent ID: ${orderDocUpdateObj.paymentIntentId}
+
+Customer Name: ${orderData.fullName}
+
+Customer Email: ${completedSession?.customer_details?.email}
+
+User ID: ${orderData.firebaseUserId}
+
+Stripe Customer ID: ${orderData.stripeCustomerId}
+					`
+
+					const toUsContent = {
 						to: 'info@appcentre.co.uk',
 						from: 'info@appcentre.co.uk',
 						subject: `${process.env.NEXT_PUBLIC_INTERNAL_SITE_NAME} - Order Placed`,
-						text: emailBody,
+						text: toUsEmailBody,
 					}
 
 					try {
-						await sgMail.send(content)
+						await sgMail.send(toUsContent)
 					} catch (error) {
 						console.error('Failed to send order email (to us)', error)
 						console.log('Errors array:')
