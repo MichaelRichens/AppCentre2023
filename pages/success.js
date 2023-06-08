@@ -53,9 +53,6 @@ const OrderSuccess = () => {
 		}
 
 		// If so, set it in a state variable and removed it from their sessionStorage so this won't get processed again if they return to this page.
-		// TODO, might want to redirect the order if a customer does return here, or visits without the session id parameter
-		// The order page (not created yet) will be withAuth, so will handle them not being logged in
-		// Wouldn't work for anonymous users though, so maybe just display the order here is long as their firebase user id matches it?
 		if (urlSessionId && sessionStorageSessionId && urlSessionId === sessionStorageSessionId) {
 			setSessionIdState(urlSessionId)
 			cleanUpAfterCheckout()
