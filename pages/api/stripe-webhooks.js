@@ -1,4 +1,5 @@
 import { buffer } from 'micro'
+import sgMail from '@sendgrid/mail'
 import * as firebaseAdmin from 'firebase-admin'
 import firebaseService from '../../server-utils/firebaseService'
 import { stripe } from '../../server-utils/initStripe'
@@ -174,6 +175,25 @@ export default async function handler(req, res) {
 				)
 				return res.status(500).end()
 			}
+
+			// Send us an email when order placed successfully
+			if (newOrderStatus === OrderStatus.PAID) {
+				const emailBody = `AppCentre order: ${orderData.orderID} placed for £${orderDocUpdateObj.priceInc}.\n\nStripe session ID: ${orderData.sessionId}\n\nStripe Payment Intent ID: ${orderData.paymentIntentId}\n\nCustomer Name: ${orderData.fullName}\n\nUser ID: ${orderData.firebaseUserId}\n\nStripe Customer ID: ${orderData.stripeCustomerId}`
+
+				const content = {
+					to: 'info@appcentre.co.uk',
+					from: 'info@appcentre.co.uk',
+					subject: `${process.env.NEXT_PUBLIC_INTERNAL_SITE_NAME} - Order Placed`,
+					text: emailBody,
+				}
+
+				try {
+					await sgMail.send(content)
+				} catch (error) {
+					console.error('Failed to send order email (to us)', error)
+				}
+			}
+
 			break
 		case 'checkout.session.expired':
 			const expiredSession = event.data.object
