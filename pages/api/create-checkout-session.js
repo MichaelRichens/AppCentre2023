@@ -256,6 +256,22 @@ export default async (req, res) => {
 			// parse/stringify is just to convert custom objects into plain javascript objects for firestore (must be done before adding timestamps)
 			const plainObject = JSON.parse(JSON.stringify(orderObject))
 
+			// Final sanity check, since this has happened in testing but I can't find the cause.  If an order with this order id already exists, delete it before adding this order
+			// query for documents in the 'orders' collection where 'orderId' matches 'plainObject.orderId'
+			// This should be flat out impossible, since we've generated this orderId as unique in this routine, and we only add the record once as far as I can see...  But it happened somehow.
+			//
+			const snapshot = await firebaseService.collection('orders').where('orderId', '==', plainObject.orderId).get()
+
+			// if matching documents exist
+			if (!snapshot.empty) {
+				// loop through the documents
+				snapshot.forEach((doc) => {
+					// delete each document
+					firebaseService.collection('orders').doc(doc.id).delete()
+				})
+			}
+			// end (in)sanity check
+
 			// must do after the conversion to a plain object
 			plainObject.createdAt = firebaseAdmin.firestore.FieldValue.serverTimestamp()
 			plainObject.updatedAt = firebaseAdmin.firestore.FieldValue.serverTimestamp()
