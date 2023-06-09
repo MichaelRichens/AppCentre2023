@@ -143,9 +143,6 @@ const OrderDetails = ({ orderId }) => {
 	const isReceipt = isCompleteOrder(order.status)
 
 	const orderTotals = getOrderPrice(order)
-	Object.values(order.line_items).map((line) => {
-		console.log(line.summary.product)
-	})
 
 	return (
 		<>
