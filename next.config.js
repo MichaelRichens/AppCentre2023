@@ -20,4 +20,38 @@ module.exports = {
 			},
 		]
 	},
+	async redirects() {
+		return [
+			{
+				source: '/softstore/kerio_connect.php',
+				destination: '/kerio-connect',
+				permanent: true,
+			},
+			{
+				source: '/softstore/kerio_control.php',
+				destination: '/kerio-control',
+				permanent: true,
+			},
+			{
+				source: '/softstore/kerio_control_box.php',
+				destination: '/kerio-control-box',
+				permanent: true,
+			},
+			{
+				source: '/softstore/login.php',
+				destination: '/account?old=1',
+				permanent: true,
+			},
+			{
+				source: '/softstore/account.php',
+				destination: '/account?old=1',
+				permanent: true,
+			},
+			{
+				source: '/softstore/:path*',
+				destination: '/',
+				permanent: true,
+			},
+		]
+	},
 }
