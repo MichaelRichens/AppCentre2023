@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { onSnapshot, collection, where, query, getDocs, doc } from 'firebase/firestore'
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import Modal from 'react-modal'
 import { LineWave } from 'react-loader-spinner'
 import { useAuth } from '/components/contexts/AuthContext'
+import { FlashMessageContext, MessageType } from '/components//contexts/FlashMessageContext'
 import BusyButton from '/components/BusyButton'
 import ProductConfiguration from '/utils/types/ProductConfiguration'
 import { isCompleteOrder } from '/utils/types/enums/OrderStatus'
 import { firestore } from '/utils/firebaseClient'
+import { translateFirebaseError } from '/utils/firebaseClient'
 import { formatPriceFromPounds } from '/utils/formatPrice'
 import getOrderPrice from '/utils/getOrderPrice'
 import { countryCodeToName } from '/utils/countryLookup'
@@ -18,6 +20,7 @@ import accountStyles from '/styles/Account.shared.module.css'
 
 const OrderDetails = ({ orderId }) => {
 	const { user, anonymousUser } = useAuth()
+	const { setMessage } = useContext(FlashMessageContext)
 
 	// Holds the details of the order looked up in firestore, or false if not found.
 	// Initial state of null indicates that the lookup is in progress.
@@ -29,6 +32,7 @@ const OrderDetails = ({ orderId }) => {
 	useEffect(() => {
 		let unsubscribeOrders = () => {} // empty default function since this gets called in the useEffect cleanup return
 
+		// Errors in this function are caught by the caller
 		const getOrder = async () => {
 			//Find the order document that matches orderId
 
@@ -75,7 +79,7 @@ const OrderDetails = ({ orderId }) => {
 				if (error.message === 'NOT_FOUND') {
 					setOrder(false)
 				} else {
-					console.error(error)
+					setMessage({ text: translateFirebaseError(error), type: MessageType.ERROR })
 				}
 			})
 		}

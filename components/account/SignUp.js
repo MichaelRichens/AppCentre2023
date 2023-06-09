@@ -56,7 +56,8 @@ function SignUp({ title, prefillEmail = '', prefillFullName = '' }) {
 		try {
 			await updateProfile(newOrUpgradedUser, { displayName: fullName })
 		} catch (error) {
-			console.error("Error updating user's name", error)
+			// Not sure there's much else we can do - the basic account creation/upgrade has worked, we just can't set the name
+			console.error('Error setting account name')
 		}
 
 		// Reporting success at this point since firebase account is created - if stripe account creation fails, the user still has an account that will work on our website.
@@ -153,7 +154,6 @@ function SignUp({ title, prefillEmail = '', prefillFullName = '' }) {
 				})
 			}
 		} catch (error) {
-			console.error('Error creating customer with Stripe', error)
 			// This is non-fatal, the firebase customer was created but a matching stripe customer could not be.  There is a checkout flow without an existing stripe customer, and later linking the one stripe creates at checkout up with the user (its used by anonymous checkout). So we'll let this logged in user go through that.
 		}
 	}

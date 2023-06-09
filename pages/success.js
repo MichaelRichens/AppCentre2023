@@ -4,6 +4,7 @@ import { CartContext } from '../components/contexts/CartContext'
 import Page from '../components/page/Page'
 import OrderDetails from '../components/account/OrderDetails'
 import { useAuth } from '../components/contexts/AuthContext'
+import { FlashMessageContext, MessageType } from '../components//contexts/FlashMessageContext'
 import SignUp from '../components/account/SignUp'
 import { getBaseUrlFromLocation } from '../utils/baseUrl'
 
@@ -21,6 +22,8 @@ const OrderSuccess = () => {
 	const [notFirstVisitToPage, setNotFirstVisitToPage] = useState(false)
 	const [orderId, setOrderId] = useState(null)
 	const [sessionDataState, setSessionDataState] = useState(null)
+
+	const { setMessage } = useContext(FlashMessageContext)
 
 	// For holding the base url this page is running on - requires window.location to be available, so need state populated inside a useEffect
 	const [baseUrl, setBaseUrl] = useState(null)
@@ -77,7 +80,7 @@ const OrderSuccess = () => {
 		const returnedUser = user || anonymousUser
 
 		if (!returnedUser) {
-			console.error('Cannot find user.')
+			// no user is handled in the component return
 			return
 		}
 
@@ -103,13 +106,13 @@ const OrderSuccess = () => {
 				// So put the session data into a state variable which will allow another useEffect if they are logged into a full account
 				// and if the user checked out anonymously, the showing of a log in screen which can upgrade them to a full account which if they use it, will then trigger the next use effect
 				if (!session) {
-					console.error('Did not receive a valid session')
+					setMessage({ text: 'Error finding order', type: MessageType.ERROR })
 					return
 				}
 
 				setSessionDataState(session)
 			} catch (error) {
-				console.error('There was an error receiving sessionIdState: ', error)
+				setMessage({ text: 'Error loading order', type: MessageType.ERROR })
 				return
 			}
 		}
@@ -134,7 +137,7 @@ const OrderSuccess = () => {
 		)
 	}
 
-	if (notFirstVisitToPage) {
+	if (!(anonymousUser || user) || notFirstVisitToPage) {
 		return (
 			<Page title='Page No Longer Valid'>
 				<p>

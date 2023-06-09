@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { LineWave } from 'react-loader-spinner'
 import { useAuth } from './contexts/AuthContext'
-import { auth, firestore } from '../utils/firebaseClient'
+import { auth, firestore, translateFirebaseError } from '../utils/firebaseClient'
 import { signInAnonymously } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { CartContext } from './contexts/CartContext'
@@ -65,7 +65,8 @@ const CheckoutButton = () => {
 					checkoutSessionData.customerDetails.businessName = data?.businessName
 				}
 			} catch (error) {
-				console.error('Error from Firestore when retrieving user details: ', error)
+				// rethrow and let caller handle it
+				throw error
 			}
 		} else {
 			// No user is signed in, so sign in anonymously
@@ -74,7 +75,8 @@ const CheckoutButton = () => {
 
 				actualUser = userCredential.user
 			} catch (error) {
-				console.error('Error signing in anonymously: ', error)
+				// Just rethrow for the handler in the caller to deal with.
+				throw error
 			}
 		}
 
@@ -106,7 +108,7 @@ const CheckoutButton = () => {
 				throw new Error(`Server responded with a status of ${response.status}`)
 			}
 		} catch (error) {
-			console.warn('Failed to create checkout session:')
+			// Just rethrow for the handler in the caller to deal with.
 			throw error
 		}
 	}
@@ -123,7 +125,6 @@ const CheckoutButton = () => {
 			}
 		} catch (error) {
 			setCheckingOut(false)
-			console.error(error)
 			if (error instanceof VersioningError) {
 				setMessage({
 					text: 'Error: Very sorry, one or more items in the cart are no longer valid. Please try removing them from your cart and re-adding them.',

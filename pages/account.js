@@ -117,7 +117,6 @@ const Account = () => {
 	const handleBusinessNameChange = async (value) => {
 		if (!userDocRef) {
 			setMessage({ text: 'Business Name update failed.', type: MessageType.ERROR })
-			console.error('Missing reference to users document.')
 			return
 		}
 		try {

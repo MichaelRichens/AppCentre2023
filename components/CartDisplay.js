@@ -11,6 +11,7 @@ import PurchaseType from '../utils/types/enums/PurchaseType'
 import { getBaseUrlFromLocation } from '../utils/baseUrl'
 import { formatPriceFromPounds } from '../utils/formatPrice'
 import styles from '/styles/CartDisplay.module.css'
+import Error from 'next/error'
 
 const CartDisplay = () => {
 	const { cart, isCartLoading, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } =
@@ -89,10 +90,10 @@ const CartDisplay = () => {
 						},
 						body: JSON.stringify({ id: itemId, licence: newLicence }),
 					})
-					const data = await response.json() // do I need this line?
+					await response.json()
 					updateItem(itemId, { licence: newLicence })
 				} catch (error) {
-					console.error('Error updating licence.')
+					setMessage({ text: 'Very sorry, there was an error updating the licence.', type: MessageType.ERROR })
 				}
 			}
 		}
@@ -127,7 +128,6 @@ const CartDisplay = () => {
 					const data = await response.json()
 					setSavedConfigurationGroup({ id: data.id, itemIds: cart.map((item) => item.id), isValid: true })
 				} else if (response.status === 410) {
-					console.error(response)
 					setSavedConfigurationGroup({
 						error:
 							'Very sorry, one or more items in the cart is outdated. Please try removing and re-adding the items.',
@@ -166,7 +166,7 @@ const CartDisplay = () => {
 				// Seems very unlikely we'd have a transient write to clipboard error, but if we have had one, we clear it here.
 				setSavedConfigurationGroup((prevState) => ({ ...prevState, error: undefined }))
 			} catch (clipboardError) {
-				console.error('Failed to copy text to clipboard:', clipboardError)
+				setMessage({ text: 'Sorry, we are unable to access your clipboard.', type: MessageType.ERROR })
 				//Leaves isValid set to true, so link will still be displayed - this is just an inability to write it to the clipboard.
 				setSavedConfigurationGroup((prevState) => ({ ...prevState, error: 'Error: Could not write to clipboard.' }))
 			}
@@ -248,7 +248,7 @@ const CartDisplay = () => {
 					{savedConfigurationGroup.isValid ? (
 						<>
 							{savedConfigurationGroup.error && (
-								<span aria-live='polite' className={`${styles.configSaveText} formError`}>
+								<span aria-live='polite' className={`${styles.configSaveText} onPageError`}>
 									{savedConfigurationGroup.error}
 								</span>
 							)}

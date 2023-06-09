@@ -7,6 +7,7 @@ import priceTableStyles from '/styles/PriceTable.shared.module.css'
 
 const PriceTableExtensions = ({ productName, extensionsData, unitName }) => {
 	if (!extensionsData || !extensionsData?.length) {
+		// This is either a coding error or a serious database problem, leaving it in
 		console.error('Invalid extensionData passed to PriceTableExtensions')
 		return null
 	}

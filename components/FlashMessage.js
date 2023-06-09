@@ -38,6 +38,7 @@ const FlashMessage = () => {
 	if (!isInDom || !message) return null
 
 	if (!(typeof message === 'object' && message !== null && 'text' in message && message.text !== undefined)) {
+		// this is a coding error - leaving it in since it is useful to catch dumb mistakes
 		console.error('Malformed message object without a valid text property - received: ', message)
 		return null
 	}
