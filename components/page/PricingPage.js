@@ -170,9 +170,9 @@ const PricingPage = ({ logoSrc, productIntro, productDataArray, children }) => {
 						number. You will renew your subscription for the new number of {mainUnitName.pluralLC}.
 					</p>
 					<p>
-						An adjustment of {mainUnitName.pluralLC} on a renewal become (or cease to be) available at the next renewal
-						date. If you need the additional {mainUnitName.pluralLC} to take effect immediately, you will need to use
-						the Add {mainUnitName.pluralC} option as a separate line item.
+						An adjustment of {mainUnitName.pluralLC} on a renewal becomes (or ceases to be) available at the next
+						renewal date. If you need the additional {mainUnitName.pluralLC} to take effect immediately, you will need
+						to use the Add {mainUnitName.pluralC} option as a separate line item.
 					</p>
 					<p>
 						If you need to add more {mainUnitName.pluralLC} during a renewal period, this is done for the period up
