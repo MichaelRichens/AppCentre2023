@@ -26,7 +26,7 @@ export const OrderStatus =
 export const OrderStatusDisplay = (status) => {
 	switch (status) {
 		case OrderStatus.CHECKOUT:
-			return 'Awaiting Payment'
+			return 'Awaiting Confirmation'
 		case OrderStatus.EXPIRED:
 			return 'Not Completed'
 		case OrderStatus.PAID:
