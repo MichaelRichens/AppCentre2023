@@ -291,6 +291,20 @@ section.orderHistory {
 
 .pdfReceipt .receiptHeader {
 	width: 45em !important;
+	flex-direction: row !important;
+	column-gap: 3em !important;
+}
+
+.pdfReceipt .logoContainer {
+	margin-left: initial !important;
+	margin-right: initial !important;
+	width: 350px !important;
+	padding: initial !important;
+}
+
+.pdfReceipt .logoContainer img {
+	height: 50px !important;
+	width: initial !important;
 }
 
 .pdfReceipt .addresses {
@@ -312,6 +326,24 @@ section.orderHistory {
 }
 
 @media (max-width: 650px) {
+	.orderDetails .receiptHeader {
+		flex-direction: column-reverse;
+		column-gap: 0;
+		row-gap: 1em;
+	}
+
+	.orderDetails .logoContainer {
+		margin-left: auto;
+		margin-right: auto;
+		width: 100%;
+		padding: 5px;
+	}
+
+	.orderDetails .logoContainer img {
+		height: initial;
+		width: 50vw;
+	}
+
 	.orderDetails .addresses {
 		flex-direction: column;
 		column-gap: 0;
@@ -332,7 +364,7 @@ section.orderHistory {
 		display: block;
 	}
 
-	/* Hide name column entirely at low widths */
+	/* Hide `name` column entirely at low widths */
 	.orderHistoryTable th[scope='col']:nth-child(3),
 	.orderHistory td:nth-child(3) {
 		display: none;
