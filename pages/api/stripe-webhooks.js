@@ -210,7 +210,7 @@ ${
 
 If you have an account on our website, you can download a copy of your receipt here:
 ${baseUrl + '/order/' + orderData.orderId}
-If you do not have an account, or unable to access your receipt for any reason, please reply to this email and we will provide you with a copy.
+If you do not have an account, or are unable to access your receipt for any reason, please reply to this email and we will provide you with a copy.
 
 Thank you again for your order.
 
