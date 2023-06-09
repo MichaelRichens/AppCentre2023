@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import PricingPage from '../components/page/PricingPage'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 
@@ -17,7 +18,17 @@ const ArchiverPricing = (props) => {
 		<PricingPage
 			productIntro={<p>GFI Archiver is licenced on a per-mailbox yearly subscription basis.</p>}
 			productDataArray={productDataArray}
-			logoSrc='/images/logos/gfi-archiver-logo.svg'></PricingPage>
+			logoSrc='/images/logos/gfi-archiver-logo.svg'>
+			<section className='text'>
+				<p>
+					For more information about how licencing works in GFI Archiver, see{' '}
+					<Link href='https://support.archiver.gfi.com/hc/en-us/articles/360015209180-Licensing-in-Archiver'>
+						this article
+					</Link>
+					.
+				</p>
+			</section>
+		</PricingPage>
 	)
 }
 

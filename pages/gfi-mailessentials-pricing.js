@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import PricingPage from '../components/page/PricingPage'
 import { asyncFetchAndProcessMultipleOptions } from '../server-utils/asyncFetchAndProcessProducts'
 
@@ -26,7 +27,17 @@ const MailEssentialsPricing = (props) => {
 				</p>
 			}
 			logoSrc='/images/logos/gfi-mailessentials-logo.svg'
-			productDataArray={productDataArray}></PricingPage>
+			productDataArray={productDataArray}>
+			<section className='text'>
+				<p>
+					For information on how MailEssentials counts mailboxes for licensing purposes, see{' '}
+					<Link href='https://support.mailessentials.gfi.com/hc/en-us/articles/360015139839-How-does-MailEssentials-Retrieve-and-Count-Users-'>
+						this article
+					</Link>
+					.
+				</p>
+			</section>
+		</PricingPage>
 	)
 }
 

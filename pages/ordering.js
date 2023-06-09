@@ -35,7 +35,8 @@ const Ordering = () => {
 						subscription is due to expire, we will contact you with a quote to renew.
 					</p>
 					<p>
-						If you have any questions, please <Link href='/contact'>contact us</Link>.
+						We are always very happy to price up a quote for you if you tell us your requirements. If you would like us
+						to do so, or have any other questions, please <Link href='/contact'>contact us</Link>.
 					</p>
 				</section>
 			</article>

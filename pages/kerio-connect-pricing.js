@@ -17,7 +17,36 @@ const ConnectPricing = (props) => {
 		<PricingPage
 			logoSrc='/images/logos/kerio-connect-logo.svg'
 			productIntro={<p>Kerio Connect is licenced on a per-user yearly subscription basis, with optional extensions.</p>}
-			productDataArray={productDataArray}></PricingPage>
+			productDataArray={productDataArray}>
+			<section className='text'>
+				<h2>Definition of 'User' in Kerio Connect</h2>
+				<p>
+					Licenses are counted by number of users. Number of users means the number of mailboxes or accounts that are:
+				</p>
+				<ul>
+					<li>Created and enabled in Kerio Connect</li>
+					<li>Mapped from a directory service. All users created in this database are count as licenses.</li>
+					<li>Imported from a domain</li>
+				</ul>
+				<p>The following don't count as licenses:</p>
+				<ul>
+					<li>Disabled accounts</li>
+					<li>Mailing lists</li>
+					<li>Resources</li>
+					<li>Aliases</li>
+					<li>Domains</li>
+					<li>Internal administrator account</li>
+				</ul>
+				<p>
+					The Kerio Connect Administration interface displays information on the number of users you have and the number
+					of licenses you hold.
+				</p>
+
+				<p>
+					Go to <strong>Status &gt; Dashboard</strong> and view the <strong>License Details</strong> tile.
+				</p>
+			</section>
+		</PricingPage>
 	)
 }
 
