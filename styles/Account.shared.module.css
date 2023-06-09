@@ -314,12 +314,12 @@ section.orderHistory {
 	row-gap: initial !important;
 }
 
-.pdfReceipt .lineItem > ul {
+.pdfReceipt .lineItem {
 	width: 50em !important;
 }
 
 .pdfReceipt .lineItem > li:first-child {
-	width: 41em !important;
+	border-right: 1px black solid !important;
 }
 
 .pdfReceipt .lineItem > li:last-child {
@@ -353,6 +353,10 @@ section.orderHistory {
 		flex-direction: column;
 		column-gap: 0;
 		row-gap: 2em;
+	}
+
+	.orderDetails .lineItem > li:first-child {
+		border-right: none;
 	}
 }
 
