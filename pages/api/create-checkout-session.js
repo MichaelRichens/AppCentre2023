@@ -217,6 +217,10 @@ export default async (req, res) => {
 				stripeError.detail === undefined
 			) {
 				delete sessionCreationObj.customer
+				delete sessionCreationObj.customer_update
+				if (customerFromClientSide?.email) {
+					sessionCreationObj.customer_email = customerFromClientSide.email
+				}
 				delete orderObject.stripeCustomerId
 				if (customerFromClientSide?.firebaseUserId) {
 					// Delete the stripeCustomerId field from this user's firestore record, since this stripe customer record does not seem to exist any more

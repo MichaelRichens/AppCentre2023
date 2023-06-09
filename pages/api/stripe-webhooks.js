@@ -32,6 +32,18 @@ export default async function handler(req, res) {
 		res.status(405).end('Method Not Allowed')
 	}
 
+	// What we will send back to stripe as a completed code - any 2XX is fine for them, but we use non-200 2XX codes to indicate an internal problem
+	// ie it is an indication that something is wrong at our end, but no point having them retry
+	//Our responses
+	// 200 - all good
+	// 288 - minor problem
+	// 299 - major problem
+	// 400 - missing data from stripe
+	// 401 - signature verification failed
+	// 405 - not post request
+	// 500 - code has shit the bed
+	let completedStatusCode = 200
+
 	const buf = await buffer(req)
 	const sig = req.headers['stripe-signature']
 	let event
@@ -53,22 +65,22 @@ export default async function handler(req, res) {
 
 			if (!refundedCharge?.payment_intent) {
 				console.error('Webhook: charge.refunded - refundedCharge.payment_intent not set:', refundedCharge)
-				return res.status(500).end()
+				return res.status(400).end()
 			}
 
 			if (refundedCharge?.refunded === undefined) {
 				console.error('Webhook: charge.refunded - did not have a refunded property:', refundedCharge)
-				return res.status(500).end()
+				return res.status(400).end()
 			}
 
 			if (refundedCharge?.amount_refunded === undefined) {
 				console.error('Webhook: charge.refunded - did not have a amount_refunded property:', refundedCharge)
-				return res.status(500).end()
+				return res.status(400).end()
 			}
 
 			if (refundedCharge.amount_refunded <= 0) {
 				console.warn('Webhook: charge.refunded - had a non-positive amount_refunded property:', refundedCharge)
-				return res.status(500).end()
+				return res.status(400).end()
 			}
 
 			const ordersRef = firebaseService.collection('orders')
@@ -80,7 +92,7 @@ export default async function handler(req, res) {
 					'Webhook charge.refunded - No matching order found for payment_intent on this charge:',
 					refundedCharge
 				)
-				return res.status(500).end()
+				return res.status(299).end()
 			}
 
 			if (querySnapshot.docs.length > 1) {
@@ -88,6 +100,7 @@ export default async function handler(req, res) {
 				console.error(
 					`Webhook charge.refunded - More than one order with the paymentIntentId found (${querySnapshot.docs.length} found). paymentIntentId: ${paymentIntentId}`
 				)
+				completedStatusCode = 299
 			}
 
 			const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
@@ -108,7 +121,7 @@ export default async function handler(req, res) {
 			await asyncLinkStripeCustomerUsingSession(completedSession?.id, completedSession?.customer)
 			if (!completedSession?.id) {
 				console.error('Webhook: completedSession.id - completedSession.id not set')
-				return res.status(500).end()
+				return res.status(400).end()
 			}
 			try {
 				const ordersRef = firebaseService.collection('orders')
@@ -119,13 +132,14 @@ export default async function handler(req, res) {
 					console.error(
 						`Webhook checkout.session.completed - No matching order found for stripe session id: ${completedSession.id}`
 					)
-					return res.status(500).end()
+					return res.status(299).end()
 				}
 				if (orderDocsSnap.docs.length > 1) {
 					// really should never happen, but non-fatal error
 					console.error(
 						`Webhook checkout.session.completed - More than one order with the same stripe session id found (${orderDocsSnap.docs.length} found). Session id: ${completedSession.id}`
 					)
+					completedStatusCode = 299
 				}
 				const orderDocSnap = orderDocsSnap.docs[0] // We'll just update the first matching document since there REALLY should only be 1
 
@@ -212,6 +226,7 @@ The AppCentre Team`
 						try {
 							await sgMail.send(toThemContent)
 						} catch (error) {
+							completedStatusCode = 288
 							console.error('Failed to send order email (to customer)', error)
 							console.log('Errors array:')
 							const errArray = error?.response?.body?.errors || []
@@ -248,6 +263,7 @@ Stripe Customer ID: ${orderData.stripeCustomerId}
 					try {
 						await sgMail.send(toUsContent)
 					} catch (error) {
+						completedStatusCode = 288
 						console.error('Failed to send order email (to us)', error)
 						console.log('Errors array:')
 						const errArray = error?.body?.errors || []
@@ -261,7 +277,7 @@ Stripe Customer ID: ${orderData.stripeCustomerId}
 					`Webhook checkout.session.completed - Unable to complete order for stripe session complete webhook with session is: ${completedSession.id}`,
 					error
 				)
-				return res.status(500).end()
+				return res.status(299).end()
 			}
 
 			break
@@ -280,13 +296,14 @@ Stripe Customer ID: ${orderData.stripeCustomerId}
 					console.error(
 						`Webhook: checkout.session.expired - No matching order found for stripe session id: ${expiredSession.id}`
 					)
-					return res.status(500).end()
+					return res.status(299).end()
 				}
 				if (querySnapshot.docs.length > 1) {
 					// really should never happen, but non-fatal error
 					console.error(
 						`Webhook: checkout.session.expired - More than one order with the same stripe session id found (${querySnapshot.docs.length} found). Session id: ${expiredSession.id}`
 					)
+					completedStatusCode = 299
 				}
 				const doc = querySnapshot.docs[0] // We'll just update the first matching document since there REALLY should only be 1
 				await doc.ref.update({
@@ -298,7 +315,7 @@ Stripe Customer ID: ${orderData.stripeCustomerId}
 					`Webhook: checkout.session.expired - Unable to update order for stripe session id: ${expiredSession.id}`,
 					error
 				)
-				return res.status(500).end()
+				return res.status(299).end()
 			}
 
 			break
@@ -326,10 +343,10 @@ Stripe Customer ID: ${orderData.stripeCustomerId}
 					`Customer Delete Error for stripe customer id ${deletedCustomer.id}. Error updating Firestore documents:`,
 					error
 				)
-				return res.status(500).end()
+				return res.status(299).end()
 			}
 			break
 	}
 
-	res.status(200).end()
+	res.status(completedStatusCode).end()
 }
