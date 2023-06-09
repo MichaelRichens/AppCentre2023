@@ -107,7 +107,7 @@ const OrderDetails = ({ orderId }) => {
 			const input = document.getElementById('orderDetailsContent')
 			setGeneratingPdf(true)
 			input.classList.add(accountStyles.pdfReceipt)
-			const canvas = await html2canvas(input, { scale: 1.2 })
+			const canvas = await html2canvas(input, { scale: 1 })
 			input.classList.remove(accountStyles.pdfReceipt)
 			setGeneratingPdf(false)
 			const imgData = canvas.toDataURL('image/png')
