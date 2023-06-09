@@ -31,7 +31,8 @@ const translateFirebaseError = (error) => {
 		'auth/requires-recent-login': 'Sorry, to perform this operation you must log out and log back in.',
 		'auth/too-many-requests': 'We have detected too many requests from your device. Please try again later.',
 		'auth/user-disabled': 'This user account has been disabled. Please contact support for assistance.',
-		'auth/user-not-found': 'There is no user associated with this email address.',
+		'auth/user-not-found':
+			'There is no user associated with this email address. If you had an account from before June 2023, very sorry but this has not been transferred to the new site and you will need to create a new account.  Please contact us if you need copies of old invoices',
 		'auth/weak-password': 'The password you entered is too weak. Please choose a stronger password.',
 		'auth/wrong-password': 'The password you entered is incorrect. Please try again.',
 	}

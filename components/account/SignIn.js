@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth'
 import { auth, translateFirebaseError } from '../../utils/firebaseClient'
 import { FlashMessageContext, MessageType } from '../contexts/FlashMessageContext'
@@ -10,6 +10,16 @@ function SignIn({ title }) {
 	const [formError, setFormError] = useState(null)
 
 	const { setMessage } = useContext(FlashMessageContext)
+
+	useEffect(() => {
+		const urlParams = new URLSearchParams(window.location.search)
+		const urlOld = urlParams.get('old')
+		if (urlOld === '1') {
+			setFormError(
+				'Very sorry, if you have an account from the old version of the appcentre.co.uk website, it has not have been transferred and you will need to create a new one.  Please contact us if you need copies of your old invoices.'
+			)
+		}
+	}, [])
 
 	const signIn = async (event) => {
 		event.preventDefault()
