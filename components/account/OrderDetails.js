@@ -61,7 +61,6 @@ const OrderDetails = ({ orderId }) => {
 			// And setup a listener on it
 			unsubscribeOrders = onSnapshot(docRef, (doc) => {
 				const data = doc.data()
-
 				for (let key in data?.line_items) {
 					data.line_items[key] = ProductConfiguration.fromRawProperties(data.line_items[key])
 				}
@@ -147,6 +146,7 @@ const OrderDetails = ({ orderId }) => {
 	Object.values(order.line_items).map((line) => {
 		console.log(line.summary.product)
 	})
+
 	return (
 		<>
 			{pdfReady !== false && (
@@ -238,6 +238,22 @@ const OrderDetails = ({ orderId }) => {
 								<li>{orderTotals.priceIncFormatted}</li>
 							</ul>
 						</li>
+						{order?.refundedAmount > 0 && (
+							<>
+								<li style={{ borderTop: '1px black solid' }} className={accountStyles.subTotal}>
+									<ul className={accountStyles.lineItem}>
+										<li>Refunded</li>
+										<li>{formatPriceFromPounds(order.refundedAmount, false)}</li>
+									</ul>
+								</li>
+								<li className={accountStyles.total}>
+									<ul className={accountStyles.lineItem}>
+										<li>Final Total</li>
+										<li>{formatPriceFromPounds(orderTotals.priceInc - order.refundedAmount, false)}</li>
+									</ul>
+								</li>
+							</>
+						)}
 					</ul>
 				</section>
 				<section>
