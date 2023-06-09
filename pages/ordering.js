@@ -17,6 +17,11 @@ const Ordering = () => {
 						From the shopping cart, you can also create a link to save/share the items currently in your cart. Using
 						that link in the future will restore your cart to its current state.
 					</p>
+					<p>
+						For renewals and modifications you can also, in the shopping cart, enter you licence key - this will help us
+						find the details of your licence. If you are not an existing customer, we may need to contact you for this
+						information if you do not provide it.
+					</p>
 					<p>Payment is via credit/debit card with Visa, Mastercard, American Express and Discover accepted.</p>
 					<p>
 						UK VAT is charged on all UK orders and a VAT receipt is provided. Customers outside the UK who are not
