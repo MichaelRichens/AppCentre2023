@@ -1217,5 +1217,5 @@ export function countryCodeToName(code) {
 	}
 	code = code.toUpperCase()
 	const country = countries.find((c) => c.code === code)
-	return country?.name || ''
+	return country?.name || code
 }
