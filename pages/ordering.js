@@ -29,10 +29,10 @@ const Ordering = () => {
 					</p>
 					<p>Payment is via credit/debit card with Visa, Mastercard, American Express and Discover accepted.</p>
 					<p>
-						We are a UK company and registered for VAT in the UK. Customers outside the UK who are not liable for UK VAT
-						can purchase VAT exempt - tax is calculated after you input your address during the checkout process. All
-						prices on the website are in pounds sterling (GBP) and are exclusive of VAT. Orders are accepted worldwide
-						for software subscriptions, and from Europe for hardware appliances.
+						We are a UK company and are registered for VAT in the UK. Customers outside the UK who are not liable for UK
+						VAT can purchase VAT exempt - tax is calculated after you input your address during the checkout process.
+						All prices on the website are in pounds sterling (GBP) and are exclusive of VAT. Orders are accepted
+						worldwide for software subscriptions, and from Europe for hardware appliances.
 					</p>
 					<p>Once the order is placed, GFI will need to process it - this normally takes around 2 working days.</p>
 					<p>
