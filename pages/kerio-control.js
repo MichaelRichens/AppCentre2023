@@ -30,8 +30,8 @@ const Control = (props) => {
 			<section>
 				<p>
 					Kerio Control is a next-generation firewall and unified threat management (UTM) product, developed
-					specifically for small and medium-sized businesses (SMBs) seeking a comprehensive solution to their security
-					needs. With Kerio Control, businesses can enjoy:
+					specifically for small and medium-sized enterprises seeking a comprehensive solution to their security needs.
+					With Kerio Control, businesses can enjoy:
 				</p>
 				<ul>
 					<li>Next-generation firewall to control network traffic</li>

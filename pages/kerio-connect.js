@@ -25,18 +25,18 @@ const Connect = (props) => {
 	return (
 		<ProductInfoPage
 			title='Kerio Connect'
-			subHeading='The Ultimate Mailserver Solution for SMBs'
+			subHeading='The Ultimate Mailserver Solution for SMEs'
 			logoSrc='/images/logos/kerio-connect-logo.svg'
 			productName='Kerio Connect'
 			productDataArray={productDataArray}>
 			<section>
 				<p>
-					Perfectly tailored for small to medium-sized businesses (SMBs), Kerio Connect is a trusted mail server and
+					Perfectly tailored for small to medium-sized enterprises, Kerio Connect is a trusted mail server and
 					all-in-one collaboration tool. With its deployment in over 30,000 companies globally, it is compatible with a
 					diverse range of operating systems, including Windows, macOS, and Linux.
 				</p>
 				<p>
-					Kerio Connect stands out as an affordable yet robust solution for SMBs. Its easy-to-manage and
+					Kerio Connect stands out as an affordable yet robust solution for SMEs. Its easy-to-manage and
 					simple-to-deploy nature makes it a top choice for businesses with limited IT resources, proving that you don't
 					need a "big brand" solution to achieve efficiency and productivity.
 				</p>
