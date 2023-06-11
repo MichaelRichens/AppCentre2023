@@ -379,9 +379,12 @@
 		border: 3px white solid;
 		border-radius: 7px;
 		transition: box-shadow 0.3s ease-in-out;
-
-		/* Add this for a subtle shadow */
 		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.7);
+	}
+
+	.topLinks .currentPageStyle {
+		box-shadow: none;
+		border-color: #566188;
 	}
 
 	.topLinks a,
@@ -428,15 +431,17 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
+		padding-left: 1em;
+		padding-right: 1em;
 	}
 
 	.headerCartContainer button {
 		padding: 10px;
-		width: 150px;
-
+		flex: 1;
 		display: flex;
 		flex-direction: row;
-		justify-content: space-evenly;
+		justify-content: center;
+		column-gap: 0.7em;
 		align-items: center;
 	}
 
@@ -445,7 +450,8 @@
 	}
 
 	.headerCartContainer button[disabled] {
-		border: none;
+		background-color: transparent;
+		border-color: #2c3969;
 		box-shadow: none;
 	}
 
