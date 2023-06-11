@@ -3,6 +3,78 @@
 }
 
 .footer {
+	background-image: url('/images/textures/noisegs100.png');
+	background-color: #1e2748;
+	background-blend-mode: overlay;
+	background-repeat: repeat;
+	color: white;
 	margin-top: 2em;
+
+	padding: 2em;
+}
+
+.footer h2 {
+	color: white;
+}
+
+.footer a {
+	color: lightgray;
+}
+
+.footer ul {
+	list-style-type: none;
+}
+
+.footerInnerWrapper {
+	display: flex;
+	flex-direction: column;
+	row-gap: 1em;
+}
+
+.contactDetails {
+	margin-bottom: 1.5em;
+}
+
+.contactDetails strong {
+	font-weight: 800;
+}
+
+.contactDetails div,
+.contactDetails ul {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+	margin: 0;
+	padding: 0;
+}
+
+.contactDetails > div {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	justify-content: space-around;
+}
+
+.phoneEmail {
+	row-gap: 1em;
+}
+
+.address li {
+	margin-block-end: 0;
+}
+
+.smallPrintWrapper {
 	text-align: center;
+}
+
+@media (max-width: 600px) {
+	.contactDetails .contactDetailsContent {
+		flex-direction: column;
+		row-gap: 1em;
+	}
+
+	.smallPrintWrapper {
+		text-align: left;
+	}
 }
