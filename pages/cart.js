@@ -6,6 +6,7 @@ import Page from '../components/page/Page'
 import CartDisplay from '../components/CartDisplay'
 import { CartContext } from '../components/contexts/CartContext'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
+import { formatPriceFromPounds } from '../utils/formatPrice'
 
 const CartPage = () => {
 	const { isCartLoading, clearCart, addToCart, getTotalItems, getTotalPrice } = useContext(CartContext)
@@ -18,50 +19,65 @@ const CartPage = () => {
 			const { quote } = router.query
 
 			if (quote) {
-				if (typeof quote === 'string' && quote.startsWith('1')) {
-					try {
-						const response = await fetch('/api/get-configuration-group', {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-							},
-							body: JSON.stringify({ id: quote }),
+				const urlParams = new URLSearchParams(window.location.search)
+				const urlOld = urlParams.get('old')
+				if (urlOld === '1') {
+					setQuoteError('Very sorry, this quote has expired and is no longer valid.')
+					return
+				}
+
+				if (typeof quote !== 'string' || !quote.startsWith('1')) {
+					setQuoteError('Very sorry, this quote link is not valid.')
+					return
+				}
+
+				try {
+					const response = await fetch('/api/get-configuration-group', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ id: quote }),
+					})
+
+					if (response.status === 404) {
+						setQuoteError('Very sorry, this quote could not be found.')
+						return
+					}
+
+					if (response.status === 410) {
+						setQuoteError('Very sorry, this quote is outdated and can not be loaded.')
+						return
+					}
+
+					if (response.ok) {
+						const data = await response.json()
+
+						clearCart()
+
+						Object.entries(data).forEach(([id, item]) => {
+							const configuration = ProductConfiguration.fromRawProperties(item)
+
+							addToCart({
+								id: id,
+								name: configuration.description,
+								pricingType: configuration.pricingType,
+								purchaseType: configuration.type,
+								price: configuration.price,
+								licence: configuration?.licence,
+							})
 						})
 
-						if (response.ok) {
-							const data = await response.json()
-
-							clearCart()
-
-							Object.entries(data).forEach(([id, item]) => {
-								const configuration = ProductConfiguration.fromRawProperties(item)
-
-								addToCart({
-									id: id,
-									name: configuration.description,
-									pricingType: configuration.pricingType,
-									purchaseType: configuration.type,
-									price: configuration.price,
-									licence: configuration?.licence,
-								})
-							})
-							// Don't try an get clever, and report quantity or price - we can't rely on the cart to update quickly enough to provide correct information.
-							setMessage({
-								text: 'Quote Loaded.',
-								type: MessageType.INFO,
-							})
-						} else if (response.status === 404) {
-							setQuoteError('Very sorry, this quote could not be found.')
-						} else if (response.status === 410) {
-							setQuoteError('Very sorry, this quote is outdated and can not be loaded.')
-						} else {
-							setQuoteError('Very sorry, an unexpected error has occurred loading this quote.')
-						}
-					} catch (error) {
-						setQuoteError('Very sorry, a fault has occurred and this quote could not be loaded.  Please try later.')
+						setMessage({
+							text: `Quote loaded for: ${formatPriceFromPounds(getTotalPrice(), false)}`,
+							type: MessageType.INFO,
+						})
+					} else {
+						setQuoteError('Very sorry, an unexpected error has occurred loading this quote.')
 					}
-				} else {
-					setQuoteError('Very sorry, this quote link is not valid.')
+				} catch (error) {
+					setQuoteError('Very sorry, a fault has occurred and this quote could not be loaded.  Please try later.')
+					return
 				}
 			}
 		}

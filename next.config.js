@@ -38,6 +38,11 @@ module.exports = {
 				permanent: true,
 			},
 			{
+				source: '/softstore/gfi_unlimited.php',
+				destination: '/',
+				permanent: false,
+			},
+			{
 				source: '/softstore/login.php',
 				destination: '/account?old=1',
 				permanent: true,
@@ -45,6 +50,11 @@ module.exports = {
 			{
 				source: '/softstore/account.php',
 				destination: '/account?old=1',
+				permanent: true,
+			},
+			{
+				source: '/softstore/shopping_cart.php',
+				destination: '/cart?old=1',
 				permanent: true,
 			},
 			{
