@@ -226,9 +226,15 @@ form button {
 	color: #fff;
 	background-color: #3a3a3a;
 	border: none;
-	border-radius: 3px;
+	border-radius: 8px;
 	cursor: pointer;
 	transition: background-color 0.3s, transform 0.1s;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+main button[disabled],
+form button[disabled] {
+	box-shadow: none;
 }
 
 main button:hover,
@@ -239,6 +245,7 @@ form button:hover {
 main button:active,
 form button:active {
 	transform: scale(0.96);
+	box-shadow: none;
 }
 
 main button:disabled,
@@ -474,6 +481,13 @@ body.userIsTabbing .keyboardNote {
 	form button {
 		height: 50px;
 		font-size: 16px;
+	}
+
+	.modalInnerWrapper {
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: -10px;
+		margin-right: -10px;
 	}
 }
 

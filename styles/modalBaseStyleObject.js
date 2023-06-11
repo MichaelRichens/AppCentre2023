@@ -6,8 +6,8 @@ const modalBaseStyleObject = {
 		left: '50%',
 		transform: 'translateX(-50%)',
 		width: 'min(800px, 80vw)',
-
 		backgroundColor: '#fbfbfb',
+		borderRadius: '10px',
 	},
 }
 

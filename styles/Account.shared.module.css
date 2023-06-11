@@ -361,6 +361,9 @@ section.orderHistory {
 }
 
 @media (max-width: 500px) {
+	.checkoutButtonWrapper > button {
+		font-size: 1.3em;
+	}
 	.accountDetails {
 		font-size: 130%;
 	}
