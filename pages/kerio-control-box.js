@@ -116,7 +116,7 @@ const ControlBox = (props) => {
 						</tr>
 						<tr>
 							<th scope='row'>Weight (lb/kg)</th>
-							<td>1,1 lb / 0.5 kg</td>
+							<td>1.1 lb / 0.5 kg</td>
 							<td>2.6 lb / 1.2 kg</td>
 							<td>16.5 lb / 7.5 kg</td>
 							<td>16.5 lb / 7.5 kg</td>
