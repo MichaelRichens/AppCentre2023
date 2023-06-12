@@ -150,8 +150,8 @@ const Account = () => {
 	// Validation functions for user details changes - these are passed to the EditableField components for immediate validation to give user feedback while editing.
 
 	const fullNameVal = (value) => {
-		if (typeof value !== 'string' || value.length < 2) {
-			return 'Must be at least 2 characters.'
+		if (typeof value !== 'string' || value.length < 1) {
+			return 'Must be at least 1 letter.'
 		}
 		if (value.length > 40) {
 			return '40 characters max.'
@@ -211,7 +211,7 @@ const Account = () => {
 							<strong>Your Name:</strong>{' '}
 							<EditableField
 								value={user?.displayName}
-								emptyValueText='ERROR'
+								emptyValueText='(Not Set)'
 								validationError={fullNameVal}
 								onChange={handleDisplayNameChange}
 							/>
