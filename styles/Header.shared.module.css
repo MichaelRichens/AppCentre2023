@@ -411,6 +411,7 @@
 
 	.productMenu > ul,
 	.productMenu > ul.multiRowProductNav {
+		padding-right: 0.7em;
 		justify-content: space-between;
 		column-gap: 0;
 		row-gap: 0.5em;
