@@ -118,6 +118,22 @@ const Header = () => {
 									GFI LanGuard
 								</ProductDropdown>
 							</li>
+							<li>
+								<DropdownMenu
+									title='Legacy Products'
+									linkData={[
+										{
+											linkText: 'GFI Unlimited',
+											href: '/gfi-unlimited',
+											currentPageStyle: headerStyles.currentPageStyle,
+										},
+									]}
+									className={`${headerStyles.navDropdown} ${
+										productNavIsMultiRow ? headerStyles.navDropdownNoFixedOpen : ''
+									}`}
+									navIsSingleRow={!productNavIsMultiRow}
+								/>
+							</li>
 						</ul>
 					</nav>
 				</div>

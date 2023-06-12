@@ -228,13 +228,17 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 			) : (
 				<fieldset>
 					<legend>Subscription Length</legend>
-					<SimpleSelect
-						name='years'
-						options={yearsOptions}
-						value={formData.unYears}
-						onChange={handleYearsChange}
-						ariaLabel='Subscription Length'
-					/>
+					{yearsOptions.length > 1 ? (
+						<SimpleSelect
+							name='years'
+							options={yearsOptions}
+							value={formData.unYears}
+							onChange={handleYearsChange}
+							ariaLabel='Subscription Length'
+						/>
+					) : (
+						<p>{yearsOptions[0].text}</p>
+					)}
 				</fieldset>
 			)}
 		</>
