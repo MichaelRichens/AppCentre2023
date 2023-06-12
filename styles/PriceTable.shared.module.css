@@ -6,6 +6,13 @@
 	border-radius: 10px;
 }
 
+.priceTable caption {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%;
+}
+
 .priceTable th,
 .priceTable td {
 	padding-top: 0.8em;
@@ -134,6 +141,7 @@ tbody.hardwarePurchase {
 
 	.priceTable caption {
 		font-size: 125%;
+		white-space: normal;
 	}
 }
 
