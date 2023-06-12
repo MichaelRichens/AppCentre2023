@@ -23,26 +23,6 @@ module.exports = {
 	async redirects() {
 		return [
 			{
-				source: 'http://appcentre.co.uk/:path*',
-				destination: 'https://www.appcentre.co.uk/:path*',
-				permanent: true,
-			},
-			{
-				source: 'http://www.appcentre.co.uk/:path*',
-				destination: 'https://www.appcentre.co.uk/:path*',
-				permanent: true,
-			},
-			{
-				source: 'https://appcentre.co.uk/:path*',
-				destination: 'https://www.appcentre.co.uk/:path*',
-				permanent: true,
-			},
-			{
-				source: '/softstore/kerio_connect.php',
-				destination: '/kerio-connect',
-				permanent: true,
-			},
-			{
 				source: '/softstore/kerio_control.php',
 				destination: '/kerio-control',
 				permanent: true,
