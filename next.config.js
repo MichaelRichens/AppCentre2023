@@ -39,8 +39,8 @@ module.exports = {
 			},
 			{
 				source: '/softstore/gfi_unlimited.php',
-				destination: '/',
-				permanent: false,
+				destination: '/gfi-unlimited',
+				permanent: true,
 			},
 			{
 				source: '/softstore/login.php',

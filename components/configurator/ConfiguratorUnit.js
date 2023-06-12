@@ -83,11 +83,10 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 
 	const typeOptions = [{ value: PurchaseType.SUB, text: 'Existing Subscription Renewal' }]
 
-	if (true) {
-		// Will need to make this optional for GFI Unlimited - not implemented this yet
+	if (productData.allowNewPurchase) {
 		typeOptions.push({ value: PurchaseType.NEW, text: 'New Subscription' })
 	}
-	if (productData.maxUnits - productData.minUnits > formData.unitsExisting) {
+	if (productData.allowAddUnits && productData.maxUnits - productData.minUnits > formData.unitsExisting) {
 		typeOptions.push({ value: PurchaseType.ADD, text: `Add ${productData.unitName.pluralC} To Subscription` })
 	}
 	if (productData.availableExtensions.length > 0) {
@@ -112,13 +111,17 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 		<>
 			<fieldset>
 				<legend>Type of Purchase</legend>
-				<SimpleSelect
-					name='type'
-					options={typeOptions}
-					value={formData.unType}
-					onChange={handleTypeChange}
-					ariaLabel='Type of Purchase'
-				/>
+				{typeOptions.length > 1 ? (
+					<SimpleSelect
+						name='type'
+						options={typeOptions}
+						value={formData.unType}
+						onChange={handleTypeChange}
+						ariaLabel='Type of Purchase'
+					/>
+				) : (
+					<p>{typeOptions[0]?.text}</p>
+				)}
 			</fieldset>
 
 			<fieldset className={configuratorStyles.unitsInput}>

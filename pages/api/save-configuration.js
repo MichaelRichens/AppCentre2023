@@ -1,3 +1,5 @@
+import PricingType from '../../utils/types/enums/PricingType'
+import PurchaseType from '../../utils/types/enums/PurchaseType'
 import processConfiguration from '../../utils/processConfiguration'
 import { asyncFetchAndProcessProducts } from '../../server-utils/asyncFetchAndProcessProducts'
 import { asyncSaveConfiguration } from '../../server-utils/saveAndGetConfigurations'
@@ -14,6 +16,17 @@ export default async function handler(req, res) {
 				/** @var {Object} freshProductData A trusted copy of the product data from the database, for the configuration options received from client side */
 				// console.time('save-configuration await 1')
 				const freshProductData = await asyncFetchAndProcessProducts(productFamily, productOption)
+
+				// Check for purchases using illegal methods (ie legacy products which are not allowed certain purchase types - these are blocked from being chosen client side, but we restrict here just to be sure)
+				if (freshProductData.pricingType === PricingType.UNIT) {
+					if (formData.unType === PurchaseType.NEW && !freshProductData.allowNewPurchase) {
+						return res.status(410).json({ message: 'New purchase not allowed for this product.' })
+					}
+
+					if (formData.unType === PurchaseType.ADD && !freshProductData.allowAddUnits) {
+						return res.status(410).json({ message: 'Add units not allowed for this product.' })
+					}
+				}
 
 				// console.timeEnd('save-configuration await 1')
 

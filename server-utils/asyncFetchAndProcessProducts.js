@@ -64,6 +64,7 @@ async function fetchFromProductDataCollection(collectionName, productFamily, pro
 					$or: [{ family_option: productOption }, { family_option: { $exists: false } }, { family_option: '' }],
 				}
 			}
+
 			const data = await collection.find(query).toArray()
 
 			// Convert _id to string
@@ -140,6 +141,20 @@ const processProductsUnit = (data, products, extensions) => {
 	//This sorting is important, it being done is relied on elsewhere
 
 	const productData = createBaseProductDataObject(data)
+
+	// Legacy products have new purchases, and sometimes additional user purchases, forbidden.  Set flags to signal this.
+	productData.allowNewPurchase = true
+	productData.allowAddUnits = true
+
+	if (data.noNewPurchase === 'true') {
+		productData.allowNewPurchase = false
+		extensions = []
+	}
+
+	if (data.noAddUnits === 'true') {
+		productData.allowAddUnits = false
+		extensions = []
+	}
 
 	const sortedProducts = products.sort((a, b) => {
 		if (a.product_family !== b.product_family) {
