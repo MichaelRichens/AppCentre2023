@@ -85,7 +85,7 @@
 	padding: 0;
 	margin: 0;
 	row-gap: 1em;
-	width: 90%;
+	width: 85%;
 }
 
 .headerMainContent li {
@@ -307,6 +307,14 @@
 	.headerMainContent {
 		font-size: 14px;
 	}
+	.headerMainContent ul {
+		width: 100%;
+	}
+
+	.gfiPartnerLogoContainer {
+		display: none;
+	}
+
 	.productMenu li {
 		width: 9em;
 	}
@@ -315,10 +323,6 @@
 @media (max-width: 600px) {
 	.productMenu {
 		margin-right: -20%;
-	}
-
-	.gfiPartnerLogoContainer {
-		display: none;
 	}
 }
 
