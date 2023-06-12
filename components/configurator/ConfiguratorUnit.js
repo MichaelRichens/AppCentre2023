@@ -152,7 +152,7 @@ const ConfiguratorUnit = ({ productData, formData, updateFormData }) => {
 						error={formData.unitsExistingError}
 					/>
 				)}
-				{formData.unType !== PurchaseType.EXT && (
+				{formData.unType !== PurchaseType.EXT && productData.allowAddUnits && (
 					<SimpleInputNumber
 						label={
 							formData.unType === PurchaseType.NEW
