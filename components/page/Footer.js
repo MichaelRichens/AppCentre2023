@@ -14,7 +14,7 @@ const Footer = () => {
 					<div className={styles.contactDetails}>
 						<h2>Contact Details</h2>
 						<div className={styles.contactDetailsContent}>
-							<div className={styles.phoneEmail}>
+							<div className={styles.phoneWeb}>
 								<div>
 									<strong>Tel:</strong> 01223 833 412
 								</div>
@@ -25,6 +25,18 @@ const Footer = () => {
 									) : (
 										'info@appcentre.co.uk'
 									)}
+								</div>
+								<div>
+									<strong>Websites:</strong>
+									<ul>
+										<li>www.appcentre.co.uk</li>
+										<li>
+											<Link href='https://www.macupgrades.co.uk/store/'>www.macuprades.co.uk</Link>
+										</li>
+										<li>
+											<Link href='https://www.solderfix.co.uk'>www.solderfix.co.uk</Link>
+										</li>
+									</ul>
 								</div>
 							</div>
 							<div className={styles.address}>
