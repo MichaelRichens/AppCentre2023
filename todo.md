@@ -1,7 +1,3 @@
------v1.1-----
-
-Update live mongodb products collection
-
 -----General-----
 
 Firebase
