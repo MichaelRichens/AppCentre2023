@@ -19,6 +19,8 @@ export default async (req, res) => {
 	}
 
 	const baseUrl = baseUrlFromReq(req)
+	console.log('process.env.NEXT_PUBLIC_URL', process.env.NEXT_PUBLIC_URL)
+	console.log('baseUrl', baseUrl)
 
 	const decodedToken = await asyncDecodeFirebaseToken(req?.headers?.authorization)
 
