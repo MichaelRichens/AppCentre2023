@@ -17,6 +17,7 @@ import { getBaseUrlFromLocation } from '../utils/baseUrl'
 const OrderSuccess = () => {
 	const { user, anonymousUser, isAuthLoading } = useAuth()
 	const { clearCart } = useContext(CartContext)
+	const [pageIsLoading, setPageIsLoading] = useState(true)
 	const [sessionIdState, setSessionIdState] = useState(null)
 	const [noUrlSessionId, setNoUrlSessionId] = useState(false)
 	const [notFirstVisitToPage, setNotFirstVisitToPage] = useState(false)
@@ -53,6 +54,7 @@ const OrderSuccess = () => {
 
 		if (!urlSessionId && window?.location) {
 			setNoUrlSessionId(true)
+			setPageIsLoading(false)
 		}
 
 		// If so, set it in a state variable and removed it from their sessionStorage so this won't get processed again if they return to this page.
@@ -61,6 +63,7 @@ const OrderSuccess = () => {
 			cleanUpAfterCheckout()
 		} else {
 			setNotFirstVisitToPage(true)
+			setPageIsLoading(false)
 		}
 
 		// Basic cleanup to account for someone closing the page without giving it time to do its thing - they won't get their details updated from stripe, but we can at least clear their cart.
@@ -81,6 +84,7 @@ const OrderSuccess = () => {
 
 		if (!returnedUser) {
 			// no user is handled in the component return
+			setPageIsLoading(false)
 			return
 		}
 
@@ -107,12 +111,15 @@ const OrderSuccess = () => {
 				// and if the user checked out anonymously, the showing of a log in screen which can upgrade them to a full account which if they use it, will then trigger the next use effect
 				if (!session) {
 					setMessage({ text: 'Error finding order', type: MessageType.ERROR })
+					setPageIsLoading(false)
 					return
 				}
 
 				setSessionDataState(session)
+				setPageIsLoading(false)
 			} catch (error) {
 				setMessage({ text: 'Error loading order', type: MessageType.ERROR })
+				setPageIsLoading(false)
 				return
 			}
 		}
@@ -128,6 +135,14 @@ const OrderSuccess = () => {
 
 		setOrderId(sessionDataState?.metadata?.orderId)
 	}, [sessionDataState, user])
+
+	if (pageIsLoading) {
+		return (
+			<Page title='Checking Order'>
+				<p>Please wait...</p>
+			</Page>
+		)
+	}
 
 	if (noUrlSessionId) {
 		return (
