@@ -216,7 +216,7 @@ const OrderDetails = ({ orderId }) => {
 						{Object.entries(order?.line_items || {}).map(([key, line]) => (
 							<li key={key}>
 								<ul className={accountStyles.lineItem}>
-									<li>{line?.description + (line?.licence.length ? ` (${line.licence})` : '')}</li>
+									<li>{line?.description + (line?.licence?.length ? ` (${line.licence})` : '')}</li>
 									<li>{formatPriceFromPounds(line?.price, false)}</li>
 								</ul>
 							</li>
