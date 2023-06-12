@@ -123,6 +123,11 @@ const Header = () => {
 									title='Legacy Products'
 									linkData={[
 										{
+											linkText: 'Kerio Operator',
+											href: '/kerio-operator',
+											currentPageStyle: headerStyles.currentPageStyle,
+										},
+										{
 											linkText: 'GFI Unlimited',
 											href: '/gfi-unlimited',
 											currentPageStyle: headerStyles.currentPageStyle,
