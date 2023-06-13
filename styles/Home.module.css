@@ -40,6 +40,10 @@ ul.prodLinks {
 	padding-left: 0;
 }
 
+ul.prodLinks li:not(:last-child) {
+	margin-right: 1em;
+}
+
 @media (max-width: 800px) {
 	.products > ul {
 		justify-content: center;
