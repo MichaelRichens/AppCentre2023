@@ -67,7 +67,7 @@ const CartPage = () => {
 								licence: configuration?.licence,
 							})
 						})
-
+						// Warning: do not try and include cart details or price - cart state updates are not available immediately, and old data gets displayed
 						setMessage({
 							text: `Quote Loaded`,
 							type: MessageType.INFO,
