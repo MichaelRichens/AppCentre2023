@@ -69,7 +69,7 @@ const CartPage = () => {
 						})
 
 						setMessage({
-							text: `Quote loaded for: ${formatPriceFromPounds(getTotalPrice(), false)}`,
+							text: `Quote Loaded`,
 							type: MessageType.INFO,
 						})
 					} else {
