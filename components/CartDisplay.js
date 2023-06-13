@@ -191,12 +191,13 @@ const CartDisplay = () => {
 								{isExistingLicence && (
 									<label className={styles.licenceWrapper}>
 										<span>
-											Existing licence key:{' '}
+											Existing licence key{' '}
 											<InfoTooltip>
 												{`If you have access to it, please input the licence key for the existing subscription this ${
 													item.purchaseType === PurchaseType.SUB ? 'renewal' : 'modification'
 												} is to be applied to.`}
-											</InfoTooltip>{' '}
+											</InfoTooltip>
+											:{' '}
 										</span>
 										<EditableField
 											type='text'
