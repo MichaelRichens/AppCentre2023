@@ -54,6 +54,11 @@ const CartPage = () => {
 
 						clearCart()
 
+						setMessage({
+							text: `Quote Loaded`,
+							type: MessageType.INFO,
+						})
+
 						Object.entries(data).forEach(([id, item]) => {
 							const configuration = ProductConfiguration.fromRawProperties(item)
 
@@ -65,11 +70,6 @@ const CartPage = () => {
 								price: configuration.price,
 								licence: configuration?.licence,
 							})
-						})
-						// Warning: do not try and include cart details or price - cart state updates are not available immediately, and old data gets displayed
-						setMessage({
-							text: `Quote Loaded`,
-							type: MessageType.INFO,
 						})
 					} else {
 						setQuoteError('Very sorry, an unexpected error has occurred loading this quote.')
