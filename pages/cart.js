@@ -6,7 +6,6 @@ import Page from '../components/page/Page'
 import CartDisplay from '../components/CartDisplay'
 import { CartContext } from '../components/contexts/CartContext'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
-import { formatPriceFromPounds } from '../utils/formatPrice'
 
 const CartPage = () => {
 	const { isCartLoading, clearCart, addToCart, getTotalItems, getTotalPrice } = useContext(CartContext)

@@ -38,7 +38,8 @@
 	background-color: #d3ebfc;
 }
 
-.cartContainer .cartItems button {
+button.removeItem {
+	font-size: 120%;
 	padding: 0.1em 0.3em;
 	margin-right: 1em;
 	height: initial;
@@ -51,12 +52,6 @@
 	display: block;
 	text-align: right;
 	margin-top: 0.5em;
-}
-
-.licenceWrapper input {
-	font-size: 120%;
-	margin-left: 1em;
-	width: 20em;
 }
 
 .checkout {
@@ -97,18 +92,11 @@
 	}
 }
 
-@media (max-width: 650px) {
-	.licenceWrapper input {
-		width: 15em;
-	}
-}
-
 @media (max-width: 500px) {
-	.licenceWrapper input {
-		width: 90%;
-		height: 1.5em;
+	.licenceWrapper {
+		display: flex;
+		flex-direction: column;
 	}
-
 	.configSave button {
 		height: 30px;
 		font-size: 1em;
