@@ -203,6 +203,7 @@ const CartDisplay = () => {
 											value={item.licence}
 											onChange={createLicenceOnChangeHandler(item.id)}
 											emptyValueText='(not specified)'
+											validationError={(newValue) => (newValue?.length > 40 ? 'Max 40 characters' : false)}
 										/>
 									</label>
 								)}

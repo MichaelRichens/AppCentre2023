@@ -125,7 +125,10 @@ const EditableField = ({
 						className={styles.editButton}
 						aria-label='Click to Edit'
 						type='button'
-						onClick={() => setEditing(true)}>
+						onClick={() => {
+							setError('')
+							setEditing(true)
+						}}>
 						<img
 							src={'/images/icons/edit_icon50x50.png'}
 							data-tooltip-id={tooltipId}
