@@ -29,7 +29,11 @@ const withAdminAuth = (Component) => {
 					const docSnap = await getDoc(userDocRef)
 					if (docSnap.exists()) {
 						const userData = docSnap.data()
-						setUserIsAdmin(userData.role === 'admin')
+						if (userData.role === 'admin') {
+							setUserIsAdmin(true)
+						} else {
+							setUserIsAdmin(true)
+						}
 					}
 				} catch (error) {
 					setUserIsAdmin(false)
