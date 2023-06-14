@@ -25,14 +25,39 @@ const withAdminAuth = (Component) => {
 
 			const checkAdminRole = async () => {
 				try {
+					const idTokenResult = await user.getIdTokenResult()
+					const claims = idTokenResult.claims
+					// Check for admin claim
+					if (claims.role === 'admin') {
+						setUserIsAdmin(true)
+						return
+					}
+
+					// If the admin claim is not found, check for role being set to admin in the user's users collection document
+					// This is how a new admin user is authorised - the role field is set to be not modifiable from client side in firestore rules
 					const userDocRef = doc(firestore, 'users', user.uid)
 					const docSnap = await getDoc(userDocRef)
 					if (docSnap.exists()) {
 						const userData = docSnap.data()
 						if (userData.role === 'admin') {
-							setUserIsAdmin(true)
+							const idToken = await user.getIdToken()
+
+							const response = await fetch('/api/set-admin-claim', {
+								method: 'POST',
+								headers: {
+									Authorization: `Bearer ${idToken}`,
+									'Content-Type': 'application/json',
+								},
+							})
+							if (response.ok) {
+								await user.getIdToken(true)
+								setUserIsAdmin(true)
+							} else {
+								console.error('Unexpectedly failed to set admin claim:', response.status, response.statusText)
+								setUserIsAdmin(false)
+							}
 						} else {
-							setUserIsAdmin(true)
+							setUserIsAdmin(false)
 						}
 					}
 				} catch (error) {
