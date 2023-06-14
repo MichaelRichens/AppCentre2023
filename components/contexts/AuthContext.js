@@ -48,8 +48,26 @@ export const AuthProvider = ({ children }) => {
 		return false
 	}
 
+	const asyncIsUserAdmin = async (...args) => {
+		if (args.length > 0) {
+			throw new Error(
+				'asyncIsUserAdmin should not be called with any arguments - it operates on the current `user` provided by AuthContext'
+			)
+		}
+		if (!user) {
+			return false
+		}
+		const idTokenResult = await user.getIdTokenResult()
+		const claims = idTokenResult.claims
+		// Check for admin claim
+		if (claims.role === 'admin') {
+			return true
+		}
+		return false
+	}
+
 	return (
-		<AuthContext.Provider value={{ user, anonymousUser, isAuthLoading, asyncUpgradeUser }}>
+		<AuthContext.Provider value={{ user, anonymousUser, isAuthLoading, asyncUpgradeUser, asyncIsUserAdmin }}>
 			{children}
 		</AuthContext.Provider>
 	)

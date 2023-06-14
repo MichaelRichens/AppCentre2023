@@ -1,35 +1,38 @@
 import React, { useState, useEffect } from 'react'
 import { onSnapshot, collection, where, query } from 'firebase/firestore'
 import { useAuth } from '/components/contexts/AuthContext'
-import { OrderStatus } from '/utils/types/enums/OrderStatus'
 import { firestore } from '/utils/firebaseClient'
+
 import { ordersSnapshotListener } from '/utils/ordersDisplay'
 
 import accountStyles from '/styles/Account.shared.module.css'
 
 /**
- * Displays the orders for the current logged in firebase user.
- * Should only be used on pages served by withAuth HOC
+ * Displays all orders placed
+ * Should only be used on pages served by withAdminAuth HOC
+ * (Firestore orders table will also require an admin user to serve documents)
  */
-const CustomerOrders = ({}) => {
-	const { user, isAuthLoading } = useAuth()
-
+const AdminOrders = ({}) => {
+	const { user, isAuthLoading, asyncIsUserAdmin } = useAuth()
+	// isUserAdmin starts as null, and is set to true or false once it has been determined
+	const [isUserAdmin, setIsUserAdmin] = useState(null)
 	const [orders, setOrders] = useState(null)
 	const [limitOrdersShown, setLimitOrdersShown] = useState(true)
 
 	useEffect(() => {
-		if (!user || isAuthLoading) {
+		if (isAuthLoading || !user) {
+			return
+		}
+		setIsUserAdmin(asyncIsUserAdmin())
+	}, [user, isAuthLoading])
+
+	useEffect(() => {
+		if (!isUserAdmin) {
 			return
 		}
 
-		// Create a reference to the user's documents in the orders collection.
-		const unwantedStatuses = [OrderStatus.EXPIRED, OrderStatus.UPDATE_ERROR]
-		const orderDocRef = query(
-			collection(firestore, 'orders'),
-			where('firebaseUserId', '==', user.uid),
-			where('status', 'not-in', unwantedStatuses)
-		)
-		console.log(unwantedStatuses)
+		// Create a reference to the  orders collection.
+		const orderDocRef = collection(firestore, 'orders')
 
 		// And set up a listener on that reference
 		const unsubscribeOrders = onSnapshot(orderDocRef, (querySnapshot) => {
@@ -40,9 +43,13 @@ const CustomerOrders = ({}) => {
 		return () => {
 			unsubscribeOrders()
 		}
-	}, [user, isAuthLoading])
+	}, [isUserAdmin])
 
-	if (!user || isAuthLoading) {
+	if (isUserAdmin === null) {
+		return <p>Loading...</p>
+	}
+
+	if (isUserAdmin === false) {
 		return null
 	}
 
@@ -61,7 +68,8 @@ const CustomerOrders = ({}) => {
 			</>
 		)
 	}
-	return <p>No orders yet!</p>
+
+	return <p>No orders found.</p>
 }
 
-export default CustomerOrders
+export default AdminOrders
