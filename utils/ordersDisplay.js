@@ -10,7 +10,7 @@ import getOrderPrice from '/utils/getOrderPrice'
  * @export
  * @param {firebase.firestore.QuerySnapshot} ordersQuerySnapshot - The Firestore snapshot of orders to process.
  * @param {Function} setOrdersState - A state setter function to update the state with the processed orders.
- * @param {boolean} [isAdmin=false] - Optionally can pass `true` to have the listener configure itself for display on admin pages - more details to order status, links to non-complete order pages.
+ * @param {boolean} [isAdmin=false] - Optionally can pass `true` to have the listener configure itself for use with admin component - more details to order status, links to admin order pages not customer ones
  */
 export function ordersSnapshotListener(ordersQuerySnapshot, setOrdersState, isAdmin = false) {
 	// Iterate the snapshot orders and pull their order details into an array
