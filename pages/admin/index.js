@@ -6,7 +6,6 @@ import AdminOrders from '/components/admin/AdminOrders'
 const Admin = () => {
 	return (
 		<Page title='Admin'>
-			<p>Admin page</p>
 			<AdminOrders />
 		</Page>
 	)

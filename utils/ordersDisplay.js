@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import TableData from '/utils/types/TableData'
-import { OrderStatusDisplay, isCompleteOrder } from '/utils/types/enums/OrderStatus'
+import { OrderStatusDisplay, OrderStatusDisplayAdmin, isCompleteOrder } from '/utils/types/enums/OrderStatus'
 import getOrderPrice from '/utils/getOrderPrice'
 
 /**
@@ -10,8 +10,9 @@ import getOrderPrice from '/utils/getOrderPrice'
  * @export
  * @param {firebase.firestore.QuerySnapshot} ordersQuerySnapshot - The Firestore snapshot of orders to process.
  * @param {Function} setOrdersState - A state setter function to update the state with the processed orders.
+ * @param {boolean} [isAdmin=false] - Optionally can pass `true` to have the listener configure itself for display on admin pages - more details to order status, links to non-complete order pages.
  */
-export function ordersSnapshotListener(ordersQuerySnapshot, setOrdersState) {
+export function ordersSnapshotListener(ordersQuerySnapshot, setOrdersState, isAdmin = false) {
 	// Iterate the snapshot orders and pull their order details into an array
 	const ordersArray = []
 	ordersQuerySnapshot.forEach((doc) => {
@@ -24,8 +25,8 @@ export function ordersSnapshotListener(ordersQuerySnapshot, setOrdersState) {
 			// id
 			order.orderId = orderData.orderId
 
-			// We only provide a link to the order details page for orders with some kind of completed status
-			order.generateLink = isCompleteOrder(orderData.status)
+			// For customers, we only provide a link to the order details page for orders with some kind of completed status
+			order.generateLink = isAdmin || isCompleteOrder(orderData.status)
 
 			// Date/time placed
 			const date = orderData.createdAt.toDate()
@@ -51,11 +52,22 @@ export function ordersSnapshotListener(ordersQuerySnapshot, setOrdersState) {
 			order.priceEx = orderPrice.priceExFormatted
 			order.priceInc = orderPrice.priceIncFormatted
 
-			order.status = OrderStatusDisplay(orderData.status)
+			if (!isAdmin || OrderStatusDisplay(orderData.status) === OrderStatusDisplayAdmin(orderData.status)) {
+				order.status = OrderStatusDisplay(orderData.status)
+			} else {
+				order.status = (
+					<>
+						{OrderStatusDisplay(orderData.status)}
+						<br />({OrderStatusDisplayAdmin(orderData.status)})
+					</>
+				)
+			}
 
 			ordersArray.push(order)
 		}
 	})
+
+	let orderPath = isAdmin ? '/admin/order/' : '/order/'
 
 	// Sort the orders into most recent first
 	ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
@@ -69,7 +81,7 @@ export function ordersSnapshotListener(ordersQuerySnapshot, setOrdersState) {
 		tableData.setData(
 			order.date,
 			'Order',
-			(order.generateLink ? <Link href={'/order/' + order.orderId}>{order.orderId}</Link> : order.orderId) || ''
+			(order.generateLink ? <Link href={orderPath + order.orderId}>{order.orderId}</Link> : order.orderId) || ''
 		)
 		tableData.setData(order.date, 'Name', order.name || '')
 		tableData.setData(order.date, 'Price Ex Vat', order.priceEx || '')

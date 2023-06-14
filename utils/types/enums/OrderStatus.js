@@ -44,6 +44,27 @@ export const OrderStatusDisplay = (status) => {
 	}
 }
 
+export const OrderStatusDisplayAdmin = (status) => {
+	switch (status) {
+		case OrderStatus.CHECKOUT:
+			return 'Checkout Started'
+		case OrderStatus.EXPIRED:
+			return 'Checkout Expired'
+		case OrderStatus.PAID:
+			return 'Complete'
+		case OrderStatus.COMPLETE_NO_PAYMENT:
+			return 'No Charge'
+		case OrderStatus.FAILED:
+			return 'Payment Failed'
+		case OrderStatus.FULLY_REFUNDED:
+			return 'Refunded'
+		case OrderStatus.PARTIALLY_REFUNDED:
+			return 'Partially Refunded'
+		default:
+			return 'Order Error'
+	}
+}
+
 export const isCompleteOrder = (status) => {
 	switch (status) {
 		case OrderStatus.FULLY_REFUNDED:

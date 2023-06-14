@@ -36,7 +36,7 @@ const AdminOrders = ({}) => {
 
 		// And set up a listener on that reference
 		const unsubscribeOrders = onSnapshot(orderDocRef, (querySnapshot) => {
-			ordersSnapshotListener(querySnapshot, setOrders)
+			ordersSnapshotListener(querySnapshot, setOrders, true)
 		})
 
 		// Clean up subscriptions on unmount
