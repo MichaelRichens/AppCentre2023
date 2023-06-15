@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Tooltip } from 'react-tooltip'
-import useUniqueId from './hooks/useUniqueId'
+import useUniqueId from '/components/hooks/useUniqueId'
+import BusyButton from '/components/BusyButton'
 
 import styles from '/styles/EditableField.module.css'
 
@@ -44,6 +45,7 @@ const EditableField = ({
 	const confirmRef = useRef(null)
 	const [editing, setEditing] = useState(false)
 	const [confirming, setConfirming] = useState(false)
+	const [confirmButtonPressed, setConfirmButtonPressed] = useState(false)
 	const [liveValue, setLiveValue] = useState(value || '')
 	const [error, setError] = useState('')
 
@@ -102,10 +104,12 @@ const EditableField = ({
 
 	// Handler for user making a final confirmation of their edit
 	const handleConfirm = async () => {
+		setConfirmButtonPressed(true)
 		setError('')
 		await onChange(liveValue)
 		setEditing(false)
 		setConfirming(false)
+		setConfirmButtonPressed(false)
 	}
 
 	// Handler for the user rejecting their edit
@@ -159,9 +163,15 @@ const EditableField = ({
 			) : (
 				<>
 					Change to: <strong>{liveValue ? liveValue : emptyValueText}</strong>
-					<button ref={confirmRef} type='submit' className={styles.confirm} onClick={handleConfirm}>
+					<BusyButton
+						ref={confirmRef}
+						isBusy={confirmButtonPressed}
+						busyWidth={13}
+						type='submit'
+						className={styles.confirm}
+						onClick={handleConfirm}>
 						Confirm
-					</button>{' '}
+					</BusyButton>{' '}
 					<button type='button' className={styles.cancel} onClick={handleCancel}>
 						Cancel
 					</button>
