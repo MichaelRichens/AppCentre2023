@@ -53,14 +53,15 @@ function sharedCreateTable(ordersArray, isAdmin) {
 
 	// And create a TableData instance from them
 	// NOTE: Styles are applied to this table by column position, so need to update Account.shared.module.css .orderHistoryTable when changing column layout
-	const columns = ['Order', 'Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
-	const rows = ordersArray.map((order) => order.date)
-	const tableData = new TableData(rows, columns, 'Date')
+	const columns = ['Date', 'Order ID', 'Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
+	const rows = ordersArray.map((order, index) => index + 1)
+	const tableData = new TableData(rows, columns)
 
-	ordersArray.forEach((order) => {
+	ordersArray.forEach((order, index) => {
+		tableData.setData(index + 1, 'Date', order.date || '')
 		tableData.setData(
-			order.date,
-			'Order',
+			index + 1,
+			'Order ID',
 			<>
 				{isCompleteOrder(order.status) ? <Link href={'/order/' + order.orderId}>{order.orderId}</Link> : order.orderId}
 				{isAdmin && (
@@ -71,10 +72,10 @@ function sharedCreateTable(ordersArray, isAdmin) {
 				)}
 			</>
 		)
-		tableData.setData(order.date, 'Name', order.name || '')
-		tableData.setData(order.date, 'Price Ex Vat', order.priceEx || '')
-		tableData.setData(order.date, 'Price Inc Vat', order.priceInc || '')
-		tableData.setData(order.date, 'Status', order.displayStatus || '')
+		tableData.setData(index + 1, 'Name', order.name || '')
+		tableData.setData(index + 1, 'Price Ex Vat', order.priceEx || '')
+		tableData.setData(index + 1, 'Price Inc Vat', order.priceInc || '')
+		tableData.setData(index + 1, 'Status', order.displayStatus || '')
 	})
 	return tableData
 }

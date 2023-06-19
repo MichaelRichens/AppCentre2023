@@ -136,23 +136,23 @@ section.orderHistory {
 }
 
 /* Order ID */
-.orderHistoryTable td:nth-child(2) {
-	text-align: left;
-}
-
-/* Customer name */
 .orderHistoryTable td:nth-child(3) {
 	text-align: left;
 }
 
+/* Customer name */
+.orderHistoryTable td:nth-child(4) {
+	text-align: left;
+}
+
 /* ex and inc prices */
-.orderHistoryTable td:nth-child(4),
-.orderHistoryTable td:nth-child(5) {
+.orderHistoryTable td:nth-child(5),
+.orderHistoryTable td:nth-child(6) {
 	text-align: right;
 }
 
 /* Order status */
-.orderHistoryTable td:nth-child(6) {
+.orderHistoryTable td:nth-child(7) {
 	text-align: center;
 }
 
@@ -377,8 +377,8 @@ section.orderHistory {
 	}
 
 	/* Hide `name` column entirely at low widths */
-	.orderHistoryTable th[scope='col']:nth-child(3),
-	.orderHistory td:nth-child(3) {
+	.orderHistoryTable th[scope='col']:nth-child(4),
+	.orderHistoryTable td:nth-child(4) {
 		display: none;
 	}
 }
