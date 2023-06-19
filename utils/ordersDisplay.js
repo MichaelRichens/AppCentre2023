@@ -43,6 +43,9 @@ function getSharedOrderData(orderData) {
 
 // Helper function for creating the TableData instance in both the customer and admin ordersSnapshotListener
 // The isAdmin boolean can be set to true to show admin only data (this is all client side and not truly secure, but actual data will only be visible to admin users with the correct firebase permissions to see it)
+
+// FIXME - using TableData for this is more trouble than its worth.  It relies on unique row names being used.  We originally used dates for the row names, but duplicate dates (to within a second) are more than possible
+// so ended up having to number them.  And then hide the row header in css since we don't really want the numbers.  Would be a lot more sensible just make a custom table rather than squeezing it into TableData.
 function sharedCreateTable(ordersArray, isAdmin) {
 	if (ordersArray?.length < 1) {
 		return null

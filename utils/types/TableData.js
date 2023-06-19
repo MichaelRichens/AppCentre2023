@@ -1,5 +1,6 @@
 /**
  * TableData class is used to manage tabular data with rows and columns, and generate a JSX element from them to go inside an html table.
+ * @warning This class relies on row names being unique.  Will throw an error if they are not, which is a problem if this is something that can happen in some circumstances, but doesn't in testing...
  * @property {string[] | Set<string>} rows - Array or Set of row names.
  * @property {string[] | Set<string>} columns - Array or Set of column names.
  * @property {string?} topLeft - The text to appear in the top left cell of the table.

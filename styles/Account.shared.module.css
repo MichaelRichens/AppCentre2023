@@ -127,11 +127,17 @@ section.orderHistory {
 	background-color: #e0e0e0;
 }
 
+/* Hiding the first column (after change to numbering the rows to stop duplicate row problems in TableData object - bit of a hack, see comments in ordersDisplay.js where object is created) */
+.orderHistoryTable thead th:first-child,
+.orderHistoryTable th[scope='row'] {
+	display: none;
+}
+
 /* Don't like using column position for styling tables, since it tends to get forgotten about when changes happen, but TableData class hasn't had any className functionality added, so here we are.. 
    Note: these are used in low width styles as well, and need to be kept up to date*/
 
 /* Date */
-.orderHistoryTable th[scope='row'] {
+.orderHistoryTable td:nth-child(2) {
 	text-align: left;
 }
 
