@@ -3,7 +3,7 @@ import { onSnapshot, collection, where, query } from 'firebase/firestore'
 import { useAuth } from '/components/contexts/AuthContext'
 import { firestore } from '/utils/firebaseClient'
 
-import { ordersSnapshotListener } from '/utils/ordersDisplay'
+import { adminOrdersSnapshotListener } from '/utils/ordersDisplay'
 
 import accountStyles from '/styles/Account.shared.module.css'
 
@@ -36,7 +36,7 @@ const AdminOrders = ({}) => {
 
 		// And set up a listener on that reference
 		const unsubscribeOrders = onSnapshot(orderDocRef, (querySnapshot) => {
-			ordersSnapshotListener(querySnapshot, setOrders, true)
+			adminOrdersSnapshotListener(querySnapshot, setOrders)
 		})
 
 		// Clean up subscriptions on unmount

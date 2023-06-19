@@ -3,7 +3,7 @@ import { onSnapshot, collection, where, query } from 'firebase/firestore'
 import { useAuth } from '/components/contexts/AuthContext'
 import { OrderStatus } from '/utils/types/enums/OrderStatus'
 import { firestore } from '/utils/firebaseClient'
-import { ordersSnapshotListener } from '/utils/ordersDisplay'
+import { customerOrdersSnapshotListener } from '/utils/ordersDisplay'
 
 import accountStyles from '/styles/Account.shared.module.css'
 
@@ -29,11 +29,10 @@ const CustomerOrders = ({}) => {
 			where('firebaseUserId', '==', user.uid),
 			where('status', 'not-in', unwantedStatuses)
 		)
-		console.log(unwantedStatuses)
 
 		// And set up a listener on that reference
 		const unsubscribeOrders = onSnapshot(orderDocRef, (querySnapshot) => {
-			ordersSnapshotListener(querySnapshot, setOrders)
+			customerOrdersSnapshotListener(querySnapshot, setOrders)
 		})
 
 		// Clean up subscriptions on unmount
