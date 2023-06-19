@@ -22,6 +22,9 @@ class TableData {
 
 		// Initialize the data object
 		this.rows.forEach((row) => {
+			if (this.data.hasOwnProperty(row)) {
+				throw new Error('TableData requires row names to be unique.')
+			}
 			this.data[row] = {}
 			this.columns.forEach((column) => {
 				this.data[row][column] = ''
