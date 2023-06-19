@@ -66,7 +66,7 @@ function sharedCreateTable(ordersArray, isAdmin) {
 				{isAdmin && (
 					<>
 						<br />
-						<Link href={'/admin/order/' + order.orderId}>{order.orderId}</Link>{' '}
+						<Link href={'/admin/order/' + order.orderId}>Admin</Link>
 					</>
 				)}
 			</>
