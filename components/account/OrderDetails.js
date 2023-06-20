@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { onSnapshot, collection, where, query, getDocs, doc } from 'firebase/firestore'
+import { onSnapshot, collection, where, query, getDocs } from 'firebase/firestore'
 import { jsPDF } from 'jspdf'
 import html2canvas from 'html2canvas'
 import Modal from 'react-modal'
