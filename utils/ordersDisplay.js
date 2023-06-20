@@ -1,5 +1,3 @@
-import Link from 'next/link'
-import TableData from '/utils/types/TableData'
 import { OrderStatusDisplay, OrderStatusDisplayAdmin, isCompleteOrder } from '/utils/types/enums/OrderStatus'
 import getOrderPrice from '/utils/getOrderPrice'
 
@@ -41,48 +39,6 @@ function getSharedOrderData(orderData) {
 	return order
 }
 
-// Helper function for creating the TableData instance in both the customer and admin ordersSnapshotListener
-// The isAdmin boolean can be set to true to show admin only data (this is all client side and not truly secure, but actual data will only be visible to admin users with the correct firebase permissions to see it)
-
-// FIXME - using TableData for this is more trouble than its worth.  It relies on unique row names being used.  We originally used dates for the row names, but duplicate dates (to within a second) are more than possible
-// so ended up having to number them.  And then hide the row header in css since we don't really want the numbers.  Would be a lot more sensible just make a custom table rather than squeezing it into TableData.
-function sharedCreateTable(ordersArray, isAdmin) {
-	if (ordersArray?.length < 1) {
-		return null
-	}
-
-	// Sort the orders into most recent first
-	ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
-
-	// And create a TableData instance from them
-	// NOTE: Styles are applied to this table by column position, so need to update Account.shared.module.css .orderHistoryTable when changing column layout
-	const columns = ['Date', 'Order ID', 'Name', 'Price Ex Vat', 'Price Inc Vat', 'Status']
-	const rows = ordersArray.map((order, index) => index + 1)
-	const tableData = new TableData(rows, columns)
-
-	ordersArray.forEach((order, index) => {
-		tableData.setData(index + 1, 'Date', order.date || '')
-		tableData.setData(
-			index + 1,
-			'Order ID',
-			<>
-				{isCompleteOrder(order.status) ? <Link href={'/order/' + order.orderId}>{order.orderId}</Link> : order.orderId}
-				{isAdmin && (
-					<>
-						<br />
-						<Link href={'/admin/order/' + order.orderId}>Admin</Link>
-					</>
-				)}
-			</>
-		)
-		tableData.setData(index + 1, 'Name', order.name || '')
-		tableData.setData(index + 1, 'Price Ex Vat', order.priceEx || '')
-		tableData.setData(index + 1, 'Price Inc Vat', order.priceInc || '')
-		tableData.setData(index + 1, 'Status', order.displayStatus || '')
-	})
-	return tableData
-}
-
 /**
  * For displaying orders to the customer.  Iterates over a Firestore snapshot of orders, formats the data for each order,
  * and updates the state with a TableData instance of the orders.
@@ -109,7 +65,9 @@ export function customerOrdersSnapshotListener(ordersQuerySnapshot, setOrdersSta
 		}
 	})
 
-	setOrdersState(sharedCreateTable(ordersArray, false))
+	ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
+
+	setOrdersState(ordersArray)
 }
 
 /**
@@ -147,6 +105,8 @@ export function adminOrdersSnapshotListener(ordersQuerySnapshot, setOrdersState)
 			ordersArray.push(order)
 		}
 	})
+
+	ordersArray.sort((a, b) => b.sortOrder - a.sortOrder)
 
 	setOrdersState(ordersArray)
 }

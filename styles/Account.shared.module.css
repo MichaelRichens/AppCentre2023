@@ -356,7 +356,8 @@ section.orderHistory {
 	}
 
 	/* Hide `name` column entirely at low widths */
-	.orderHistoryTable col.name {
+	.orderHistoryTable th.name,
+	td.name {
 		display: none;
 	}
 }

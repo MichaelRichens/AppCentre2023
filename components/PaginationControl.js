@@ -70,10 +70,16 @@ function PaginationControl({ totalSize, qsHook }) {
 				disabled={pageStart + pageSize >= totalSize}>
 				Next
 			</button>
-			<button onClick={() => handlePageChange(10)} disabled={pageStart + 10 * pageSize >= totalSize}>
+			<button
+				onClick={() => handlePageChange(10)}
+				className={10 * pageSize <= totalSize ? styles.showIfDisabled : ''}
+				disabled={pageStart + 10 * pageSize >= totalSize}>
 				+10
 			</button>
-			<button onClick={() => handlePageChange(100)} disabled={pageStart + 100 * pageSize >= totalSize}>
+			<button
+				onClick={() => handlePageChange(100)}
+				className={100 * pageSize <= totalSize ? styles.showIfDisabled : ''}
+				disabled={pageStart + 100 * pageSize >= totalSize}>
 				+100
 			</button>
 			{!!pageSizeChanges.length && (
