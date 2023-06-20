@@ -4,6 +4,7 @@ import Head from 'next/head'
 import smartquotes from 'smartquotes'
 import Header from './Header'
 import Footer from './Footer'
+import AdminBanner from '../admin/AdminBanner'
 
 /**
  * Page is a wrapper component that renders a title, header, footer, and the children components.
@@ -57,6 +58,7 @@ const Page = ({ title, subHeading, logoSrc, mainClassName, children }) => {
 				{children}
 			</main>
 			<Footer />
+			<AdminBanner />
 		</>
 	)
 }
