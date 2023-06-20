@@ -58,7 +58,7 @@ const AdminOrders = ({}) => {
 
 	let pageEnd = pageStart + pageSize
 	if (pageEnd >= orders?.length) {
-		pageEnd = orders.length > 0 ? orders.length - 1 : 0
+		pageEnd = orders.length > 0 ? orders.length : 0
 	}
 
 	if (orders) {
