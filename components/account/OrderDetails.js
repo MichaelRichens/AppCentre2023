@@ -19,7 +19,7 @@ import { getModalBaseStyleObject } from '/styles/modalBaseStyleObject'
 import accountStyles from '/styles/Account.shared.module.css'
 
 const OrderDetails = ({ orderId }) => {
-	const { user, anonymousUser } = useAuth()
+	const { user, anonymousUser, asyncIsUserAdmin } = useAuth()
 	const { setMessage } = useContext(FlashMessageContext)
 
 	// Holds the details of the order looked up in firestore, or false if not found.
@@ -36,24 +36,36 @@ const OrderDetails = ({ orderId }) => {
 		const getOrder = async () => {
 			//Find the order document that matches orderId
 
-			// reference to the collection
-			const ordersRef = collection(firestore, 'orders')
-
 			// Find the matching document
 			// Doing a query by firebaseUserId first is required by the permissions that are on the orders collection
-			const q = query(
-				ordersRef,
+			const customerQuery = query(
+				collection(firestore, 'orders'),
 				where('firebaseUserId', '==', user?.uid || anonymousUser?.uid),
 				where('orderId', '==', orderId)
 			)
-			const querySnapshot = await getDocs(q)
+			let querySnapshot = await getDocs(customerQuery)
 
 			if (querySnapshot.size !== 1) {
-				// if we don't find a document, this order does not exist or does not belong to this user (we literally can't tell the difference when logged in as this user)
+				// if we don't find a document, this order does not exist or does not belong to this user
 				if (!querySnapshot.size) {
-					throw new Error('NOT_FOUND')
+					// if we are an admin, then we can see the order
+					const isAdmin = await asyncIsUserAdmin()
+					if (!isAdmin) {
+						// we are not an admin, so this order is not found
+						throw new Error('NOT_FOUND')
+					}
+
+					// we are an admin, try and create a snapshot with a query without the user id match
+					const adminQuery = query(collection(firestore, 'orders'), where('orderId', '==', orderId))
+					querySnapshot = await getDocs(adminQuery)
+					if (querySnapshot.size !== 1) {
+						// still not found even as an admin
+						throw new Error('NOT_FOUND')
+					}
+					// we found it as an admin - we carry on
+				} else {
+					throw new Error(`Found ${querySnapshot.size} order with the same order id - this should never happen.`)
 				}
-				throw new Error(`Found ${querySnapshot.size} order with the same order id - this should never happen.`)
 			}
 
 			// Get a reference to the document
