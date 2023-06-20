@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { onSnapshot, collection, where, query } from 'firebase/firestore'
 import { useAuth } from '/components/contexts/AuthContext'
 import useQueryStringPagination from '/components/hooks/useQueryStringPagination'
@@ -14,8 +15,9 @@ import accountStyles from '/styles/Account.shared.module.css'
  * Should only be used on pages served by withAuth HOC
  */
 const CustomerOrders = ({}) => {
+	const defaultPageSize = Number(process.env.NEXT_PUBLIC_CUSTOMER_ORDERS_DEFAULT_PAGE_SIZE)
 	const { user, isAuthLoading } = useAuth()
-	const qsHook = useQueryStringPagination(0, process.env.NEXT_PUBLIC_CUSTOMER_ORDERS_DEFAULT_PAGE_SIZE)
+	const qsHook = useQueryStringPagination(0, defaultPageSize)
 	const [pageStart, pageSize] = qsHook
 
 	const [orders, setOrders] = useState(null)
@@ -46,7 +48,7 @@ const CustomerOrders = ({}) => {
 
 	let pageEnd = pageStart + pageSize
 	if (pageEnd >= orders?.length) {
-		pageEnd = orders.length > 0 ? orders.length - 1 : 0
+		pageEnd = orders.length > 0 ? orders.length : 0
 	}
 
 	if (!user || isAuthLoading) {
@@ -55,15 +57,13 @@ const CustomerOrders = ({}) => {
 
 	if (orders) {
 		let caption = 'Orders'
-		if (orders.length > process.env.NEXT_PUBLIC_CUSTOMER_ORDERS_DEFAULT_PAGE_SIZE) {
+		if (orders.length > defaultPageSize) {
 			caption += ` (${pageStart + 1} - ${pageEnd})`
 		}
 
 		return (
 			<>
-				{orders.length > process.env.NEXT_PUBLIC_CUSTOMER_ORDERS_DEFAULT_PAGE_SIZE && (
-					<PaginationControl totalSize={orders.length} qsHook={qsHook} />
-				)}
+				{orders.length > defaultPageSize && <PaginationControl totalSize={orders.length} qsHook={qsHook} />}
 				<table className={accountStyles.orderHistoryTable}>
 					<caption>{caption}</caption>
 					<thead>
@@ -98,9 +98,7 @@ const CustomerOrders = ({}) => {
 						))}
 					</tbody>
 				</table>
-				{orders.length > process.env.NEXT_PUBLIC_CUSTOMER_ORDERS_DEFAULT_PAGE_SIZE && (
-					<PaginationControl totalSize={orders.length} qsHook={qsHook} />
-				)}
+				{orders.length > defaultPageSize && <PaginationControl totalSize={orders.length} qsHook={qsHook} />}
 			</>
 		)
 	}
