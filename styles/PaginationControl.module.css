@@ -1,0 +1,11 @@
+.paginationControl {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	column-gap: 1em;
+}
+
+.paginationControl button[disabled]:not(.showIfDisabled) {
+	display: none;
+}

@@ -148,5 +148,5 @@ export function adminOrdersSnapshotListener(ordersQuerySnapshot, setOrdersState)
 		}
 	})
 
-	setOrdersState(sharedCreateTable(ordersArray, true))
+	setOrdersState(ordersArray)
 }
