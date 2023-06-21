@@ -19,18 +19,20 @@ const CartPage = () => {
 			const { quote } = router.query
 
 			if (quote) {
+				setIsQuoteLoading(true)
 				const urlParams = new URLSearchParams(window.location.search)
 				const urlOld = urlParams.get('old')
 				if (urlOld === '1') {
 					setQuoteError('Very sorry, this quote has expired and is no longer valid.')
+					setIsQuoteLoading(false)
 					return
 				}
 
 				if (typeof quote !== 'string' || !quote.startsWith('1')) {
 					setQuoteError('Very sorry, this quote link is not valid.')
+					setIsQuoteLoading(false)
 					return
 				}
-				setIsQuoteLoading(true)
 				try {
 					const response = await fetch('/api/get-configuration-group', {
 						method: 'POST',
@@ -73,10 +75,10 @@ const CartPage = () => {
 							text: `Quote Loaded`,
 							type: MessageType.INFO,
 						})
-						setIsQuoteLoading(false)
 					} else {
 						setQuoteError('Very sorry, an unexpected error has occurred loading this quote.')
 					}
+					setIsQuoteLoading(false)
 				} catch (error) {
 					setQuoteError('Very sorry, a fault has occurred and this quote could not be loaded.  Please try later.')
 					return
