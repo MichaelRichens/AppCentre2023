@@ -56,7 +56,7 @@ const AdminBanner = () => {
 								<strong>Links:</strong>
 							</li>
 							{bannerLinks.map((linkObj) => (
-								<li>
+								<li key={linkObj.link}>
 									<Link href={linkObj.link}>{linkObj.text}</Link>
 								</li>
 							))}
