@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import { useRouter } from 'next/router'
 import { setTimeout } from 'timers'
 import Page from '../components/page/Page'
 import withAuth from '../components/hoc/withAuth'
@@ -16,7 +17,9 @@ import ChangePassword from '../components/account/ChangePassword'
 import accountStyles from '/styles/Account.shared.module.css'
 
 const Account = () => {
-	const { user } = useAuth()
+	const { user, asyncIsUserAdmin } = useAuth()
+
+	const router = useRouter()
 
 	// The reauthState object has two properties - `needed`, which is boolean, and is a flag for whether the user needs to reauthenticate their account be re-entering their password to perform a sensitive operation
 	// And `function` which is only ever used when `needed` is truthy, and is the function to pass as the onSuccess parameter of the ReauthenticatePassword component. (Pass it setReauthState({ needed: false })) for its onCancel)
@@ -25,6 +28,11 @@ const Account = () => {
 	const [changePassword, setChangePassword] = useState(false)
 
 	const [userDocRef, setUserDocRef] = useState(null)
+
+	// Holds the value passed in the query string `customer` variable - only used by admin users - if it is set, this page is not valid for a non-admin user
+	const [adminCustomerId, setAdminCustomerId] = useState(null)
+
+	const [userIsAdmin, setUserIsAdmin] = useState(null)
 
 	// userDetails is used to hold an updating firebase snapshot of the user's document in the firestore `users` collection
 	const [userDetails, setUserDetails] = useState({})
@@ -39,21 +47,31 @@ const Account = () => {
 
 	// Hold an updating snapshot of the user's `users` document in the userDetails state object, and keep their docRef as well in the userDocRef state object for future edits
 	useEffect(() => {
-		let unsubscribeUsers
-		try {
-			const docRef = doc(firestore, 'users', user.uid)
-			setUserDocRef(docRef)
+		let unsubscribeUsers = () => {}
 
-			unsubscribeUsers = onSnapshot(docRef, (docSnap) => {
-				if (docSnap.exists()) {
-					const data = docSnap.data()
-					setUserDetails(data)
-				}
-			})
-		} catch (error) {
-			setMessage({ text: translateFirebaseError(error), value: MessageType.ERROR })
-			unsubscribeUsers = () => {}
-			return
+		// The `customer` query string variable is used when an admin user is looking at a customer's account.  This is only valid for an admin user.
+		const customerId = router.query.customer
+		setAdminCustomerId(customerId)
+
+		// The useState variable adminCustomerId won't have updated yet, so use customerId here
+		if (!customerId) {
+			console.log('execute query')
+			try {
+				const docRef = doc(firestore, 'users', user.uid)
+				setUserDocRef(docRef)
+
+				unsubscribeUsers = onSnapshot(docRef, (docSnap) => {
+					if (docSnap.exists()) {
+						const data = docSnap.data()
+						setUserDetails(data)
+					}
+				})
+			} catch (error) {
+				setMessage({ text: translateFirebaseError(error), value: MessageType.ERROR })
+				return
+			}
+		} else {
+			console.log('not executed query')
 		}
 
 		// Clean up subscriptions on unmount
@@ -200,6 +218,26 @@ const Account = () => {
 				<ChangePassword onExit={() => setChangePassword(false)} />
 			</Page>
 		)
+	} else if (adminCustomerId && !userIsAdmin) {
+		//The customer query string variable is set, only display anything for an admin user
+		if (userIsAdmin === null) {
+			return (
+				<Page title='Loading'>
+					<section className='text'>
+						<p>Please wait...</p>
+					</section>
+				</Page>
+			)
+		}
+		if (userIsAdmin === false) {
+			return (
+				<Page title='Access Denied'>
+					<section className='text'>
+						<p>You do not have permission to view this page.</p>
+					</section>
+				</Page>
+			)
+		}
 	} else {
 		//Otherwise, render the normal page
 		return (
