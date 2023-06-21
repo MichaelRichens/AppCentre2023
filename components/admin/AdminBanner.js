@@ -13,21 +13,24 @@ const AdminBanner = () => {
 	const [bannerMessage, setBannerMessage] = useState('')
 	const [bannerLinks, setBannerLinks] = useState([])
 
+	const addUniqueBannerLink = (newLinkObj) => {
+		setBannerLinks((prev) => {
+			const alreadyExists = prev.some((linkObj) => linkObj.link === newLinkObj.link)
+			if (!alreadyExists) {
+				return [...prev, newLinkObj]
+			}
+			return prev
+		})
+	}
+
 	useEffect(() => {
 		if (isUserAdmin) {
+			addUniqueBannerLink({ link: '/admin', text: 'Admin Main Page' })
+
 			if (router.pathname.startsWith('/order/')) {
 				const { orderId } = router.query
 				setBannerMessage('Viewing customer order page as an admin.')
-				const adminLink = `/admin/order${orderId}`
-				setBannerLinks((prev) => {
-					const alreadyExists = prev.some((linkObj) => linkObj.link === adminLink)
-
-					if (!alreadyExists) {
-						return [...prev, { link: adminLink, text: `Admin page for ${orderId}` }]
-					}
-
-					return prev
-				})
+				addUniqueBannerLink({ link: `/admin/order${orderId}`, text: `Admin Page for ${orderId}` })
 			}
 		}
 	}, [router.pathname, isUserAdmin])
@@ -47,7 +50,6 @@ const AdminBanner = () => {
 				</button>
 				<h2>Admin</h2>
 				<div className={styles.content}>
-					{!!bannerMessage && <p>{bannerMessage}</p>}
 					{!!bannerLinks.length && (
 						<ul className={styles.links}>
 							<li>
@@ -60,6 +62,7 @@ const AdminBanner = () => {
 							))}
 						</ul>
 					)}
+					{!!bannerMessage && <p>{bannerMessage}</p>}
 				</div>
 			</aside>
 		)
