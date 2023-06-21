@@ -11,6 +11,7 @@ const CartPage = () => {
 	const { isCartLoading, clearCart, addToCart, getTotalItems, getTotalPrice } = useContext(CartContext)
 	const { setMessage } = useContext(FlashMessageContext)
 	const [quoteError, setQuoteError] = useState(false)
+	const [isQuoteLoading, setIsQuoteLoading] = useState(false)
 	const router = useRouter()
 
 	useEffect(() => {
@@ -29,7 +30,7 @@ const CartPage = () => {
 					setQuoteError('Very sorry, this quote link is not valid.')
 					return
 				}
-
+				setIsQuoteLoading(true)
 				try {
 					const response = await fetch('/api/get-configuration-group', {
 						method: 'POST',
@@ -41,11 +42,13 @@ const CartPage = () => {
 
 					if (response.status === 404) {
 						setQuoteError('Very sorry, this quote could not be found.')
+						setIsQuoteLoading(false)
 						return
 					}
 
 					if (response.status === 410) {
 						setQuoteError('Very sorry, this quote is outdated and can not be loaded.')
+						setIsQuoteLoading(false)
 						return
 					}
 
@@ -53,11 +56,6 @@ const CartPage = () => {
 						const data = await response.json()
 
 						clearCart()
-
-						setMessage({
-							text: `Quote Loaded`,
-							type: MessageType.INFO,
-						})
 
 						Object.entries(data).forEach(([id, item]) => {
 							const configuration = ProductConfiguration.fromRawProperties(item)
@@ -71,6 +69,11 @@ const CartPage = () => {
 								licence: configuration?.licence,
 							})
 						})
+						setMessage({
+							text: `Quote Loaded`,
+							type: MessageType.INFO,
+						})
+						setIsQuoteLoading(false)
 					} else {
 						setQuoteError('Very sorry, an unexpected error has occurred loading this quote.')
 					}
@@ -88,7 +91,7 @@ const CartPage = () => {
 
 	return (
 		<Page title='Purchase Items'>
-			{isCartLoading ? (
+			{isCartLoading || isQuoteLoading ? (
 				<div style={{ textAlign: 'center' }}>
 					<RotatingLines
 						width='25%'
