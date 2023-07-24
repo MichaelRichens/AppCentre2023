@@ -258,12 +258,10 @@ const OrderDetails = ({ orderId }) => {
 					</ul>
 				</section>
 				<section>
-					<p>AppCentre is a part of Second Chance PC Ltd.</p>
 					<p>
-						Company Number: {process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT:{' '}
-						{process.env.NEXT_PUBLIC_VAT_NUMBER}.
+						The AppCentre website is running in test mode. Placing this order did not make a charge to your card. This
+						receipt is not valid.
 					</p>
-					<p>W: www.appcentre.co.uk E: info@appcentre.co.uk</p>
 				</section>
 			</div>
 			{pdfReady !== false && (
