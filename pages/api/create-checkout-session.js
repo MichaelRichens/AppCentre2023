@@ -133,7 +133,9 @@ export default async (req, res) => {
 						name: itemName,
 						metadata,
 					},
+					/* removed due to tax not being enabled on current test stripe account
 					tax_behavior: 'exclusive',
+					*/
 					unit_amount: priceInPence,
 				},
 				quantity,
@@ -162,9 +164,10 @@ export default async (req, res) => {
 
 		let sessionCreationObj = {
 			payment_method_types: ['card'],
+			/* removed due to tax not being enabled on current test stripe account
 			automatic_tax: {
 				enabled: true,
-			},
+			},*/
 			line_items,
 			mode: 'payment',
 			success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -173,7 +176,9 @@ export default async (req, res) => {
 			invoice_creation: {
 				enabled: true,
 				invoice_data: {
-					/*account_tax_ids: [process.env.NEXT_PUBLIC_VAT_NUMBER],*/
+					/* removed due to tax not being enabled on current test stripe account
+					account_tax_ids: [process.env.NEXT_PUBLIC_VAT_NUMBER],
+					*/
 					footer: `AppCentre is no longer trading and is currently running in test mode.  No order has been placed and no charge has been made to your card.`,
 					rendering_options: {
 						amount_tax_display: 'exclude_tax',
