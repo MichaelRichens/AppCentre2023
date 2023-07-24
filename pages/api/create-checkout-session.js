@@ -162,9 +162,10 @@ export default async (req, res) => {
 
 		let sessionCreationObj = {
 			payment_method_types: ['card'],
+			/* disabled when site brought offline - field is for use with Stripe account with tax functionality active
 			automatic_tax: {
 				enabled: true,
-			},
+			},*/
 			line_items,
 			mode: 'payment',
 			success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
