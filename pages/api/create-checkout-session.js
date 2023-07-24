@@ -99,7 +99,7 @@ export default async (req, res) => {
 		// Create an array of product line items for the Stripe checkout session
 		const line_items = Object.keys(trustedConfigurations).map((id) => {
 			const configuration = trustedConfigurations[id]
-			const itemName = configuration.description + (configuration?.licence?.length ? ` (${configuration.licence})` : '')
+			const itemName = configuration.description + (configuration?.licence.length ? ` (${configuration.licence})` : '')
 
 			if (
 				!configuration ||
@@ -162,10 +162,9 @@ export default async (req, res) => {
 
 		let sessionCreationObj = {
 			payment_method_types: ['card'],
-			/* disabled when site brought offline - field is for use with Stripe account with tax functionality active
 			automatic_tax: {
 				enabled: true,
-			},*/
+			},
 			line_items,
 			mode: 'payment',
 			success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -175,7 +174,7 @@ export default async (req, res) => {
 				enabled: true,
 				invoice_data: {
 					/*account_tax_ids: [process.env.NEXT_PUBLIC_VAT_NUMBER],*/
-					footer: `AppCentre is a trading name of Second Chance PC Ltd.  Company Number: ${process.env.NEXT_PUBLIC_COMPANY_NUMBER}. Registered for VAT: ${process.env.NEXT_PUBLIC_VAT_NUMBER}. E&OE.`,
+					footer: `AppCentre is no longer trading and is currently running in test mode.  No order has been placed and no charge has been made to your card.`,
 					rendering_options: {
 						amount_tax_display: 'exclude_tax',
 					},
