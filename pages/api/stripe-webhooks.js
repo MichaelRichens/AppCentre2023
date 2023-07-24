@@ -195,6 +195,8 @@ export default async function handler(req, res) {
 					// Send email to them
 					if (completedSession?.customer_details?.email) {
 						const toThemEmailBody = `
+Note: This website is running in test mode and this order has not been placed.
+						
 Dear ${orderData.fullName},
 
 Thank you for your order with AppCentre. We appreciate your business.
