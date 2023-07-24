@@ -269,8 +269,10 @@
 	max-width: 1200px;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 3px;
 	padding-left: 1em;
 	padding-right: 1em;
+	border: 3px orange solid;
 }
 
 @media (min-width: 1800px) {
