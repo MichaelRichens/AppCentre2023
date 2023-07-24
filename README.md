@@ -7,3 +7,5 @@ The site uses Stripe for payment processing (in test mode, can be used with card
 The central problem the site addresses is the complicated purchasing options for the GFI software it sells. These products are sold on a per user subscription basis, with tiered pricing, optional extensions, and pro-rata modification of subscriptions between renewal dates. This makes it complex for the end user to price up the software they wish to purchase.
 
 The AppCentre website uses a configuration system where the user enters the details of what they want to purchase into a form, and the site calculates the quote for them and bundles it into a single custom product that can be checked out. It also includes a system to save links to previous configurations so that they can be sent to customers at renewal time, or in response to an enquiry.
+
+The site is designed to be tightly focussed on selling these products in as few steps as possible, and for this reason I implemented it as a completely custom site, rather than using a shopping cart package.
