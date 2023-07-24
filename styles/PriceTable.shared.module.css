@@ -4,13 +4,14 @@
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 10px;
+	min-width: min(600px, 80vw);
 }
 
 .priceTable caption {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: 100%;
+	max-width: 90%;
 }
 
 .priceTable th,
@@ -127,26 +128,15 @@ tbody.hardwarePurchase {
 }
 
 @media (max-width: 700px) {
+	.priceTable caption {
+		white-space: wrap;
+		overflow: visible;
+		max-width: initial;
+	}
+
 	.priceTable th,
 	.priceTable td {
 		padding-left: 0.5em;
 		padding-right: 0.5em;
-	}
-}
-
-@media (max-width: 625px) {
-	.priceTable {
-		font-size: 80%;
-	}
-
-	.priceTable caption {
-		font-size: 125%;
-		white-space: normal;
-	}
-}
-
-@media (max-width: 500px) {
-	.priceTable th {
-		font-size: 90%;
 	}
 }

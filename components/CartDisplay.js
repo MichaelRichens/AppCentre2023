@@ -5,13 +5,13 @@ import { Tooltip } from 'react-tooltip'
 import useUniqueId from './hooks/useUniqueId'
 import CheckoutButton from './CheckoutButton'
 import BusyButton from './BusyButton'
+import EditableField from './EditableField'
 import InfoTooltip from './InfoTooltip'
 import PricingType from '../utils/types/enums/PricingType'
 import PurchaseType from '../utils/types/enums/PurchaseType'
 import { getBaseUrlFromLocation } from '../utils/baseUrl'
 import { formatPriceFromPounds } from '../utils/formatPrice'
 import styles from '/styles/CartDisplay.module.css'
-import Error from 'next/error'
 
 const CartDisplay = () => {
 	const { cart, isCartLoading, getItem, removeFromCart, updateItem, getTotalItems, getTotalPrice } =
@@ -19,9 +19,6 @@ const CartDisplay = () => {
 
 	// Can be multiple copies of this component - use this as a prefix so elements can have separate ids from each other
 	const cartId = useUniqueId('cart')
-
-	// backing field arrays for debouncing licence key input from the user
-	const [licenceLiveUpdate, setLicenceLiveUpdate] = useState({})
 
 	// For holding the base url this page is running on - requires window.location to be available, so need state populated inside a useEffect
 	const [baseUrl, setBaseUrl] = useState(null)
@@ -43,15 +40,6 @@ const CartDisplay = () => {
 
 	// Changes to the items in the cart
 	useEffect(() => {
-		// update the debouncing fields of the licence key inputs to the current state
-		const newLicenceLiveUpdate = { ...licenceLiveUpdate }
-		cart.forEach((item) => {
-			if (item.licence) {
-				newLicenceLiveUpdate[item.id] = item.licence
-			}
-		})
-		setLicenceLiveUpdate(newLicenceLiveUpdate)
-
 		// Check that, if there is a saved configuration group, if it is still valid.
 		// Which it is if all the cart items have the same ids in the same order - changes to licence keys have been written to the db under the same id
 		if (savedConfigurationGroup.isValid) {
@@ -77,9 +65,8 @@ const CartDisplay = () => {
 		removeFromCart(id)
 	}
 
-	const createLicenceOnBlurHandler = (itemId) => {
-		return async () => {
-			const newLicence = licenceLiveUpdate?.[itemId] || ''
+	const createLicenceOnChangeHandler = (itemId) => {
+		return async (newLicence) => {
 			if (newLicence || getItem(itemId)?.licence?.length) {
 				// A new licence string has been provided, or one already existed so we want to overwrite even if the new one is empty (to delete it)
 				try {
@@ -96,19 +83,6 @@ const CartDisplay = () => {
 					setMessage({ text: 'Very sorry, there was an error updating the licence.', type: MessageType.ERROR })
 				}
 			}
-		}
-	}
-
-	const createLicenceChangeHandler = (itemId) => {
-		return (event) => {
-			let newLicence = event.target.value
-			if (newLicence.length > process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH) {
-				newLicence = newLicence.substring(0, process.env.NEXT_PUBLIC_PRODUCT_LICENCE_MAX_LENGTH)
-			}
-			setLicenceLiveUpdate((prevState) => ({
-				...prevState,
-				[itemId]: newLicence,
-			}))
 		}
 	}
 
@@ -200,6 +174,7 @@ const CartDisplay = () => {
 						return (
 							<li key={item.id}>
 								<button
+									className={styles.removeItem}
 									type='button'
 									onClick={() => handleRemoveItem(item.id)}
 									aria-label='Remove Item'
@@ -215,23 +190,21 @@ const CartDisplay = () => {
 								{`${displayName} - ${formatPriceFromPounds(item.price)}`}
 								{isExistingLicence && (
 									<label className={styles.licenceWrapper}>
-										Existing licence key:{' '}
-										<InfoTooltip>
-											{`If you have access to it, please input the licence key for the existing subscription this ${
-												item.purchaseType === PurchaseType.SUB ? 'renewal' : 'modification'
-											} is to be applied to.`}
-										</InfoTooltip>
-										<input
+										<span>
+											Existing licence key{' '}
+											<InfoTooltip>
+												{`If you have access to it, please input the licence key for the existing subscription this ${
+													item.purchaseType === PurchaseType.SUB ? 'renewal' : 'modification'
+												} is to be applied to.`}
+											</InfoTooltip>
+											:{' '}
+										</span>
+										<EditableField
 											type='text'
-											value={licenceLiveUpdate[item.id] || ''}
-											onChange={createLicenceChangeHandler(item.id)}
-											onBlur={createLicenceOnBlurHandler(item.id)}
-											onKeyDown={(e) => {
-												if (e.key === 'Enter') {
-													e.preventDefault()
-													e.target.blur()
-												}
-											}}
+											value={item.licence}
+											onChange={createLicenceOnChangeHandler(item.id)}
+											emptyValueText='(not specified)'
+											validationError={(newValue) => (newValue?.length > 40 ? 'Max 40 characters' : false)}
 										/>
 									</label>
 								)}

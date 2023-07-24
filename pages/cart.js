@@ -6,12 +6,12 @@ import Page from '../components/page/Page'
 import CartDisplay from '../components/CartDisplay'
 import { CartContext } from '../components/contexts/CartContext'
 import ProductConfiguration from '../utils/types/ProductConfiguration'
-import { formatPriceFromPounds } from '../utils/formatPrice'
 
 const CartPage = () => {
 	const { isCartLoading, clearCart, addToCart, getTotalItems, getTotalPrice } = useContext(CartContext)
 	const { setMessage } = useContext(FlashMessageContext)
 	const [quoteError, setQuoteError] = useState(false)
+	const [isQuoteLoading, setIsQuoteLoading] = useState(false)
 	const router = useRouter()
 
 	useEffect(() => {
@@ -19,18 +19,20 @@ const CartPage = () => {
 			const { quote } = router.query
 
 			if (quote) {
+				setIsQuoteLoading(true)
 				const urlParams = new URLSearchParams(window.location.search)
 				const urlOld = urlParams.get('old')
 				if (urlOld === '1') {
 					setQuoteError('Very sorry, this quote has expired and is no longer valid.')
+					setIsQuoteLoading(false)
 					return
 				}
 
 				if (typeof quote !== 'string' || !quote.startsWith('1')) {
 					setQuoteError('Very sorry, this quote link is not valid.')
+					setIsQuoteLoading(false)
 					return
 				}
-
 				try {
 					const response = await fetch('/api/get-configuration-group', {
 						method: 'POST',
@@ -42,11 +44,13 @@ const CartPage = () => {
 
 					if (response.status === 404) {
 						setQuoteError('Very sorry, this quote could not be found.')
+						setIsQuoteLoading(false)
 						return
 					}
 
 					if (response.status === 410) {
 						setQuoteError('Very sorry, this quote is outdated and can not be loaded.')
+						setIsQuoteLoading(false)
 						return
 					}
 
@@ -67,14 +71,14 @@ const CartPage = () => {
 								licence: configuration?.licence,
 							})
 						})
-
 						setMessage({
-							text: `Quote loaded for: ${formatPriceFromPounds(getTotalPrice(), false)}`,
+							text: `Quote Loaded`,
 							type: MessageType.INFO,
 						})
 					} else {
 						setQuoteError('Very sorry, an unexpected error has occurred loading this quote.')
 					}
+					setIsQuoteLoading(false)
 				} catch (error) {
 					setQuoteError('Very sorry, a fault has occurred and this quote could not be loaded.  Please try later.')
 					return
@@ -89,7 +93,7 @@ const CartPage = () => {
 
 	return (
 		<Page title='Purchase Items'>
-			{isCartLoading ? (
+			{isCartLoading || isQuoteLoading ? (
 				<div style={{ textAlign: 'center' }}>
 					<RotatingLines
 						width='25%'
