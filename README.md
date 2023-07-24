@@ -1,6 +1,6 @@
-# AppCentre
+# AppCentre2023
 
-This is a React/Next.js eCommerce site selling GFI business software that I wrote for Second Chance PC Ltd and acquired from them when they ceased trading. The website is live on (appcentre.co.uk)[https://www.appcentre.co.uk] but is no longer trading. This site went live in 2023, replacing a previous site that had been trading since 2006.
+This is a React/Next.js eCommerce site selling GFI business software that I wrote for Second Chance PC Ltd and acquired from them when they ceased trading. The website is live on [appcentre.co.uk](https://www.appcentre.co.uk) but is no longer trading. This site went live in 2023, replacing a previous site that had been trading since 2006.
 
 The site uses Stripe for payment processing (not live), Firebase for user authentication, Firestore for user data and Mongodb for product data. The site is deployed to Netlify.
 
