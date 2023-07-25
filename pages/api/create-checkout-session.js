@@ -99,7 +99,8 @@ export default async (req, res) => {
 		// Create an array of product line items for the Stripe checkout session
 		const line_items = Object.keys(trustedConfigurations).map((id) => {
 			const configuration = trustedConfigurations[id]
-			const itemName = configuration.description + (configuration?.licence.length ? ` (${configuration.licence})` : '')
+			const itemName =
+				configuration?.description + (configuration?.licence?.length ? ` (${configuration.licence})` : '')
 
 			if (
 				!configuration ||
